@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>Server.UrlEncode\(\)方法 空格转换成了+而非%20 | 朱启的个人博客</title>
+  <title>Server.UrlEncode()方法 空格转换成了+而非%20 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的encodeURIComponent()编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。 那为什">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Server.UrlEncode\(\)方法 空格转换成了+而非%20">
+<meta property="og:title" content="Server.UrlEncode()方法 空格转换成了+而非%20">
 <meta property="og:url" content="http://blog.smallerpig.com/438.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的encodeURIComponent()编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。 那为什">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-25T00:57:45.000Z">
+<meta property="og:updated_time" content="2018-12-05T09:48:34.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Server.UrlEncode\(\)方法 空格转换成了+而非%20">
+<meta name="twitter:title" content="Server.UrlEncode()方法 空格转换成了+而非%20">
 <meta name="twitter:description" content="在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的encodeURIComponent()编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。 那为什">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -146,14 +146,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-server-urlencode-e6-96-b9-e6-b3-95-e7-a9-ba-e6-a0-bc-e8-bd-ac-e6-8d-a2-e6-88-90-e4-ba-86-e8-80-8c-e9-9d-9e-20" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Server.UrlEncode()方法 空格转换成了+而非%20" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Server.UrlEncode\(\)方法 空格转换成了+而非%20
+      Server.UrlEncode()方法 空格转换成了+而非%20
     </h1>
   
 
@@ -167,7 +167,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的<a href="http://www.w3schools.com/jsref/jsref_encodeURIComponent.asp" target="_blank" rel="external">encodeURIComponent()</a>编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。</p>
-<p>那为什么在.Net下回转换成+而在js中会是%20呢？关键问题是在encode成+之后再decode却不能转换成了空格了呀。这确实是个蛋疼的问题。引用了老外的一段描述：<br> <fieldset><legend><a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">引用:</a></legend> <div style="color: #666666; padding-bottom: 5px; text-align: justify; padding-top: 5px; padding-left: 10px; padding-right: 10px">As far as I know, historically the “+” has been used in URL encoding as a special substitution for the space char ( ASCII 20 ). If an implementation does not take the space into consideration as a special character with the ‘+’ substitution, then it still has to escape it using its ASCII code ( hence ‘%20’ )</div></fieldset> <fieldset><legend><a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">引用:</a></legend> <div style="color: #666666; padding-bottom: 5px; text-align: justify; padding-top: 5px; padding-left: 10px; padding-right: 10px">Actually they’re both wrong! JavaScript escape() should never be used. As well as failing to encode the + character to %2B, it encodes all non-ASCII characters as a non-standard %uNNNN sequence. </div> <div style="color: #666666; padding-bottom: 5px; text-align: justify; padding-top: 5px; padding-left: 10px; padding-right: 10px">Meanwhile Server.UrlEncode is not exactly URL-encoding as such, but encoding to application/x-www-form-urlencoded, which should only normally be used for query parameters. Using + to represent a space outside of a form name=value construct, such as in a path part, is wrong.</div> <div style="color: #666666; padding-bottom: 5px; text-align: justify; padding-top: 5px; padding-left: 10px; padding-right: 10px"> This is rather unfortunate. You might want to try doing a string replace of the + character with %20 after encoding with UrlEncode() when you are encoding into a path part rather than a parameter. In a parameter, + and %20 are equally good.</div></fieldset></p>
+<p>那为什么在.Net下回转换成+而在js中会是%20呢？关键问题是在encode成+之后再decode却不能转换成了空格了呀。这确实是个蛋疼的问题。引用了老外的一段描述：</p>
+<blockquote>
+<p>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) As far as I know, historically the “+” has been used in URL encoding as a special substitution for the space char ( ASCII 20 ). If an implementation does not take the space into consideration as a special character with the ‘+’ substitution, then it still has to escape it using its ASCII code ( hence ‘%20’ )<br>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) Actually they’re both wrong! JavaScript escape() should never be used. As well as failing to encode the + character to %2B, it encodes all non-ASCII characters as a non-standard %uNNNN sequence.  Meanwhile Server.UrlEncode is not exactly URL-encoding as such, but encoding to application/x-www-form-urlencoded, which should only normally be used for query arameters. Using + to represent a space outside of a form name=value construct, such as in a path part, is wrong.  This is rather unfortunate. You might want to try doing a string replace of the + character with %20 after encoding with UrlEncode() when you are encoding into a path part rather than a parameter. In a parameter, + and %20 are equally good.</p>
+</blockquote>
 
       
 
@@ -436,14 +439,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
@@ -452,7 +447,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -465,6 +464,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,19 +507,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -549,6 +548,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -604,11 +607,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -632,11 +635,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -664,19 +667,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -692,15 +691,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">公司</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -752,26 +755,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -788,19 +771,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -820,10 +803,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">祷告</a>
               </li>
              
@@ -832,7 +811,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -844,15 +823,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -864,6 +839,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">观察者</a>
               </li>
              
@@ -872,7 +859,27 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -881,10 +888,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

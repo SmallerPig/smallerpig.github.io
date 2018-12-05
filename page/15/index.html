@@ -147,6 +147,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Server.UrlEncode()方法 空格转换成了+而非%20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/438.html">Server.UrlEncode()方法 空格转换成了+而非%20</a>
+    </h1>
+  
+
+        
+        <a href="/438.html" class="archive-article-date">
+  	<time datetime="2014-03-19T08:23:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-03-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的<a href="http://www.w3schools.com/jsref/jsref_encodeURIComponent.asp" target="_blank" rel="external">encodeURIComponent()</a>编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。</p>
+<p>那为什么在.Net下回转换成+而在js中会是%20呢？关键问题是在encode成+之后再decode却不能转换成了空格了呀。这确实是个蛋疼的问题。引用了老外的一段描述：</p>
+<blockquote>
+<p>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) As far as I know, historically the “+” has been used in URL encoding as a special substitution for the space char ( ASCII 20 ). If an implementation does not take the space into consideration as a special character with the ‘+’ substitution, then it still has to escape it using its ASCII code ( hence ‘%20’ )<br>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="external">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) Actually they’re both wrong! JavaScript escape() should never be used. As well as failing to encode the + character to %2B, it encodes all non-ASCII characters as a non-standard %uNNNN sequence.  Meanwhile Server.UrlEncode is not exactly URL-encoding as such, but encoding to application/x-www-form-urlencoded, which should only normally be used for query arameters. Using + to represent a space outside of a form name=value construct, such as in a path part, is wrong.  This is rather unfortunate. You might want to try doing a string replace of the + character with %20 after encoding with UrlEncode() when you are encoding into a path part rather than a parameter. In a parameter, + and %20 are equally good.</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/438.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e8-ae-a9-e7-aa-97-e4-bd-93-e5-a4-a7-e5-b0-8f-e5-9b-ba-e5-ae-9a-e3-80-81-e4-bb-bb-e5-8a-a1-e6-a0-8f-e4-b8-8d-e6-98-be-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -960,95 +1046,6 @@
 
 
   
-    <article id="post-e4-bd-bf-e7-94-a8lucene-net-e7-ae-a1-e7-90-86-e7-b4-a2-e5-bc-95-e5-ae-9e-e7-8e-b0-e6-90-9c-e7-b4-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/404.html">使用Lucene.Net管理索引实现搜索</a>
-    </h1>
-  
-
-        
-        <a href="/404.html" class="archive-article-date">
-  	<time datetime="2014-01-19T07:17:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前使用一直是没有问题的，只到今天发现删除的时候无法删除，增加的时候却一直在增加，导致搜索的时候可以搜出来很多相同的结果。</p>
-<p>小猪决定趁今天这个机会好好的把这个问题给解决了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">private void ProcessJobs(IndexWriter writer)</div><div class="line">&#123;</div><div class="line">    while (jobs.Count != 0)</div><div class="line">    &#123;</div><div class="line">        IndexJob job = jobs.Dequeue\(\);</div><div class="line">        writer.DeleteDocuments(new Term(&quot;Id&quot;, job.Id.ToString\(\)));//先执行删除的操作</div><div class="line">        //如果“添加文章”任务再添加，</div><div class="line">        if (job.JobType == JobType.Add)</div><div class="line">        &#123;</div><div class="line">            BLL.BooksManage bll = new BLL.BooksManage\(\);</div><div class="line">            Entity.Books art = bll.GetById(job.Id);</div><div class="line">            if (art == null)//有可能刚添加就被删除了</div><div class="line">            &#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            //string channel_id = art.channel_id.ToString\(\);</div><div class="line">            string title = art.Title;</div><div class="line">            DateTime time = art.CreateDate;</div><div class="line">            string content = Utils.DropHTML(art.Brief.ToString\(\));</div><div class="line">            string Addtime = art.CreateDate.ToString(&quot;yyyy-MM-dd&quot;);</div><div class="line"></div><div class="line">            Document document = new Document\(\);</div><div class="line">            //只有对需要全文检索的字段才ANALYZED</div><div class="line">            document.Add(new Field(&quot;Id&quot;, job.Id.ToString\(\), Field.Store.YES, Field.Index.NOT_ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Title&quot;, title, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;Tag&quot;, art.Tag, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;PubTime&quot;, art.PubTime.ToString(&quot;yyyy-MM-dd&quot;), Field.Store.YES, Field.Index.NOT_ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Cover&quot;, art.Cover, Field.Store.YES, Field.Index.NOT_ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Author&quot;, art.Author == null ? &quot;&quot; : art.Author, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;Translator&quot;, art.Translator == null ? &quot;&quot; : art.Translator, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;Publisher&quot;, art.Publisher == null ? &quot;&quot; : art.Publisher, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;Language&quot;, art.Language, Field.Store.YES, Field.Index.NOT_ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Brief&quot;, Utils.DropHTML(art.Brief.ToString\(\)), Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</div><div class="line">            document.Add(new Field(&quot;Icon&quot;, art.Icon, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Rate&quot;, art.Rate.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Price&quot;, art.Price.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Device&quot;, art.Device, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;EngineVersion&quot;, art.EngineVersion.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;ContentType&quot;, art.ContentType, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Size&quot;, art.Size.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Status&quot;, art.Status.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            document.Add(new Field(&quot;Other2&quot;, art.Other2, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">            writer.AddDocument(document);</div><div class="line">            logger.Debug(&quot;索引&quot; + job.Id + &quot;完毕&quot;);</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123; </div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>之前小猪还在想为什么这里没有处理删除的逻辑，仔细看了下发现只要增加了任务不管是删除还是添加都会先执行删除操作以防止索引结果的重复。问题就出现在这里，依照什么规则来删除呢？之前小猪直接用的别人的代码，今天才发现需要自己定义删除的规则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">writer.DeleteDocuments(new Term(&quot;number&quot;, job.Id.ToString\(\)))</div></pre></td></tr></table></figure></p>
-<p>另外就是要处理好啥时候删除，啥时候增加的逻辑。不然很容易出现各种问题，例如数据库中没有而索引里有的，或者数据库里有的但是不可用的但是搜索出来的等等等等~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/SQL/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/404.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1142,14 +1139,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
@@ -1158,7 +1147,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1171,6 +1164,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1210,19 +1207,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1255,6 +1248,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1310,11 +1307,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1338,11 +1335,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1370,19 +1367,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1398,15 +1391,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">公司</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1458,26 +1455,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1494,19 +1471,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1526,10 +1503,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">祷告</a>
               </li>
              
@@ -1538,7 +1511,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1550,15 +1523,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1570,6 +1539,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">观察者</a>
               </li>
              
@@ -1578,7 +1559,27 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1587,10 +1588,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

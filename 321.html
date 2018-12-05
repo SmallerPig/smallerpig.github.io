@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>设计原则—依赖倒转原则 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？ &amp;nbsp;原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了">
+  <meta name="description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做">
 <meta name="keywords" content="依赖倒转,IOC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计原则—依赖倒转原则">
 <meta property="og:url" content="http://blog.smallerpig.com/321.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？ &amp;nbsp;原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了">
+<meta property="og:description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-04T08:44:43.403Z">
+<meta property="og:updated_time" content="2018-12-05T09:52:02.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计原则—依赖倒转原则">
-<meta name="twitter:description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？ &amp;nbsp;原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了">
+<meta name="twitter:description" content="定义1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；2：抽象不应该依赖细节；3：细节应该依赖抽象。 更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。 为什么要倒转？原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -147,7 +147,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-e8-ae-be-e8-ae-a1-e5-8e-9f-e5-88-99-e4-be-9d-e8-b5-96-e5-80-92-e8-bd-ac-e5-8e-9f-e5-88-99" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-设计原则—依赖倒转原则" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -167,9 +167,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>定义</strong><br>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
-<p><span style="color:#ff0000;">更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</span></p>
-<p><strong>为什么要倒转？</strong><br> &nbsp;原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
+<p>更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</p>
+<h2 id="为什么要倒转？"><a href="#为什么要倒转？" class="headerlink" title="为什么要倒转？"></a>为什么要倒转？</h2><p>原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
 
       
 
@@ -445,14 +445,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
@@ -461,7 +453,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -474,6 +470,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,19 +513,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -558,6 +554,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -613,11 +613,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -641,11 +641,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -673,19 +673,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -701,15 +697,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">公司</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -761,26 +761,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -797,19 +777,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -829,10 +809,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">祷告</a>
               </li>
              
@@ -841,7 +817,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -853,15 +829,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -873,6 +845,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">观察者</a>
               </li>
              
@@ -881,7 +865,27 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -890,10 +894,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

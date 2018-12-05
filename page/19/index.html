@@ -147,6 +147,102 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8html-e4-b8-ad-e4-bd-bf-e7-94-a8javascript-e7-9a-84-e5-87-a0-e7-82-b9-e5-b0-8f-e7-bb-93" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/326.html">在Html中使用JavaScript的几点小结</a>
+    </h1>
+  
+
+        
+        <a href="/326.html" class="archive-article-date">
+  	<time datetime="2013-10-14T09:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>越发的意识到JS这门作为前端语言的重要性。所以下定决心这段时间在项目允许的情况下花大量时间在学习JS上。争取让自己的前端功底深厚一点。</p>
+<p><strong>小结</strong></p>
+<ul>
+<li><p>在包含外部js文件时，必须将src属性设置为指向相应文件的URL。而这个文件既可以是包含它的页面位于同一个服务器上的文件，也可以是其他任何域中的文件。</p>
+</li>
+<li><p>所有&lt;script&gt;元素都会按照他们在页面中出现的先后顺序依次呗解析。在不适用defer和async属性的情况下，只有解析完前面&lt;script&gt;元素中的代码之后，才会开始解析后面的&lt;script&gt;元素中的代码。</p>
+</li>
+<li><p>由于浏览器会先解析完不适用defer属性的&lt;script&gt;元素中的代码，然后再解析后面的内容，所以一般把&lt;script&gt;元素放在页面最后，即主要内容后面，&lt;/body&gt;标签前面。</p>
+</li>
+<li><p>适用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定他们的顺序执行。</p>
+</li>
+<li><p>适用async属性可以是表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照它们在页面中出现的顺序执行。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/326.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-b0-8f-e7-8c-aa-e7-9a-84-e6-83-85-e7-bb-aa" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -460,7 +556,7 @@
 
 
   
-    <article id="post-e8-ae-be-e8-ae-a1-e5-8e-9f-e5-88-99-e4-be-9d-e8-b5-96-e5-80-92-e8-bd-ac-e5-8e-9f-e5-88-99" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-设计原则—依赖倒转原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -480,9 +576,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>定义</strong><br>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
-<p><span style="color:#ff0000;">更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</span></p>
-<p><strong>为什么要倒转？</strong><br> &nbsp;原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
+<p>更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</p>
+<h2 id="为什么要倒转？"><a href="#为什么要倒转？" class="headerlink" title="为什么要倒转？"></a>为什么要倒转？</h2><p>原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
 
       
 
@@ -1024,116 +1120,6 @@
 
 
   
-    <article id="post-小猪学设计模式之——门面模式(外观模式)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/308.html">小猪学设计模式——门面模式(外观模式)</a>
-    </h1>
-  
-
-        
-        <a href="/308.html" class="archive-article-date">
-  	<time datetime="2013-09-13T05:36:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>在学习这个模式的时候小猪有这样的感觉：我们很多时候会把设计模式想的多么高深，多么的深不可测，新手完全看不懂之类的话，其实只要我们把面向对象基础打好，在写代码的时候会不自不觉的用到一些设计模式，只是我们不知道它叫什么名字而已。</p>
-<p><strong>模式定义</strong></p>
-<p>外观模式(Facade),为子系统中的一组接口提供了一个一致的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<p><strong>实现代码</strong></p>
-<p>代码清单一：子系统的类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">class SubSystemOne</div><div class="line">&#123;</div><div class="line">    public void MethodOne()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot; 子系统方法一&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class SubSystemTwo</div><div class="line">&#123;</div><div class="line">    public void MethodTwo()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot; 子系统方法二&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class SubSystemThree</div><div class="line">&#123;</div><div class="line">    public void MethodThree()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot; 子系统方法三&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class SubSystemFour</div><div class="line">&#123;</div><div class="line">    public void MethodFour()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot; 子系统方法四&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码清单二：外观类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">class Facade</div><div class="line">&#123;</div><div class="line">    SubSystemOne one;</div><div class="line">    SubSystemTwo two;</div><div class="line">    SubSystemThree three;</div><div class="line">    SubSystemFour four;</div><div class="line"></div><div class="line">    public Facade()</div><div class="line">    &#123;</div><div class="line">        one = new SubSystemOne();</div><div class="line">        two = new SubSystemTwo();</div><div class="line">        three = new SubSystemThree();</div><div class="line">        four = new SubSystemFour();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void MethodA()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot;n方法组A() ---- &quot;);</div><div class="line">        one.MethodOne();</div><div class="line">        two.MethodTwo();</div><div class="line">        four.MethodFour();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void MethodB()</div><div class="line">    &#123;</div><div class="line">        Console.WriteLine(&quot;n方法组B() ---- &quot;);</div><div class="line">        two.MethodTwo();</div><div class="line">        three.MethodThree();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码清单三：客户端调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Program</div><div class="line">&#123;</div><div class="line">    static void Main(string[] args)</div><div class="line">    &#123;</div><div class="line">        Facade facade = new Facade();</div><div class="line"></div><div class="line">        facade.MethodA();</div><div class="line">        facade.MethodB();</div><div class="line"></div><div class="line">        Console.Read();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>对于面向对象有一定基础的同学，即使没有听说过门面(外观)模式，也完全由可能在很多时候使用它，因为它完美体现了依赖倒转原则和迪米特法则的思想，所以是非常常用的模式之一。</p>
-<p>举个例子：很多人喜欢炒股票，但凡是个有心眼的人都知道：股市有风险、入股需谨慎。自己直接买股票就是客户端直接与大量股票打交道，这在写程序时叫做：耦合度太高。但是这个时候我们发现有一个叫做“基金”的东西。我们只需要来买基金，这个基金来买什么股票我们不关心也不需要了解，客户端买基金之后就可以回家睡觉打麻将了，而买股票这种专业的东西让卖基金的人去搞，这样我们就去除了客户端与股票的耦合。这就是门面(外观)模式的思想。</p>
-<p>再具一个例子：添加事件标准浏览器使用addEventListener，旧版本IE使用attachEvent，可能自己需要封装一个addEvent函数，这个addEvent函数就是一个门面。</p>
-<p>代码清单四：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function addEvent(el, type, fn) &#123;</div><div class="line">    if (el.addEventListener) &#123;</div><div class="line">        el.addEventListener(type, fn, false)</div><div class="line">    &#125; else if (el.attachEvent) &#123;</div><div class="line">        el.attachEvent(&apos;on&apos; + type, fn)</div><div class="line">    &#125; else &#123;</div><div class="line">        el[&apos;on&apos; + type] = fn</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样我们再给对象添加事件的时候就不需要考虑客户端到底是什么浏览器而直接使用addEvent方法了。</p>
-<p><strong>适用场合</strong><br>对于那些反复同时出现的代码，如函数a和b多次同时出现在代码中，应考虑将a，b组合起来放到一个新函数中。</p>
-<p><strong>优点</strong><br>简化了一些复杂接口（如$.ajax, $.event.add），清除不再需要的大对象以及提供一种更加单一，便利的方式展现接口功能。编写一次组合代码，就可以反复使用它，节省了代码量，时间和精力。它还提供了较高层的功能，抽象，降低客户端代码对底层接口的耦合。如$.getJSON，通过$.ajax方法也可以得到相同的效果。但每次都需要配置相同的参数，如果获取JSON的需求很频繁，页面中的相同的代码就需要写很多次。而封装一次$.getJSON，之后就少写很多代码，且该方法更直观。</p>
-<p><strong>缺点</strong></p>
-<p>外观模式并非必不可少，同样的功能不使用它也能完成功能。如不使用$.getJSON，通过$.ajax方法也可以得到相同的效果。此外由于增加了一层闭包，性能会有一定降低。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">门面模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">外观模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/308.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/18/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/20/">Next &raquo;</a>
@@ -1227,14 +1213,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
@@ -1243,7 +1221,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1256,6 +1238,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1295,19 +1281,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1340,6 +1322,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1395,11 +1381,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1423,11 +1409,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1455,19 +1441,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1483,15 +1465,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">公司</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1543,26 +1529,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1579,19 +1545,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">bug</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1611,10 +1577,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">祷告</a>
               </li>
              
@@ -1623,7 +1585,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1635,15 +1597,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1655,6 +1613,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">观察者</a>
               </li>
              
@@ -1663,7 +1633,27 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1672,10 +1662,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
