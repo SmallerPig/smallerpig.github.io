@@ -365,19 +365,13 @@
 <li>具体被观察者</li>
 <li>具体观察者</li>
 </ol>
-<p><strong>抽象被观察者角色</strong>：把所有对观察者对象的引用保存在一个集合中，每个被观察者角色都可以有任意数量的观察者。被观察者提供一个接口，可以增加和删除观察者角色。一般用一个抽象类和接口来实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">/// &lt;summary&gt;</div><div class="line">/// 抽象主题类，也叫被观察者</div><div class="line">/// &lt;/summary&gt;</div><div class="line">public abstract class Subject</div><div class="line">&#123;</div><div class="line">    private IList&lt;Observer&gt; observers = new List&lt;Observer&gt;\(\);</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 增加观察者</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    /// &lt;param name=&quot;observer&quot;&gt;&lt;/param&gt;</div><div class="line">    public void Attach(Observer observer)</div><div class="line">    &#123;</div><div class="line">        observers.Add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 移除观察者</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    /// &lt;param name=&quot;observer&quot;&gt;&lt;/param&gt;</div><div class="line">    public void Detach(Observer observer)</div><div class="line">    &#123;</div><div class="line">        observers.Remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 向观察者（们）发出通知</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    public void Notify\(\)</div><div class="line">    &#123;</div><div class="line">        foreach (Observer o in observers)</div><div class="line">        &#123;</div><div class="line">            o.Update\(\);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>抽象被观察者角色</strong>：把所有对观察者对象的引用保存在一个集合中，每个被观察者角色都可以有任意数量的观察者。被观察者提供一个接口，可以增加和删除观察者角色。一般用一个抽象类和接口来实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// &lt;summary&gt;</span></div><div class="line"><span class="comment">/// 抽象主题类，也叫被观察者</span></div><div class="line"><span class="comment">/// &lt;/summary&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    <span class="keyword">private</span> IList&lt;Observer&gt; observers = <span class="keyword">new</span> List&lt;Observer&gt;();</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 增加观察者</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="comment">/// &lt;param name="observer"&gt;&lt;/param&gt;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Attach</span><span class="params">(Observer observer)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        observers.Add(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 移除观察者</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="comment">/// &lt;param name="observer"&gt;&lt;/param&gt;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Detach</span><span class="params">(Observer observer)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        observers.Remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 向观察者（们）发出通知</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Notify</span><span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        foreach (Observer o in observers)</div><div class="line">        &#123;</div><div class="line">            o.Update();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>具体被观察者角色</strong>：在被观察者内部状态改变时，给所有登记过的观察者发出通知。具体被观察者角色通常用一个子类实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/// &lt;summary&gt;</div><div class="line">/// 具体观察者或具体通知者，将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色通常用一个具体子类实现。</div><div class="line">/// &lt;/summary&gt;</div><div class="line">public class ConcreteSubject extends Subject</div><div class="line">&#123;</div><div class="line">    private String subjectState;</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 具体观察者的状态</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    public String SubjectState</div><div class="line">    &#123;</div><div class="line">        get &#123; return subjectState; &#125;</div><div class="line">        set &#123; subjectState = value; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// &lt;summary&gt;</span></div><div class="line"><span class="comment">/// 具体观察者或具体通知者，将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色通常用一个具体子类实现。</span></div><div class="line"><span class="comment">/// &lt;/summary&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    <span class="keyword">private</span> String subjectState;</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 具体观察者的状态</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="keyword">public</span> String SubjectState</div><div class="line">    &#123;</div><div class="line">        get &#123; <span class="keyword">return</span> subjectState; &#125;</div><div class="line">        set &#123; subjectState = value; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>抽象观察者角色</strong>：为所有具体的观察者定义一个接口，在得到主题的通知时更新自己。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/// &lt;summary&gt;</div><div class="line">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</div><div class="line">/// &lt;/summary&gt;</div><div class="line">public abstract class Observer</div><div class="line">&#123;</div><div class="line">    public abstract void Update\(\);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// &lt;summary&gt;</span></div><div class="line"><span class="comment">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</span></div><div class="line"><span class="comment">/// &lt;/summary&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>具体观察者角色</strong>：该角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态相协调。通常用一个子类实现。如果需要，具体观察者角色可以保存一个指向具体主题角色的引用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/// &lt;summary&gt;</div><div class="line">/// 具体观察者，实现抽象观察者角色所要求的更新接口，已是本身状态与主题状态相协调</div><div class="line">/// &lt;/summary&gt;</div><div class="line">public class ConcreteObserver extends Observer</div><div class="line">&#123;</div><div class="line">    private String observerState;</div><div class="line">    private String name;</div><div class="line">    private ConcreteSubject subject;</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 具体观察者用一个具体主题来实现</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    public ConcreteSubject Subject</div><div class="line">    &#123;</div><div class="line">        get &#123; return subject; &#125;</div><div class="line">        set &#123; subject = value; &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public ConcreteObserver(ConcreteSubject subject, String name)</div><div class="line">    &#123;</div><div class="line">        this.subject = subject;</div><div class="line">        this.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /// &lt;summary&gt;</div><div class="line">    /// 实现抽象观察者中的更新操作</div><div class="line">    /// &lt;/summary&gt;</div><div class="line">    public override void Update\(\)</div><div class="line">    &#123;</div><div class="line">        observerState = subject.SubjectState;</div><div class="line">        Console.WriteLine(&quot;The observer&apos;s state of &#123;0&#125; is &#123;1&#125;&quot;, name, observerState);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述的示例代码中我们使用了抽象类作为抽象被观察者和抽象观察者，当然我们也可以使用接口来代替抽象类实现同样的功能。</p>
-<p>另外，上述代码中的被观察者向外提供的通知方法是<code>Notify\(\)</code>，在实际的代码中我们需要对这部分进行抽象，例如在麦兜的例子中，老板应该提供给所有客户（当然包括麦兜）提供一个通知接口，这个接口告诉所有想吃煮粉的客户，你们想要吃的东西来了，现在可以下单了。在这里，老板就是具体的被观察者了，而客户就是具体的观察者，麦兜是观察者中的一员。</p>
-<hr>
-<h2 id="推模式与拉模式"><a href="#推模式与拉模式" class="headerlink" title="推模式与拉模式"></a>推模式与拉模式</h2><p>目标角色在发生变化后，仅仅告诉观察者角色“我变化了”，观察者角色如果想要知道具体的变化细节，则就要自己从目标角色的接口中得到。这种模式被很形象的称为：拉模式——就是说变化的信息是观察者角色主动从目标角色中“拉”出来的。<br>在麦兜的例子中，当顾客们知道有 了煮粉之后，如果想要继续了解煮粉还有多少份，卖多少钱这些信息的时候，他们就得再次的去找老板问了。</p>
-<p>还有一种方法，那就是我目标角色“服务一条龙”，通知你发生变化的同时，通过一个参数将变化的细节传递到观察者角色中去。这就是“推模式”——管你要不要，先给你啦。<br>如果我们在观察者的抽象接口中添加被观察者的参数，例如下列的抽象观察者的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/// &lt;summary&gt;</div><div class="line">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</div><div class="line">/// &lt;/summary&gt;</div><div class="line">public abstract class Observer</div><div class="line">&#123;</div><div class="line">    public abstract void Update(final Subject subject,final Object parms);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// &lt;summary&gt;</span></div><div class="line"><span class="comment">/// 具体观察者，实现抽象观察者角色所要求的更新接口，已是本身状态与主题状态相协调</span></div><div class="line"><span class="comment">/// &lt;/summary&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    <span class="keyword">private</span> String observerState;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> ConcreteSubject subject;</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 具体观察者用一个具体主题来实现</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="keyword">public</span> ConcreteSubject Subject</div><div class="line">    &#123;</div><div class="line">        get &#123; <span class="keyword">return</span> subject; &#125;</div><div class="line">        set &#123; subject = value; &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteObserver</span><span class="params">(ConcreteSubject subject, String name)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="keyword">this</span>.subject = subject;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/// &lt;summary&gt;</span></div><div class="line">    <span class="comment">/// 实现抽象观察者中的更新操作</span></div><div class="line">    <span class="comment">/// &lt;/summary&gt;</span></div><div class="line">    <span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        observerState = subject.SubjectState;</div><div class="line">        Console.WriteLine(<span class="string">"The observer's state of &#123;0&#125; is &#123;1&#125;"</span>, name, observerState);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">``` </div><div class="line">上述的示例代码中我们使用了抽象类作为抽象被观察者和抽象观察者，当然我们也可以使用接口来代替抽象类实现同样的功能。</div><div class="line"></div><div class="line">另外，上述代码中的被观察者向外提供的通知方法是`Notify()`，在实际的代码中我们需要对这部分进行抽象，例如在麦兜的例子中，老板应该提供给所有客户（当然包括麦兜）提供一个通知接口，这个接口告诉所有想吃煮粉的客户，你们想要吃的东西来了，现在可以下单了。在这里，老板就是具体的被观察者了，而客户就是具体的观察者，麦兜是观察者中的一员。</div><div class="line"></div><div class="line">* * *</div><div class="line"></div><div class="line">## 推模式与拉模式</div><div class="line"></div><div class="line">目标角色在发生变化后，仅仅告诉观察者角色“我变化了”，观察者角色如果想要知道具体的变化细节，则就要自己从目标角色的接口中得到。这种模式被很形象的称为：拉模式——就是说变化的信息是观察者角色主动从目标角色中“拉”出来的。</div><div class="line">在麦兜的例子中，当顾客们知道有 了煮粉之后，如果想要继续了解煮粉还有多少份，卖多少钱这些信息的时候，他们就得再次的去找老板问了。</div><div class="line"></div><div class="line">还有一种方法，那就是我目标角色“服务一条龙”，通知你发生变化的同时，通过一个参数将变化的细节传递到观察者角色中去。这就是“推模式”——管你要不要，先给你啦。</div><div class="line">如果我们在观察者的抽象接口中添加被观察者的参数，例如下列的抽象观察者的代码：</div><div class="line"></div><div class="line">```  java</div><div class="line"><span class="comment">/// &lt;summary&gt;</span></div><div class="line"><span class="comment">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</span></div><div class="line"><span class="comment">/// &lt;/summary&gt;</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">(<span class="keyword">final</span> Subject subject,<span class="keyword">final</span> Object parms)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这样在被观察者进行通知时就需要将本身的一些信息推给观察者，观察者可根据被观察者的信息做一些逻辑判断然后选择自身做的事。<br>当老板通知在等煮粉的客户：现在可以订煮粉啦，限量20份，每份200块时，聪明的麦兜果断选择了放弃煮粉，点了份鸭血粉丝汤开心的吃了起来。</p>
 <p>不过这两种模式的使用，取决于系统设计时的需要。如果目标角色比较复杂，并且观察者角色进行更新时必须得到一些具体变化的信息，则“推模式”比较合适。如果目标角色比较简单，则“拉模式”就很合适啦</p>
 
@@ -1264,15 +1258,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1336,7 +1330,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring-boot</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1380,11 +1374,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1432,11 +1426,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1473,10 +1467,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1616,6 +1606,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
@@ -1624,15 +1618,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1664,11 +1654,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1676,11 +1666,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">

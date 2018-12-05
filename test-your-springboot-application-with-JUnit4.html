@@ -9,7 +9,7 @@
   <title>利用JUnit4 测试你的Spring Boot程序 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="使用spring boot写接口时，开发人员习惯使用postman等接口调试工具来进行调试。这当然没有什么问题！可以！ 但是怎么解决下面的问题：  每次对程序的某个部分进行修改程序的时候是否对其他部分产生影响就不知道了，难道要每一次都使用postman来进行操作？ 怎么自证？毕竟你的postman只运行在你的机器上。测试人员告诉你在某个条件下你的接口出问题了，怎么使用代码来复现这个过程？  使用J">
-<meta name="keywords" content="Spring Boot,单元测试">
+<meta name="keywords" content="springboot,单元测试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用JUnit4 测试你的Spring Boot程序">
 <meta property="og:url" content="http://blog.smallerpig.com/test-your-springboot-application-with-JUnit4.html">
@@ -17,7 +17,7 @@
 <meta property="og:description" content="使用spring boot写接口时，开发人员习惯使用postman等接口调试工具来进行调试。这当然没有什么问题！可以！ 但是怎么解决下面的问题：  每次对程序的某个部分进行修改程序的时候是否对其他部分产生影响就不知道了，难道要每一次都使用postman来进行操作？ 怎么自证？毕竟你的postman只运行在你的机器上。测试人员告诉你在某个条件下你的接口出问题了，怎么使用代码来复现这个过程？  使用J">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1fsaidjmixej31fq0kyzp8.jpg">
-<meta property="og:updated_time" content="2018-06-14T02:59:46.000Z">
+<meta property="og:updated_time" content="2018-12-05T07:11:41.560Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用JUnit4 测试你的Spring Boot程序">
 <meta name="twitter:description" content="使用spring boot写接口时，开发人员习惯使用postman等接口调试工具来进行调试。这当然没有什么问题！可以！ 但是怎么解决下面的问题：  每次对程序的某个部分进行修改程序的时候是否对其他部分产生影响就不知道了，难道要每一次都使用postman来进行操作？ 怎么自证？毕竟你的postman只运行在你的机器上。测试人员告诉你在某个条件下你的接口出问题了，怎么使用代码来复现这个过程？  使用J">
@@ -228,7 +228,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring Boot</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -464,15 +464,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -536,7 +536,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring-boot</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,11 +580,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -632,11 +632,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -673,10 +673,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -816,6 +812,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
@@ -824,15 +824,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -864,11 +860,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -876,11 +872,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring Boot</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
