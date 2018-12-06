@@ -6,19 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>ASP.NET MVC 上传大文件时404 | 朱启的个人博客</title>
+  <title>springboot源码学习-程序启动流程-part2 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。 后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。 反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题; 但小于30M又是一切OK，难">
+  <meta name="description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
+<meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ASP.NET MVC 上传大文件时404">
-<meta property="og:url" content="http://blog.smallerpig.com/343.html">
+<meta property="og:title" content="springboot源码学习-程序启动流程-part2">
+<meta property="og:url" content="http://blog.smallerpig.com/20181206.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。 后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。 反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题; 但小于30M又是一切OK，难">
+<meta property="og:description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-25T00:57:45.000Z">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx3fm0axrj31hk0cawg5.jpg">
+<meta property="og:updated_time" content="2018-12-06T08:29:53.159Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ASP.NET MVC 上传大文件时404">
-<meta name="twitter:description" content="前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。 后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。 反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题; 但小于30M又是一切OK，难">
+<meta name="twitter:title" content="springboot源码学习-程序启动流程-part2">
+<meta name="twitter:description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -146,36 +150,53 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-asp-net-mvc-e4-b8-8a-e4-bc-a0-e5-a4-a7-e6-96-87-e4-bb-b6-e6-97-b6404" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-springboot源码学习-程序启动流程-part2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      ASP.NET MVC 上传大文件时404
+      springboot源码学习-程序启动流程-part2
     </h1>
   
 
         
-        <a href="/343.html" class="archive-article-date">
-  	<time datetime="2013-11-12T00:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-12</time>
+        <a href="/20181206.html" class="archive-article-date">
+  	<time datetime="2018-12-05T14:53:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。</p>
-<p>后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。</p>
-<p>反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题;</p>
-<p>但小于30M又是一切OK，难道是上传的文件大小有所限制？</p>
-<p>检查web.config的httpRuntime ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;httpRuntime maxRequestLength=&quot;2097151&quot; executionTimeout=&quot;50000&quot; /&gt;</div></pre></td></tr></table></figure></p>
-<p>已经是很大值了。</p>
-<p>因为无法正确得到详细的错误信息，就用一个普通的FORM提交一个FileUpload测试，原来真是web.config的设置问题：</p>
-<h1 id="报错信息："><a href="#报错信息：" class="headerlink" title="报错信息："></a>报错信息：</h1><p>最可能的原因: Web 服务器上的请求筛选被配置为拒绝该请求，因为内容长度超过配置的值。 可尝试的操作: 确认 applicationhost.config 或 web.config 文件中的 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。 </p>
-<p>链接和更多信息<br>这是一项安全功能。请不要更改此功能，除非您完全清楚更改的影响范围。您可以配置 IIS 7.0 服务器以拒绝内容长度大于指定值的请求。如果请求的内容长度大于所配置的长度，便会返回此错误。如果需要增加内容长度，请修改 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>原来IIS7的上传文件大小，即便是在经典模式下，也一定要在system.webServer里设置，加上去就OK了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;system.webServer&gt;</div><div class="line"></div><div class="line"></div><div class="line">  &lt;security&gt;</div><div class="line"></div><div class="line">    &lt;requestFiltering &gt;</div><div class="line"></div><div class="line">      &lt;requestLimits maxAllowedContentLength=&quot;1073741824&quot; &gt;&lt;/requestLimits&gt;</div><div class="line"></div><div class="line">    &lt;/requestFiltering&gt;</div><div class="line"></div><div class="line">  &lt;/security&gt;</div><div class="line"></div><div class="line">&lt;/system.webServer&gt;</div></pre></td></tr></table></figure></p>
+        <p>还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：</p>
+<blockquote>
+<p>在<code>context</code>的<code>refresh</code>方法中，需要注册<code>bean definition</code>，实例化<code>bean</code>.在加载<code>bean defintion</code>的时候使用<code>ConfigurationClassParser</code>类来解析我们的主类。然后在解析主类的时候发现了<code>@EnableAutoConfiguratio</code>注解中的<code>@Import</code>注解，就去处理<code>@Import</code>注解中的<code>value</code>值，然后就使用<code>ImportSelector</code>来获取被配置在<code>spring.factories</code>中的类。这些类通常是<code>AutoConfiguration</code>。这些<code>configuration</code>中包含了各种各样的<code>bean</code></p>
+</blockquote>
+<p>可是上一篇整个过程都还没进入到上述的内容呢，都是在为下面的流程做准备，直到目前为止，都是在做准备工作，屏幕上能看到的是啥也没有，一起来进入这一篇的学习吧。<br><a id="more"></a></p>
+<p>本篇重点是看下返回<code>ConfigurableApplicationContext</code>的run方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</div><div class="line">  StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</div><div class="line">  stopWatch.start();<span class="comment">//开始计时</span></div><div class="line">  ConfigurableApplicationContext context = <span class="keyword">null</span>;</div><div class="line">  FailureAnalyzers analyzers = <span class="keyword">null</span>;</div><div class="line">  configureHeadlessProperty(); <span class="comment">//设置headless模式</span></div><div class="line">  SpringApplicationRunListeners listeners = getRunListeners(args);</div><div class="line">  listeners.starting();<span class="comment">// 启动监听器</span></div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    ApplicationArguments applicationArguments = <span class="keyword">new</span> DefaultApplicationArguments(</div><div class="line">        args);</div><div class="line">    ConfigurableEnvironment environment = prepareEnvironment(listeners,</div><div class="line">        applicationArguments);</div><div class="line">    Banner printedBanner = printBanner(environment); <span class="comment">// banner对象</span></div><div class="line">    context = createApplicationContext();</div><div class="line">    analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</div><div class="line">    prepareContext(context, environment, listeners, applicationArguments,</div><div class="line">        printedBanner);</div><div class="line">    refreshContext(context);</div><div class="line">    afterRefresh(context, applicationArguments);</div><div class="line">    listeners.finished(context, <span class="keyword">null</span>);</div><div class="line">    stopWatch.stop();<span class="comment">//结束计时</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.logStartupInfo) &#123;</div><div class="line">      <span class="keyword">new</span> StartupInfoLogger(<span class="keyword">this</span>.mainApplicationClass)</div><div class="line">          .logStarted(getApplicationLog(), stopWatch);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> context;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">    handleRunFailure(context, listeners, analyzers, ex);</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>args 就是我们main方法传过来的参数<br>run函数首先启动了计时器来统计程序的启动时间，然后配置headless模式(headless模式可另行参考其他文章)。</p>
+<h3 id="启动计时器"><a href="#启动计时器" class="headerlink" title="启动计时器"></a>启动计时器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</div><div class="line">stopWatch.start();<span class="comment">//开始计时</span></div></pre></td></tr></table></figure>
+<h3 id="配置headless模式"><a href="#配置headless模式" class="headerlink" title="配置headless模式"></a>配置headless模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// configureHeadlessProperty(); //设置headless模式</span></div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_PROPERTY_JAVA_AWT_HEADLESS = <span class="string">"java.awt.headless"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">configureHeadlessProperty</span><span class="params">()</span> </span>&#123;</div><div class="line">  System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, System.getProperty(</div><div class="line">      SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, Boolean.toString(<span class="keyword">this</span>.headless)));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="创建了应用的监听器SpringApplicationRunListeners并开始监听"><a href="#创建了应用的监听器SpringApplicationRunListeners并开始监听" class="headerlink" title="创建了应用的监听器SpringApplicationRunListeners并开始监听"></a>创建了应用的监听器SpringApplicationRunListeners并开始监听</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// SpringApplicationRunListeners listeners = getRunListeners(args);</span></div><div class="line"><span class="comment">// listeners.starting();// 启动监听器</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> SpringApplicationRunListeners <span class="title">getRunListeners</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">  Class&lt;?&gt;[] types = <span class="keyword">new</span> Class&lt;?&gt;[] &#123; SpringApplication.class, String[].class &#125;;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> SpringApplicationRunListeners(logger, getSpringFactoriesInstances(</div><div class="line">      SpringApplicationRunListener.class, types, <span class="keyword">this</span>, args));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="加载SpringBoot配置环境-ConfigurableEnvironment"><a href="#加载SpringBoot配置环境-ConfigurableEnvironment" class="headerlink" title="加载SpringBoot配置环境(ConfigurableEnvironment)"></a>加载SpringBoot配置环境(ConfigurableEnvironment)</h3><p>如果是通过web容器发布，会加载StandardEnvironment，其最终也是继承了ConfigurableEnvironment，类图如下</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg" alt=""><br>可以看出，*Environment最终都实现了PropertyResolver接口，我们平时通过environment对象获取配置文件中指定Key对应的value方法时，就是调用了propertyResolver接口的getProperty方法</p>
+<p>然后配置环境(Environment)加入到监听器对象中(SpringApplicationRunListeners)</p>
+<h3 id="创建run方法的返回对象：-ConfigurableApplicationContext-应用配置上下文-通过方法createApplicationContext创建："><a href="#创建run方法的返回对象：-ConfigurableApplicationContext-应用配置上下文-通过方法createApplicationContext创建：" class="headerlink" title="创建run方法的返回对象： ConfigurableApplicationContext(应用配置上下文), 通过方法createApplicationContext创建："></a>创建run方法的返回对象： ConfigurableApplicationContext(应用配置上下文), 通过方法<code>createApplicationContext</code>创建：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> ConfigurableApplicationContext <span class="title">createApplicationContext</span><span class="params">()</span> </span>&#123;</div><div class="line">  Class&lt;?&gt; contextClass = <span class="keyword">this</span>.applicationContextClass;</div><div class="line">  <span class="keyword">if</span> (contextClass == <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      contextClass = Class.forName(<span class="keyword">this</span>.webEnvironment</div><div class="line">          ? DEFAULT_WEB_CONTEXT_CLASS : DEFAULT_CONTEXT_CLASS);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (ClassNotFoundException ex) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(</div><div class="line">          <span class="string">"Unable create a default ApplicationContext, "</span></div><div class="line">              + <span class="string">"please specify an ApplicationContextClass"</span>,</div><div class="line">          ex);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> (ConfigurableApplicationContext) BeanUtils.instantiate(contextClass);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>方法会先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回，ConfigurableApplicationContext类图如下：<br><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx3fm0axrj31hk0cawg5.jpg" alt=""></p>
+<p>主要看其继承的两个方向：</p>
+<p>LifeCycle：生命周期类，定义了start启动、stop结束、isRunning是否运行中等生命周期空值方法</p>
+<p>ApplicationContext：应用上下文类，其主要继承了beanFactory(bean的工厂类)</p>
+<h3 id="prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联"><a href="#prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联" class="headerlink" title="prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联"></a>prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Banner printedBanner = printBanner(environment); <span class="comment">// banner对象</span></div><div class="line">context = createApplicationContext();</div><div class="line">analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</div><div class="line">prepareContext(context, environment, listeners, applicationArguments,</div><div class="line">    printedBanner);</div></pre></td></tr></table></figure>
+<p>准备好了之后就可以进入最重要的部分：</p>
+<h3 id="refreshContext-context"><a href="#refreshContext-context" class="headerlink" title="refreshContext(context)"></a>refreshContext(context)</h3><p>refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshContext</span><span class="params">(ConfigurableApplicationContext context)</span> </span>&#123;</div><div class="line">  refresh(context);</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.registerShutdownHook) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      context.registerShutdownHook();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (AccessControlException ex) &#123;</div><div class="line">      <span class="comment">// Not allowed in some environments.</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">(ApplicationContext applicationContext)</span> </span>&#123;</div><div class="line">  Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext);</div><div class="line">  ((AbstractApplicationContext) applicationContext).refresh();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面代码为抽象类<code>AbstractApplicationContext</code>的refresh方法代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</div><div class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</div><div class="line">    <span class="comment">// Prepare this context for refreshing.</span></div><div class="line">    prepareRefresh();</div><div class="line"></div><div class="line">    <span class="comment">// Tell the subclass to refresh the internal bean factory.</span></div><div class="line">    ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</div><div class="line"></div><div class="line">    <span class="comment">// Prepare the bean factory for use in this context.</span></div><div class="line">    prepareBeanFactory(beanFactory);</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></div><div class="line">      postProcessBeanFactory(beanFactory);</div><div class="line"></div><div class="line">      <span class="comment">// Invoke factory processors registered as beans in the context.</span></div><div class="line">      invokeBeanFactoryPostProcessors(beanFactory);</div><div class="line"></div><div class="line">      <span class="comment">// Register bean processors that intercept bean creation.</span></div><div class="line">      registerBeanPostProcessors(beanFactory);</div><div class="line"></div><div class="line">      <span class="comment">// Initialize message source for this context.</span></div><div class="line">      initMessageSource();</div><div class="line"></div><div class="line">      <span class="comment">// Initialize event multicaster for this context.</span></div><div class="line">      initApplicationEventMulticaster();</div><div class="line"></div><div class="line">      <span class="comment">// Initialize other special beans in specific context subclasses.</span></div><div class="line">      onRefresh();</div><div class="line"></div><div class="line">      <span class="comment">// Check for listener beans and register them.</span></div><div class="line">      registerListeners();</div><div class="line"></div><div class="line">      <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></div><div class="line">      finishBeanFactoryInitialization(beanFactory);</div><div class="line"></div><div class="line">      <span class="comment">// Last step: publish corresponding event.</span></div><div class="line">      finishRefresh();</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>配置结束后，Springboot做了一些基本的收尾工作，返回了应用环境上下文。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">afterRefresh(context, applicationArguments);</div><div class="line">listeners.finished(context, <span class="keyword">null</span>);</div><div class="line">stopWatch.stop();</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回顾整体流程，Springboot的启动，主要创建了配置环境(environment)、事件监听(listeners)、应用上下文(applicationContext)，并基于以上条件，在容器中开始实例化我们需要的Bean，至此，通过SpringBoot启动的程序已经构造完成</p>
+<p>到这里，加载就完成了，最核心的部分就是refresh(context)的部分了，其中包括sprig-boot-*-start系列的自动配置部分。</p>
+<p>下面一篇来学习学习spring-boot是如何实现读取application.properties文件或者application.yml文件的配置，而且在某些配置不存在时是如何给他们附上默认值的。</p>
 
       
 
@@ -210,29 +231,24 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -287,7 +303,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://blog.smallerpig.com/343.html" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://blog.smallerpig.com/20181206.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,18 +317,9 @@
   
 <nav id="article-nav">
   
-    <a href="/344.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          event.srcElement在火狐(FireFox)下的兼容问题。搜索框获得焦点时默认文字变化
-        
-      </div>
-    </a>
   
-  
-    <a href="/337.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">CSS 去除列表项li前面的小圆点</div>
+    <a href="/20181205.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot源码学习-程序启动流程-part1</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -353,7 +360,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://blog.smallerpig.com/343.html",
+  id: "http://blog.smallerpig.com/20181206.html",
   owner: 'SmallerPig',
   repo: 'smallerpig.github.io',
   oauth: {

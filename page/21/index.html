@@ -147,6 +147,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-visual-studio-e8-a7-a3-e5-86-b3windows-web-e6-9c-8d-e5-8a-a1-e6-a1-86-e6-9e-b6-e4-b8-ad-e5-87-ba-e7-8e-b0-e4-ba-86-e6-97-a0-e6-b3-95-e8-af-86-e5-88-ab-e7-9a-84-e9-94-99-e8-af-af" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/291.html">Visual Studio 解决Windows Web服务框架中出现了无法识别的错误</a>
+    </h1>
+  
+
+        
+        <a href="/291.html" class="archive-article-date">
+  	<time datetime="2013-08-23T09:16:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用的是Visual Studio2012 ULT 控制台项目按ctrl+F5可以运行，不可以直接按F5调试，出现“尝试运行项目时出错(项目地址)Windows Web服务框架中出现了无法识别的错误”。可是调试ASP.NET程序却没有问题。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/1771377249614.png" alt="" title="QQ截图20130823171351.png"></p>
+<p>小猪遇到这个问题很是郁闷，不知道是什么地方出现了问题，百度了好久都没有个正式的解决方案，例如</p>
+<p><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="external"></a><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="external">http://bbs.csdn.net/topics/390511663</a></p>
+<p>只好谷歌了一下。</p>
+<p><a href="http://connect.microsoft.com/VisualStudio/feedback/details/781459/visual-studio-versucht-eine-remoteverbindung-herzustellen-wenn-32-bit-bevorzugen-deaktiviert-ist" target="_blank" rel="external">http://connect.microsoft.com/VisualStudio/feedback/details/781459/visual-studio-versucht-eine-remoteverbindung-herzustellen-wenn-32-bit-bevorzugen-deaktiviert-ist</a></p>
+<p>看看人家的问题、人家微软的回家。让国内的一些XXX情何以堪呐！！ </p>
+<p>发现了某位大大这么回答。</p>
+<p>This is happening because Visual Studio is a 32-bit application. &nbsp;Only 64-bit applications are able to debug other 64-bit applications, so Visual Studio creates a fake remote connection to a 64-bit debugger when debugging 64-bit apps. &nbsp;If you select the prefer 32-bit option, then this is unnecessary.</p>
+<p>虽然小猪英文不太好，但是看到32-bit、64-bit也就大差不差的了解人家在说什么了。小猪这才恍然大悟，可能是系统装的是64位系统，某些指令集支持的不够好。</p>
+<p> 按照这个提示，把需要调试的程序改成X86。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/39891377249614.jpg" alt="" title="QQ图片20130823171439.jpg"></p>
+<p>再点调试，……完美运行……</p>
+<p>另外有些同志说需要把类似防火墙的东东关掉，这个我就不太清楚了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/291.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-visual-studio2012-e4-bd-bf-e7-94-a8-e6-8a-80-e5-b7-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1040,93 +1127,6 @@
 
 
   
-    <article id="post-asp-net-e4-bd-bf-e7-94-a8response-writefile-e6-96-b9-e6-b3-95-e4-b8-8b-e8-bd-bd-e6-96-87-e4-bb-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/257.html">ASP.NET 使用Response.WriteFile方法下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/257.html" class="archive-article-date">
-  	<time datetime="2013-08-12T07:59:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在IIS中，直接在浏览器中输入文件的路径可实现文件的下载，但是这个方法不方便控制用户的权限，所以小猪使用了下列方法来输出文件流。取代了直接下载文件。</p>
-<p>这样就可以在下载文件之前验证用户的信息等等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">string path = Server.MapPath(&quot;~/小猪测试.doc&quot;);//文件的路径</div><div class="line"></div><div class="line">System.IO.FileInfo file = new System.IO.FileInfo(path);</div><div class="line"></div><div class="line">Response.Clear\(\);</div><div class="line"></div><div class="line">Response.Charset = &quot;utf-8&quot;;//设置输出的编码</div><div class="line"></div><div class="line">Response.ContentEncoding = System.Text.Encoding.UTF8;</div><div class="line"></div><div class="line">// 添加头信息，为&quot;文件下载/另存为&quot;对话框指定默认文件名   </div><div class="line"></div><div class="line">Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + Server.UrlEncode(file.Name));</div><div class="line"></div><div class="line">// 添加头信息，指定文件大小，让浏览器能够显示下载进度   </div><div class="line"></div><div class="line">Response.AddHeader(&quot;Content-Length&quot;, file.Length.ToString\(\));</div><div class="line"></div><div class="line">// 指定返回的是一个不能被客户端读取的流，必须被下载   </div><div class="line"></div><div class="line">Response.ContentType = &quot;application/msword&quot;;</div><div class="line"></div><div class="line">// 把文件流发送到客户端   </div><div class="line"></div><div class="line">Response.WriteFile(file.FullName);</div><div class="line"></div><div class="line">Response.End\(\);</div></pre></td></tr></table></figure>
-<p>重要说明：当您在 ASP.NET 应用程序的 Web.config 文件中将编译元素的 debug 属性值设置为 false 时，必须针对要下载的文件大小将 server.scripttimeout 属性设置为适当的值。默认情况下，server.scripttimeout 值被设置为 90 秒。但是，当 debug 属性被设置为 true 时，server.scripttimeout 值将被设置为一个非常大的值（30,000,000 秒）</p>
-<p>本篇向大家介绍的主要是WebForm下面的文件下载，在ASP.NET MVC 项目下则可以更加方便的方法使用相同的功能。</p>
-<p>具体请参考：<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="external">ASP.NET MVC FileResult介绍</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/257.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
@@ -1220,11 +1220,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1233,22 +1233,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1272,6 +1256,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1288,19 +1284,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1332,10 +1328,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
@@ -1349,6 +1341,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1377,6 +1373,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1412,15 +1412,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1445,6 +1445,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1484,11 +1488,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1508,10 +1512,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1524,15 +1524,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1556,15 +1556,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1596,15 +1596,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1612,11 +1604,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1624,11 +1612,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1637,6 +1629,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1656,19 +1656,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

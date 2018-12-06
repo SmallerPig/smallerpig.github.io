@@ -147,6 +147,90 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ienumerable-e6-8e-a5-e5-8f-a3-e7-9a-84aggregate-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/439.html">IEnumerable接口的Aggregate方法</a>
+    </h1>
+  
+
+        
+        <a href="/439.html" class="archive-article-date">
+  	<time datetime="2014-03-19T13:05:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-03-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前小猪为了累加一个集合中的类容通常会写出类似这样的C#代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> string result =&quot;&quot;:</div><div class="line">foreach (var item in items)</div><div class="line">&#123;</div><div class="line">     result+=item.centent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>大概意思就是遍历集合中的每一项来累加其中的一个值。今天小猪才发现其实.NET的集合已经提供了该功能：那就是小猪现在讲的IEnumerable&lt;T&gt;接口的Aggregate方法:</p>
+<p>该方法提供了两个重载版本</p>
+<p>版本1：<a href="http://msdn.microsoft.com/zh-cn/library/bb548651(v=vs.110" target="_blank" rel="external">Aggregate&lt;TSource&gt;(Func&lt;TSource, TSource, TSource&gt;)</a>.aspx)：已重载。 对序列应用累加器函数。 （由 <a href="http://msdn.microsoft.com/zh-cn/library/system.linq.enumerable(v=vs.110" target="_blank" rel="external">Enumerable</a>.aspx) 定义。）</p>
+<p>版本2：<a href="http://msdn.microsoft.com/zh-cn/library/bb549218(v=vs.110" target="_blank" rel="external">Aggregate&lt;TSource, TAccumulate&gt;(TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;)</a>.aspx)已重载。 对序列应用累加器函数。 将指定的种子值用作累加器初始值。 （由<a href="http://msdn.microsoft.com/zh-cn/library/system.linq.enumerable(v=vs.110" target="_blank" rel="external">Enumerable</a>.aspx) 定义。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> public static TAccumulate Aggregate&amp;lt;TSource, TAccumulate&amp;gt;(</div><div class="line">	this IEnumerable&amp;lt;TSource&amp;gt; source,</div><div class="line">	TAccumulate seed,</div><div class="line">	Func&amp;lt;TAccumulate, TSource, TAccumulate&amp;gt; func</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>由定义可以看出该方法是个拓展方法，所以在使用时不需要传递第一个参数。</p>
+<p>此方法的工作原理是对 source 中的每个元素调用一次 func。 每次调用 func 时，Aggregate&lt;TSource, TAccumulate&gt;(IEnumerable&lt;TSource&gt;, TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;) 都将传递序列中的元素和聚合值（作为 func 的第一个参数）。 将 seed 参数的值用作聚合的初始值。 用 func 的结果替换以前的聚合值。Aggregate&lt;TSource, TAccumulate&gt;(IEnumerable&lt;TSource&gt;, TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;) 返回 func 的最终结果。</p>
+<p>若要简化一般的聚合运算，标准查询运算符还可以包含一个通用的计数方法（即 Count）和四个数值聚合方法（即 Min、Max、Sum 和 Average）。</p>
+<p>下面的代码示例演示如何使用 Aggregate 应用累加器函数和使用种子值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> int[] ints = &#123; 4, 8, 8, 3, 9, 0, 7, 8, 2 &#125;;</div><div class="line"></div><div class="line">// Count the even numbers in the array, using a seed value of 0.</div><div class="line">int numEven = ints.Aggregate(0, (total, next) =&amp;gt;next % 2 == 0 ? total + 1 : total);</div><div class="line"></div><div class="line">Console.WriteLine(&quot;The number of even integers is: &#123;0&#125;&quot;, numEven);</div><div class="line"></div><div class="line">// This code produces the following output:</div><div class="line">//</div><div class="line">// The number of even integers is: 6</div></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/439.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Server.UrlEncode()方法 空格转换成了+而非%20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -933,119 +1017,6 @@
 
 
   
-    <article id="post-e6-80-8e-e4-b9-88-e6-a0-b7-e6-8f-90-e9-ab-98-e5-9c-a8-e5-ae-b6-e5-b7-a5-e4-bd-9c-e5-ad-a6-e4-b9-a0-e7-9a-84-e6-95-88-e7-8e-87" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/407.html">怎么样提高在家工作学习的效率</a>
-    </h1>
-  
-
-        
-        <a href="/407.html" class="archive-article-date">
-  	<time datetime="2014-01-20T08:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记得小猪在读书时期就有这么个习惯：每次放假之前都要给自己在假期里做个规划，例如要看多少书，学习什么什么。这样每次放假回家都会在包里带上几本书或者其他认为很有必要的东西.。可是最后的结果往往都是除了几件换洗的衣服以及生活必需品如手机充电器之类的外，其他的物品都放在包里直到假期的结束。我想很多人都会有这样的经历。</p>
-<p>到了工作以后，很多时候在公司的时候想好周末在家要看什么什么技术，在家每天要花多少时间来看某一本书等等等~~~但到了实施的时候总是会由于琐事而使自己的注意力分散。在自己电脑装的很多学习软件、IDE甚至都很少打开来用。</p>
-<p>这确实是个问题：毕竟每天在公司工作的时间才8个小时，才占了整个的三分之一。</p>
-<p>今天就在网上找到一篇文章使用一些小技巧来提高自己在家工作学习的效率，特地分享给大家：</p>
-<p>&nbsp;</p>
-<p>英文原文：<a href="https://medium.com/startup-lesson-learned/f33dd0e150d1" target="_blank" rel="external">Work From Home? Do it Better.</a>  </p>
-<p>　　我花了很久才接受这样一件事：将每天的工作安排紧凑例行公事，并不等于没有了自由。  </p>
-<p>　　当我不想让梦想溜走，准备好好计划自己的人生时，根本没想过会把工作地点放在家里。在家里难免会过的很松散，甚至一不小心就沦为平庸。  </p>
-<p>　　所以在家里就本能的工作更久，但各种分散注意力的东西自己很难控制，似乎频繁的在各种事务中切换，尽管起早贪黑确不知做了什么。放弃了休息的时间，放弃了健身的时间，就为了弥补一整天浪费时间的愧疚感。而最后的结果是，在对抗循规蹈矩的战役中，我输了。  </p>
-<p>　　结构化的安排一天，看似束缚，却是自由。  </p>
-<p>　　要这样做起来并不简单，就像如果你想掌握的某种技能，要不断练习，不断犯错，直到最后找到适合自己的独特门路。  </p>
-<p>　　以下 10 个非常有用的小点子帮助我制定并保持一天的计划：  </p>
-<p><strong>1. 每天在固定时间起床，并且越早越好</strong>  </p>
-<p>　　如果早起对你来说很难，那就先比目前早起 5 分钟。习惯这个时间后，再提前 5 分钟，逐渐达到你的目标。  </p>
-<p><strong>2. 每天起床后做同一件事</strong>  </p>
-<p>　　听起来也许没那么重要，但事实上，这样有助于你开始结构化的生活轨迹，从每天的第一件事开始。  </p>
-<p><strong>3. 吃早餐</strong>  </p>
-<p>　　绝对重要。  </p>
-<p><strong>4. 先做一天中最重要的事</strong>  </p>
-<p>　　这可绝不是收邮件刷新闻，如果你最佳精力是在早上的话，那就用早上的时间来写代码、设计、解决已拖延的问题。你的注意力会随着时间慢慢消散，在下午再做一些不那么费脑子的事儿。  </p>
-<p><strong>5. 将你的时间分为1-2 小时的小块</strong>  </p>
-<p>　　注意力高度保持一天是不可能的，尤其是创造性活动。将一天的时间分为小块，在时间块之间穿插休息时间。并给每个时间块设定目标，在每个时间段内全力冲刺达到它。  </p>
-<p>　　铁律：这是全身心沉浸的时段。不要在此期间收邮件刷微博，这会分散注意力，时间迅速溜走。  </p>
-<p><strong>6. 休息时间</strong>  </p>
-<p>　　在休息时上网、聊天、看视频、吃零食、做做杂事儿。这样你也没理由从专注任务里抽身，因为已经给休息留出了时间。在此期间可以随意放松。  </p>
-<p><strong>7. 给运动留出具体时间并且严格遵守</strong>  </p>
-<p>　　当你说“我一会儿再去”的时候，结果往往是再也不会去了。给自己定个具体的时间，在日历上标注。闹铃一响，起身就走。  </p>
-<p>　　小贴士：如果你的运动时间，定在早晨 2 小时“专注工作时间”之后，那可以早起直接穿好运动的衣服。  </p>
-<p><strong>8. 在家里储备好食物</strong>  </p>
-<p>　　试想你冰箱空了会发生什么。花时间去想中午吃什么，什么好吃什么不好吃，决定好了再出门，出去吃的还不一定健康。在吃完回家的时候，时间已经溜走一大把了。学着成熟点儿，在冰箱里储备好食物。  </p>
-<p><strong>9. 出门遛弯儿</strong>  </p>
-<p>　　选个你自己的“最爱”。咖啡厅，工作室等。任何一个能让你起身出门且有 wifi 的地方。环境的改变能帮助你调节注意力让你放松。  </p>
-<p><strong>10. 知道什么时候该是终点</strong>  </p>
-<p>　　晚上累了的时候很难有好的工作产出。这时非要熬夜就不明智了。知道自己状态，知道什么时候该休息，然后再开始新的一天吧。  </p>
-<p>　　自从给我的一天定下如此铁板钉钉的 8 小时安排，现在反而有更多自由的时间去做别的事。  </p>
-<p>　　这很奇妙，当初让我害怕自由被夺走的事，如今给了我自由。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/407.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1139,11 +1110,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1152,22 +1123,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1191,6 +1146,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1207,19 +1174,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1251,10 +1218,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
@@ -1268,6 +1231,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1296,6 +1263,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1331,15 +1302,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1364,6 +1335,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1403,11 +1378,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1427,10 +1402,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1443,15 +1414,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1475,15 +1446,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1515,15 +1486,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1531,11 +1494,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1543,11 +1502,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1556,6 +1519,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1575,19 +1546,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

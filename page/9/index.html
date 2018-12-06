@@ -147,6 +147,98 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-python-e7-9a-84if-e8-a1-a8-e8-be-be-e5-bc-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/955.html">Python的if表达式</a>
+    </h1>
+  
+
+        
+        <a href="/955.html" class="archive-article-date">
+  	<time datetime="2015-11-26T02:30:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般的逻辑判断语句就不解释了<br>解释下if表达式<br>代码：</p>
+<pre><code>a, b, c = 1, 2, 3
+c = a if a&amp;gt;b else b
+print(c)
+</code></pre><pre><code>
+最终的结果是2,解释为如果a&gt;b那么c=a，不然就c=b。类似于C#的语法:
+</code></pre><p> c=a&gt;b?a:b</p>
+<p>上面这种语法结果貌似在其他语言中更常见。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/955.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-django-cache-e6-96-87-e4-bb-b6-e7-bc-93-e5-ad-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1572,176 +1664,6 @@ public class User
 
 
   
-    <article id="post-django-e5-ad-a6-e4-b9-a0-e7-ac-94-e8-ae-b0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/912.html">Django学习笔记</a>
-    </h1>
-  
-
-        
-        <a href="/912.html" class="archive-article-date">
-  	<time datetime="2015-10-30T02:37:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-10-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="查看安装版本"><a href="#查看安装版本" class="headerlink" title="查看安装版本:"></a>查看安装版本:</h4><pre><code>import django
-print(django.get_version\(\)) # 1.8.2
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 创建一个项目:</div></pre></td></tr></table></figure>
-<p>   django-admin startproject mysite</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">可以生成如下结构的文件夹：</div></pre></td></tr></table></figure>
-<p>   mysite/<br>        manage.py<br>        mysite/<br>            <strong>init</strong>.py<br>            settings.py<br>            urls.py<br>            wsgi.py</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">默认的，下列app 会随着django的安装而默认的被使用：</div><div class="line">By default, INSTALLED_APPS contains the following apps, all of which come with Django:</div><div class="line">django.contrib.admin – The admin site. </div><div class="line">django.contrib.auth – An authentication system.</div><div class="line">django.contrib.contenttypes – A framework for content types.</div><div class="line">django.contrib.sessions – A session framework.</div><div class="line">django.contrib.messages – A messaging framework.</div><div class="line">django.contrib.staticfiles – A framework for managing static files.</div><div class="line"></div><div class="line">#### 初始化数据库:</div></pre></td></tr></table></figure>
-<p>   python manage.py migrate</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 启动测试服务器:</div></pre></td></tr></table></figure>
-<p>   python manage.py runserver 8080</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">如果不加后面的8080端口号的话则默认使用8000，如果8000没有被其他程序占用的话。</div><div class="line"></div><div class="line">### app部分</div><div class="line"></div><div class="line">#### 创建一个app:</div></pre></td></tr></table></figure>
-<p>   python manage.py startapp polls</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这段代码会创建如下格式的文件夹结果</div></pre></td></tr></table></figure>
-<p>   polls/<br>        <strong>init</strong>.py<br>        admin.py<br>        migrations/<br>            <strong>init</strong>.py<br>        models.py<br>        tests.py<br>        views.py</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 创建模型:</div></pre></td></tr></table></figure>
-<p>   from django.db import models</p>
-<pre><code>class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField(&apos;date published&apos;)
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">模型都继承自类`models.Model`,对应的一个属性就对应一个数据库字段。以`Quesiton`为例，其有两个字段`question_text`和`pub_date`，分别为`Char`类型(长度为200)和`DateTime`类型。</div><div class="line">最大长度的问题：[max_length](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.CharField.max_length),默认值的问题:[default](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.Field.default),外键的问题:[models.ForeignKey](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.ForeignKey)!</div><div class="line">值得注意的是上述类型中我们并没有为每一个类定义id字段。</div><div class="line">然后将新建的app加入到项目中。`INSTALLED_APPS=( ...,&apos;polls&apos;)`</div><div class="line">然后再使用迁移的方法新建数据库</div></pre></td></tr></table></figure>
-<p>   python manage.py makemigrations polls</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">上述模型代码会为我们生成如下的sql语句,通过命令`python manage.py sqlmigrate polls 0001`我们可以参考到</div></pre></td></tr></table></figure>
-<p>   BEGIN;<br>    CREATE TABLE “polls_choice” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “choice_text” varchar(200) NOT NULL,<br>        “votes” integer NOT NULL<br>    );<br>    CREATE TABLE “polls_question” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “question_text” varchar(200) NOT NULL,<br>        “pub_date” timestamp with time zone NOT NULL<br>    );<br>    ALTER TABLE “polls_choice” ADD COLUMN “question_id” integer NOT NULL;<br>    ALTER TABLE “polls_choice” ALTER COLUMN “question_id” DROP DEFAULT;<br>    CREATE INDEX “polls_choice_7aa0f6ee” ON “polls_choice” (“question_id”);<br>    ALTER TABLE “polls_choice”<br>      ADD CONSTRAINT “polls_choice_question_id_246c99a640fbbd72_fk_polls_question_id”<br>        FOREIGN KEY (“question_id”)<br>        REFERENCES “polls_question” (“id”)<br>        DEFERRABLE INITIALLY DEFERRED;</p>
-<pre><code>COMMIT;
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*   可见上述sql语句自动为我们生成了主键id，当然我们也可以自己加上 ,</div><div class="line">*   表名称为app名+类名(全小写)！</div><div class="line">*   外键的名字默认为外键名+_id!</div><div class="line">*   会根据使用的不同数据库来生成符合不同数据库规范的sql语句</div><div class="line">*   `sqlmigrate`语句并没有执行，而仅仅是生成了sql.如果想要执行的话就需要运行命令:`python manage.py migrate`</div><div class="line"></div><div class="line">    #### 本地使用model的api</div><div class="line"></div><div class="line">    进入脚本模式`python manage.py shell`</div><div class="line">    然后可执行一些语句来直接操作数据库了；</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from polls.models import Question, Choice<br>Question.objects.all()<br>    []<br>from django.utils import timezone<br>q = Question(question_text=”What’s new?”, pub_date=timezone.now())<br>q.save()<br>q.id<br>    1<br>q.question_text<br>    “What’s new?”<br>q.pub_date<br>    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<utc>)</utc></p>
-<pre><code># Change values by changing the attributes, then calling save\(\).
-</code></pre><p>q.question_text = “What’s up?”<br>q.save()</p>
-<pre><code># objects.all\(\) displays all the questions in the database.
-</code></pre><p>Question.objects.all()<br>    [<question: question="" object="">]</question:></p>
-</blockquote>
-</blockquote>
-</blockquote>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 自带的Admin管理后台</div><div class="line"></div><div class="line">#### 创建一个超级管理员</div></pre></td></tr></table></figure>
-<p>   python manage.py createsuperuser<br>    Username:admin<br>    Email address:admin@example.com<br>    password:<br>    Password(again):<br>    Superuser created successfully.</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这样就可以在启动测试服务器之后在网址:hostname/admin中进入后台。</div><div class="line">如果过程出错的话确保admin模块配置正确和Url配置正确。系统已经默认生成了用户组合用户模块以及基本的权限控制。</div><div class="line">进入polls/admin.py让我们新建的app能够在后台中编辑内容。</div></pre></td></tr></table></figure>
-<p>   from django.contrib import admin<br>    from .models import Question</p>
-<pre><code>admin.site.regitster(Question)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">*   表单是系统根据我们的Question模型生成的。</div><div class="line">*   模型的不同字段会生成不同的输入框类型。例如时间格式的会显示成日期选择器。</div><div class="line">    后台还会记录用户操作的记录。</div><div class="line"></div><div class="line">    #### 自定义表单</div><div class="line"></div><div class="line">    将Question注册到admin的代码修改成：</div></pre></td></tr></table></figure>
-<p>   from django.contrib import admin<br>    from .models import Question</p>
-<pre><code>class QuestionAdmin(admin.MOdelAdmin):
-    fields = [&apos;pub_date&apos;, &apos;question_text&apos;]
-
-admin.site.register(Question,QuestionAdmin)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这样就能够使用QuesitonAdmin类来替代Question来注册到后台中。可以将QuestionAdmin定义区块来显示：</div></pre></td></tr></table></figure>
-<p>   class QuestionAdmin(admin.ModelAdmin):<br>        fieldsets = [<br>            (None,               {‘fields’: [‘question_text’]}),<br>            (‘Date information’, {‘fields’: [‘pub_date’]}),<br>        ]</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">可以增加collapse来对某一组数据进行隐藏：</div></pre></td></tr></table></figure>
-<p>   class QuestionAdmin(admin.ModelAdmin):<br>        fieldsets = [<br>            (None,               {‘fields’: [‘question_text’]}),<br>            (‘Date information’, {‘fields’: [‘pub_date’], ‘classes’: [‘collapse’]}),<br>        ]</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 增加关联数据</div><div class="line"></div><div class="line">第一种方式为和上面增加Quesiton时一样直接注册。这种方式在编辑或者添加的时候会有一个下拉框来让使用者选择这个是属于哪一个关联者。可以想到的使用场景为某一文章选择该文章的所属类型。</div><div class="line"></div><div class="line">第二种方式为在编辑Question的时候直接提供编辑其选项的功能：这里的编辑问题时直接编辑选项使用这种方式显然更为合理。</div></pre></td></tr></table></figure>
-<p>   from django.contrib import admin<br>    from .models import Choice, Question<br>    class ChoiceInline(admin.StackedInline):<br>        model = Choice<br>        extra = 3</p>
-<pre><code>class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {&apos;fields&apos;: [&apos;question_text&apos;]}),
-        (&apos;Date information&apos;, {&apos;fields&apos;: [&apos;pub_date&apos;], &apos;classes&apos;: [&apos;collapse&apos;]}),
-    ]
-    inlines = [ChoiceInline]
-
-admin.site.register(Question, QuestionAdmin)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">可以将`StackedInline`替换成`TabularInline`来时显示更加简洁，表格化：</div></pre></td></tr></table></figure>
-<p>   class ChoiceInline(admin.TabularInline):</p>
-<pre><code>#...
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 自定义admin变化列表</div><div class="line"></div><div class="line">默认的。django会显示模型的`str\(\)`方法作为列表的内容。但是如果我们想要显示更多的内容就需要使用`list_display`选项了.。</div></pre></td></tr></table></figure>
-<p>   class QuestionAdmin(admin.ModelAdmin):</p>
-<pre><code># ...
-list_display = (&apos;question_text&apos;, &apos;pub_date&apos;， &apos;was_published_recently&apos;)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这样做了以后会在列表页显示三列来展示每一条数据。您甚至可以点击列头来根据该字段来调整排列顺序。</div><div class="line">增加调整model的某些方法的返回值可以调整显示在列表中的值：</div></pre></td></tr></table></figure>
-<p>   class Question(models.Model):</p>
-<pre><code># ...
-def was_published_recently(self):
-    return self.pub_date &gt;= timezone.now\(\) - datetime.timedelta(days=1)
-was_published_recently.admin_order_field = &apos;pub_date&apos;
-was_published_recently.boolean = True
-was_published_recently.short_description = &apos;Published recently?&apos;
-</code></pre><p>可以使用<code>list_filter</code>选项来增加右侧的过滤器。例如使用<code>list_filter =[&#39;pub_date&#39;]</code>让系统自动的为我们生成”今天“，”最近7天“，”本月“，”本年“，”不限“等选项。<br>可以为列表的表头中添加搜索列，使用   <code>search_fields</code> 选项，例如使用<code>search_fields = [&#39;question_text&#39;]</code> 选项来让列表中可以根据标题来搜索选项。<br><a href="https://docs.djangoproject.com/en/1.8/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_per_page" target="_blank" rel="external">调整每一页显示的数量</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/912.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
@@ -1835,11 +1757,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1848,22 +1770,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1887,6 +1793,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1903,19 +1821,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1947,10 +1865,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
@@ -1964,6 +1878,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1992,6 +1910,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2027,15 +1949,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2060,6 +1982,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2099,11 +2025,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2123,10 +2049,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -2139,15 +2061,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2171,15 +2093,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2211,15 +2133,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2227,11 +2141,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2239,11 +2149,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2252,6 +2166,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2271,19 +2193,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

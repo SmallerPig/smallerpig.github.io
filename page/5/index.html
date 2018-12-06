@@ -147,6 +147,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e7-9c-9f-e6-98-af-e4-b8-aa-e6-92-a9-e4-ba-ba-e7-9a-84-e5-b0-8f-e5-a6-96-e7-b2-be-ef-bc-81-e8-b0-88-e8-b0-88python-e7-9a-84-e7-bc-96-e7-a0-81-e9-97-ae-e9-a2-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1158.html">真是个撩人的小妖精！谈谈python的编码问题</a>
+    </h1>
+  
+
+        
+        <a href="/1158.html" class="archive-article-date">
+  	<time datetime="2017-02-24T06:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上两天编写了个小工具程序，读取文件信息并输出适当数据到控制台。程序本身没什么难度，但是编码问题确实恶心到我了。同样的程序，在mac下跑没问题，在Windows下跑就有问题；在pycharm上面的终端上跑没问题，到系统自带的terminal上面跑又有问题。真是哔了狗了呀！</p>
+<p>简单搜索下就可以发现在python下面确实很多人遇到或者曾经遇到过python的这个编码问题。<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1fd0h8vsnoxj210s12edrw.jpg" alt=""><br><strong>作为程序员，你一定遇到过中文编码的问题。</strong></p>
+<h2 id="编码基础"><a href="#编码基础" class="headerlink" title="编码基础"></a>编码基础</h2><p>就像不同的国家使用不同的语言一样，小猪面对不会中文的同学时也是一脸懵逼。计算机也是一样，不同的地区使用不同的语言，而计算机只认识0和1。怎么让这些0和1显示成人能理解的字符呢？</p>
+<p>首先登场的是ASCII码。</p>
+<h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>ASCII码，每一个字符都会对应一个ASCII码，占一个字节，早期的电脑是美国人发明的，所以最开始的时候ASCII码是只有127个的。例如0123456789a-zA-Z。发展到中国的时候，原本的这些ASCII码显然已经不够用了，所以中国制定了GB2312码，占两个字节。</p>
+<p>可是这只解决了中文的问题，那韩文日文法文怎么办呢？每个国家都制定一个编码？那一个语言的输出到另外的国家的编码里显然会出现了所谓的乱码。所以，编码真是个让人头疼的问题啊。尤其是在编写python2程序的时候。</p>
+<p>为了解决上述问题，另外一个名词就出现了：Unicode，占用两字节，目前大多数操作系统都支持该编码。</p>
+<h3 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h3><p>Unicode（中文：万国码、国际码、统一码、单一码）是计算机科学领域里的一项业界标准。它对世界上大部分的文字系统进行了整理、编码，使得电脑可以用更为简单的方式来呈现和处理文字 –<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="external">维基百科</a></p>
+<blockquote>
+<p>字母A用ASCII编码是二进制的<code>01000001</code>，十进制的65；<br>字符0用ASCII编码是二进制的<code>00110000</code>，十进制的48，注意字符’0’和整数0是不同的；<br>汉字中已经超出了ASCII编码的范围，用Unicode编码是十进制的20013，二进制的01001110 00101101。<br>你可以猜测，如果把ASCII编码的A用Unicode编码，只需要在前面补0就可以，因此，A的Unicode编码是00000000 01000001。</p>
+</blockquote>
+<p>所以，Unicode其实是包含了ASCII码的表示范围的，只是如果ASCII码在不够使用的情况下使用Unicode来表示。在使用Unicode码的时候，本身能够使用ASCII码的数据只需在前面补足一个字节的00000000就可以了。<br>可是在早期的计算机系统当中，存储数据的空间是非常昂贵的。虽然是满足了所有字符能够表示的问题，但是多出来毫无意义的一个字节也是要占用空间的。<br>这个时候又出现了我们经常提到用到的<code>UTF-8</code>编码.</p>
+<h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>他就是所谓的变长编码，当表示的字符能够用一个字节来表示是，他就占用一个字节，当当前字符需要使用两个字节的空间来表示时，他就占用两个字节，特殊情况下可能用到三个字节甚至四个字节。</p>
+<p>所以在计算机的内存中，是使用0和1的ASCII码，当存储到硬盘或者需要显示的时候，程序将其转换成对应的UTF-8码。</p>
+<h2 id="python的编码"><a href="#python的编码" class="headerlink" title="python的编码"></a>python的编码</h2><p>python可是在Unicode发布之前就已经出身了。所以他出身之后的事情在出身时当然是不知道的。<br>所以python2的默认编码为ascii，python3的默认编码为utf-8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; sys.getdefaultencoding\(\)</div><div class="line">&apos;ascii&apos;</div></pre></td></tr></table></figure></p>
+<p>python提供了内置函数来查看字符的ASCII码！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; ord(&apos;Z&apos;)</div><div class="line">    90</div><div class="line">&gt;&gt;&gt; chr(90)</div><div class="line">    &apos;Z&apos;</div></pre></td></tr></table></figure>
+<p>在后来的版本中，python提供了对Unicode的支持，但是必须要在字符的前面加上字母u:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; print(u&quot;小猪&quot;)</div><div class="line">小猪</div><div class="line">&gt;&gt;&gt; u&quot;小猪&quot;</div><div class="line">u&apos;\u5c0f\u732a&apos;</div><div class="line">&gt;&gt;&gt; &quot;小猪&quot;</div><div class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</div><div class="line">&gt;&gt;&gt; u&quot;小猪&quot;.encode(&apos;utf-8&apos;)</div><div class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</div><div class="line">u&apos;\u5c0f\u732a&apos;.encode(&apos;utf-8&apos;)</div><div class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</div><div class="line">&gt;&gt;&gt; &apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;.decode(&apos;utf-8&apos;)</div><div class="line">u&apos;\u5c0f\u732a&apos;</div></pre></td></tr></table></figure>
+<p>所以，字符<code>u&#39;\u5c0f\u732a&#39;</code>和<code>u&quot;小猪&quot;</code>对python来说是一样的。但是对于只看输出结果的<strong>人</strong>来说就不一样了，所以才会出现文章一开始的时候提到的让小猪头疼的输出乱码问题。<br>上面代码的第三部分是把字符’小猪’当做utf-8来打印了。所以在使用utf-8来decode的时候能够解析出来<code>u&#39;\u5c0f\u732a&#39;</code></p>
+<p>一般我们需要在python文件的开头标识当前文件使用哪个编码格式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#!/usr/bin/env python</div><div class="line"># -*- coding: utf-8 -*-</div></pre></td></tr></table></figure>
+<p>这样在打印中文的时候就不会报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">print(&quot;小猪&quot;)</div><div class="line"># SyntaxError: Non-ASCII character &apos;\xe5&apos; in file /Users/smallerpig/Desktop/demo.py on line 1, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details</div></pre></td></tr></table></figure>
+<p>可是在还有一些情况下，例如开头时说的，很多字符是从别的库里面引用进来的，这样我们并不能保证得到的每个字符串的编码都是一致的。这时候就要根据得到的字符的具体的编码来使用decode方法来进行解码然后来显示了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1158.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e6-9c-80-e8-bf-91-e5-be-88-e5-a4-9a-e5-8d-b1-e6-9c-ba-e5-95-8a" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -977,113 +1090,6 @@
 
 
   
-    <article id="post-e5-9c-a8django-e7-9a-84admin-e4-b8-ad-e4-bd-bf-e7-94-a8-e4-ba-8c-e7-ba-a7-e8-81-94-e5-8a-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1125.html">在django的admin中使用二级联动(附源码)</a>
-    </h1>
-  
-
-        
-        <a href="/1125.html" class="archive-article-date">
-  	<time datetime="2016-11-18T09:26:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直尝试寻找不用自定义的方法，例如看到mdoel的各个Field的属性里面有一个叫做<code>choices</code>的属性，眼前一亮。仔细看文档或者网上找了也不是这么个用法，看到有<code>limit_choices_to</code>这个属性心想这应该差不多了吧，结果使用起来也不是那么顺利。<br>仔细想想也不太可能提供好本身只能由ajax才能做的事情，这个确实是太为难人家Django了。</p>
-<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>首先要解决的就是二级联动到底是个什么样的过程，<br>一般在使用到的地方比较典型的是城市的选择：先选择省份、再根据身份选择市、再下面是县或者更详细的信息。<br>看看数据结构可能会发现我们最终想要的其实是一个省份+市+*的结果，也就是最终的地址。所以在数据库里面通常会有省份表(province)、市表(city)，再加上我们想要的address表。city表有一个外键是是province_id；address表有province表的外键，也有city表的外键。<br>小猪只是拿简单的数据结构来解释面临的问题，其实不仅仅是局限于省市的联动，我们的程序中有很多类似的场景。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>默认的django会自动根据我们定义的模型生成form给admin使用，使用到这个form的地方分别是change和add的时候。<br>最终生成的结果就是可以选择所有的省，也可以选择所有的市，你看到这篇文章就说明你也发现这并不合理，正确的应该是在选择某个省的时候在市的下拉列表里只有该省的城市。<br>恰好，django原生并不能做到这么智能。</p>
-<h2 id="用到的Django知识"><a href="#用到的Django知识" class="headerlink" title="用到的Django知识"></a>用到的Django知识</h2><h3 id="form表单"><a href="#form表单" class="headerlink" title="form表单"></a>form表单</h3><p>默认的django会自动根据我们定义的模型生成form提交给admin页面，我可以使用重载modeladmin的方法来更改这个表单。</p>
-<h3 id="自定义templates"><a href="#自定义templates" class="headerlink" title="自定义templates"></a>自定义templates</h3><p>我们可以在django的admin后台自定义显示的html。</p>
-<h3 id="view-amp-ajax"><a href="#view-amp-ajax" class="headerlink" title="view &amp; ajax"></a>view &amp; ajax</h3><p>当用户选择了一个省的时候需要通过ajax来请求该省下面有哪些城市，view的责任就是来选择有哪些城市。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>下面只是大概代码，具体的代码当然需要根据项目的实际数据结构来做想要的调整。<br>view部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def get_city(request, provience_id):</div><div class="line">    # 根据传递的省的id 查找数据库中该省的城市</div><div class="line">    citys = City.objects.filter(provience_id=provience_id)</div><div class="line">    result = []</div><div class="line">    for i in citys:</div><div class="line">        # 对应的id和城市名称组成一个字典</div><div class="line">        result.append(&#123;&apos;id&apos;:i.id, &apos;name&apos;:i.name&#125;)</div><div class="line">    # 返回json数据</div><div class="line">    return HttpResponse(json.dumps(result), content_type=&quot;application/json&quot;)</div></pre></td></tr></table></figure></p>
-<p>有了view部分代码之后需要之后我们需要能够调用到该view的ajax，所以在项目的templates文件夹下的下列目录中加入对应的<code>change_form.html</code>(只有change,没有add)文件</p>
-<blockquote>
-<p>/templates/admin/appname/address/change_form.html</p>
-</blockquote>
-<p>html代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">\&#123;\% extends &quot;admin/change_form.html&quot; \%\&#125;</div><div class="line"></div><div class="line">&#123;% block extrahead %&#125;</div><div class="line">&#123;&#123; block.super &#125;&#125;</div><div class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;&#123;% url &apos;admin:jsi18n&apos; %&#125;&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">    django.jQuery(function\(\) &#123;</div><div class="line">        var select = django.jQuery(&quot;#id_provience&quot;);</div><div class="line">        select.change(function\(\)&#123;</div><div class="line">            console.log(&quot;value change&quot;+django.jQuery(this).val\(\))</div><div class="line">            var url = &quot;/appname/get_city/&quot;+django.jQuery(this).val\(\);//能够正确的访问到view的url</div><div class="line">            console.log(url);</div><div class="line">            django.jQuery.get(</div><div class="line">                url,</div><div class="line">                function(data)&#123;</div><div class="line">                    var target = django.jQuery(&quot;#id_city&quot;);</div><div class="line">                    target.empty\(\);//先要清空一下</div><div class="line">                    data.forEach(function(e)&#123;</div><div class="line">                        // 将从view得到的id和城市名称赋值给city的select</div><div class="line">                        target.append(&quot;&lt;option value=&apos;&quot;+e.id+&quot;&apos;&gt;&quot;+e.name+&quot;&lt;option&gt;&quot;);</div><div class="line">                        target.eq(0).attr(&apos;selected&apos;, &apos;true&apos;);</div><div class="line">                    &#125;);</div><div class="line">            &#125;)</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">    &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
-<p>文件位置放的正确以后在添加address时django会加载该html文件取代默认的add_form.html文件。<br>好了，核心代码就是上面的两段。我们就可以实现了对应的二级联动，如果想要实现三级联动，思路都是一样的。<br>done!!</p>
-<p>项目源码：<a href="https://github.com/SmallerPig/django-demo" target="_blank" rel="external">https://github.com/SmallerPig/django-demo</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">二级联动</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1125.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1177,11 +1183,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1190,22 +1196,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1229,6 +1219,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1245,19 +1247,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1289,10 +1291,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
@@ -1306,6 +1304,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1334,6 +1336,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1369,15 +1375,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1402,6 +1408,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1441,11 +1451,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1465,10 +1475,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1481,15 +1487,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1513,15 +1519,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">bug</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1553,15 +1559,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1569,11 +1567,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1581,11 +1575,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
+                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1594,6 +1592,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1613,19 +1619,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
