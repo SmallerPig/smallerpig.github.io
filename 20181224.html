@@ -6,24 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>拆解Cherry3850了 | 朱启的个人博客</title>
+  <title>springboot源码学习-自动配置 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="小猪在去年的这个时候剁手搞了个cherry 3850.一年过去了，虽然小猪平时保持了不在使用它的时候抽烟，不在使用它的时候吃东西。但是它还是积了不少灰了，是时候给它来个清洗了。正好这几天处于工作的真空期，手上的要忙的东西相对比较少。晚上抽了点时间将自己的键盘拆下了进行除灰。可以看到，虽然小猪平时爱护有加，但是还是很难避免的将一些小东西给弄到键盘里，加上平时公司老鼠猖獗的程度，很轻易的就能想到它会不">
+  <meta name="description" content="今天平安夜，本来以为会是不醉不归的一晚，却跟兄弟们简单吃了点，回来之后通过写几行代码来平静心情。这些天经历了很多事情，心态有个很大的起伏，这期间得到了一些也失去了一些，这些都不重要了，心安即是归处。做好眼前的事情吧，很多年以后回头来看都只是一些经历，人还是要向前看的，你们说是么？ 说好的一切还得继续，太阳明天还会照常升起（虽然最近一直阴天）,自己只是在庸人自扰罢了！  还是来继续看看spring-">
+<meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拆解Cherry3850了">
-<meta property="og:url" content="http://blog.smallerpig.com/1034.html">
+<meta property="og:title" content="springboot源码学习-自动配置">
+<meta property="og:url" content="http://blog.smallerpig.com/20181224.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="小猪在去年的这个时候剁手搞了个cherry 3850.一年过去了，虽然小猪平时保持了不在使用它的时候抽烟，不在使用它的时候吃东西。但是它还是积了不少灰了，是时候给它来个清洗了。正好这几天处于工作的真空期，手上的要忙的东西相对比较少。晚上抽了点时间将自己的键盘拆下了进行除灰。可以看到，虽然小猪平时爱护有加，但是还是很难避免的将一些小东西给弄到键盘里，加上平时公司老鼠猖獗的程度，很轻易的就能想到它会不">
+<meta property="og:description" content="今天平安夜，本来以为会是不醉不归的一晚，却跟兄弟们简单吃了点，回来之后通过写几行代码来平静心情。这些天经历了很多事情，心态有个很大的起伏，这期间得到了一些也失去了一些，这些都不重要了，心安即是归处。做好眼前的事情吧，很多年以后回头来看都只是一些经历，人还是要向前看的，你们说是么？ 说好的一切还得继续，太阳明天还会照常升起（虽然最近一直阴天）,自己只是在庸人自扰罢了！  还是来继续看看spring-">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/88e12591gw1f3xlswapyij21kw16ohdd.jpg">
-<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/88e12591gw1f3xlsxgwwtj21kw16o4qa.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/88e12591gw1f3xlsyjgsaj21kw16o1kx.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/88e12591gw1f3xm79plmrj21kw23u7wh.jpg">
-<meta property="og:updated_time" content="2017-09-25T00:57:45.000Z">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fyi7nvrjqvj30dw08o3yu.jpg">
+<meta property="og:updated_time" content="2018-12-24T14:37:33.023Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拆解Cherry3850了">
-<meta name="twitter:description" content="小猪在去年的这个时候剁手搞了个cherry 3850.一年过去了，虽然小猪平时保持了不在使用它的时候抽烟，不在使用它的时候吃东西。但是它还是积了不少灰了，是时候给它来个清洗了。正好这几天处于工作的真空期，手上的要忙的东西相对比较少。晚上抽了点时间将自己的键盘拆下了进行除灰。可以看到，虽然小猪平时爱护有加，但是还是很难避免的将一些小东西给弄到键盘里，加上平时公司老鼠猖獗的程度，很轻易的就能想到它会不">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/88e12591gw1f3xlswapyij21kw16ohdd.jpg">
+<meta name="twitter:title" content="springboot源码学习-自动配置">
+<meta name="twitter:description" content="今天平安夜，本来以为会是不醉不归的一晚，却跟兄弟们简单吃了点，回来之后通过写几行代码来平静心情。这些天经历了很多事情，心态有个很大的起伏，这期间得到了一些也失去了一些，这些都不重要了，心安即是归处。做好眼前的事情吧，很多年以后回头来看都只是一些经历，人还是要向前看的，你们说是么？ 说好的一切还得继续，太阳明天还会照常升起（虽然最近一直阴天）,自己只是在庸人自扰罢了！  还是来继续看看spring-">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fyi7nvrjqvj30dw08o3yu.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -151,33 +149,48 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-e6-8b-86-e8-a7-a3cherry3850-e4-ba-86" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-springboot源码学习-自动配置" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      拆解Cherry3850了
+      springboot源码学习-自动配置
     </h1>
   
 
         
-        <a href="/1034.html" class="archive-article-date">
-  	<time datetime="2016-05-16T14:56:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-16</time>
+        <a href="/20181224.html" class="archive-article-date">
+  	<time datetime="2018-12-24T13:52:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>小猪在去年的这个时候剁手搞了个<a href="http://www.smallerpig.com/693.html" target="_blank" rel="external">cherry 3850</a>.一年过去了，虽然小猪平时保持了不在使用它的时候抽烟，不在使用它的时候吃东西。但是它还是积了不少灰了，是时候给它来个清洗了。<br>正好这几天处于工作的真空期，手上的要忙的东西相对比较少。晚上抽了点时间将自己的键盘拆下了进行除灰。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f3xlswapyij21kw16ohdd.jpg" alt="打开一看，里面各种灰尘"><br>可以看到，虽然小猪平时爱护有加，但是还是很难避免的将一些小东西给弄到键盘里，加上平时公司老鼠猖獗的程度，很轻易的就能想到它会不会有意没意的在我这赖以生存的家伙上吃喝拉撒睡。真是越想越不敢想呢！！！<br>赶紧动起手来吧！</p>
-<p>不知道是什么时候买东西送的清洁泥派上用场了！</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/88e12591gw1f3xlsxgwwtj21kw16o4qa.jpg" alt="清洁泥"><br>左右对比下清洁过的地方和没清洁过的地方，差距还是很容易看得出来的，只是……那清洁泥上面不明的毛发是什么鬼？（邪恶脸……）</p>
-<p>擦完了底盘之后给键帽也一颗一颗的擦拭，真是比给自己洗澡还要细心。</p>
-<p>弄完了要组装回去。。。</p>
-<p><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1f3xlsyjgsaj21kw16o1kx.jpg" alt="组装回去">。<br>来个组装过程中的图，和最上面的比起来应该已经好很多了。</p>
-<p>组装好了之后果然是好了不少了有没有？<br><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1f3xm79plmrj21kw23u7wh.jpg" alt="之后"><br>这样，它就又可以欢快的服役了。</p>
+        <p>今天平安夜，本来以为会是不醉不归的一晚，却跟兄弟们简单吃了点，回来之后通过写几行代码来平静心情。这些天经历了很多事情，心态有个很大的起伏，这期间得到了一些也失去了一些，这些都不重要了，心安即是归处。做好眼前的事情吧，很多年以后回头来看都只是一些经历，人还是要向前看的，你们说是么？</p>
+<p>说好的一切还得继续，太阳明天还会照常升起（虽然最近一直阴天）,自己只是在庸人自扰罢了！</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fyi7nvrjqvj30dw08o3yu.jpg" alt=""></p>
+<p>还是来继续看看spring-boot的源码吧。</p>
+<a id="more"></a>
+<h2 id="自动配置-auto-configuration"><a href="#自动配置-auto-configuration" class="headerlink" title="自动配置 auto-configuration"></a>自动配置 auto-configuration</h2><p>在查看注解<code>SpringBootApplication</code>的源码时会发现这个注解上面有开启自动配置<code>EnableAutoConfiguration</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(ElementType.TYPE)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Inherited</span></div><div class="line"><span class="meta">@SpringBootConfiguration</span></div><div class="line"><span class="meta">@EnableAutoConfiguration</span></div><div class="line"><span class="meta">@ComponentScan</span>(excludeFilters = &#123;</div><div class="line">		<span class="meta">@Filter</span>(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),</div><div class="line">		<span class="meta">@Filter</span>(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SpringBootApplication &#123;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>启用了<code>`EnableAutoConfiguration</code>注解之后，springboot 会自动”猜“你想要做哪些事情，例如如果是web程序，他会猜你需要启动tomcat、然后启动监听，如果你引入了MysalDataSource，那就猜需要连接mysql数据库，并且默认的使用localhost:3306的连接信息来尝试连接。</p>
+<p>那springboot怎么知道我们在哪些时候加载配置呢？答案就在Condtion系列注解</p>
+<h2 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h2><p>Condition系列注解包含了一系列判断条件，例如ConditionalOnClass，意思是告诉程序在只有存在某类时该配置才会生效。<br>其中包含:</p>
+<p>@ConditionalOnClass和@ConditionalOnMissingClass<br>ConditionalOnBean和ConditionalOnMissingBean<br>@ConditionalOnProperty<br>@ConditionalOnResource<br>@ConditionalOnWebApplication和@ConditionalOnNotWebApplication<br>@ConditionalOnExpression注释允许基于一个的结果被包括配置<a href="https://docs.spring.io/spring/docs/4.3.9.RELEASE/spring-framework-reference/htmlsingle/#expressions" target="_blank" rel="external">使用SpEL表达</a></p>
+<p>当然使用最多的就是ConditionalOnClass和ConditionalOnMissingClass</p>
+<h2 id="spring-factories"><a href="#spring-factories" class="headerlink" title="spring.factories"></a>spring.factories</h2><p>springboot 会检查所有jar包下的<code>META-INF/spring.factories</code>文件，这个文件中<code>EnableAutoConfiguration</code> 的KEY下面罗列了需要自动配置的类，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Auto Configure</div><div class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</div><div class="line">org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration</div></pre></td></tr></table></figure></p>
+<p>上述的MybatisAutoConfiguration类的代码是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@org</span>.springframework.context.annotation.Configuration</div><div class="line"><span class="meta">@ConditionalOnClass</span>(&#123; SqlSessionFactory.class, SqlSessionFactoryBean.class &#125;)</div><div class="line"><span class="meta">@ConditionalOnBean</span>(DataSource.class)</div><div class="line"><span class="meta">@EnableConfigurationProperties</span>(MybatisProperties.class)</div><div class="line"><span class="meta">@AutoConfigureAfter</span>(DataSourceAutoConfiguration.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisAutoConfiguration</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">final</span> MybatisProperties properties;</div><div class="line">  </div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中MybatisProperties中可以看到我们经常在application.properties或者application.yml里的配置：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ConfigurationProperties</span>(prefix = MybatisProperties.MYBATIS_PREFIX)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisProperties</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MYBATIS_PREFIX = <span class="string">"mybatis"</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Location of MyBatis xml config file.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> String configLocation;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Locations of MyBatis mapper files.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> String[] mapperLocations;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Packages to search type aliases. (Package delimiters are ",; \t\n")</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> String typeAliasesPackage;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Packages to search for type handlers. (Package delimiters are ",; \t\n")</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> String typeHandlersPackage;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Indicates whether perform presence check of the MyBatis xml config file.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> checkConfigLocation = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Execution mode for &#123;<span class="doctag">@link</span> org.mybatis.spring.SqlSessionTemplate&#125;.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> ExecutorType executorType;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * Externalized properties for MyBatis configuration.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="keyword">private</span> Properties configurationProperties;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * A Configuration object for customize default settings. If &#123;<span class="doctag">@link</span> #configLocation&#125;</span></div><div class="line"><span class="comment">   * is specified, this property is not used.</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  <span class="meta">@NestedConfigurationProperty</span></div><div class="line">  <span class="keyword">private</span> Configuration configuration;</div></pre></td></tr></table></figure></p>
+<h2 id="最后做的总结就是"><a href="#最后做的总结就是" class="headerlink" title="最后做的总结就是"></a>最后做的总结就是</h2><p><code>auto-configuration</code>就是一个实现了<code>Configuration</code>接口的类。使用<code>@Conditional</code>注解来限制何时让<code>auto-configuration</code>生效，通常<code>auto-configuration</code>使用<code>ConditionalOnClass</code>和<code>ConditionalOnMissingBean</code>注解，这两注解的确保只有当我们拥有相关类的时候使得<code>@Configuration</code>注解生效。</p>
+<h2 id="创建自定义的starter"><a href="#创建自定义的starter" class="headerlink" title="创建自定义的starter"></a>创建自定义的starter</h2><p>一个完整的Spring Boot starter应该包含下面这些组件：</p>
+<ul>
+<li>autoconfigure 模块包含了自动配置的代码</li>
+<li>starter模块提供了一个autoconfigure的模块和其他额外的依赖。</li>
+</ul>
+<p>所以我决定下一篇将带领大家动手自己写一个starter，这个starter来实现一些自动配置的功能。</p>
 
       
 
@@ -212,13 +225,24 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -273,7 +297,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://blog.smallerpig.com/1034.html" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://blog.smallerpig.com/20181224.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -287,18 +311,9 @@
   
 <nav id="article-nav">
   
-    <a href="/1039.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          方鸿渐与唐晓芙
-        
-      </div>
-    </a>
   
-  
-    <a href="/1031.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">讽刺的事</div>
+    <a href="/20181206.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot源码学习-程序启动流程-part2</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -339,7 +354,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://blog.smallerpig.com/1034.html",
+  id: "http://blog.smallerpig.com/20181224.html",
   owner: 'SmallerPig',
   repo: 'smallerpig.github.io',
   oauth: {

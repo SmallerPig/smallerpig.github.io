@@ -147,6 +147,172 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jetpack-e7-9a-84markdown-e6-8f-92-e4-bb-b6-e6-94-af-e6-8c-81-e5-93-aa-e4-ba-9b-e6-a0-87-e7-ad-be" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1161.html">Jetpack的MarkDown插件支持哪些标签</a>
+    </h1>
+  
+
+        
+        <a href="/1161.html" class="archive-article-date">
+  	<time datetime="2017-03-03T02:06:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目录：<br>[TOC]</p>
+<p>markdown在程序员这个职业里面是越来越流行了。其官方网站为：<a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="external">http://daringfireball.net/projects/markdown/</a></p>
+<p>得益于jetpack插件，小猪的wordpress博客站点的很多功能都轻而易举的实现了，包括了对小猪喜欢用的Markdown的支持。所以小猪的博客网站在很早之前就开始使用markdown来编写文章。</p>
+<p>但是原生的markdown有很多语法，<br>在这里小猪另外推荐一个markdown编辑器，<a href="http://zrey.com/app/markeditor" target="_blank" rel="external">MarkEditor</a>，使用这个小众的软件来编写Markdown的文章真的是异常的舒爽，相比于一般的在线编辑，这个软件提供了单独的应用程序，好在程序是跨平台的。所以一般小猪是先在MarkEditor上面编辑好文章内容，然后直接到WordPress站点后台发布。<br>这也就是小猪今天写这篇博客的原因了，从MarkEditor的官网上小猪看到很多炫酷的markdown使用方法，还有类似有道云笔记等工具提供了时序图、甘特图等等语法，这些语法是不是jetpack插件都能很好的支持呢，或者说是在WordPress下能不能正常工作呢？包括数学公式，时序图等一系列复杂的玩法。今天小猪来验证一些。<br>小猪经常使用的标签包括：</p>
+<pre><code>*斜体标签*
+** 加粗标签**
+[链接标签](http://www.smallerpig.com)
+![图片标签](http://www.smallerpig.com/123.jpg)
+# 文章标题
+## 二级标题
+### 三级标题
+#### 四级标题
+- 列表项1
+- 列表项2
+&amp;gt; 引用的内容
+--- 
+分割符
+</code></pre><p>行内代码`<br>    \<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">代码块</div><div class="line">\</div></pre></td></tr></table></figure></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    上面的代码的实际渲染效果如下：</div><div class="line">    _斜体标签_</div><div class="line">    ** 加粗标签**</div><div class="line">    [链接标签](http://www.smallerpig.com)</div><div class="line">    ![图片标签](http://www.smallerpig.com/favicon.ico)</div><div class="line"></div><div class="line">    # 文章标题</div><div class="line"></div><div class="line">    ## 二级标题</div><div class="line"></div><div class="line">    ### 三级标题</div><div class="line"></div><div class="line">    #### 四级标题</div><div class="line"></div><div class="line">*   列表项1</div><div class="line">*   列表项2</div><div class="line">    &gt; 引用的内容</div><div class="line"></div><div class="line">    * * *</div><div class="line"></div><div class="line">    分割符</div><div class="line">行内代码`</div><div class="line"></div><div class="line">```  </div><div class="line"></div><div class="line"> 代码块</div></pre></td></tr></table></figure>
+<pre><code>关于jetpack的markdown的说明更多详细信息可以参考：[官方网站](https://jetpack.com/support/markdown/)
+关于wordpress的markdown的说明更多详细信息可以参考：[官方网站](https://en.support.wordpress.com/markdown-quick-reference/)
+
+## 复杂的标签
+
+### 定义：
+
+&lt;dl&gt;
+&lt;dt&gt;WordPress&lt;/dt&gt;
+&lt;dd&gt;A semantic personal publishing platform&lt;/dd&gt;
+
+&lt;dt&gt;Markdown&lt;/dt&gt;
+&lt;dd&gt;Text-to-HTML conversion tool
+从上面的结果来看应该是支持定义标签的。&lt;/dd&gt;
+&lt;/dl&gt;
+
+### 表格
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+  &lt;th&gt;Function name&lt;/th&gt;
+  &lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+  &lt;td&gt;`help\(\)`&lt;/td&gt;
+  &lt;td&gt;Display the help window.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;`destroy\(\)`&lt;/td&gt;
+  &lt;td&gt;**Destroy your computer!**&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+### 流程图
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">st: 起始</div><div class="line">   register: 注册</div><div class="line">   condition: 好人?</div><div class="line">   check: 盘查一下</div><div class="line">   end: 终了</div><div class="line">   st &amp;gt; condition</div><div class="line">   condition(y) &amp;gt; register &amp;gt; end</div><div class="line">   condition(n) &amp;gt; check &amp;gt; register</div></pre></td></tr></table></figure>
+<pre><code>### Diagrams
+
+#### Flow charts
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">st=&amp;gt;start: Start</div><div class="line">   e=&amp;gt;end</div><div class="line">   op=&amp;gt;operation: My Operation</div><div class="line">   cond=&amp;gt;condition: Yes or No?</div><div class="line"></div><div class="line">   st-&amp;gt;op-&amp;gt;cond</div><div class="line">   cond(yes)-&amp;gt;e</div><div class="line">   cond(no)-&amp;gt;op</div></pre></td></tr></table></figure>
+<pre><code>#### Sequence diagrams
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Alice-&amp;gt;Bob: Hello Bob, how are you?</div><div class="line">   Note right of Bob: Bob thinks</div><div class="line">   Bob--&amp;gt;Alice: I am good thanks!</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">TB - top bottom（自上而下）</div><div class="line">   BT - bottom top（自下而上）</div><div class="line">   RL - right left（从右到左）</div><div class="line">   LR - left right（从左到右）</div></pre></td></tr></table></figure>
+<p>```  </p>
+<p> graph TD<br>        A[Christmas] –&gt;B(Go Shopping)<br>        B –&gt;C{let me think}<br>        C –&gt;|One| D[labtop]<br>        C –&gt;|Two| E[Iphone]<br>        C –&gt;|Three| F[Car]</p>
+<h3 id="Checkbox"><a href="#Checkbox" class="headerlink" title="Checkbox"></a>Checkbox</h3><p>You can use <code>- [ ]</code> and <code>- [x]</code> to create checkboxes, for example:</p>
+<ul>
+<li style="list-style: none"><input type="checkbox"> Item1</li>
+<li style="list-style: none"><input type="checkbox"> Item2</li>
+<li style="list-style: none"><input type="checkbox"> Item3</li>
+</ul>
+<p>可见上述复杂的标签还是支持不够啊，好在平时这些简单的标签对于谢谢blog来说已经足够了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MarkDown</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1161.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e7-9c-9f-e6-98-af-e4-b8-aa-e6-92-a9-e4-ba-ba-e7-9a-84-e5-b0-8f-e5-a6-96-e7-b2-be-ef-bc-81-e8-b0-88-e8-b0-88python-e7-9a-84-e7-bc-96-e7-a0-81-e9-97-ae-e9-a2-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -999,97 +1165,6 @@
 
 
   
-    <article id="post-mac-sierra-e8-8b-b1-e6-96-87-e4-bd-9c-e4-b8-ba-e7-b3-bb-e7-bb-9f-e8-af-ad-e8-a8-80-e8-be-93-e5-85-a5-e4-b8-ad-e6-96-87-e7-9a-84-e4-b8-80-e4-b8-aabug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1130.html">Mac sierra 英文作为系统语言输入中文的一个bug</a>
-    </h1>
-  
-
-        
-        <a href="/1130.html" class="archive-article-date">
-  	<time datetime="2016-11-29T05:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>本机环境：mac sierra 10.12.1 macbook pro 2015<br>语言环境：English（中文环境没有问题）<br>输入法：系统自带中文或者搜狗拼音输入法，其他中文输入法估计也有问题(未验证)。</p>
-<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在任何可输入地方输入汉字，汉字待选项总是两个，如下图：<br><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1fa8xlxrcq1j21kw0zkwpi.jpg" alt="出现两个带选项"><br>通过小猪不断的尝试发现最有可能出现bug的原因是因为与launch pad的配合出现了问题，如最上述图片选中之后到launch pad页面查看会发现如下图：<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1fa8xly8thej21kw0zk44o.jpg" alt="选择的中文出现最launch pad的搜索框里"><br>如上图可发现launch pad 的搜索框里出现了刚才我们输入的中文。</p>
-<p>这的确是在这个系统下的bug，无奈小猪只好把系统语言切会了中文。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bug</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">mac</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1130.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1199,6 +1274,18 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1219,15 +1306,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1263,6 +1342,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">dota</a>
               </li>
              
@@ -1279,6 +1362,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
               </li>
              
@@ -1287,15 +1378,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1304,10 +1387,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1336,10 +1415,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1375,11 +1450,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1415,15 +1490,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1487,15 +1562,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1547,6 +1622,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">祷告</a>
               </li>
              
@@ -1555,11 +1634,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1567,11 +1646,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1584,14 +1667,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1611,11 +1686,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1624,10 +1703,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">
