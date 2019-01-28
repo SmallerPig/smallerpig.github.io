@@ -147,6 +147,108 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-c-http-e6-96-ad-e7-82-b9-e7-bb-ad-e4-bc-a0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/294.html">C# HTTP 断点续传</a>
+    </h1>
+  
+
+        
+        <a href="/294.html" class="archive-article-date">
+  	<time datetime="2013-09-02T02:23:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在IIS中，磁盘路径对应的文件是可以直接下载的，而原生的IIS并不需要额外的配置就可以进行断点续传。而在小猪的项目中使用到的文件下载地址不对应磁盘路径的文件地址，而是需要验证用户是否有权限进行下载然后使用<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="external">使用fileresult提供文件下载</a>。这样整个下载过程都需要自己动手写代码完成。为了使客户端的体验更佳，所以必须要提供断点续传的功能。</p>
+<p><strong>断点续传的原理</strong></p>
+<p>其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 </p>
+<p>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下：<br>假设服务器域名为 wwww.smallerpig.com，文件名为 down.zip。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /down.zip HTTP/1.1  </div><div class="line">Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-   </div><div class="line">excel, application/msword, application/vnd.ms-powerpoint, */*   </div><div class="line">Accept-Language: zh-cn   </div><div class="line">Accept-Encoding: gzip, deflate   </div><div class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)   </div><div class="line">Connection: Keep-Alive</div></pre></td></tr></table></figure></p>
+<p>服务器收到请求后，按要求寻找请求的文件，提取文件的信息，然后返回给浏览器，返回信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">200  </div><div class="line">Content-Length=106786028  </div><div class="line">Accept-Ranges=bytes   </div><div class="line">Date=Mon, 30 Apr 2001 12:56:11 GMT   </div><div class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </div><div class="line">Content-Type=application/octet-stream   </div><div class="line">Server=Microsoft-IIS/5.0  </div><div class="line">Last-Modified=Mon, 30 Apr 2001 12:56:11 GMT</div></pre></td></tr></table></figure>
+<p>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。<br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GET /down.zip HTTP/1.0  </div><div class="line">User-Agent: NetFox   </div><div class="line">RANGE: bytes=2000070-   </div><div class="line">Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2</div></pre></td></tr></table></figure></p>
+<p>仔细看一下就会发现多了一行 RANGE: bytes=2000070-<br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。<br>服务器收到这个请求以后，返回的信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">206  </div><div class="line">Content-Length=106786028  </div><div class="line">Content-Range=bytes 2000070-106786027/106786028  </div><div class="line">Date=Mon, 30 Apr 2001 12:55:20 GMT   </div><div class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </div><div class="line">Content-Type=application/octet-stream   </div><div class="line">Server=Microsoft-IIS/5.0  </div><div class="line">Last-Modified=Mon, 30 Apr 2001 12:55:20 GMT</div></pre></td></tr></table></figure></p>
+<p>和前面服务器返回的信息比较一下，就会发现增加了一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Content-Range=bytes 2000070-106786027/106786028</div></pre></td></tr></table></figure>
+<p>返回的代码也改为 206 了，而不再是 200 了。</p>
+<p>知道了以上原理，就可以进行断点续传的编程了。</p>
+<p><strong>C#实现断点续传</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">/// &amp;lt;summary&amp;gt;</div><div class="line">/// 支持断点续传</div><div class="line">/// &amp;lt;/summary&amp;gt;</div><div class="line">/// &amp;lt;param name=&quot;httpContext&quot;&amp;gt;&amp;lt;/param&amp;gt;</div><div class="line">/// &amp;lt;param name=&quot;filePath&quot;&amp;gt;&amp;lt;/param&amp;gt;</div><div class="line">/// &amp;lt;param name=&quot;speed&quot;&amp;gt;&amp;lt;/param&amp;gt;</div><div class="line">/// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</div><div class="line">public static bool DownloadFile(HttpContext httpContext, string filePath, long speed)</div><div class="line">&#123;</div><div class="line">    bool ret = true;</div><div class="line">    try</div><div class="line">    &#123;</div><div class="line">        #region--验证：HttpMethod，请求的文件是否存在</div><div class="line">        switch (httpContext.Request.HttpMethod.ToUpper\(\))</div><div class="line">        &#123; //目前只支持GET和HEAD方法   </div><div class="line">            case &quot;GET&quot;:</div><div class="line">            case &quot;HEAD&quot;:</div><div class="line">                break;</div><div class="line">            default:</div><div class="line">                httpContext.Response.StatusCode = 501;</div><div class="line">                return false;</div><div class="line">        &#125;</div><div class="line">        if (!System.IO.File.Exists(filePath))</div><div class="line">        &#123;</div><div class="line">            httpContext.Response.StatusCode = 404;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">        #endregion</div><div class="line"></div><div class="line">        #region 定义局部变量</div><div class="line">        long startBytes = 0;</div><div class="line">        int packSize = 1024 * 40; //分块读取，每块40K bytes   </div><div class="line">        string fileName = Path.GetFileName(filePath);</div><div class="line">        FileStream myFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);</div><div class="line">        BinaryReader br = new BinaryReader(myFile);</div><div class="line">        long fileLength = myFile.Length;</div><div class="line"></div><div class="line">        int sleep = (int)Math.Ceiling(1000.0 * packSize / speed);//毫秒数：读取下一数据块的时间间隔   </div><div class="line">        string lastUpdateTiemStr = System.IO.File.GetLastWriteTimeUtc(filePath).ToString(&quot;r&quot;);</div><div class="line">        string eTag = HttpUtility.UrlEncode(fileName, Encoding.UTF8) + lastUpdateTiemStr;//便于恢复下载时提取请求头;   </div><div class="line">        #endregion</div><div class="line"></div><div class="line">        #region--验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修</div><div class="line">        if (myFile.Length &amp;gt; Int32.MaxValue)</div><div class="line">        &#123;//-------文件太大了-------   </div><div class="line">            httpContext.Response.StatusCode = 413;//请求实体太大   </div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (httpContext.Request.Headers[&quot;If-Range&quot;] != null)//对应响应头ETag：文件名+文件最后修改时间   </div><div class="line">        &#123;</div><div class="line">            //----------上次被请求的日期之后被修改过--------------   </div><div class="line">            if (httpContext.Request.Headers[&quot;If-Range&quot;].Replace(&quot;&quot;&quot;, &quot;&quot;) != eTag)</div><div class="line">            &#123;//文件修改过   </div><div class="line">                httpContext.Response.StatusCode = 412;//预处理失败   </div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        #endregion</div><div class="line"></div><div class="line">        try</div><div class="line">        &#123;</div><div class="line">            #region -------添加重要响应头、解析请求头、相关验证-------------------</div><div class="line">            httpContext.Response.Clear\(\);</div><div class="line">            httpContext.Response.Buffer = false;</div><div class="line">            httpContext.Response.AddHeader(&quot;Content-MD5&quot;,Common.ASE.GetMD5Hash(filePath));//用于验证文件</div><div class="line">            httpContext.Response.AddHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);//重要：续传必须   </div><div class="line">            httpContext.Response.AppendHeader(&quot;ETag&quot;, &quot;&quot;&quot; + eTag + &quot;&quot;&quot;);//重要：续传必须   </div><div class="line">            httpContext.Response.AppendHeader(&quot;Last-Modified&quot;, lastUpdateTiemStr);//把最后修改日期写入响应                   </div><div class="line">            httpContext.Response.ContentType = &quot;application/octet-stream&quot;;//MIME类型：匹配任意文件类型   </div><div class="line">            httpContext.Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot; + HttpUtility.UrlEncode(fileName, Encoding.UTF8).Replace(&quot;+&quot;, &quot;%20&quot;));</div><div class="line">            httpContext.Response.AddHeader(&quot;Content-Length&quot;, (fileLength - startBytes).ToString\(\));</div><div class="line">            httpContext.Response.AddHeader(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</div><div class="line">            httpContext.Response.ContentEncoding = Encoding.UTF8;</div><div class="line">            if (httpContext.Request.Headers[&quot;Range&quot;] != null)</div><div class="line">            &#123;//------如果是续传请求，则获取续传的起始位置，即已经下载到客户端的字节数------   </div><div class="line">                httpContext.Response.StatusCode = 206;//重要：续传必须，表示局部范围响应。初始下载时默认为200   </div><div class="line">                string[] range = httpContext.Request.Headers[&quot;Range&quot;].Split(new char[] &#123; &apos;=&apos;, &apos;-&apos; &#125;);//&quot;bytes=1474560-&quot;   </div><div class="line">                startBytes = Convert.ToInt64(range[1]);//已经下载的字节数，即本次下载的开始位置     </div><div class="line">                if (startBytes &amp;lt; 0 || startBytes &amp;gt;= fileLength)</div><div class="line">                &#123;//无效的起始位置   </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (startBytes &amp;gt; 0)</div><div class="line">            &#123;//------如果是续传请求，告诉客户端本次的开始字节数，总长度，以便客户端将续传数据追加到startBytes位置后----------   </div><div class="line">                httpContext.Response.AddHeader(&quot;Content-Range&quot;, string.Format(&quot; bytes &#123;0&#125;-&#123;1&#125;/&#123;2&#125;&quot;, startBytes, fileLength - 1, fileLength));</div><div class="line">            &#125;</div><div class="line">            #endregion</div><div class="line"></div><div class="line">            #region -------向客户端发送数据块-------------------</div><div class="line">            br.BaseStream.Seek(startBytes, SeekOrigin.Begin);</div><div class="line">            int maxCount = (int)Math.Ceiling((fileLength - startBytes + 0.0) / packSize);//分块下载，剩余部分可分成的块数   </div><div class="line">            for (int i = 0; i &amp;lt; maxCount &amp;amp;&amp;amp; httpContext.Response.IsClientConnected; i++)</div><div class="line">            &#123;//客户端中断连接，则暂停   </div><div class="line">                httpContext.Response.BinaryWrite(br.ReadBytes(packSize));</div><div class="line">                httpContext.Response.Flush\(\);</div><div class="line">                if (sleep &amp;gt; 1) Thread.Sleep(sleep);</div><div class="line">            &#125;</div><div class="line">            #endregion</div><div class="line">        &#125;</div><div class="line">        catch</div><div class="line">        &#123;</div><div class="line">            ret = false;</div><div class="line">        &#125;</div><div class="line">        finally</div><div class="line">        &#123;</div><div class="line">            br.Close\(\);</div><div class="line">            myFile.Close\(\);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    catch</div><div class="line">    &#123;</div><div class="line">        ret = false;</div><div class="line">    &#125;</div><div class="line">    return ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/294.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c-e6-93-8d-e4-bd-9cjson-e5-ad-97-e7-ac-a6-e4-b8-b2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -993,107 +1095,6 @@
 
 
   
-    <article id="post-asp-net-mvc-fileresult-e4-bb-8b-e7-bb-8d" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/272.html">ASP.NET MVC FileResult介绍</a>
-    </h1>
-  
-
-        
-        <a href="/272.html" class="archive-article-date">
-  	<time datetime="2013-08-13T02:10:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在前一篇中，小猪向大家分享了在WebForm中<a href="http://www.smallerpig.com/archives/257" target="_blank" rel="external">使用Response.WriteFile()方法来向客户端提供指定文件的下载</a>。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。</p>
-<p>我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。<br><figure class="highlight plain"><figcaption><span>FileResult DownLoad\(\)</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    //Some code</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>FileResult 是一个抽象类，继承自 ActionResult。在 System.Web.Mvc.dll 中，它有如上三个子类，分别以不同的方式向客户端发送文件。</p>
-<p>在实际使用中我们通常不需要直接实例化一个 FileResult 的子类，因为 Controller 类已经提供了六个 File 方法来简化我们的操作：<br><figure class="highlight plain"><figcaption><span>internal FilePathResult File(string fileName, string contentType);</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">protected internal virtual FilePathResult File(string fileName, string contentType, string fileDownloadName);</div><div class="line">protected internal FileContentResult File(byte[] fileContents, string contentType);</div><div class="line">protected internal virtual FileContentResult File(byte[] fileContents, string contentType, string fileDownloadName);</div><div class="line">protected internal FileStreamResult File(Stream fileStream, string contentType);</div><div class="line">protected internal virtual FileStreamResult File(Stream fileStream, string contentType, string fileDownloadName);</div></pre></td></tr></table></figure></p>
-<p><strong>1.最简单的方法</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</div><div class="line">    return File(path, &quot;application/x-zip-compressed&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>第一个参数指定文件路径，第二个参数指定文件的 MIME 类型。</p>
-<p>用户点击浏览器上的下载链接后，会调出下载窗口。</p>
-<p>大家应该注意到，文件名称会变成 Download1.zip，默认成了 Action 的名字。我们使用 File 方法的第二个重载来解决文件名的问题：</p>
-<p><strong>2.为文件指定默认下载名</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload2\(\)</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </div><div class="line">    return File(&quot;F:\小小猪.zip&quot;, &quot;application/x-zip-compressed&quot;, &quot;crane.zip&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public ActionResult FilePathDownload3\(\)</div><div class="line">&#123;</div><div class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </div><div class="line">    var name = Path.GetFileName(path);</div><div class="line">    return File(path, &quot;application/x-zip-compressed&quot;, name);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>我们可以通过给 fileDownloadName 参数传值来指定文件名，fileDownloadName 不必和磁盘上的文件名一样。下载提示窗口还是默认为了 Action 的名字。原因是 fileDownloadName 将作为 URL 的一部分，只能包含 ASCII 码。我们把 FilePathDownload3 改进一下：</p>
-<p><strong>3. 对 fileDownloadName 进行 Url 编码</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload4\(\)</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</div><div class="line">    var name = Path.GetFileName(path);</div><div class="line">    return File(path, &quot;application/x-zip-compressed&quot;, Url.Encode(name));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>好了，没问题了。上面代码中 Url.Encode(…)，也可使用 HttpUtility.UrlEncode(…)，前者在内部调用后者。</p>
-<p>我们再来看 FileContentResult.</p>
-<p><strong>4.FileContentResult</strong></p>
-<p>FileContentResult 可以直接将 byte[] 以文件形式发送至浏览器（而不用创建临时文件）。参考代码如下：<br><figure class="highlight plain"><figcaption><span>ActionResult FileContentDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    byte[] data = Encoding.UTF8.GetBytes(&quot;欢迎访问 小小猪 的博客 www.smallerpig.com&quot;);</div><div class="line">    return File(data, &quot;text/plain&quot;, &quot;welcome.txt&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>点击后下载链接后，弹出提示窗口是否下载“welcome.txt”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/272.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
@@ -1108,7 +1109,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 smallerpig
+    		&copy; 2019 smallerpig
     	</div>
       	<div class="footer-right">
       		Driver by <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1187,11 +1188,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1235,10 +1240,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1255,19 +1256,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1291,6 +1292,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
@@ -1304,10 +1309,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">张小龙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1355,11 +1356,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1379,11 +1380,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1431,11 +1432,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1459,10 +1460,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">根管治疗</a>
               </li>
              
@@ -1476,6 +1473,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">默默付出</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1503,6 +1504,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1512,14 +1517,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1539,6 +1536,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">super</a>
               </li>
              
@@ -1551,7 +1552,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1563,27 +1564,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1591,7 +1584,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1600,6 +1593,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1615,11 +1616,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">

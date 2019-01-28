@@ -147,6 +147,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-set-hexo-show-more-button-on-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/set-hexo-show-more-button-on-indexpage.html">让hexo的首页只显示文章的部分内容而不是全部</a>
+    </h1>
+  
+
+        
+        <a href="/set-hexo-show-more-button-on-indexpage.html" class="archive-article-date">
+  	<time datetime="2017-09-30T03:01:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hexo 的 Next 主题默认是首页显示你每篇文章的全文内容，那么要如何设置只显示部分呢？正如你现在看到的本篇文章，只显示到这里。</p>
+        
+          <a class="article-more-a" href="/set-hexo-show-more-button-on-indexpage.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">blog</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/set-hexo-show-more-button-on-indexpage.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-1127" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1027,140 +1118,6 @@
 
 
   
-    <article id="post-跟着小猪来做小程序开发吧——表单" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1197.html">跟着小猪来做小程序开发吧——表单</a>
-    </h1>
-  
-
-        
-        <a href="/1197.html" class="archive-article-date">
-  	<time datetime="2017-04-18T08:35:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在上两篇文章中小猪介绍了模板消息的使用情况，期间因为小程序模板消息的限制，在非支付场景下想使用模板消息那么必须使用微信小程序的表单来获取formId，这样就强制限制了必须有用户进行交互的情况下才可以使用模板消息功能，防止了小程序的模板消息功能被滥用。</p>
-<p>这一篇文章介绍下小程序的表单相关。</p>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>稍微熟悉HTML的读者肯定知道html 的表单，微信小程序基于html程序，但是限制了原html表单的使用，只封装了我们常用的组件和属性。这样即防止了html表单的复杂变化，也提供了常用的组件功能。</p>
-<p>今天小猪简单介绍几个常用的表单组件。</p>
-<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p>官方文档地址：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/" target="_blank" rel="external">https://mp.weixin.qq.com/debug/wxadoc/dev/component/</a></p>
-<p>表单，将组件内的用户输入的<code>&lt;switch/&gt;</code> <code>&lt;input/&gt;</code> <code>&lt;checkbox/&gt;</code> <code>&lt;slider/&gt;</code> <code>&lt;radio/&gt;</code> <code>&lt;picker/&gt;</code>提交。</p>
-<p>表单组件用来提交表单，微信小程序允许我们为表单添加如下属性</p>
-<table>
-<thead>
-<tr>
-<th>属性名</th>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>report-submit</td>
-<td>Boolean</td>
-<td>是否返回 formId 用于发送模板消息</td>
-</tr>
-<tr>
-<td>bindsubmit</td>
-<td>EventHandle</td>
-<td>携带 form 中的数据触发 submit 事件，event.detail = {value : {‘name’: ‘value’} , formId: ‘’}</td>
-</tr>
-<tr>
-<td>bindreset</td>
-<td>EventHandle</td>
-<td>表单重置时会触发 reset 事件</td>
-</tr>
-</tbody>
-</table>
-<p>上述的<code>bindsubmit</code>属性和<code>bindreset</code>属性都可以绑定一个js的事件函数，然后在用户点击提交和重置按钮时触发：例如下面的表单和对应js代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//&lt;form bindsubmit=&quot;formSubmit&quot; bindreset=&quot;formReset&quot;&gt;</div><div class="line">//&lt;button formType=&quot;submit&quot;&gt;Submit&lt;/button&gt;</div><div class="line">//&lt;button formType=&quot;reset&quot;&gt;Reset&lt;/button&gt;</div><div class="line">//js</div><div class="line">Page(&#123;</div><div class="line">  formSubmit: function(e) &#123;</div><div class="line">    console.log(&apos;form发生了submit事件，携带数据为：&apos;, e.detail.value)</div><div class="line">  &#125;,</div><div class="line">  formReset: function\(\) &#123;</div><div class="line">    console.log(&apos;form发生了reset事件&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>目前小程序支持如下的标签:</p>
-<p>|- 标签名-  |-说明- |<br>|—|—|：<br>|button |按钮|<br>|form   |表单|<br>|input  |输入框|<br>|checkbox|  多项选择器|<br>|radio  |单项选择器|<br>|picker |列表选择器|<br>|picker-view    |内嵌列表选择器|<br>|slider |滚动选择器|<br>|switch |开关选择器|<br>|label  |标签|</p>
-<p>建议读者分别写上这些标签，然后提交数据比对下具体的属性值。</p>
-<p>例如下面的表单</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;form bindsubmit=&quot;formSubmit&quot; bindreset=&quot;formReset&quot;&gt;</div><div class="line">  &lt;view class=&quot;section section_gap&quot;&gt;</div><div class="line">    &lt;view class=&quot;section__title&quot;&gt;switch&lt;/view&gt;</div><div class="line">    &lt;switch name=&quot;switch&quot;/&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line">  &lt;view class=&quot;section section_gap&quot;&gt;</div><div class="line">    &lt;view class=&quot;section__title&quot;&gt;slider&lt;/view&gt;</div><div class="line">    &lt;slider name=&quot;slider&quot; show-value &gt;&lt;/slider&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line"></div><div class="line">  &lt;view class=&quot;section&quot;&gt;</div><div class="line">    &lt;view class=&quot;section__title&quot;&gt;input&lt;/view&gt;</div><div class="line">    &lt;input name=&quot;input&quot; placeholder=&quot;please input here&quot; /&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line">&lt;view class=&quot;section&quot;&gt;</div><div class="line">  &lt;view class=&quot;section__title&quot;&gt;地区选择器&lt;/view&gt;</div><div class="line">  &lt;picker bindchange=&quot;bindPickerChange&quot; value=&quot;&#123;&#123;index&#125;&#125;&quot; range=&quot;&#123;&#123;array&#125;&#125;&quot;&gt;</div><div class="line">    &lt;view class=&quot;picker&quot;&gt;</div><div class="line">      当前选择：&#123;&#123;array[index]&#125;&#125;</div><div class="line">    &lt;/view&gt;</div><div class="line">  &lt;/picker&gt;</div><div class="line">&lt;/view&gt;</div><div class="line"></div><div class="line">&lt;view class=&quot;section&quot;&gt;</div><div class="line">  &lt;view class=&quot;section__title&quot;&gt;时间选择器&lt;/view&gt;</div><div class="line">  &lt;picker mode=&quot;time&quot; value=&quot;&#123;&#123;time&#125;&#125;&quot; start=&quot;09:01&quot; end=&quot;21:01&quot; bindchange=&quot;bindTimeChange&quot;&gt;</div><div class="line">    &lt;view class=&quot;picker&quot;&gt;</div><div class="line">      当前选择: &#123;&#123;time&#125;&#125;</div><div class="line">    &lt;/view&gt;</div><div class="line">  &lt;/picker&gt;</div><div class="line">&lt;/view&gt;</div><div class="line"></div><div class="line">&lt;view class=&quot;section&quot;&gt;</div><div class="line">  &lt;view class=&quot;section__title&quot;&gt;日期选择器&lt;/view&gt;</div><div class="line">  &lt;picker mode=&quot;date&quot; value=&quot;&#123;&#123;date&#125;&#125;&quot; start=&quot;2015-09-01&quot; end=&quot;2017-09-01&quot; bindchange=&quot;bindDateChange&quot;&gt;</div><div class="line">    &lt;view class=&quot;picker&quot;&gt;</div><div class="line">      当前选择: &#123;&#123;date&#125;&#125;</div><div class="line">    &lt;/view&gt;</div><div class="line">  &lt;/picker&gt;</div><div class="line">&lt;/view&gt;</div><div class="line"></div><div class="line">  &lt;view class=&quot;section section_gap&quot;&gt;</div><div class="line">    &lt;view class=&quot;section__title&quot;&gt;radio&lt;/view&gt;</div><div class="line">    &lt;radio-group name=&quot;radio-group&quot;&gt;</div><div class="line">      &lt;label&gt;&lt;radio value=&quot;radio1&quot;/&gt;radio1&lt;/label&gt;</div><div class="line">      &lt;label&gt;&lt;radio value=&quot;radio2&quot;/&gt;radio2&lt;/label&gt;</div><div class="line">    &lt;/radio-group&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line"></div><div class="line">  &lt;view class=&quot;section section_gap&quot;&gt;</div><div class="line">    &lt;view class=&quot;section__title&quot;&gt;checkbox&lt;/view&gt;</div><div class="line">    &lt;checkbox-group name=&quot;checkbox&quot;&gt;</div><div class="line">      &lt;label&gt;&lt;checkbox value=&quot;checkbox1&quot;/&gt;checkbox1&lt;/label&gt;</div><div class="line">      &lt;label&gt;&lt;checkbox value=&quot;checkbox2&quot;/&gt;checkbox2&lt;/label&gt;</div><div class="line">    &lt;/checkbox-group&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line">  &lt;view class=&quot;btn-area&quot;&gt;</div><div class="line">    &lt;button formType=&quot;submit&quot;&gt;Submit&lt;/button&gt;</div><div class="line">    &lt;button formType=&quot;reset&quot;&gt;Reset&lt;/button&gt;</div><div class="line">  &lt;/view&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
-<p>配合下列js代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var app = getApp\(\)</div><div class="line">Page(&#123;</div><div class="line">  data:&#123;</div><div class="line">    array: [&apos;美国&apos;, &apos;中国&apos;, &apos;巴西&apos;, &apos;日本&apos;],</div><div class="line">    objectArray: [</div><div class="line">      &#123;        id: 0,        name: &apos;美国&apos;      &#125;,</div><div class="line">      &#123;        id: 1,        name: &apos;中国&apos;      &#125;,</div><div class="line">      &#123;        id: 2,        name: &apos;巴西&apos;      &#125;,</div><div class="line">      &#123;        id: 3,        name: &apos;日本&apos;      &#125;</div><div class="line">    ],</div><div class="line">    index: 0,</div><div class="line">    date: &apos;2016-09-01&apos;,</div><div class="line">    time: &apos;12:01&apos;</div><div class="line">  &#125;,</div><div class="line">  bindPickerChange: function(e) &#123;</div><div class="line">    console.log(&apos;picker发送选择改变，携带值为&apos;, e.detail.value)</div><div class="line">    this.setData(&#123;</div><div class="line">      index: e.detail.value</div><div class="line">    &#125;)</div><div class="line">  &#125;,</div><div class="line">  bindDateChange: function(e) &#123;</div><div class="line">    this.setData(&#123;</div><div class="line">      date: e.detail.value</div><div class="line">    &#125;)</div><div class="line">  &#125;,</div><div class="line">  bindTimeChange: function(e) &#123;</div><div class="line">    this.setData(&#123;</div><div class="line">      time: e.detail.value</div><div class="line">    &#125;)</div><div class="line">  &#125;,</div><div class="line">  formSubmit: function(e) &#123;</div><div class="line">    console.log(&apos;form发生了submit事件，携带数据为：&apos;, e.detail.value)</div><div class="line">  &#125;,</div><div class="line">  formReset: function\(\) &#123;</div><div class="line">    console.log(&apos;form发生了reset事件&apos;)</div><div class="line">  &#125;,</div><div class="line">  onLoad:function\(\)&#123;</div><div class="line">      console.log(&apos;sform load&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>到界面上简单做几个输入值，点击提交按钮，看看后台对应获取到的值大概为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Object&#123;</div><div class="line">    switch: true, </div><div class="line">    slider: 29, </div><div class="line">    input: &quot;smallerpig.com&quot;, </div><div class="line">    radio-group: &quot;radio2&quot;, </div><div class="line">    checkbox: Array[1]</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1197.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1175,7 +1132,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 smallerpig
+    		&copy; 2019 smallerpig
     	</div>
       	<div class="footer-right">
       		Driver by <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1254,11 +1211,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1302,10 +1263,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1322,19 +1279,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1358,6 +1315,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
@@ -1371,10 +1332,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">张小龙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1422,11 +1379,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1446,11 +1403,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1498,11 +1455,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1526,10 +1483,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">根管治疗</a>
               </li>
              
@@ -1543,6 +1496,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">默默付出</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1570,6 +1527,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1579,14 +1540,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1606,6 +1559,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">super</a>
               </li>
              
@@ -1618,7 +1575,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1630,27 +1587,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1658,7 +1607,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1667,6 +1616,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1682,11 +1639,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">

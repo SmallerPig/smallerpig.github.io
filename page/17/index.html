@@ -147,6 +147,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e4-bd-bf-e7-94-a8-e4-ba-86windows-live-writer-e5-86-99-e7-9a-84-e5-8d-9a-e5-ae-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/392.html">使用了Windows Live Writer 写的博客</a>
+    </h1>
+  
+
+        
+        <a href="/392.html" class="archive-article-date">
+  	<time datetime="2014-01-14T07:31:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&lt;为什么标签不能正确的显示&gt;</p>
+<p>重新设置了之后再看看</p>
+<p>停用了一些插件！</p>
+<p><img src="http://clamis.net/wp-content/uploads/2010/10/wlw_wrong_thumb.png" alt="">​</p>
+<p>偶然看到很多Blog都在说：&ldquo;尝试连接到您的日志时出错:服务器响应无效 &ndash; 从日志服务器接收的对 blogger.getUsersBlogs 方法的响应无效:Invalid response document returned from XmlRpc server必须先纠正此错误才能继续操作。&rdquo;这个错误，好像跟我的有几分相似。都是说wordpress返回的的XmlRpc无法被wlw识别。可具体是那个部分不对却没给提示。</p>
+<p>他们说这是因为wordpress本身的一个bug。在utf-8编码下，xml-rpc返回的格式不正确，缺了三个字节，所以wlw就会提示出错。解决的方法是找到博客目录的wp-includes下的class.ixr.php，然后用一个文本编辑工具打开它，查找：</p>
+<p>$length = strlen($xml);</p>
+<p>替换为：</p>
+<p>$length = strlen($xml)+3;</p>
+<p>我按照这个方法修改之后就真的没问题了&middot;&middot;看来这个Bug影响不小啊。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/392.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-html-e4-b8-ad-meta-e7-9a-84-e4-bd-9c-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1118,99 +1209,6 @@ Done！
 
 
   
-    <article id="post-e7-94-9f-e6-b4-bb-e4-b8-ad-e7-9a-84-e6-99-95-e8-bd-ae-e6-95-88-e5-ba-94" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/372.html">生活中的晕轮效应</a>
-    </h1>
-  
-
-        
-        <a href="/372.html" class="archive-article-date">
-  	<time datetime="2013-12-16T01:32:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">## </div><div class="line"></div><div class="line">效应解释</div><div class="line"></div><div class="line">#</div></pre></td></tr></table></figure>
-<p>## </p>
-<p>概述</p>
-<pre><code>俄国著名的大文豪普希金狂热地爱上了被称为&amp;ldquo;莫斯科第一美人&amp;rdquo;的娜坦丽，并且和她结了婚。娜坦丽容貌惊人，但与普希金志不同道不合。当普希金每次把写好的诗读给她听时。她总是捂着耳朵说：&amp;ldquo;不要听！不要听！&amp;rdquo;相反，她总是要普希金陪她游乐，出席一些豪华的晚会、舞会，普希金为此丢下创作，弄得债台高筑，最后还为她决斗而死，使一颗文学巨星过早地陨落。在普希金看来，一个漂亮的女人也必然有非凡的智慧和高贵的品格，然而事实并非如此，这种现象被称为晕轮效应。
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">## </div><div class="line"></div><div class="line">简介</div><div class="line"></div><div class="line">	晕轮效应指人们对他人的认知判断首先主要是根据个人的好恶得出的，然后再从这个判断推论出认知对象的其他品质的现象。如果认知对象被标明是&amp;ldquo;好&amp;rdquo;的，他就会被&amp;ldquo;好&amp;rdquo;的光圈笼罩着，并被赋予一切好的品质；如果认知对象被标明是&amp;ldquo;坏&amp;rdquo;的，他就会被&amp;ldquo;坏&amp;rdquo;的光环笼罩着，他所有的品质都会被认为是坏的。晕轮效应是在人际相互作用过程中形成的一种夸大的社会现象，正如日、月的光辉，在云雾的作用下扩大到四周，形成一种光环作用。常表现在一个人对另一个人的最初印象决定了他的总体看法，而看不准对方的真实品质。有时候晕轮效应会对人际关系产生积极作用，比如你对人诚恳，那么即便你能力较差，别人对你也会非常信任，因为对方只看见你的诚恳。而晕轮效应的最大弊端就在于以偏概全。</div><div class="line"></div><div class="line">#</div></pre></td></tr></table></figure></p>
-<p>## </p>
-<p>定义</p>
-<pre><code>这种强烈知觉的品质或特点，就象月亮形式的光环一样，向周围弥漫、扩散，从而掩盖
-
-了其它品质或特点，所以就形象地称之为光环效应。
-
-光环效应(Halo Effect)又称&amp;ldquo;晕轮效应&amp;rdquo;、&amp;ldquo;成见效应&amp;rdquo;、&amp;ldquo;光圈效应&amp;rdquo;、&amp;ldquo;日晕效应&amp;rdquo;、&amp;ldquo;以点概面效应&amp;rdquo;，它是一种影响人际知觉的因素，指在人际知觉中所形成的以点概面或以偏概全的主观印象。
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">## </div><div class="line"></div><div class="line">提出者：美国心理学家凯利(H. Kelly)</div><div class="line"></div><div class="line">	一个人的某种品质，或一个物品的某种特性给人以非常好的印象。在这种印象的影响下，人们对这个人的其他品质，或这个物品的其他特性也会给予较好的评价。</div><div class="line"></div><div class="line">	光环效应又称晕轮效应，它是一种影响人际知觉的因素。这种爱屋及乌的强烈知觉的品质或特点，就像月晕的光环一样，向周围弥漫、扩散，所以人们就形象地称这一心理效应为光环效应。和光环效应相反的是恶魔效应，即对人的某一品质，或对物品的某一特性有坏的印象，会使人对这个人的其他品质，或这一物品的其他特性的评价偏低。</div><div class="line"></div><div class="line">	名人效应是一种典型的光环效应。</div><div class="line"></div><div class="line">	不难发现，拍广告片的多数是那些有名的歌星、影星，而很少见到那些名不见经传的小人物。因为明星推出的商品更容易得到大家的认同。一个作家一旦出名，以前压在箱子底的稿件全然不愁发表，所有著作都不愁销售，这都是光环效应的作用。</div><div class="line"></div><div class="line">	男女朋友之间也经常会出现光环效应。两个恩爱的人在一起，便会觉得双方身上都是优点，没有一点点缺点。这就是在刚开始喜欢上一个人的时候，其实只是喜欢上了对方表现出来的某一方面的优点，然后经过晕轮效应的扩大，才使自己觉得对方身上全是优点。</div><div class="line"></div><div class="line">	企业怎样才能让自己的产品为大众了解并接受？一条捷径就是让企业的形象或产品与名人相粘连，让名人为公司做宣传。这样，就能借助名人的&amp;ldquo;名气&amp;rdquo;帮助企业聚集更旺的人气。要做到人们一想起公司的产品就想到与之相连的名人。</div></pre></td></tr></table></figure></p>
-<p>## </p>
-<p>点评</p>
-<pre><code>如一个人最初被认定是好的，则他身上的其它品质也都被认为是好的，有似&amp;ldquo;爱屋及乌&amp;rdquo;的原理。它指个人在敬仰、爱慕他人过程中所形成的夸大了的社会认知。光环效应在爱情和偶像崇拜中最明显。
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/372.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/16/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/18/">Next &raquo;</a>
@@ -1225,7 +1223,7 @@ Done！
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 smallerpig
+    		&copy; 2019 smallerpig
     	</div>
       	<div class="footer-right">
       		Driver by <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1304,11 +1302,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+                <a href="javascript:void(0)" class="js-tag color3">托业</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1352,10 +1354,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
@@ -1372,19 +1370,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1408,6 +1406,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
@@ -1421,10 +1423,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">张小龙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1472,11 +1470,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1496,11 +1494,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1548,11 +1546,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1576,10 +1574,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">根管治疗</a>
               </li>
              
@@ -1593,6 +1587,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">默默付出</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1620,6 +1618,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1629,14 +1631,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1656,6 +1650,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">super</a>
               </li>
              
@@ -1668,7 +1666,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1680,27 +1678,19 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1708,7 +1698,7 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1717,6 +1707,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1732,11 +1730,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">
