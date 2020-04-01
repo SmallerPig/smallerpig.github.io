@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="2020年的愚人节，挺应景的，这段时间自己像是个愚人一样，哈哈。放平心态，该来的会来。 部门宣布执行全员日报制，每天汇报自己当天工作内容。 一个星期内的事情有点多，结束了之后收拾心情重新整装再出发。 不过不能放的东西就是不能放，所以继续推动blog编写吧。 此系列暂定分几篇，第一篇介绍jwt的相关知识，然后结合实际项目情况介绍shiro，让后结合它俩一起介绍一篇，然后结合spring cloud来">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T14:10:12.380Z">
+<meta property="og:updated_time" content="2020-04-01T14:34:54.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安全认证——jwt">
 <meta name="twitter:description" content="2020年的愚人节，挺应景的，这段时间自己像是个愚人一样，哈哈。放平心态，该来的会来。 部门宣布执行全员日报制，每天汇报自己当天工作内容。 一个星期内的事情有点多，结束了之后收拾心情重新整装再出发。 不过不能放的东西就是不能放，所以继续推动blog编写吧。 此系列暂定分几篇，第一篇介绍jwt的相关知识，然后结合实际项目情况介绍shiro，让后结合它俩一起介绍一篇，然后结合spring cloud来">
@@ -197,6 +197,19 @@
 <li>Signature</li>
 </ul>
 <h3 id="第一部分：header"><a href="#第一部分：header" class="headerlink" title="第一部分：header"></a>第一部分：header</h3><p>由两部分组成：token的类型（“JWT”）和算法名称（比如：HMAC SHA256或者RSA等等）<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    'alg': "HS256",</span><br><span class="line">    'typ': "JWT"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对这个json进行base64编码之后即可得到第一部分</p>
+<h3 id="第二部分：payload"><a href="#第二部分：payload" class="headerlink" title="第二部分：payload"></a>第二部分：payload</h3><p>这部分的数据是最灵活的，使用者可以往这部分的数据里面加任何想要的数据，但终归是你加的数据越多，这部分就约长，不能把完整的一个大对象都放在里面吧。</p>
+<p>这部分数据(声明:claims)包含三种类型: registered, public 和 private。<br>Registered claims : 这里有一组预定义的声明，它们不是强制的，但是推荐。比如：iss (issuer), exp (expiration time), sub (subject), aud (audience)等。<br>Public claims : 可以随意定义。<br>Private claims : 用于在同意使用它们的各方之间共享信息，并且不是注册的或公开的声明。 下面是一个例子：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"sub"</span>: '<span class="number">1234567890</span>',</span><br><span class="line">    <span class="attr">"name"</span>: 'john',</span><br><span class="line">    <span class="attr">"admin"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样的，对payload进行Base64编码就得到JWT的第二部分<br>这里面不要放任何敏感信息，因为这部分其实是和第一部分是一样的，可以通过base64解码出来就是个明文了。暂可千万不能把用户的密码呀，身份证号啥的放在这里。</p>
+<h3 id="第三部分：signature"><a href="#第三部分：signature" class="headerlink" title="第三部分：signature"></a>第三部分：signature</h3><p>签名部分，这部分总结起来就是把第一部分加上第二部分经过特定算法进行签名，验证这个token是个合法的token。其中签名算法就是第一部分指定的签名算法。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(base64UrlEncode(header) + &quot;.&quot; + base64UrlEncode(payload), secret)</span><br></pre></td></tr></table></figure></p>
+<p>这里面有个secret 是要在咱们的应用程序里面保存好的，如果这个泄露了，其他人可以根据这个secret任意生成对于你来说合法的jwt了。<br>“对于你来说合法”的意思就是他可以伪造成一个合法的token了。好像有点绕口。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上其实就是JWT的内容了，是不是感觉有点扯？</p>
+<p>是的，我也感觉有点扯，其实JWT真的就这么多内容，只不过是就上面的内容却可以在具体的场景中发挥作用。例如以下两点(后面文章我也会介绍到)：</p>
+<h3 id="替代session"><a href="#替代session" class="headerlink" title="替代session"></a>替代session</h3><p>传统的session其实是保存在服务器端的，这无疑增加了服务器端的压力，成千上万的用户登录了平台之后服务器就得保存成千上万个session;<br>而token里面很重要的第一点是可以在payload里面保存信息的，这样就把用户的关键信息，例如用户编号放在这个JWT里面，当用户使用这个token进行某项操作时，服务端通过拿到这个token就可以拿到里面的用户编号，从而进行相应的操作。不需要保存session与用户的关系了。</p>
+<h3 id="服务器无状态。"><a href="#服务器无状态。" class="headerlink" title="服务器无状态。"></a>服务器无状态。</h3><p>上面说到session的时候其实也提到了服务器无状态的事，其实就是将传统的session与用户绑定的操作放在里客户端，服务端拿到token时只要验证其是一个合法的token，然后拿到payload里面的用户数据就可以找到对应的用户。</p>
+<p>这对于尤其是移动端APP来说还是很方便的，移动端用户拿到一个token并保存在本地，服务器端不需要保存这个token的状态，由移动端自行维护，这样移动端APP在指定时间(例如两周？)内拿这个token进行请求都可正常请求，而不需要用户频繁的进行登录操作。</p>
+<p>本篇就这么多吧，下面一篇来将shiro。</p>
 
       
 
@@ -597,10 +610,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
@@ -610,6 +619,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,15 +638,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -645,11 +658,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -761,11 +774,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -805,11 +818,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -837,19 +850,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">
