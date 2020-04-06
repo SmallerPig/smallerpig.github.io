@@ -159,6 +159,133 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8asp-net-e4-b8-ad-e5-90-af-e5-8a-a8sql-server-e7-bc-93-e5-ad-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/235.html">在ASP.NET中启动SQL SERVER缓存</a>
+    </h1>
+  
+
+        
+        <a href="/235.html" class="archive-article-date">
+  	<time datetime="2013-07-31T08:25:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在小猪的一次面试中，面试官问过这样的问题，在我们打开网站的时候我们需要向数据库取数据，大家是每次都去取呢还是通过什么方法呢？</p>
+<p>当时小猪虽然知道可以通过缓存来减少不必要的数据库访问次数，但是却并不知道怎么来完成这样的功能。这样一段时间之内一直纠结于怎么搞他呢？</p>
+<p>这段时间小猪比较清闲，有了很多时间思考之前没时间思考的东西，所以好好的把数据库缓存这块的知识整理整理。</p>
+<p>好吧，下面进入正题。要想使用SQL SERVER 自带的缓存功能需要以下步骤：</p>
+<p>1. sqlserver中使用语句启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
+<p>如果启用失败或者很长时间一直在执行请执行以下语句，然后秒了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET NEW_BROKER WITH ROLLBACK IMMEDIATE;</span><br><span class="line"></span><br><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
+<p>2. 检查数据库是否启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT is_broker_enabled FROM sys.databases WHERE name = &apos;TestDB&apos;</span><br></pre></td></tr></table></figure></p>
+<p>(1为已启用,0为未启用)</p>
+<p>3. 配置WebConfig</p>
+<p>配置<connectionstrings><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;connectionStrings&gt;</span><br><span class="line">&lt;add name=&quot;conStr&quot; connectionString=&quot;Data Source=.;Initial Catalog=TestDB;Persist Security Info=True;User ID=sa;Password=sa&quot; providerName=&quot;System.Data.SqlClient&quot;/&gt;</span><br><span class="line">&lt;/connectionStrings&gt;</span><br></pre></td></tr></table></figure></connectionstrings></p>
+<p>&lt;system.web&gt; &nbsp; 节点下配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;caching&gt;</span><br><span class="line">    &lt;sqlCacheDependency enabled=&quot;true&quot; pollTime=&quot;1000&quot;&gt;</span><br><span class="line">        &lt;databases&gt;&lt;add name=&quot;TestDB&quot; connectionStringName=&quot;conStr&quot;/&gt;</span><br><span class="line">        &lt;/databases&gt;</span><br><span class="line">    &lt;/sqlCacheDependency&gt;</span><br><span class="line">&lt;/caching&gt;</span><br></pre></td></tr></table></figure></p>
+<p>ps:Ok，下面上示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">//定义连接字符串</span><br><span class="line">string conStr = System.Configuration.ConfigurationManager.ConnectionStrings[&quot;conStr&quot;].ConnectionString;</span><br><span class="line"></span><br><span class="line">protected void Page_Load(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    if (!IsPostBack)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        SqlDependency.Start(conStr);//启动监听服务，ps：只需启动一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableNotifications(conStr);//设置通知的数据库连接，ps：只需设置一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableTableForNotifications(constr, &quot;dbo.TableA&quot;);//设置通知的数据库连接和表，ps：只需设置一次</span><br><span class="line">        string sql = &quot;select Name from dbo.TableA&quot;;</span><br><span class="line">        SqlConnection con = new SqlConnection(conStr);</span><br><span class="line">        SqlCommand cmd = new SqlCommand(sql, con);</span><br><span class="line">        SqlDataAdapter adapter = new SqlDataAdapter(cmd);</span><br><span class="line"></span><br><span class="line">        DataSet ds = new DataSet\(\);</span><br><span class="line">        adapter.Fill(ds, &quot;cache&quot;);</span><br><span class="line"></span><br><span class="line">        System.Web.Caching.SqlCacheDependency cd = new System.Web.Caching.SqlCacheDependency(&quot;TestDB&quot;, &quot;dbo.TableA&quot;);//建立关联</span><br><span class="line">        Cache.Insert(&quot;cache&quot;, ds, cd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样初始化后，更新数据库TestDB中表dbo.TableA后，缓存Cache[&quot;cache&quot;]会失效。</p>
+<p>另外，在其他地方我们可以这样用，一个字：方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;Role&gt; list = this.Cache[&quot;data&quot;] as List&lt;Role&gt;;</span><br><span class="line">if (list != null) &#123; return list; &#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    list = GetList\(\);//此方法是从数据库读取数据，代码就不予展示了</span><br><span class="line">    System.Web.Caching.SqlCacheDependency scd = new SqlCacheDependency(&quot;flag&quot;, &quot;T_ERP_Role&quot;);//创建数据库依赖 第一个参数是web.config配置文件中databases节点下的Name值，第二个参数数据库中被建立依赖的表的表名称</span><br><span class="line">    this.Cache.Insert(&quot;data&quot;, list, scd, System.Web.Caching.Cache.NoAbsoluteExpiration, System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.High, CallBack);</span><br><span class="line">    //第三个参数scd 为文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。</span><br><span class="line">    //最后一个参数CallBack： 在从缓存中移除对象时将调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</span><br><span class="line"></span><br><span class="line">    return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，在ASP.NET中不仅仅可以缓存SQL ，系统自带了Cache类来实现缓存</p>
+<p>这样可以方便的自定义自己需要缓存的东西，可以参照下列文章。</p>
+<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html</a></p>
+<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html</a><br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html</a> </p>
+<p>下面小猪需要封装单独的数据库缓存类。<br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"> </a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/SQL/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/235.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1009,104 +1136,6 @@ public Hero(string name)
 
 
   
-    <article id="post-asp-net-mvc-e4-b8-ad-e8-a1-a8-e5-8d-95-e7-9a-84encode-e5-8f-8adecode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/203.html">ASP.NET MVC 中表单的Encode及Decode</a>
-    </h1>
-  
-
-        
-        <a href="/203.html" class="archive-article-date">
-  	<time datetime="2013-06-27T06:30:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前端cshtml里面需要decode时使用<br><a href="mailto:`@Html.Raw" target="_blank" rel="noopener">`@Html.Raw</a>(HttpUtility.HtmlDecode(Model.Contents))`</p>
-<p>对应的action里需要encode的地方使用<br><code>HttpUtility.HtmlEncode(collection[&quot;newsContentData&quot;]);</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/203.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/22/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/24/">Next &raquo;</a>
@@ -1320,19 +1349,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1372,6 +1401,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
@@ -1381,10 +1414,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1400,15 +1429,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1428,10 +1457,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
@@ -1441,6 +1466,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1484,10 +1513,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1497,6 +1522,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1597,6 +1626,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -159,6 +159,122 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8asp-net-mvc-e9-a1-b9-e7-9b-ae-e4-b8-ad-e4-bd-bf-e7-94-a8-e6-9e-81-e9-aa-8c-e9-aa-8c-e8-af-81geetest" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/979.html">在ASP.NET MVC项目中使用极验验证(geetest)</a>
+    </h1>
+  
+
+        
+        <a href="/979.html" class="archive-article-date">
+  	<time datetime="2016-03-02T10:22:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们一般在做项目时为了保证提交的数据是真实用户数据而非机器人提交一般都会添加验证码操作来让用户在提交表单的同时填上服务端生成的验证码，这样在一定程度上能够防止暴力提交或者暴力破解。但是却在一定程度上增加了开发的成本。</p>
+<p>现在的互联网上各种产品都能够独立开发使用，今天小猪就为大家介绍<a href="http://www.geetest.com/" target="_blank" rel="noopener">极验验证</a>这个工具。<br>目前网络中已经可以发现大量使用该产品的应用，用户只需简单的滑动滑块来进行验证(<a href="http://www.geetest.com/exp_normal" target="_blank" rel="noopener">体验地址</a>)，一定程度上提高了用户体验。</p>
+<p>极验官方提供了C#版本的服务端<a href="http://www.geetest.com/install/sections/idx-server-sdk.html#csharp" target="_blank" rel="noopener">SDK</a>。并且提供了一个简单的<a href="https://github.com/GeeTeam/gt-csharp-sdk" target="_blank" rel="noopener">DEMO</a>。可惜该DEMO是Web Form版本的。而目前大家使用的比较多的是ASP.NET MVC项目，所以今天小猪就在其官方DEMO的基础上改成了ASP.NET MVC项目。</p>
+<ul>
+<li>新建ASP.NET MVC项目，并在项目中引用C#版本的SDK。</li>
+<li>申请极验账号并添加验证。如图：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1io9e7f96j20qz0ivwj0.jpg" alt="极验后台添加验证"><br>成功添加后我们可以看到对应的ID和KEY。<p></p></li>
+<li><p>新建测试控制器 AccountController</p>
+</li>
+<li><p>在控制器中随意添加一个Action，例如Login</p>
+</li>
+<li>在对应的View里添加代码（例如Login.cshtml）：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;geetest-container&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;http://static.geetest.com/static/tools/gt.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    window.addEventListener(&apos;load&apos;,processGeeTest);</span><br><span class="line"></span><br><span class="line">    function processGeeTest\(\) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            // 获取id，challenge，success（是否启用failback）</span><br><span class="line">            url: &quot;/Account/GeekTest&quot;,</span><br><span class="line">            type: &quot;get&quot;,</span><br><span class="line">            dataType: &quot;json&quot;, // 使用jsonp格式</span><br><span class="line">            success: function (data) &#123;</span><br><span class="line">                // 使用initGeetest接口</span><br><span class="line">                // 参数1：配置参数，与创建Geetest实例时接受的参数一致</span><br><span class="line">                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</span><br><span class="line">                initGeetest(&#123;</span><br><span class="line">                    gt: data.gt,</span><br><span class="line">                    challenge: data.challenge,</span><br><span class="line">                    product: &quot;float&quot;, // 产品形式</span><br><span class="line">                    offline: !data.success</span><br><span class="line">                &#125;, handler);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var handler = function (captchaObj) &#123;</span><br><span class="line">        // 将验证码加到id为captcha的元素里</span><br><span class="line">        captchaObj.appendTo(&quot;#geetest-container&quot;);</span><br><span class="line"></span><br><span class="line">        captchaObj.onSuccess = function(e) &#123;</span><br><span class="line">            console.log(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上述代码中使用了JQuery库，需要同时引用。<br>其中我们使用Ajax来动态请求后台AccountController的GeeTest方法，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GeekTest\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        string result = getCaptcha\(\);</span><br><span class="line"></span><br><span class="line">        return Content(result, &quot;application/json&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String getCaptcha\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">        Byte gtServerStatus = geetest.preProcess\(\);</span><br><span class="line">        Session[GeetestLib.gtServerStatusSessionKey] = gtServerStatus;</span><br><span class="line">        return geetest.getResponseStr\(\);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中的<code>geetest_publicKey</code>和<code>geetest_privateKey</code>分别对应极验后台申请到的ID和KEY。</p>
+<p>这样我们就可以运行程序看到效果。接下来的工作就是确认用户在提交对应的表单的时候有没有通过极验的验证了。</p>
+<p>在接受表单提交的POST地址里面输入代码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> //</span><br><span class="line">// POST: /Account/Login</span><br><span class="line">[HttpPost]</span><br><span class="line">[AllowAnonymous]</span><br><span class="line">[ValidateAntiForgeryToken]</span><br><span class="line">public async Task&lt;ActionResult&gt; Login(LoginViewModel model, string returnUrl)</span><br><span class="line">&#123;</span><br><span class="line">    if (!CheckGeeTestResult\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        ModelState.AddModelError(&quot;&quot;, &quot;请先完成验证操作。&quot;);</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line">    if (!ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //其他验证逻辑</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool CheckGeeTestResult\(\)</span><br><span class="line">&#123;</span><br><span class="line">    GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">    Byte gt_server_status_code = (Byte)Session[GeetestLib.gtServerStatusSessionKey];</span><br><span class="line">    String userID = (String)Session[&quot;userID&quot;];</span><br><span class="line"></span><br><span class="line">    int result = 0;</span><br><span class="line">    String challenge = Request.Form.Get(GeetestLib.fnGeetestChallenge);</span><br><span class="line">    String validate = Request.Form.Get(GeetestLib.fnGeetestValidate);</span><br><span class="line">    String seccode = Request.Form.Get(GeetestLib.fnGeetestSeccode);</span><br><span class="line">    if (gt_server_status_code == 1) result = geetest.enhencedValidateRequest(challenge, validate, seccode, userID);</span><br><span class="line">    else result = geetest.failbackValidateRequest(challenge, validate, seccode);</span><br><span class="line">    if (result != 1) return false;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中大部分引用了极验官方DEMO的代码。<br>这样我们在前台view中可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationSummary(true, &quot;&quot;, new &#123; @class = &quot;text-danger&quot; &#125;)</span><br></pre></td></tr></table></figure>
+<p>来提示用户首先需要通过滑块验证才能继续操作。</p>
+<p>这样我们就完成了将极验验证集成到我们的ASP.NET MVC项目中。并且可以在极验的后台中查看具体的数据报表：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1ioqpc0pnj2154090t9v.jpg" alt="极验后台报表"></p>
+<p>整个产品的使用我们并没有编写太多的代码，而且将复杂的验证过程交给了第三方，而我们自己只需要关心自己的业务逻辑。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">极验</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/979.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e4-bd-bf-e7-94-a8entityframeworkwithhierarchyid" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1730,97 +1846,6 @@ class Picture(models.Model):
 
 
   
-    <article id="post-e5-90-90-e6-a7-bdtx-e7-9a-84-e5-bc-80-e6-94-be-e5-b9-b3-e5-8f-b0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/937.html">吐槽TX的开放平台</a>
-    </h1>
-  
-
-        
-        <a href="/937.html" class="archive-article-date">
-  	<time datetime="2015-11-18T12:40:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这两天实在是被这TX这个傻X给逼疯了。</p>
-<p>不能理解腾讯的开放平台为啥要搞这么多。<br>1. 微信和QQ的登录竟然不是同一个用户，这感觉像是同父异母啊！<br>2. 同样的QQ登录，非要搞一个平台应用，一个移动应用，结果这两个还不好统一，得到的openId还不一样<br>3. 已经有QQ号了非要再搞出一个OpenId,结果每一个不同应用对应的相同用户的OpenId不一样，这样怎么才能做到多平台的用户统一？<br>4. 微信的开放平台还要认证，认证也要300块，认证完了才让你网站应用和移动应用多平台用户统一，不然和QQ一样的只得到OpenId得不到UninId。<br>这整的一套一套的真是让开发者好蛋疼，考虑的是为啥不能直接得到用户的QQ号和微信号，微博，豆瓣不都是可以直接拿到用户的唯一标示的么？<br>唯一值得相信的理由是QQ号和微信号存在一定的隐私性，可能存在某些人不希望公开自己的QQ和微信。哎，如果不是这个原因而是其他他们认为很牛逼的原因只能是太傻逼了。</p>
-<p>APP先上线，在原来基础上要开发一个网站，要求用户是跨平台的。但是QQ的应用却不是跨平台，新申请的移动应用可以调用原来的QQ互联的东西，但是以前申请的应用怎么绑定已有的QQ互联信息呢？这个在他的管理后台里就是找不到，练习在线客户也是石投大海。<br>微信端因为一开始使用了<code>OpenId</code>而非<code>unionId</code>，结果直接是从机制上面不可以跨平台了。这感觉尼玛的就是个个坑啊！！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">腾讯</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开放平台</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/937.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
@@ -2034,19 +2059,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2086,6 +2111,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
@@ -2095,10 +2124,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2114,15 +2139,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2142,10 +2167,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
@@ -2155,6 +2176,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2198,10 +2223,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -2211,6 +2232,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2311,6 +2336,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">

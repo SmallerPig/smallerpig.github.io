@@ -159,6 +159,142 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e8-ae-be-e7-bd-aeasp-net-mvc-e7-ab-99-e7-82-b9-e9-bb-98-e8-ae-a4-e9-a1-b5-e4-b8-bahtml-e9-a1-b5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/346.html">设置ASP.NET MVC站点默认页为html页</a>
+    </h1>
+  
+
+        
+        <a href="/346.html" class="archive-article-date">
+  	<time datetime="2013-11-15T03:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#<br>    问题由来</p>
+<pre><code>部署了一个Asp.Net MVC的站点,其功能只是作为移动端的服务器，服务器空间里面除了CMS以外就没有其他的页面了。这对于我们来说确实是有点浪费了。
+
+可以放点静态的啥小东西放在上面玩一玩。
+
+&amp;nbsp;
+
+所以就出现了标题中出现的问题。
+</code></pre><p>#<br>    解决方案：</p>
+<p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">方法1：</span><br><span class="line"></span><br><span class="line">	在Global.asax文件中增加</span><br><span class="line"></span><br><span class="line">	protected void Application_BeginRequest(object sender, EventArgs e)</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if (Context.Request.FilePath == &amp;quot;/&amp;quot;) Context.RewritePath(&amp;quot;index.html&amp;quot;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+<p>## </p>
+<p>方法2：</p>
+<pre><code>新建一个路由DefaultController，并把它设置为默认路由，在Action中增加
+
+Redirect(Url.Content(&amp;quot;~/index.html&amp;quot;));
+
+此方法需要修改web.config配置
+
+在Web.config文件中的&amp;lt;compilation&amp;gt;节点中增加：
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;buildProviders&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;add extension=&amp;quot;.htm&amp;quot; type=&amp;quot;System.Web.Compilation.PageBuildProvider&amp;quot; /&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/buildProviders&amp;gt;
+
+&amp;nbsp;&amp;nbsp;
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>方法3：</p>
+<pre><code>1)站点根目录增加了default.html;
+
+2)修改Global.asax默认的路由注册，去掉默认controller：
+
+routes.MapRoute(
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;Default&amp;quot;, // 路由名称
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;{controller}/{action}/{id}&amp;quot;, // 带有参数的 URL
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;new {action = &amp;quot;Index&amp;quot;, id = UrlParameter.Optional } // 参数默认值
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;);&amp;nbsp;
+
+&amp;nbsp;
+
+将iis中的默认文档配置为index.html
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/346.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-9c-a8asp-net-mvc-e4-b8-ad-e8-8e-b7-e5-8f-96-e5-bd-93-e5-89-8durl-e3-80-81controller-e3-80-81action" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -883,115 +1019,6 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 
 
   
-    <article id="post-小猪学设计模式之—装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
-    </h1>
-  
-
-        
-        <a href="/323.html" class="archive-article-date">
-  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>装饰者模式</strong></p>
-<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
-<p><strong>装饰者模式的工作原理：</strong></p>
-<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
-<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
-<p><strong>装饰者模式UML图</strong></p>
-<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
-<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
-<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><strong>装饰者模式的应用场景：</strong></p>
-<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
-<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
-<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
-<p><strong>装饰者模式的优点：</strong></p>
-<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
-<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
-<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
-<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
-<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
-<p><strong>装饰者模式的缺点：</strong></p>
-<p>1、  装饰链不能过长，否则会影响效率。</p>
-<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
-<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/323.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-小猪学设计模式之——装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1105,29 +1132,51 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 
 
   
-    <article id="post-设计原则—依赖倒转原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-小猪学设计模式之—装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/321.html">设计原则—依赖倒转原则</a>
+      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
     </h1>
   
 
         
-        <a href="/321.html" class="archive-article-date">
-  	<time datetime="2013-10-09T06:39:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
+        <a href="/323.html" class="archive-article-date">
+  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
-<p>更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</p>
-<h2 id="为什么要倒转？"><a href="#为什么要倒转？" class="headerlink" title="为什么要倒转？"></a>为什么要倒转？</h2><p>原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
+        <p><strong>装饰者模式</strong></p>
+<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
+<p><strong>装饰者模式的工作原理：</strong></p>
+<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
+<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
+<p><strong>装饰者模式UML图</strong></p>
+<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
+<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
+<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>装饰者模式的应用场景：</strong></p>
+<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
+<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
+<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
+<p><strong>装饰者模式的优点：</strong></p>
+<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
+<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
+<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
+<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
+<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
+<p><strong>装饰者模式的缺点：</strong></p>
+<p>1、  装饰链不能过长，否则会影响效率。</p>
+<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
+<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
 
       
 
@@ -1141,11 +1190,7 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">依赖倒转</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">IOC</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
         		</li>
       		
 		</ul>
@@ -1166,7 +1211,7 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/321.html">展开全文 >></a>
+          <a class="article-more-a" href="/323.html">展开全文 >></a>
         </p>
       
 
@@ -1409,19 +1454,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1461,6 +1506,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
@@ -1470,10 +1519,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1489,15 +1534,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1517,10 +1562,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
@@ -1530,6 +1571,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1573,10 +1618,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1586,6 +1627,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1686,6 +1731,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">
