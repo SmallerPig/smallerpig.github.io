@@ -159,6 +159,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-b0-8f-e7-8c-aa-e5-ad-a6-e8-ae-be-e8-ae-a1-e6-a8-a1-e5-bc-8f-e5-b7-a5-e5-8e-82-e6-a8-a1-e5-bc-8f-e4-b9-8b-e5-b7-a5-e5-8e-82" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/304.html">小猪学设计模式——工厂模式之工厂方法模式</a>
+    </h1>
+  
+
+        
+        <a href="/304.html" class="archive-article-date">
+  	<time datetime="2013-09-12T02:35:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>还记得上一篇的简单工厂模式吗？<br>我们举了个例子，使用加减乘除的方法来解释简单工厂，而如果我们有一天需要做科学计算器，那两个数之间的运算关系可不止加减乘除了，这时候如果我们的工厂类需要在不同的运算符之间做判断然后再给出具体的运算规则的话，那这些代码将非常的丑陋。</p>
+<p>如果出现这种情况，就需要我们的工厂方法模式了：</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>工厂方法模式代码：</p>
+<pre><code>interface IProduct {  
+    public void productMethod\(\);  
+}  
+
+class Product implements IProduct {  
+    public void productMethod\(\) {  
+        System.out.println(&quot;产品&quot;);  
+    }  
+}  
+
+interface IFactory {  
+    public IProduct createProduct\(\);  
+}  
+
+class Factory implements IFactory {  
+    public IProduct createProduct\(\) {  
+        return new Product\(\);  
+    }  
+}  
+
+public class Client {  
+    public static void main(String[] args) {  
+        IFactory factory = new Factory\(\);  
+        IProduct prodect = factory.createProduct\(\);  
+        prodect.productMethod\(\);  
+    }  
+}  
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    从上述代码中我们可以看出，实现工厂方法模式需要4个元素</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 四个要素</span><br><span class="line"></span><br><span class="line">    **工厂接口**。工厂接口是工厂方法模式的核心，与调用者直接交互用来提供产品。在实际编程中，有时候也会使用一个抽象类来作为与调用者交互的接口，其本质上是一样的。</span><br><span class="line">    **工厂实现**。在编程中，工厂实现决定如何实例化产品，是实现扩展的途径，需要有多少种产品，就需要有多少个具体的工厂实现。</span><br><span class="line">    **产品接口**。产品接口的主要目的是定义产品的规范，所有的产品实现都必须遵循产品接口定义的规范。产品接口是调用者最为关心的，产品接口定义的优劣直接决定了调用者代码的稳定性。同样，产品接口也可以用抽象类来代替，但要注意最好不要违反里氏替换原则。</span><br><span class="line">    **产品实现**。实现产品接口的具体类，决定了产品在客户端中的具体行为。</span><br><span class="line">    上一篇提到的简单工厂模式跟工厂方法模式极为相似，区别是：简单工厂只有三个要素，他没有工厂接口，并且得到产品的方法一般是静态的。因为没有工厂接口，所以在工厂实现的扩展性方面稍弱，可以算所工厂方法模式的简化版，关于简单工厂模式，可参考上一篇:[小猪学设计模式——工厂模式之简单工厂(静态工厂)](http://www.smallerpig.com/303.html)。</span><br><span class="line"></span><br><span class="line">    回到一开始提出的问题上来，我们需要在原来的简单工厂上面抽象出来一个抽象工厂的类：</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> public class OperationFactory</span><br><span class="line">    &#123;</span><br><span class="line">        public static Operation createOperate(string operate)</span><br><span class="line">        &#123;</span><br><span class="line">            Operation oper = null;</span><br><span class="line">            switch (operate)</span><br><span class="line">            &#123;</span><br><span class="line">                case &quot;+&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationAdd\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;-&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationSub\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;*&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationMul\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;/&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationDiv\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return oper;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>抽象出来的类为：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface IOperationFactory&#123;</span><br><span class="line">       IOperation createOperation\(\);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //具体实现的工厂类</span><br><span class="line">   public class AddOperationFactory  implements IOperationFactory&#123;</span><br><span class="line">       @Override</span><br><span class="line">       public IOperation createOperation\(\) &#123;</span><br><span class="line">           return new AddOperation\(\);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>然后每一个操作符都新建一个实现了IOperationFactory接口的类。
+看上述代码修改的好像并没有太大的意义，那是因为我们的适用场景。
+
+想象下如果我们不是加减乘除，而是生产汽车的过程。一开始我们需要各种零件：轮胎，发动机，方向盘等等，我们使用了简单工厂模式直接给到调用者这些零件。这时候简单工厂模式是能够满足我们的需求的。
+但是我们的汽车品牌变了(之前可是只有零件可能发生变化的)，我们之前开的奥拓不满足需求了，我们需要奥迪宝马奔驰了，也就是工厂变了，这个时候就需要将原来的工厂进行抽象。调用者直接使用抽象工厂类来进行调用车，而将零件的具体组装过程放到不同的工厂类里面。客户端拿到的就是一辆实实在在的车，且客户端并不关心具体工厂内部是怎么组件车的，客户端只是希望能实现我开车的目的就可以了。
+</code></pre><p><code>`</code>  </p>
+<p> interface IFactory {<br>        public ICar createCar();<br>    }<br>    class Factory implements IFactory {<br>        public ICar createCar() {<br>            Engine engine = new Engine();<br>            Underpan underpan = new Underpan();<br>            Wheel wheel = new Wheel();<br>            ICar car = new Car(underpan, wheel, engine);<br>            return car;<br>        }<br>    }<br>    public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new Factory();<br>            ICar car = factory.createCar();<br>            car.show();<br>        }<br>    }  </p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单工厂模式一般用在产品变化多而工厂变化少的情况。<br>工厂方法模式一般用在工厂也可能出现过多的变动的情况。这个时候我们就需要为每一个产品都创建一个工厂。而将具体需要实例化哪一个产品交给客户端来处理。也就是用官方的话来讲：<strong>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使用一个类的实例化延迟到其子类。</strong>。而这个也将导致另外一个问题。选择判断的问题还是存在的，也就是说，工厂方法把简单工厂的内部逻辑判断一到了客户端代码来进行。在新增功能的时候，本来是改工厂类，现在是修改客户端了。<br>当然，这只是个人拙见。可能随着个人代码量的增加，对工厂方法的认识也会逐渐的改变。</p>
+<hr>
+<p>更新于2016年9月16日</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/304.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-b0-8f-e7-8c-aa-e5-ad-a6-e8-ae-be-e8-ae-a1-e6-a8-a1-e5-bc-8f-e5-b7-a5-e5-8e-82-e6-a8-a1-e5-bc-8f-e4-b9-8b-e7-ae-80-e5-8d-95-e5-b7-a5-e5-8e-82" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1055,98 +1187,6 @@
 
 
   
-    <article id="post-c-e5-92-8cjs-e7-9a-84-e6-97-a5-e6-9c-9f-e6-a0-bc-e5-bc-8f-e8-bd-ac-e6-8d-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/286.html">C#和JS的日期格式转换</a>
-    </h1>
-  
-
-        
-        <a href="/286.html" class="archive-article-date">
-  	<time datetime="2013-08-19T06:04:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>C#和JS的日期格式互相转换遇到了问题，我们从.NET服务器端序列化一个DateTime对象的结果是一个字符串格式，如 <span style="color:#FF0000;">&#39;/Date(1335258540000)/&#39;</span> 这样的字符串。</p>
-<p>整数1335258540000实际上是一个<span style="color:#FF0000;">1970 年1月1日00:00:00</span>至这个DateTime中间间隔的毫秒数。通过javascript用eval函数可以把这个日期字符串转换为一个带有时区的Date对象，如下</p>
-<p>用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var date = eval(&apos;new &apos; + eval(&apos;/Date(1335258540000)/&apos;).source)</span><br></pre></td></tr></table></figure></p>
-<p>这样即可得到一个JS对象</p>
-<p>通过alert(date)查看比较清楚。</p>
-<p><span style="color:#FF0000;">Tue Apr 24 17:09:00 UTC+0800 2012 </span></p>
-<p>然后通过js的时间函数可对其进行格式化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var myDate = new Date\(\);</span><br><span class="line">myDate.getYear\(\);        //获取当前年份(2位)</span><br><span class="line">myDate.getFullYear\(\);    //获取完整的年份(4位,1970-????)</span><br><span class="line">myDate.getMonth\(\);       //获取当前月份(0-11,0代表1月)</span><br><span class="line">myDate.getDate\(\);        //获取当前日(1-31)</span><br><span class="line">myDate.getDay\(\);         //获取当前星期X(0-6,0代表星期天)</span><br><span class="line">myDate.getTime\(\);        //获取当前时间(从1970.1.1开始的毫秒数)</span><br><span class="line">myDate.getHours\(\);       //获取当前小时数(0-23)</span><br><span class="line">myDate.getMinutes\(\);     //获取当前分钟数(0-59)</span><br><span class="line">myDate.getSeconds\(\);     //获取当前秒数(0-59)</span><br><span class="line">myDate.getMilliseconds\(\);    //获取当前毫秒数(0-999)</span><br><span class="line">myDate.toLocaleDateString\(\);     //获取当前日期</span><br><span class="line">var mytime=myDate.toLocaleTimeString\(\);     //获取当前时间 上午12:00:00</span><br><span class="line">myDate.toLocaleString&amp;#40; &amp;#41;;        //获取日期与时间 2012年12月12日 上午12:00:00</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/286.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
@@ -1248,15 +1288,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1264,7 +1300,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1348,6 +1388,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
               </li>
              
@@ -1356,23 +1408,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1381,14 +1421,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1401,6 +1433,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1432,15 +1472,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1460,11 +1500,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1476,19 +1520,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1497,6 +1533,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1524,6 +1564,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1533,10 +1577,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1576,15 +1616,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1596,11 +1636,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生病</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color3">生病</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1617,6 +1657,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1640,7 +1684,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
+                <a href="javascript:void(0)" class="js-tag color4">奶头乐</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1656,15 +1700,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">

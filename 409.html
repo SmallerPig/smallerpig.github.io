@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="Javascript的闭包下面代码中，generateClosure() 函数中有一个局部变量count，初值为0。还有一个叫做 get 的函数，get 将其父作用域，也就是 generateClosure() 函数中的 count 变量增加1，并返回 count 的值。generateClosure() 的返回值是 get 函数。在外部我们通过 counter 变量调用了 generateClo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.974Z">
+<meta property="og:updated_time" content="2020-04-06T13:55:40.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闭包">
 <meta name="twitter:description" content="Javascript的闭包下面代码中，generateClosure() 函数中有一个局部变量count，初值为0。还有一个叫做 get 的函数，get 将其父作用域，也就是 generateClosure() 函数中的 count 变量增加1，并返回 count 的值。generateClosure() 的返回值是 get 函数。在外部我们通过 counter 变量调用了 generateClo">
@@ -185,7 +185,7 @@
 <p>我们知道，C#, Java和JavaScript, Ruby, Python这些语言不同，在C#和Java的世界里面，原子对象就是类(当然还有struct和基本变量)，而不是很多动态语言中的函数，我们可以实例化一个类，实例化一个变量，但不可以直接new 一个函数。也就是表面上看，我们是没办法像js那样将函数进行实例化和传递的。这也是为什么直到Java 7闭包才被姗姗来迟的加入Java特性中。但对C#来说这些只是表象，我刚学C#的时候，看到最多的解释委托的话就是：委托啊，就相当于C++里面的函数指针啦。这句话虽然笼统，但确实有一定道理，通过委托特别是匿名委托这层对象的包装，我们就可以突破无法将函数当做对象传递的限制了。</p>
 <p>好像这里还是没讲到闭包和委托的关系，好吧，我太啰嗦了，下面从概念开始讲。</p>
 <p>闭包其实就是使用的变量已经脱离其作用域，却由于和作用域存在上下文关系，从而可以在当前环境中继续使用其上文环境中所定义的一种函数对象。</p>
-<p>下面小猪把上面的js代码翻译成对应的C#代码：<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TCloser</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Func&amp;lt;<span class="keyword">int</span>&amp;gt; T1()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> n =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> () =&amp;gt;</span><br><span class="line">        &#123;</span><br><span class="line">            n++</span><br><span class="line">            Console.WriteLine(n);</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="keyword">new</span> TCloser();</span><br><span class="line">        <span class="keyword">var</span> b = a.T1();</span><br><span class="line">        Console.WriteLine(b());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面小猪把上面的js代码翻译成对应的C#代码：<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TCloser</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Func&amp;lt;<span class="keyword">int</span>&amp;gt; T1()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> n =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> () =&gt;;</span><br><span class="line">        &#123;</span><br><span class="line">            n++</span><br><span class="line">            Console.WriteLine(n);</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="keyword">new</span> TCloser();</span><br><span class="line">        <span class="keyword">var</span> b = a.T1();</span><br><span class="line">        Console.WriteLine(b());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从上面的代码我们不难看到，变量n实际上是属于函数T1的局部变量，它本来生命周期应该是伴随着函数T1的调用结束而被释放掉的，但这里我们却在返回的委托b中仍然能调用它，这里正是闭包所展示出来的威力。因为T1调用返回的匿名委托的代码片段中我们用到了n，而在编译器看来，这些都是合法的，因为返回的委托b和函数T1存在上下文关系，也就是说匿名委托b是允许使用它所在的函数或者类里面的局部变量的，于是编译器通过一系列动作(具体动作我们后面再说)使b中调用的函数T1的局部变量自动闭合，从而使该局部变量满足新的作用范围。</p>
 <p>因此，如果你看到.NET中的闭包，你就可以像js中那样理解它，由于返回的匿名函数对象是在函数T1中生成的，因此相当于它是属于T1的一个属性。如果你把T1的对象级别往上提升一个层次就很好理解了，这里就相当于T1是一个类，而返回的匿名对象则是T1的一个属性，对属性而言，它可以调用它所寄存的对象T1的任何其他属性或者方法，包括T1寄存的对象TCloser内部的其他属性。如果这个匿名函数会被返回给其他对象调用，那么编译器会自动将匿名函数所用到的方法T1中的局部变量的生命周转期自动提升，并与匿名函数的生命周期相同，这样就称之为闭合。</p>
 <p>参考:<a href="http://kb.cnblogs.com/page/111231/" title="http://kb.cnblogs.com/page/111231/" target="_blank" rel="noopener">http://kb.cnblogs.com/page/111231/</a></p>
@@ -439,15 +439,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -455,7 +451,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,6 +539,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
               </li>
              
@@ -547,23 +559,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -572,14 +572,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,6 +584,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -623,15 +623,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -651,11 +651,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -667,19 +671,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -688,6 +684,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -715,6 +715,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -724,10 +728,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -767,15 +767,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -787,11 +787,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生病</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color3">生病</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -808,6 +808,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -831,7 +835,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
+                <a href="javascript:void(0)" class="js-tag color4">奶头乐</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -847,15 +851,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">

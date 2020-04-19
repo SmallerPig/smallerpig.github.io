@@ -159,6 +159,122 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e4-bd-bf-e7-94-a8codeigniter-e7-9a-84-e8-b4-ad-e7-89-a9-e8-bd-a6-e7-b1-bb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/554.html">使用CodeIgniter的购物车类  一</a>
+    </h1>
+  
+
+        
+        <a href="/554.html" class="archive-article-date">
+  	<time datetime="2015-04-17T07:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相关文章:</p>
+<ul>
+<li><a href="http://www.smallerpig.com/554.html" title="使用CodeIgniter的购物车类  一" target="_blank" rel="noopener">使用CodeIgniter的购物车类 一</a></li>
+<li><a href="http://www.smallerpig.com/570.html" title="使用CodeIgniter的购物车类 二" target="_blank" rel="noopener">使用CodeIgniter的购物车类 二</a><br>CI框架本身提供了很多类库来帮助我们简化网站的开发.今天我来分享在项目中使用购物车类的过程.希望对后来者有用!</li>
+</ul>
+<p>购物车类允许项目被添加到session中，session在用户浏览你的网站期间都保持有效状态。这些项目能够以标准的 “购物车” 格式被检索和显示，并允许用户更新数量或者从购物车中移除项目。</p>
+<p>请注意购物车类只提供核心的”购物车”功能。它不提供配送、信用卡授权或者其它处理组件.</p>
+<p>因为购物车类利用了CI的session类把购物车信息保存到数据库中,所以在使用购物车类之前,你必须根据session类文档中的说明来创建数据库表,并且在application/config/config.php 文件中把session相关参数设置为使用数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $config[&apos;sess_use_database&apos;]	= TRUE;</span><br><span class="line">$config[&apos;sess_table_name&apos;]	= &apos;ci_sessions&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>创建数据库表的sql语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> CREATE TABLE IF NOT EXISTS  `ci_sessions` (</span><br><span class="line">  session_id varchar(40) DEFAULT &apos;0&apos; NOT NULL,</span><br><span class="line">  ip_address varchar(45) DEFAULT &apos;0&apos; NOT NULL,</span><br><span class="line">  user_agent varchar(120) NOT NULL,</span><br><span class="line">  last_activity int(10) unsigned DEFAULT 0 NOT NULL,</span><br><span class="line">  user_data text DEFAULT &apos;&apos; NOT NULL,</span><br><span class="line">  PRIMARY KEY (session_id),</span><br><span class="line">  KEY `last_activity_idx` (`last_activity`)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+<p>为了在你的控制器构造函数中初始化购物车类,请使用$this-&gt;load-&gt;library函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$this-&amp;gt;load-&amp;gt;library(&apos;cart&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>说明: 购物车类会自动加载和初始化Session类，因此除非你在别处要用到session，否则你不需要再次加载Session类。</p>
+<h3 id="将一个项目添加到购物车"><a href="#将一个项目添加到购物车" class="headerlink" title="将一个项目添加到购物车"></a>将一个项目添加到购物车</h3><p>要添加项目到购物车,只需将一个包含了商品信息的数组传递给$this-&gt;cart-&gt;insert()函数即可,就像下面这样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $data = array(</span><br><span class="line">               &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">               &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">               &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">               &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">               &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;insert($data);</span><br></pre></td></tr></table></figure></p>
+<p>五个保留的索引分别是:</p>
+<ul>
+<li>id - 你的商店里的每件商品都必须有一个唯一的标识符(identifier)。典型的标识符是 “sku”(译者注：库存量单位) 或者其它类似的标识符。</li>
+<li>qty - 购买的数量(quantity)。</li>
+<li>price - 商品的价格(price)。</li>
+<li>name - 商品的名称(name)。</li>
+<li>options - 标识商品的任何附加属性。必须通过数组来传递。<br>除以上五个索引外，还有两个保留字：rowid 和 subtotal。它们是购物车类内部使用的，因此，往购物车中插入数据时，请不要使用这些词作为索引。</li>
+</ul>
+<p>你的数组可能包含附加的数据。你的数组中包含的所有数据都会被存储到session中。然而，最好的方式是标准化你所有商品的数据，这样更方便你在表格中显示它们。</p>
+<p>如果成功的插入一条数据后，insert()方法将会返回一个id值（$rowid）</p>
+<p>完整的php代码如下.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> class Cart extends CI_Controller&#123;</span><br><span class="line">    public  function Add\(\)&#123;</span><br><span class="line">        $this-&amp;gt;load-&amp;gt;library(&quot;cart&quot;);</span><br><span class="line">        $data = array(</span><br><span class="line">            &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">            &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">            &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">            &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">            &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">        );</span><br><span class="line">        $this-&amp;gt;cart-&amp;gt;insert($data);</span><br><span class="line"></span><br><span class="line">        echo &quot;add\(\) called&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在浏览器中访问地址:<a href="http://127.0.0.1/cart/add" title="http://127.0.0.1/cart/add" target="_blank" rel="noopener">http://127.0.0.1/cart/add</a> 我们可以看到正确的调用:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb.png" alt="image" title="image"></a></p>
+<p>.为了查看先有购物车的数据,我们编写一个单独的方法来显示数据.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line">public function show\(\)&#123;</span><br><span class="line">    $data = $this-&amp;gt;cart-&amp;gt;contents\(\);</span><br><span class="line">    echo &quot;&amp;gt;pre&amp;gt;&quot;;</span><br><span class="line">    print_r($data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在浏览器里查看地址<a href="http://127.0.0.1/cart/show" title="http://127.0.0.1/cart/show" target="_blank" rel="noopener">http://127.0.0.1/cart/show</a>,可以看到我们的刚才的数据已经在里面</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image3.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image3_thumb.png" alt="image" title="image"></a></p>
+<p>如果你可以查看数据库的话,打开数据库你也可以在表ci_session中看到已经插入了一条数据</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image2.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb2.png" alt="image" title="image"></a></p>
+<p>&nbsp;</p>
+<p><strong>什么是 Row ID?</strong>  当一个项目被添加到购物车时，程序所生成的那个唯一的标识符就是row ID。创建唯一ID的理由是，当购物车中相同的商品有不同的选项时，购物车就能够对它们进行管理。</p>
+<p>比如说，有人购买了两件相同的T-shirt (相同的商品ID)，但是尺寸不同。商品ID(以及其它属性)都会完全一样，因为它们是相同的T-shirt。它们唯一的差别就是尺寸不同。因此购物车必须想办法来区分它们，这样才能独立地管理这两件尺寸不同的T-shirt。而基于商品ID和其它相关选项信息来创建一个唯一的 “row ID” 就能解决这个问题。</p>
+<p>在几乎所有情况下，更新购物车都将是用户通过 “查看购物车” 页面来实现的，因此对开发者来说，不必太担心”row ID”，只要保证你的 “查看购物车” 页面中的一个隐藏表单字段包含了这个信息，并且确保它能被传递给表单提交时所调用的更新函数就行了。请仔细分析上面的 “查看购物车” 页面的结构以获取更多信息。</p>
+<p>#### </p>
+<h3 id="将多个项目添加到购物车"><a href="#将多个项目添加到购物车" class="headerlink" title="将多个项目添加到购物车"></a>将多个项目添加到购物车</h3><p>通过下面这种多维数组的方式，可以一次性添加多个产品到购物车中。当你希望允许用户选择同一页面中的多个项目时，这就非常有用了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">                      &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_567ZYX&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 9.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;Coffee Mug&apos;</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_965QRS&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 29.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;Shot Glass&apos;</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;insert($data);</span><br></pre></td></tr></table></figure></p>
+<h3 id="更新购物车"><a href="#更新购物车" class="headerlink" title="更新购物车"></a>更新购物车</h3><p>为了更新购物车中的信息，你必须将一个包含了 Row ID 和数量(quantity)的数组传递给 $this-&gt;cart-&gt;update() 函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              &apos;rowid&apos; =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">              &apos;qty&apos;   =&amp;gt; 3</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data); </span><br><span class="line"></span><br><span class="line">// 或者是一个多维数组</span><br><span class="line"></span><br><span class="line">$data = array(</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 3</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;xw82g9q3r495893iajdh473990rikw23&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 4</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;fh4kdkkkaoe30njgoe92rkdkkobec333&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 2</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data);</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除购物车条目"><a href="#删除购物车条目" class="headerlink" title="删除购物车条目"></a>删除购物车条目</h3><p>删除购物车条目其实就是将某一条数据的qty置为0,例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              &apos;rowid&apos; =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">              &apos;qty&apos;   =&amp;gt; 0</span><br><span class="line">           );</span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data);</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/554.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-phpstorm-e8-ae-be-e7-bd-aectrly-e5-bf-ab-e6-8d-b7-e9-94-ae-e4-b8-ba-e9-87-8d-e5-81-9a" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -942,86 +1058,6 @@
 
 
   
-    <article id="post-e4-bd-bf-e7-94-a8linq-e5-bf-ab-e9-80-9f-e7-9a-84-e6-93-8d-e4-bd-9cxml" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/425.html">使用Linq快速的操作XML</a>
-    </h1>
-  
-
-        
-        <a href="/425.html" class="archive-article-date">
-  	<time datetime="2014-02-21T08:06:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="开始内容之前先分享一段话"><a href="#开始内容之前先分享一段话" class="headerlink" title="开始内容之前先分享一段话"></a>开始内容之前先分享一段话</h3><p>有时候，当你知道要做什么的时候就做的很快，比如你要实现个功能，码字的活儿不算很难，做个检索也不会有什么难倒你的。<br>但是，做着做着，你发现好像世界上的工作都在重复，于是你有种心要飞起来的感觉，但总觉得脚步速度太慢，你开始抱怨进度，公司也对你充满期待，于是会给你配备助手，一来二去，你成为了小领导，你不再自己编码了，而且要做什么也都告诉你的助手们了，这时，你陷入了沉思，我该干什么呢？<br>偶然的，你发现某些事情朝着错误的方向发展，用户开始抱怨了，你跳出来，指出助手们的错误，然后事情过去了，你却停不下来，你怕这样的事情再次发生，于是你开始更深的沉思，这次你学会了思考，我要做的就是保持优秀的团队力量，如何保持呢？古板不是个办法，因为古板会使你的团队成员走你的老路，他们会感到单一、重复、枯燥。。。<br>你不能再去写代码以逃避无休无止的思考，因为你写的那点代码也起不到作用，还冷不丁的出个意外需要你公关，你很想突破，突破思维的限制，你发现突破不仅是你的挑战，更是你唯一的出路。 </p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;Columns&gt;</span><br><span class="line">  &lt;column id=&quot;序号&quot;&gt;</span><br><span class="line">    &lt;name&gt;序号&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验项目&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验项目&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;单位&quot;&gt;</span><br><span class="line">    &lt;name&gt;单位&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;标准要求&quot;&gt;</span><br><span class="line">    &lt;name&gt;标准要求&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验结果&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验结果&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;结论&quot;&gt;</span><br><span class="line">    &lt;name&gt;结论&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">&lt;/Columns&gt;</span><br></pre></td></tr></table></figure>
-<p>以上就是一个Xml文件，我们知道，Xml文件是用来存储数据的，那么我们如何遍历这些数据呢？<br>其实最简单的方法，就是使用Linq：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iTestResultXml=new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;testResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">          iTestResultXml.Add(node.Value);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就可以获得&lt;column/&gt;标签里所有的数据了，并把他们存储到列表iTestResultXml中。<br>在testResult.xml文件中，我们看到，&lt;column/&gt;标签设置了本身的id,而此id并不是他的数据，而是他的一个属性，那么如果我们想获得他的属性而不是他标签里的内容该如何获得呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iXmlID = new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;....XmltestResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">            iXmlID.Add(node.Attribute(&quot;id&quot;).Value);   //获取指定属性的方法</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就获取了&lt;column/&gt;标签里id属性的列表iXmlID。</p>
-<p>参考地址：<a href="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" title="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" target="_blank" rel="noopener">http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN</a></p>
-<p><a href="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" title="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" target="_blank" rel="noopener">http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/425.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1123,15 +1159,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1139,7 +1171,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1223,6 +1259,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
               </li>
              
@@ -1231,23 +1279,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1256,14 +1292,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1276,6 +1304,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1307,15 +1343,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,11 +1371,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1351,19 +1391,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1372,6 +1404,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1399,6 +1435,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1408,10 +1448,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1451,15 +1487,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1471,11 +1507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生病</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color3">生病</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1492,6 +1528,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1515,7 +1555,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
+                <a href="javascript:void(0)" class="js-tag color4">奶头乐</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1531,15 +1571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">

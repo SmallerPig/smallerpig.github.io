@@ -159,6 +159,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-小猪学设计模式之—装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
+    </h1>
+  
+
+        
+        <a href="/323.html" class="archive-article-date">
+  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰者模式</strong></p>
+<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
+<p><strong>装饰者模式的工作原理：</strong></p>
+<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
+<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
+<p><strong>装饰者模式UML图</strong></p>
+<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
+<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
+<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>装饰者模式的应用场景：</strong></p>
+<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
+<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
+<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
+<p><strong>装饰者模式的优点：</strong></p>
+<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
+<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
+<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
+<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
+<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
+<p><strong>装饰者模式的缺点：</strong></p>
+<p>1、  装饰链不能过长，否则会影响效率。</p>
+<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
+<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/323.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-设计原则—依赖倒转原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1062,138 +1171,6 @@ public class Client {
 
 
   
-    <article id="post-e5-b0-8f-e7-8c-aa-e5-ad-a6-e8-ae-be-e8-ae-a1-e6-a8-a1-e5-bc-8f-e5-b7-a5-e5-8e-82-e6-a8-a1-e5-bc-8f-e4-b9-8b-e5-b7-a5-e5-8e-82" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/304.html">小猪学设计模式——工厂模式之工厂方法模式</a>
-    </h1>
-  
-
-        
-        <a href="/304.html" class="archive-article-date">
-  	<time datetime="2013-09-12T02:35:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>还记得上一篇的简单工厂模式吗？<br>我们举了个例子，使用加减乘除的方法来解释简单工厂，而如果我们有一天需要做科学计算器，那两个数之间的运算关系可不止加减乘除了，这时候如果我们的工厂类需要在不同的运算符之间做判断然后再给出具体的运算规则的话，那这些代码将非常的丑陋。</p>
-<p>如果出现这种情况，就需要我们的工厂方法模式了：</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>工厂方法模式代码：</p>
-<pre><code>interface IProduct {  
-    public void productMethod\(\);  
-}  
-
-class Product implements IProduct {  
-    public void productMethod\(\) {  
-        System.out.println(&quot;产品&quot;);  
-    }  
-}  
-
-interface IFactory {  
-    public IProduct createProduct\(\);  
-}  
-
-class Factory implements IFactory {  
-    public IProduct createProduct\(\) {  
-        return new Product\(\);  
-    }  
-}  
-
-public class Client {  
-    public static void main(String[] args) {  
-        IFactory factory = new Factory\(\);  
-        IProduct prodect = factory.createProduct\(\);  
-        prodect.productMethod\(\);  
-    }  
-}  
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    从上述代码中我们可以看出，实现工厂方法模式需要4个元素</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 四个要素</span><br><span class="line"></span><br><span class="line">    **工厂接口**。工厂接口是工厂方法模式的核心，与调用者直接交互用来提供产品。在实际编程中，有时候也会使用一个抽象类来作为与调用者交互的接口，其本质上是一样的。</span><br><span class="line">    **工厂实现**。在编程中，工厂实现决定如何实例化产品，是实现扩展的途径，需要有多少种产品，就需要有多少个具体的工厂实现。</span><br><span class="line">    **产品接口**。产品接口的主要目的是定义产品的规范，所有的产品实现都必须遵循产品接口定义的规范。产品接口是调用者最为关心的，产品接口定义的优劣直接决定了调用者代码的稳定性。同样，产品接口也可以用抽象类来代替，但要注意最好不要违反里氏替换原则。</span><br><span class="line">    **产品实现**。实现产品接口的具体类，决定了产品在客户端中的具体行为。</span><br><span class="line">    上一篇提到的简单工厂模式跟工厂方法模式极为相似，区别是：简单工厂只有三个要素，他没有工厂接口，并且得到产品的方法一般是静态的。因为没有工厂接口，所以在工厂实现的扩展性方面稍弱，可以算所工厂方法模式的简化版，关于简单工厂模式，可参考上一篇:[小猪学设计模式——工厂模式之简单工厂(静态工厂)](http://www.smallerpig.com/303.html)。</span><br><span class="line"></span><br><span class="line">    回到一开始提出的问题上来，我们需要在原来的简单工厂上面抽象出来一个抽象工厂的类：</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> public class OperationFactory</span><br><span class="line">    &#123;</span><br><span class="line">        public static Operation createOperate(string operate)</span><br><span class="line">        &#123;</span><br><span class="line">            Operation oper = null;</span><br><span class="line">            switch (operate)</span><br><span class="line">            &#123;</span><br><span class="line">                case &quot;+&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationAdd\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;-&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationSub\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;*&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationMul\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;/&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationDiv\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return oper;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>抽象出来的类为：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface IOperationFactory&#123;</span><br><span class="line">       IOperation createOperation\(\);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //具体实现的工厂类</span><br><span class="line">   public class AddOperationFactory  implements IOperationFactory&#123;</span><br><span class="line">       @Override</span><br><span class="line">       public IOperation createOperation\(\) &#123;</span><br><span class="line">           return new AddOperation\(\);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>然后每一个操作符都新建一个实现了IOperationFactory接口的类。
-看上述代码修改的好像并没有太大的意义，那是因为我们的适用场景。
-
-想象下如果我们不是加减乘除，而是生产汽车的过程。一开始我们需要各种零件：轮胎，发动机，方向盘等等，我们使用了简单工厂模式直接给到调用者这些零件。这时候简单工厂模式是能够满足我们的需求的。
-但是我们的汽车品牌变了(之前可是只有零件可能发生变化的)，我们之前开的奥拓不满足需求了，我们需要奥迪宝马奔驰了，也就是工厂变了，这个时候就需要将原来的工厂进行抽象。调用者直接使用抽象工厂类来进行调用车，而将零件的具体组装过程放到不同的工厂类里面。客户端拿到的就是一辆实实在在的车，且客户端并不关心具体工厂内部是怎么组件车的，客户端只是希望能实现我开车的目的就可以了。
-</code></pre><p><code>`</code>  </p>
-<p> interface IFactory {<br>        public ICar createCar();<br>    }<br>    class Factory implements IFactory {<br>        public ICar createCar() {<br>            Engine engine = new Engine();<br>            Underpan underpan = new Underpan();<br>            Wheel wheel = new Wheel();<br>            ICar car = new Car(underpan, wheel, engine);<br>            return car;<br>        }<br>    }<br>    public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new Factory();<br>            ICar car = factory.createCar();<br>            car.show();<br>        }<br>    }  </p>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单工厂模式一般用在产品变化多而工厂变化少的情况。<br>工厂方法模式一般用在工厂也可能出现过多的变动的情况。这个时候我们就需要为每一个产品都创建一个工厂。而将具体需要实例化哪一个产品交给客户端来处理。也就是用官方的话来讲：<strong>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使用一个类的实例化延迟到其子类。</strong>。而这个也将导致另外一个问题。选择判断的问题还是存在的，也就是说，工厂方法把简单工厂的内部逻辑判断一到了客户端代码来进行。在新增功能的时候，本来是改工厂类，现在是修改客户端了。<br>当然，这只是个人拙见。可能随着个人代码量的增加，对工厂方法的认识也会逐渐的改变。</p>
-<hr>
-<p>更新于2016年9月16日</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/304.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/21/">Next &raquo;</a>
@@ -1295,15 +1272,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">大事记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1311,7 +1284,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1395,6 +1372,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
               </li>
              
@@ -1403,23 +1392,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1428,14 +1405,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1448,6 +1417,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1479,15 +1456,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1507,11 +1484,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1523,19 +1504,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1544,6 +1517,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">实习生</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1571,6 +1548,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1580,10 +1561,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1623,15 +1600,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1643,11 +1620,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生病</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color3">生病</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1664,6 +1641,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1687,7 +1668,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
+                <a href="javascript:void(0)" class="js-tag color4">奶头乐</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1703,15 +1684,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
