@@ -9,14 +9,14 @@
   <title>Django给文章的作者字段赋值当前登录用户 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="问题使用Django开发程序时，我们可以使用django自带的后台来管理注册的模型，非常的方便。但方便的前提之下就是需要牺牲很多的灵活性，例如默认情况下模型的添加时是不做任何事情的，也就是除了不可编辑项之外，其他的项都是通过html表单来编辑的。这并不能满足我们某些情况下的复杂要求。举个简单的例子，我们在编写博客程序时每篇文章都会有它的作者，这个字段我们是不希望让用户编辑的，而是直接让程序生成当前">
-<meta name="keywords" content="Django,python">
+<meta name="keywords" content="Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django给文章的作者字段赋值当前登录用户">
 <meta property="og:url" content="http://blog.smallerpig.com/1015.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="问题使用Django开发程序时，我们可以使用django自带的后台来管理注册的模型，非常的方便。但方便的前提之下就是需要牺牲很多的灵活性，例如默认情况下模型的添加时是不做任何事情的，也就是除了不可编辑项之外，其他的项都是通过html表单来编辑的。这并不能满足我们某些情况下的复杂要求。举个简单的例子，我们在编写博客程序时每篇文章都会有它的作者，这个字段我们是不希望让用户编辑的，而是直接让程序生成当前">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-05-05T06:05:09.843Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django给文章的作者字段赋值当前登录用户">
 <meta name="twitter:description" content="问题使用Django开发程序时，我们可以使用django自带的后台来管理注册的模型，非常的方便。但方便的前提之下就是需要牺牲很多的灵活性，例如默认情况下模型的添加时是不做任何事情的，也就是除了不可编辑项之外，其他的项都是通过html表单来编辑的。这并不能满足我们某些情况下的复杂要求。举个简单的例子，我们在编写博客程序时每篇文章都会有它的作者，这个字段我们是不希望让用户编辑的，而是直接让程序生成当前">
@@ -229,10 +229,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
         		</li>
       		
 		</ul>
@@ -939,6 +935,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>

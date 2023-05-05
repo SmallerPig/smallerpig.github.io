@@ -9,6 +9,7 @@
   <title>使用CodeIgniter的购物车类 二 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在前一篇博客中,小猪给大家分享了如何在CI中使用购物车类的一些基础.但是没有结合数据库中的具体数据来进行演示.今天我就来结合数据库中的数据来进一步演示CI的购物车类的一些高级用法. 准备工作首先在数据库表中新建我们的商品表.12345678910 CREATE TABLE IF NOT EXISTS `products` (  `id` int(11) NOT NULL AUTO_INCREMEN">
+<meta name="keywords" content="CI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用CodeIgniter的购物车类 二">
 <meta property="og:url" content="http://blog.smallerpig.com/570.html">
@@ -18,7 +19,7 @@
 <meta property="og:image" content="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb3.png">
 <meta property="og:image" content="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb4.png">
 <meta property="og:image" content="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb5.png">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-05-05T06:13:15.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用CodeIgniter的购物车类 二">
 <meta name="twitter:description" content="在前一篇博客中,小猪给大家分享了如何在CI中使用购物车类的一些基础.但是没有结合数据库中的具体数据来进行演示.今天我就来结合数据库中的数据来进一步演示CI的购物车类的一些高级用法. 准备工作首先在数据库表中新建我们的商品表.12345678910 CREATE TABLE IF NOT EXISTS `products` (  `id` int(11) NOT NULL AUTO_INCREMEN">
@@ -242,6 +243,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -943,6 +955,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>

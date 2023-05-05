@@ -9,14 +9,13 @@
   <title>ASP.NET MVC使用Url辅助方法调用指定Area下的控制器 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="我们都知道在生成url链接的时候，官方是推荐使用Url.Action()方法来生成的。框架会自动帮我们生成指定的url而且一般来说不会出错。小猪只从知道有这么个方法之后一直对它相见恨晚，特别是其能够通过优雅的代码生成指定的get参数。 可是今天小猪却在这个方法上面栽了个跟头…… 原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空">
-<meta name="keywords" content="路由">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ASP.NET MVC使用Url辅助方法调用指定Area下的控制器">
 <meta property="og:url" content="http://blog.smallerpig.com/908.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="我们都知道在生成url链接的时候，官方是推荐使用Url.Action()方法来生成的。框架会自动帮我们生成指定的url而且一般来说不会出错。小猪只从知道有这么个方法之后一直对它相见恨晚，特别是其能够通过优雅的代码生成指定的get参数。 可是今天小猪却在这个方法上面栽了个跟头…… 原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-05-05T05:58:16.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ASP.NET MVC使用Url辅助方法调用指定Area下的控制器">
 <meta name="twitter:description" content="我们都知道在生成url链接的时候，官方是推荐使用Url.Action()方法来生成的。框架会自动帮我们生成指定的url而且一般来说不会出错。小猪只从知道有这么个方法之后一直对它相见恨晚，特别是其能够通过优雅的代码生成指定的get参数。 可是今天小猪却在这个方法上面栽了个跟头…… 原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空">
@@ -220,17 +219,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">路由</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -932,6 +920,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>

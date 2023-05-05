@@ -9,14 +9,13 @@
   <title>使用EntityFrameworkWithHierarchyId | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="SQL SERVER2008以后提供了HierarchyId的数据类型.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等. SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用E">
-<meta name="keywords" content="entity framwork">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用EntityFrameworkWithHierarchyId">
 <meta property="og:url" content="http://blog.smallerpig.com/972.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="SQL SERVER2008以后提供了HierarchyId的数据类型.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等. SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用E">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-05-05T06:13:30.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用EntityFrameworkWithHierarchyId">
 <meta name="twitter:description" content="SQL SERVER2008以后提供了HierarchyId的数据类型.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等. SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用E">
@@ -182,12 +181,15 @@
         <p>SQL SERVER2008以后提供了<a href="https://msdn.microsoft.com/zh-cn/ch/library/bb677290.aspx" target="_blank" rel="noopener">HierarchyId的数据类型</a>.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等.</p>
 <p>SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用EF的HierarchyId类型就需要使用<code>EntityFrameworkWithHierarchyId</code>替换原来的EntityFramework了.<br>安装方法”<br>可以使用Nugget管理器搜索安装<br>或者在程序包管理器里输入下列代码</p>
 <pre><code>install-package EntityFrameworkWithHierarchyId
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">    安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">    我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> public class Category</span><br><span class="line">    &#123;</span><br><span class="line">        public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public string Title &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public HierarchyId Path &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>然后我们就可以愉快的使用HierarchyId类啦.
-实例化一个HierarchyId类:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">HierarchyId model = new HierarchyId(&quot;/2/6/8&quot;);</span><br></pre></td></tr></table></figure>
-<pre><code>在具体的dbcontext中使用:
-</code></pre><p><code>`</code>  </p>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
+<p> public class Category<br>    {<br>        public int Id { get; set; }</p>
+<pre><code>    public string Title { get; set; }
+
+    public HierarchyId Path { get; set; }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后我们就可以愉快的使用HierarchyId类啦.</span><br><span class="line">实例化一个HierarchyId类:</span><br></pre></td></tr></table></figure>
+<p> HierarchyId model = new HierarchyId(“/2/6/8”);</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在具体的dbcontext中使用:</span><br></pre></td></tr></table></figure>
 <p> [HttpPost]<br>    [ValidateAntiForgeryToken]<br>    public ActionResult Add(Category model)<br>    {<br>        model.CreateTime = DateTime.Now;<br>        model.Path = new HierarchyId(Request.Form[“path”]);<br>        db.Categories.Add(model);<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
 <ul>
 <li>GetLevel()方法获取对象当前所在层级</li>
@@ -226,17 +228,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -934,6 +925,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>

@@ -396,10 +396,6 @@ view 代码
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
       		
 		</ul>
 	</div>
@@ -513,24 +509,8 @@ view 代码
 ##### 用例1： 只用七牛托管动态生成的文件（例如用户上传的文件）
 
 在 settings.py 里设置 `DEFAULT_FILE_STORAGE` :
-</code></pre><pre><code>
-DEFAULT_FILE_STORAGE = &apos;qiniustorage.backends.QiniuStorage&apos;
-
-
-   这样设置以后每个使用到Storage的地方都会默认的使用七牛的配置。
-
-   ##### 用例2： 用七牛托管动态生成的文件以及站点自身的静态文件
-
-   首先，检查你的INSTALLED_APPS setting， 确保安装了django.contrib.staticfiles这个 app。
-   staticfiles提供了一个名为collectstatic的命令。它会收集各个 app 的根目录下的static子目录下的文件， 并汇总到一个地方。如果将 django settings 里的STATICFILES_STORAGE设置为QiniuStorage，收集到的静态文件就会被统一上传到七牛。
-
-   ## Documentation
-
-   It&apos;s hosted on the [Read The Doc](http://django-qiniu-storage.readthedocs.org/zh_CN/latest/).
-
-   #### 源码：
-
-</code></pre><p> import datetime<br>    import os<br>    import warnings<br>    from inspect import getargspec</p>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DEFAULT_FILE_STORAGE = &apos;qiniustorage.backends.QiniuStorage&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   这样设置以后每个使用到Storage的地方都会默认的使用七牛的配置。</span><br><span class="line"></span><br><span class="line">   ##### 用例2： 用七牛托管动态生成的文件以及站点自身的静态文件</span><br><span class="line"></span><br><span class="line">   首先，检查你的INSTALLED_APPS setting， 确保安装了django.contrib.staticfiles这个 app。</span><br><span class="line">   staticfiles提供了一个名为collectstatic的命令。它会收集各个 app 的根目录下的static子目录下的文件， 并汇总到一个地方。如果将 django settings 里的STATICFILES_STORAGE设置为QiniuStorage，收集到的静态文件就会被统一上传到七牛。</span><br><span class="line"></span><br><span class="line">   ## Documentation</span><br><span class="line"></span><br><span class="line">   It&apos;s hosted on the [Read The Doc](http://django-qiniu-storage.readthedocs.org/zh_CN/latest/).</span><br><span class="line"></span><br><span class="line">   #### 源码：</span><br></pre></td></tr></table></figure>
+<p> import datetime<br>    import os<br>    import warnings<br>    from inspect import getargspec</p>
 <pre><code>from django import forms
 from django.core import checks
 from django.core.files.base import File
@@ -1013,7 +993,8 @@ class ImageField(FileField):
         defaults = {&apos;form_class&apos;: forms.ImageField}
         defaults.update(kwargs)
         return super(ImageField, self).formfield(**defaults)
-</code></pre>
+</code></pre><p>​    </p>
+
       
 
       
@@ -1027,14 +1008,6 @@ class ImageField(FileField):
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">七牛</a>
         		</li>
       		
 		</ul>
@@ -1120,21 +1093,6 @@ class ImageField(FileField):
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">super</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -1515,6 +1473,17 @@ class Picture(models.Model):
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -2260,6 +2229,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>

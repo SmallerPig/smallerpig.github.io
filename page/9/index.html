@@ -707,17 +707,6 @@ if (nodes.length&amp;gt;1) {
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -906,12 +895,15 @@ if (nodes.length&amp;gt;1) {
         <p>SQL SERVER2008以后提供了<a href="https://msdn.microsoft.com/zh-cn/ch/library/bb677290.aspx" target="_blank" rel="noopener">HierarchyId的数据类型</a>.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等.</p>
 <p>SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用EF的HierarchyId类型就需要使用<code>EntityFrameworkWithHierarchyId</code>替换原来的EntityFramework了.<br>安装方法”<br>可以使用Nugget管理器搜索安装<br>或者在程序包管理器里输入下列代码</p>
 <pre><code>install-package EntityFrameworkWithHierarchyId
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">    安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">    我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> public class Category</span><br><span class="line">    &#123;</span><br><span class="line">        public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public string Title &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public HierarchyId Path &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>然后我们就可以愉快的使用HierarchyId类啦.
-实例化一个HierarchyId类:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">HierarchyId model = new HierarchyId(&quot;/2/6/8&quot;);</span><br></pre></td></tr></table></figure>
-<pre><code>在具体的dbcontext中使用:
-</code></pre><p><code>`</code>  </p>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
+<p> public class Category<br>    {<br>        public int Id { get; set; }</p>
+<pre><code>    public string Title { get; set; }
+
+    public HierarchyId Path { get; set; }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后我们就可以愉快的使用HierarchyId类啦.</span><br><span class="line">实例化一个HierarchyId类:</span><br></pre></td></tr></table></figure>
+<p> HierarchyId model = new HierarchyId(“/2/6/8”);</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在具体的dbcontext中使用:</span><br></pre></td></tr></table></figure>
 <p> [HttpPost]<br>    [ValidateAntiForgeryToken]<br>    public ActionResult Add(Category model)<br>    {<br>        model.CreateTime = DateTime.Now;<br>        model.Path = new HierarchyId(Request.Form[“path”]);<br>        db.Categories.Add(model);<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
 <ul>
 <li>GetLevel()方法获取对象当前所在层级</li>
@@ -929,17 +921,6 @@ if (nodes.length&amp;gt;1) {
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -1060,26 +1041,18 @@ class Client
         strategy.DoSomething\(\);
     }
 }
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    上述代码中我们定义了一个策略接口`IStrategy`,其中有一个方法是`DoSomething\(\)`.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的`SomeThing\(\)`方法,调用策略接口的`DoSomeThing`方法.</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Client c1 = new Client(new StrategyA\(\));</span><br><span class="line">        c1.SomeThing\(\);//A do something</span><br><span class="line">        Client c2 = new Client(new StrategyB\(\));</span><br><span class="line">        c2.SomeThing\(\);//B do something</span><br><span class="line">        Console.ReadLine\(\);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>运行上述代码我们可得到运行结果.
-以上为策略模式的基本概念.
-
-### 在ASP.NET MVC中使用策略模式
-
-试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class PostController : Controller</span><br><span class="line">   &#123;</span><br><span class="line">       private PostServer server = new PostServer\(\);</span><br><span class="line">       // GET: Post</span><br><span class="line">       public ActionResult Index\(\)</span><br><span class="line">       &#123;</span><br><span class="line">           var models = server.GetList\(\);</span><br><span class="line">           return View(models);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   public class PostServer</span><br><span class="line">   &#123;</span><br><span class="line">       public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)</span><br><span class="line">       &#123;</span><br><span class="line">           throw new NotImplementedException\(\);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟`PostServer`类是强耦合的.导致
-1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.
-2\. 没有使用依赖注入,导致该`PostServer`无法替代.也就无法使用类似unity这样的IOC工具.
-
-所以考虑使用策略模式对类似该代码进行重构.
-1\. 对`PostServer`抽象出接口`IPostServer`,并在控制器中用该接口作为成员变量.
-2\. 对控制器的构造函数进行重载,提供一个使用`IPostServer`的构造函数.
-3\. 在上述构造函数中对控制器的成员变量`IPostServer`进行赋值.
-4\. 提供控制器的空参数构造函数来使默认情况下使用原`PostServer`实例化`IPostServer`接口.
-
-具体代码可参考:
-</code></pre><p><code>`</code>  </p>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口`IStrategy`,其中有一个方法是`DoSomething\(\)`.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的`SomeThing\(\)`方法,调用策略接口的`DoSomeThing`方法.</span><br></pre></td></tr></table></figure>
+<p> static void Main(string[] args)<br>    {<br>        Client c1 = new Client(new StrategyA());<br>        c1.SomeThing();//A do something<br>        Client c2 = new Client(new StrategyB());<br>        c2.SomeThing();//B do something<br>        Console.ReadLine();<br>    }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行上述代码我们可得到运行结果.</span><br><span class="line">以上为策略模式的基本概念.</span><br><span class="line"></span><br><span class="line">### 在ASP.NET MVC中使用策略模式</span><br><span class="line"></span><br><span class="line">试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:</span><br></pre></td></tr></table></figure>
+<p> public class PostController : Controller<br>    {<br>        private PostServer server = new PostServer();<br>        // GET: Post<br>        public ActionResult Index()<br>        {<br>            var models = server.GetList();<br>            return View(models);<br>        }<br>    }</p>
+<pre><code>public class PostServer
+{
+    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
+    {
+        throw new NotImplementedException\(\);
+    }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟`PostServer`类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该`PostServer`无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对`PostServer`抽象出接口`IPostServer`,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用`IPostServer`的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量`IPostServer`进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原`PostServer`实例化`IPostServer`接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
 <p> public class PostController : Controller<br>    {<br>        private IPostServer server;</p>
 <pre><code>    public PostController\(\)
     {
@@ -1127,17 +1100,6 @@ public class PostServer : IPostServer
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">策略模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -1889,6 +1851,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>
