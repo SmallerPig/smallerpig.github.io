@@ -161,6 +161,103 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-event-srcelement-e5-9c-a8-e7-81-ab-e7-8b-90firefox-e4-b8-8b-e7-9a-84-e5-85-bc-e5-ae-b9-e9-97-ae-e9-a2-98-e3-80-82-e6-90-9c-e7-b4-a2-e6-a1-86-e8-8e-b7-e5-be-97-e7-84-a6-e7-82-b9-e6-97-b6-e9-bb-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/344.html">event.srcElement在火狐(FireFox)下的兼容问题。搜索框获得焦点时默认文字变化</a>
+    </h1>
+  
+
+        
+        <a href="/344.html" class="archive-article-date">
+  	<time datetime="2013-11-13T00:44:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">前言：</span><br><span class="line"></span><br><span class="line">	项目中用到了一个功能，搜索框里有默认的文字，当搜索框获得焦点时里面的默认文字消失，如果失去焦点时搜索框内容为空则让里面的内容回复默认!,.</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>实现：</p>
+<pre><code>很轻松的在网上找到了类似代码
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#search_text"</span>).focus(<span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">with</span> (event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为默认值，则清空 </span></span><br><span class="line">        <span class="keyword">if</span> (value == defaultValue) value = <span class="string">""</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#search_text"</span>).blur(<span class="function"><span class="keyword">function</span> <span class="title">res</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//捕获触发事件的对象，并设置为以下语句的默认对象 </span></span><br><span class="line">    <span class="keyword">with</span> (event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为空，则重置为默认值 </span></span><br><span class="line">        <span class="keyword">if</span> (value == <span class="string">""</span>) &#123;</span><br><span class="line">            value = defaultValue;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code>该代码很牛逼，用到了js里面的with语法(虽然书上说因为性能原因不建议使用with)，而且完全支持IE6。
+
+但是问题来了，连IE都支持的这段代码竟然在火狐上面出现了兼容的问题。
+
+查了资料原来是
+
+event.srcElement 意思是当前事件的源，我们可以调用它的各种属性，就像 document.getElementById(id) 一样。
+
+IE下，event对象有 srcElement 属性，没有target属性；firefox下，event对象有 target属性，但是没有 srcElement 属性。他们的作用是一样的。
+</code></pre><h2 id="版本二："><a href="#版本二：" class="headerlink" title="版本二："></a>版本二：</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#search_text"</span>).focus(<span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">with</span> (event.target || event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为默认值，则清空 </span></span><br><span class="line">        <span class="keyword">if</span> (value == defaultValue) value = <span class="string">""</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#search_text"</span>).blur(<span class="function"><span class="keyword">function</span> <span class="title">res</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//捕获触发事件的对象，并设置为以下语句的默认对象 </span></span><br><span class="line">    <span class="keyword">with</span> (event.target || event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为空，则重置为默认值 </span></span><br><span class="line">        <span class="keyword">if</span> (value == <span class="string">""</span>) &#123;</span><br><span class="line">            value = defaultValue;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code>好了，可以让你的代码在项目中运行起来了
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/344.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp-net-mvc-e4-b8-8a-e4-bc-a0-e5-a4-a7-e6-96-87-e4-bb-b6-e6-97-b6404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1057,106 +1154,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e5-85-b3-e4-ba-8e-e5-8d-9a-e5-ae-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/316.html">关于博客</a>
-    </h1>
-  
-
-        
-        <a href="/316.html" class="archive-article-date">
-  	<time datetime="2013-09-21T09:26:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现我的博客基本上除了自己很少有其他人访问！</p>
-<p>罢了，其实我写一些博客也不是为了谋取多大的利益，而是光光为了记录一些生活中的感想，技术的一点积累，仅此而已，至于访问量什么的，随他去吧，放上广告也是光为了自己买东西的时候能够返点利而已。</p>
-<p>曾经还会幼稚的认为我写的博客会不会被一些老师看到不好，会不会被一些其他人看到引起不必要的麻烦。</p>
-<p>现在想想完全是多虑了，看着统计中的访问量。~~呵呵呵~</p>
-<p>所以、、、肆无忌惮的发泄吧骚年。</p>
-<p>&nbsp;</p>
-<p>下面引用的是一片文章：</p>
-<p>&nbsp;</p>
-<p><strong>即便没有读者，你也要写博客</strong></p>
-<p>写博客已经改变我阅读其他文章的方式。</p>
-<p>在努力寻找一种正确的方式来构思和呈现文章时，我更关注是什么造就了出色观点和糟糕观点，我更善于发现他人推理中的漏洞。</p>
-<p>同时，当我在阅读文章时，我不大可能陷入那些有弱反诉（weak counterclaims）文章的抹黑陷阱。在大多数文章中 ，很可能有基于特殊案例（exceptional cases）的反诉。互联网评论家喜欢把这些指出来。然而，特殊案例并不是文章的主要推动力，理解文章观点背后的隐喻背景，我又从阅读中获取良多。</p>
-<p>&nbsp;</p>
-<p>写作让你变得更聪明</p>
-<p>写作可以揭示你思维中的漏洞。在你回顾之前写下的想法时，你会发现不少东西缺乏说服力。通过推翻之前的观点，写作会迫使你的想法更加成熟。</p>
-<p>写作也能帮助你把想法组织得连贯。一旦有话题时，这也就让你更加健谈了。正因我先把想法酝酿成熟后，我与人交谈更加深入了，这样的讨论次数之多，我已记不清了。</p>
-<p>&nbsp;</p>
-<p><strong>其他阅读:</strong></p>
-<p><a href="http://www.smallerpig.com/508.html" title="我的建站之路" target="_blank" rel="noopener">我的建站之路</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/316.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/21/">Next &raquo;</a>
@@ -1254,11 +1251,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1307,10 +1304,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1374,11 +1367,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1398,6 +1391,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">手机</a>
               </li>
              
@@ -1411,10 +1408,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1438,15 +1431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">游戏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1470,15 +1463,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1491,6 +1480,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1546,6 +1543,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
@@ -1558,10 +1559,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
@@ -1570,15 +1567,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1633,7 +1630,9 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">仰望星空,并脚踏实地</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. 
+ 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. 
+ 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
   	  	
     	</section>
     

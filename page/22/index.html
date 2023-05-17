@@ -161,6 +161,113 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jquery-min-map-404-not-found" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/297.html">jquery.min.map 404 (Not Found) </a>
+    </h1>
+  
+
+        
+        <a href="/297.html" class="archive-article-date">
+  	<time datetime="2013-09-03T03:23:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很高兴你能注意到这个问题，因为其实这个错误对页面呈现效果是毫无影响的。说明你找到这个问题完全是想你的页面完美运行毫无错误！小猪说错了吗？</p>
+<p>请回答：</p>
+<ol>
+<li><p>1：你用的是chrome浏览器吗？</p>
+</li>
+<li><p>2：其他浏览器没出现这个错误吧？</p>
+</li>
+<li><p>3：你用了jquery库，而且你并没有在页面引用标题中的文件。</p>
+</li>
+</ol>
+<p>回答应该都是“YES”，因为距目前为止好像只有chrome浏览器支持这个特性。</p>
+<p>下面小猪来说说这个问题的原因。</p>
+<p>目前大多数js库都是使用压缩过的，压缩的好处是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）压缩，减小体积。比如jQuery 1.9的源码，压缩前是252KB，压缩后是32KB。</span><br><span class="line">（2）多个文件合并，减少HTTP请求数。</span><br><span class="line">（3）其他语言编译成JavaScript。</span><br></pre></td></tr></table></figure>
+<p>这三种情况，都使得实际运行的代码不同于开发代码，除错（debug）变得困难重重。<br>通常，JavaScript的解释器会告诉你，第几行第几列代码出错。但是，这对于转换后的代码毫无用处。举例来说，jQuery 1.9压缩后只有3行，每行3万个字符，所有内部变量都改了名字。你看着报错信息，感到毫无头绪，根本不知道它所对应的原始位置。<br><strong>这就是Source map想要解决的问题。</strong></p>
+<p>简单说，Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。<br>有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码。这无疑给开发者带来了很大方便。（下图中，上面的图是经过压缩后的js，下面的图是在调试时浏览器根据对应的map文件将压缩后的js文件还原后的结果）</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/82921378178807.png" alt></p>
+<p>目前，暂时只有Chrome浏览器支持这个功能。在Developer Tools的Setting设置中，确认选中&quot;Enable source maps&quot;。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/23071378178807.png" alt></p>
+<p>你可以在你的js文件里面找到类似对应行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//@ sourceMappingURL=jquery.min.ma</span><br></pre></td></tr></table></figure>
+<p><strong>现在知道原因了来看看解决方案：</strong></p>
+<ol>
+<li><p>直接删除jquery库的对应行文件，即<code>//@ sourceMappingURL=jquery.min.ma</code>，这个方法最简单也最直接了。哈哈。</p>
+</li>
+<li><p>如果你需要继续调试这段js代码的话引用对应的map文件，例如<a href="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.map" target="_blank" rel="noopener">http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.map</a></p>
+</li>
+<li><p>禁用浏览器的该功能，即把图2中的钩钩去掉。</p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/297.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c-http-e6-96-ad-e7-82-b9-e7-bb-ad-e4-bc-a0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1016,99 +1123,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e5-b0-8f-e7-8c-aa-e7-9a-84-e6-99-a8-e8-b7-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/279.html">操场边的人</a>
-    </h1>
-  
-
-        
-        <a href="/279.html" class="archive-article-date">
-  	<time datetime="2013-08-15T05:07:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些天养成了一个习惯，自从开始使用韩寒的“一个”之后发现每天抽一点时间来阅读一篇文章是件让人愉快的事情。“一个”吸引我的地方是他每天只推荐一篇文章。现在太多的应用信息量太大导致我有点疲劳，相反“一个”每天只有一篇文章，这反而使我每天定时的打开应用仔细的阅读他。</p>
-<p>这篇文章起源于今天推荐的关于跑步的文章。其中一段讲到了开始晨跑的原因，有那么一个人鼓励作者跑步，每次作者跑步的时候他总是拿着衣服在操场边上边走边等着他跑完。</p>
-<p>……</p>
-<p>我在大学的时候大二的时候学校由于迎接本科教育评估，硬是让已经耍了一年的我们大二学生起床做早操。每天早上我都需要像赶鸭子似的一个个宿舍敲门叫大家起来做早操，导致同学见到我就像是见了仇人。当评估结束了之后也就取消了做操的政策，但当时我作为班级里面位数不多的几个四级还没过的人不知道是从什么时候起决定早上6点起床跑步，背英语。</p>
-<p>自己一个人跑了一段时间之后有一个人出现在我的每天跑步的操场边上。</p>
-<p>我要考四级、她要考六级。</p>
-<p>我每天坚持跑几圈，她不跑，她只是在操场边上读她的英语。</p>
-<p>十一月份的天气早上六点多虽然太阳已经懒洋洋的升起来，但早上的风吹着却是很冷的，每次我跑完看着她冻的鼻子通红的时候我都会有种怜悯之心，衷心的祝福她能够顺利通过六级考试。</p>
-<p>某个早晨她告诉我，假期她要回家一次，所以早上她就不来了，我说嗯，你忙你的。</p>
-<p>直到那个短假期内的夜里我接到一个电话，电话的内容很短：“请你不要做伤害感情的事情！”我回答：“我没有做伤害感情的事”“那就好……”而背景里面隐约出现她的声音……</p>
-<p>挂完电话我躺床上楞了好久……</p>
-<p>躺在床上想我和她的事，他和她的事，整个过程。想我所做的一切是不是值得。</p>
-<p>后来早上跑步的时候操场边上就一直没有了她，可能是她已经不再早读了，或者他已经不需要早读了，或者她已经不需要我了。</p>
-<p>后来我听说那次她六级没过，再后来我六级过了她六级好像也没过，再后来就不知道她过没过了。</p>
-<p>很多年过去了，现在的她不知道是什么样子了，偶尔还能从她的QQ状态中了解她还是那么的乐观开朗，一切都是那么的平静。</p>
-<p>只是我有时候还是能够回忆起那点记忆，那短暂的记忆，一起吃麻辣烫，一起到旱冰场她不愿意穿鞋，她为我写了又删掉的日志。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/279.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/21/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/23/">Next &raquo;</a>
@@ -1206,11 +1220,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生活</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1259,10 +1273,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1326,11 +1336,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1350,6 +1360,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">手机</a>
               </li>
              
@@ -1363,10 +1377,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1390,15 +1400,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">游戏</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1422,15 +1432,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1443,6 +1449,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1498,6 +1512,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
@@ -1510,10 +1528,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
@@ -1522,15 +1536,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1585,7 +1599,9 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">仰望星空,并脚踏实地</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. 
+ 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. 
+ 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
   	  	
     	</section>
     
