@@ -161,6 +161,114 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/398.html">wordpress 中禁止更新提示</a>
+    </h1>
+  
+
+        
+        <a href="/398.html" class="archive-article-date">
+  	<time datetime="2014-01-15T06:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>在此之前每每打开blog的时候总是有那么个数字在那边显示，如果是很重要的更新显示在那也就算了，有时候就算一个破主题他还一直在那边，很是让小猪纠结。最关键的是要是更新了主题，那么之前所有自定义的样式以及针对主题定制的代码都会被覆盖，那是极蛋疼的。不更新的话又有个数字在那总是感觉不爽，这是强迫症啊！所以果断百度之：</p>
+<h2 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h2><p>禁止，插件更新，主题更新，wordpress本身更新提示的方法</p>
+<p>进入后台进入编辑页，打开使用的function.php文件。把下列代码加入到文件的最后面。</p>
+<p>禁止wp更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//关闭核心提示 add_filter(&apos;pre_site_transient_update_core&apos;,    create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭插件提示add_filter(&apos;pre_site_transient_update_plugins&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭主题提示add_filter(&apos;pre_site_transient_update_themes&apos;,  create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line"></span><br><span class="line">//禁止Wordpress检查更新 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_core&apos;);    </span><br><span class="line">//禁止Wordpress更新插件 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_plugins&apos;); </span><br><span class="line">//禁止Wordpress更新主题remove_action(&apos;admin_init&apos;, &apos;_maybe_update_themes&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/398.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      <script src="https://giscus.app/client.js"
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dry-e5-8e-9f-e5-88-99-e5-92-8cshy-e5-8e-9f-e5-88-99" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -224,19 +332,20 @@ var _hmt = _hmt || [];
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -333,19 +442,20 @@ var _hmt = _hmt || [];
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -464,19 +574,20 @@ var _hmt = _hmt || [];
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -589,19 +700,20 @@ Android版本、Ios版本微信5.0版本通过测试。
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -688,19 +800,20 @@ Android版本、Ios版本微信5.0版本通过测试。
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -812,19 +925,20 @@ Android版本、Ios版本微信5.0版本通过测试。
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -995,19 +1109,20 @@ Mask 过后的二维码就成最终的图了。
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -1114,19 +1229,20 @@ Mask 过后的二维码就成最终的图了。
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>
@@ -1235,143 +1351,20 @@ Done！
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
       <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
-      </script>
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2013-e5-b0-8f-e7-8c-aa-e5-a4-a7-e4-ba-8b-e8-ae-b0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/377.html">2013小猪大事记</a>
-    </h1>
-  
-
-        
-        <a href="/377.html" class="archive-article-date">
-  	<time datetime="2013-12-27T16:50:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很快的，2013年这是最后一个周末了。想想自己已经差两三年就到三十的这个年纪，越发的觉得自己的时间&quot;越来越少&quot;、越来越紧。</p>
-<p>老早就在心里算计着应该给自己一个年终的总结，甚至从大约夏天结尾的时候就开始在心里构思怎么样写好这篇，</p>
-<p>想的去年大约这个时候，我在核心那里还整天做着机械的工作但这会已经和high哥聊过决定来这边，所以就从去年大约这个时候开始记录这一年来对于小猪的大事件。事件按照事件顺序排列</p>
-<h2 id="1：私定终身"><a href="#1：私定终身" class="headerlink" title="1：私定终身"></a>1：私定终身</h2><p>在2013年一开始，就迎来了一个千年难得的日子：201314。大约在很久以前，久到具体到小猪都不记得的时候我就答应我的女朋友要在这一天完成我们的订婚!小猪最终还是没有食言，在这一天用自己的钱买了个戒指亲自带在了老婆的手上。这里有我和老婆的坚持，一路的辛酸与欢乐可能只有我和她两个人才能够理解。</p>
-<h2 id="2：父母见面"><a href="#2：父母见面" class="headerlink" title="2：父母见面"></a>2：父母见面</h2><p>在农历过年的时候，受我父母的邀请，老婆家的父母应邀来到我家进行他们传统的订婚仪式！但只有我和老婆知道我们其实已经偷偷的在私底下完成了他们需要完成的工作。当天我兴奋的跑里跑外为的就是让两家的老人都能高兴，高兴的支持我们、祝福我们。</p>
-<h2 id="3：正式到公司上班"><a href="#3：正式到公司上班" class="headerlink" title="3：正式到公司上班"></a>3：正式到公司上班</h2><p>在农历年之前到公司来过一趟，当时high哥和ys找我聊到希望我转安卓，让我过年回去的时候考虑下，过完年我就以&quot;安卓工程师&quot;的身份来到公司上班，上班第一天也就是正式接触安卓开发的第一天。</p>
-<h2 id="4：坑爹的一跳"><a href="#4：坑爹的一跳" class="headerlink" title="4：坑爹的一跳"></a>4：坑爹的一跳</h2><p>这件事可能是作为2013年我的最&quot;大&quot;的一件事，也可能对小猪的终身产生影响。在我和媳妇已经看过《西游*降魔篇》的时候，为了体验I-Max3D的效果，2月21日晚上我跟随公司组织的观影团来到了大世界影城再次享受了星爷给我们带来的快乐以及视觉震撼。电影结束时已经10点多，坐着high哥的车到学校时宿舍大门已经关闭，心想着钻洞的我到洞口才发现在铁栅栏上的洞已经被堵上了，无奈之下小猪只好爬上大约两米高的栏杆，当时天空还下着小雨，小猪穿着那件&quot;机器人&quot;的外套背着个空荡荡的背包。小时候的经验告诉我这点高度对于我来说就是小case，当我终身往下一跳、脚踩到地面的时候瞬间整个人往地上一跪，像是踩楼梯的时候踩空了一阶的感觉，眼镜随着它的惯性摔在了地上我却没有力气去捡，我心想坏了：这下好疼，要缓一下。在小雨下坐在旁边的水泥台阶上大约10分钟后我尝试站起来，但是右脚接触地面的时候一阵剧痛从头脑直接传到大脑！&hellip;&hellip;我知道我走不了了，幸好室友梦哥当时也已经回校，打电话给已经睡了的他他穿着睡衣就到楼下来把我背上了楼。当晚我就打电话告诉阿黄我明天可能去不了公司了，这个时候我到530上班才整整4天！</p>
-<p>第二天一早梦哥背我到校医院，校医院只有个值班医生告诉我不接要到大医院，我们叫上前晚刚到校的洪哥就奔向了9院！打上了石膏挂了瓶比当时摔下来还疼的点滴！</p>
-<p>在接下来的几天里是幸亏有梦哥和洪哥，是他们在我需要的时候上楼背我，上厕所都需要帮忙的我除了当时跟他们说说笑笑强颜着乐观的心态外其他啥都做不了，当然还有期间去high哥家过元宵背着我的阿黄以及直接开车到校门口的high哥和月巧。</p>
-<p>在无锡挂了几天水之后就让他们背着我上了大巴车回到了家中，家永远是受完收的避风港！</p>
-<h2 id="5：再次来锡"><a href="#5：再次来锡" class="headerlink" title="5：再次来锡"></a>5：再次来锡</h2><p>在家休息了将近两个月后在4月1日再次来到530上班，上班前请了小二B和阿黄大强一起吃了个饭，再正式邀请了阿黄在接下来的一个月里骑上电动车天天带着我上班。然后那整个4月份都是这个节奏~阿黄那高操的技艺还是让我留下了点阴影的！:-)</p>
-<h2 id="6：牵手北塘"><a href="#6：牵手北塘" class="headerlink" title="6：牵手北塘"></a>6：牵手北塘</h2><p>公司正式在五一放假前搬家到了北塘区，这也是小猪与素昧平生的北塘结下了这半年多的情结</p>
-<h2 id="7：离开学校"><a href="#7：离开学校" class="headerlink" title="7：离开学校"></a>7：离开学校</h2><p>小猪今年正式结束了将近20年的学校生涯而多快好省的进入了社会。之前因为公司的原因一直还死赖在学校里不搬出来，不是舍不得那每个月几百块的房租，确实是没办法的事情。在公司乔迁之后小猪立即搬出了学校，确定了在无锡的第一套&quot;住房&quot;.感谢我的室友阿黄、感谢我的室友梦哥！</p>
-<h2 id="8：博客开通"><a href="#8：博客开通" class="headerlink" title="8：博客开通"></a>8：博客开通</h2><p>5月16日，个人高端大气上档次的博客终于开通了，之前一直没多少记录的习惯，有的也是零零碎碎的记录在博客园，在见到小张老师的个人博客之后觉得拥有自己的空间以及域名是多么一件让人神秘以及高端的事情，在知道大强也已经有了之后果断自己开通了一个。从此过上了拥有自己博客没羞没臊的生活，只到目前位置，大强博客的最新更新还是在7月份！</p>
-<h2 id="9：再次转入服务器端"><a href="#9：再次转入服务器端" class="headerlink" title="9：再次转入服务器端"></a>9：再次转入服务器端</h2><p>在公司之前的一位服务器端主力离开之后、小猪又再次的转到了服务器端直道目前</p>
-<h2 id="10：老婆来锡"><a href="#10：老婆来锡" class="headerlink" title="10：老婆来锡"></a>10：老婆来锡</h2><p>在7月份，欢天喜地的迎来了我的媳妇顺利低锡，结束了这么多年来的异地~感谢这么多年来媳妇对我的包容。</p>
-<h2 id="11：老妈60岁"><a href="#11：老妈60岁" class="headerlink" title="11：老妈60岁"></a>11：老妈60岁</h2><p>在很多年前老妈就在我面前提过在她60岁生日的时候要啥啥啥的，关于这个事情也让我感慨，其个中滋味只有有些人知道了。</p>
-<p>&nbsp;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/377.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      <script src="https://giscus.app/client.js"
-      data-repo="smallerpig/gitcus"
-      data-repo-id="R_kgDOJkG2gg"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOJkG2gs4CWi0u"
-      data-mapping="url"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
+        data-repo="smallerpig/smallerpig.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+        data-category="Announcements"
+        data-category-id="DIC_kwDOBj3OIc4CWi56"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
       </script>
       <!-- giscus 配置结束 -->
     </div>

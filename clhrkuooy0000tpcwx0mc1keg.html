@@ -6,20 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>利用Entity Framework修改指定字段中的值 | 朱启的个人博客</title>
+  <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题一般我们编辑某些模型的时候会用到类似这样的代码： [HttpPost] public ActionResult Edit(Article model) {     if (model.Id == 0)     {         return HttpNotFound\(\);     }     using (db)     {         db.Entry(model).State =">
-<meta name="keywords" content="entity framwork,SQL SERVER">
+  <meta name="description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Entity Framework修改指定字段中的值">
-<meta property="og:url" content="http://blog.smallerpig.com/962.html">
+<meta property="og:title" content="朱启的个人博客">
+<meta property="og:url" content="http://blog.smallerpig.com/clhrkuooy0000tpcwx0mc1keg.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="问题一般我们编辑某些模型的时候会用到类似这样的代码： [HttpPost] public ActionResult Edit(Article model) {     if (model.Id == 0)     {         return HttpNotFound\(\);     }     using (db)     {         db.Entry(model).State =">
+<meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-05-17T10:42:29.509Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用Entity Framework修改指定字段中的值">
-<meta name="twitter:description" content="问题一般我们编辑某些模型的时候会用到类似这样的代码： [HttpPost] public ActionResult Edit(Article model) {     if (model.Id == 0)     {         return HttpNotFound\(\);     }     using (db)     {         db.Entry(model).State =">
+<meta name="twitter:title" content="朱启的个人博客">
+<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -161,51 +160,12 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-e5-88-a9-e7-94-a8entity-framework-e4-bf-ae-e6-94-b9-e6-8c-87-e5-ae-9a-e5-ad-97-e6-ae-b5-e4-b8-ad-e7-9a-84-e5-80-bc" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-hexo集成giscus插件" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      利用Entity Framework修改指定字段中的值
-    </h1>
-  
-
-        
-        <a href="/962.html" class="archive-article-date">
-  	<time datetime="2015-12-03T06:30:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-03</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>一般我们编辑某些模型的时候会用到类似这样的代码：</p>
-<pre><code>[HttpPost]
-public ActionResult Edit(Article model)
-{
-    if (model.Id == 0)
-    {
-        return HttpNotFound\(\);
-    }
-    using (db)
-    {
-        db.Entry(model).State = EntityState.Modified;
-        db.SaveChanges\(\);
-    }
-    return RedirectToAction(&quot;Index&quot;);
-}
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这样的代码完全能够符合我们的要求，能够顺利的修改我们想要修改的数据。</span><br><span class="line">    但是其中却有一个问题：例如说文章的创建时间字段`Create_Time`是由文章创建的时候生成的，其值不应该随着文章的编辑而变化，为了使这个值不变，我们就需要在前台的html代码里加上一个隐藏的name属性为Create_Time的input并且设置其值为文章的创建时间。这样做也能成功但是不保险，如果编辑人员有能力修改input里的值的话还是能够修改数据库中的数据的。所以我们应该从代码的层面上来解决这个问题。</span><br><span class="line">    再举个例子，用户在修改密码的时候我们只希望单单的修改密码字段，而不需要将原来的用户模型全都加载进来，然后再修改密码，再保存。这样做感觉上是已经多走了好多的路。</span><br><span class="line">    而如果我们直接手写sql语句的话我们可以直接执行SQL语句：</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> update userinfo set password = &apos;123456&apos;</span><br></pre></td></tr></table></figure>
-<pre><code>很显然如果我们类似使用dbContext的执行sql语句就有点本末倒置了：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.Database.ExecuteSqlCommand(&quot;update userinfo set password = &apos;123456&apos;&quot;);</span><br></pre></td></tr></table></figure>
-<pre><code>### 解决办法
-
-使用类似下列代码：也就是只设置模型的某些特定的字段来告诉EF我们希望修改哪些字段。
-</code></pre><p><code>`</code>  </p>
-<p> public ActionResult TestEdit(int id=0)<br>    {<br>        var model = new Article {Id = id, Title = $”after edit!current time: {DateTime.Now}”};<br>        db.Article.Attach(model);<br>        db.Entry(model).Property(x =&gt; x.Title).IsModified = true;<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
-<p>上述代码只修改了文章的标题，而其他字段并没有做任何的修改，整个修改过程也没涉及到任何的读取数据库操作。这样的修改显然要更加合理。</p>
-
+        
       
 
       
@@ -234,37 +194,7 @@ public ActionResult Edit(Article model)
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
 
@@ -314,7 +244,7 @@ public ActionResult Edit(Article model)
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/962.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/clhrkuooy0000tpcwx0mc1keg.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -347,18 +277,9 @@ public ActionResult Edit(Article model)
   
 <nav id="article-nav">
   
-    <a href="/965.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          优化你的ASP.NET MVC代码--使用策略模式
-        
-      </div>
-    </a>
   
-  
-    <a href="/959.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">解决使用VS2013创建的MVC项目在VS2015中打开的各种问题。</div>
+    <a href="/how-internet-envirment-of-wuxi.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">无锡的互联网环境现在咋样</div>
       <i class="icon-circle-right"></i>
     </a>
   
