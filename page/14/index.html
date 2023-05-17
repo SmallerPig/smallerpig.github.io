@@ -161,6 +161,85 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-be-ae-e4-bf-a1-e4-b8-8d-e5-85-81-e8-ae-b8-e8-b7-a8-e5-8f-b7-e6-94-af-e4-bb-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/733.html">微信:不允许跨号支付</a>
+    </h1>
+  
+
+        
+        <a href="/733.html" class="archive-article-date">
+  	<time datetime="2015-05-30T14:39:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image10.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb10.png" alt="image" title="image"></a></p>
+<p>遇到这个问题通常都是这么个情况:我们在自己的公众号中测试通过了所有的逻辑,然后想通过另外的公众号来推广我们的链接例如在其他公众号的自定义菜单中,回复文本中带上我们的支付链接或者支付系统链接.本来以为会一切正常,但是微信会给你无情弹出上面的对话框.也就是不允许跨号支付.</p>
+<p>举个大家常见的例子.例如同一个公司有两公众号,一个服务号,一个订阅号.公司通过服务号开发了一个卖东西的H5站点,测试没有问题了,通过订阅号来告诉粉丝们:我们这物美价廉快递小哥还正点哦,详情请点击……!结果悲剧了…</p>
+<p>最终结论就是:使用B公众号开发的支付链接.不能通过A公众号来推广..</p>
+<p>也就是说,要不直接发链接给客户,要不直接让客户扫二维码进入链接.就是不能让用户从其他公众号窗口点链接进去.</p>
+<p>可见微信浏览器已经判断了用户的某次点击是从哪个地方进来的!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/733.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-entityfunctions-diff-e7-b3-bb-e5-88-97-e7-9a-84-e5-9d-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1012,145 +1091,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e4-bd-bf-e7-94-a8-e5-9f-ba-e4-ba-8eci-e7-9a-84cms-e7-ae-a1-e7-90-86-e7-b3-bb-e7-bb-9fdilicms" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/650.html">体验基于CI的CMS管理系统DiliCMS</a>
-    </h1>
-  
-
-        
-        <a href="/650.html" class="archive-article-date">
-  	<time datetime="2015-04-29T14:15:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在开发网站过程中我们经常要为网站开发管理网站内容的后台.也就是CMS(内容管理系统)!我们通常都是单独的给每个站都单独开发一个后台,这样做的过程一般都是先根据需求手动建好数据库并建好表!然后根据数据结构开发对应的程序.</p>
-<p>这样在开发了很多的网站之后我们会发现基本上所有网站的数据模型都是相似的,例如wordpress就是以文章表为主线的!而一般的新闻发布类网站无非也就是内容表,类别表,作者之类~</p>
-<p>这样,我们就可以开发出固定的CMS来管理这些类容…</p>
-<p>之前小猪都是这么想的…每次网站或者app的后台都是手动开发.</p>
-<p>今天小猪来分享基于CI的DiliCMS,该CMS为纯后台,没有前台,自己可以根据自己需求定制页面部分,更重要的是该系统使用的MIT协议,也就是我们可以完全根据自己的需求来二次开发该CMS.这一点相比过年目前的phpcms来说好多了.后者一开打各种版权问题.!</p>
-<p>小猪使用wamp来体验下dilicms.</p>
-<p>将下载好的项目代码复制到wamp的www文件夹下.打开localhost后可看到默认首页:该项目的官方网站为:<a href="http://www.dilicms.com/" title="http://www.dilicms.com/" target="_blank" rel="noopener">http://www.dilicms.com/</a> 打开的默认首页为:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image13.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb12.png" alt="image" title="image"></a></p>
-<p>浏览器中输入<a href="http://localhost/install/public/" title="http://localhost/install/public/" target="_blank" rel="noopener">http://localhost/install/public/</a>可进入安装引导页:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image14.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb13.png" alt="image" title="image"></a></p>
-<p>点击同意协议并下一步之后进入平台选择!这里因为在本地环境,只能选择普通环境了.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image15.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb14.png" alt="image" title="image"></a></p>
-<p>再点击下一步进入环境检测,开始检测当前环境是否能够安装DiliCMS</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image16.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb15.png" alt="image" title="image"></a></p>
-<p>这里我们所有条件都满足,下一步进入数据库链接设置界面:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image17.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb16.png" alt="image" title="image"></a></p>
-<p>这里还是能够发现很多BootStrap样式的影子.我事先在mysql中创建好了dilicms,所以这边直接点击导入数据库了.点击之后会弹出控制台,稍等一两秒之后会提示导入成功</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image18.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb17.png" alt="image" title="image"></a></p>
-<p>再点击下一步之后设置超级管理员账户和密码.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image19.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb18.png" alt="image" title="image"></a><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image20.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb19.png" alt="image" title="image"></a></p>
-<p>创建成功之后我们的安装也就完成了.</p>
-<p>然后输入在浏览器里输入localhost/admin即可进入后台登陆页面.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image21.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb20.png" alt="image" title="image"></a></p>
-<p>来看看后台的默认首页:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image22.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb21.png" alt="image" title="image"></a></p>
-<p>还是挺熟悉的那种赶脚.接下来小猪也介绍的也就是整个CMS的重点了,那就是动态的添加数据模型:假如我们要做的是一个新闻发布系统.新闻有标题,简介,分类,内容这几个字段.其中分类字段引用了另外一张表 也就是分类模型.</p>
-<p>所以我们首先要新建一个分类模型,取名为:article_category:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image23.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb22.png" alt="image" title="image"></a><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image24.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb23.png" alt="image" title="image"></a></p>
-<p>到列表也给该分类模型添加字段:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image25.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb24.png" alt="image" title="image"></a></p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image26.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb25.png" alt="image" title="image"></a></p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image27.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb26.png" alt="image" title="image"></a></p>
-<p>添加完成后相同步骤我们进入”内容模型管理”板块添加模型数据,article.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image28.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb27.png" alt="image" title="image"></a></p>
-<p>其字段列表为:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image29.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb28.png" alt="image" title="image"></a></p>
-<p>其中我们单独介绍文章分类字段.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image30.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb29.png" alt="image" title="image"></a></p>
-<p>可以看到小猪将数据源的值设置成了:article_category|category_name.这个值对应我们刚刚新建的分类模型的”模型名|字段名”!,具体的各字段类型和数据源参数的设置可以参考作者在社区发表的帖子:<a href="http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1" title="http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1" target="_blank" rel="noopener">http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1</a></p>
-<p>然后我们给模型字段添加几个值:分别为文章的几个类别:体育,娱乐,军事!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image31.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb30.png" alt="image" title="image"></a></p>
-<p>回到内容管理的文章页,然后点击添加就可以看到该页面为我们刚才设置的参数值:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image32.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb31.png" alt="image" title="image"></a></p>
-<p>基本功能我们已经体验了,</p>
-<p>这样,我们将系统发布了之后维护人员根本不需要懂太多的代码就能够管理整个系统,当然作为我们开发人员的工具也可以节省我们开发后台的很多时间.</p>
-<p>另外,系统还给我们提供了权限的管理,数据库的备份还原优化,缓存的功能以及常规站点的设置.可以说基本上能满足我们功能!</p>
-<p>小猪准备在其基础上进行二次开发包括数据字段为上传图片地址的功能.?默认的编辑器是使用的KindEditor将其换成ckeditor.等等.这都得益于其是基于CI框架!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/650.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
@@ -1248,35 +1188,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">大事记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">托业</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">教育</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ckeditor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">乱码</a>
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1293,14 +1209,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">路由</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">权限验证</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1328,47 +1236,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">七牛</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">DRY</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">SHY</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">产品经理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">张小龙</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1376,15 +1244,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">策略模式</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1408,11 +1276,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">周末</a>
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拖拉</a>
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1440,11 +1308,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1468,6 +1340,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
@@ -1477,10 +1353,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">拔牙</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1500,19 +1372,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">公司</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">实习生</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1540,6 +1408,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1549,14 +1425,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1576,19 +1444,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">bug</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1596,11 +1456,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">code snippet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">super</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1608,27 +1464,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生病</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">祷告</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上课</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">项目管理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">国企</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1636,63 +1472,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jwt</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">BFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">模板方法模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">装饰者模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">门面模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">外观模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">观察者</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">观察者模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">奶头乐</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">毒枭</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1701,6 +1485,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1725,18 +1517,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生活</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
             
             <div class="clearfix"></div>
