@@ -161,6 +161,99 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/398.html">wordpress 中禁止更新提示</a>
+    </h1>
+  
+
+        
+        <a href="/398.html" class="archive-article-date">
+  	<time datetime="2014-01-15T06:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>在此之前每每打开blog的时候总是有那么个数字在那边显示，如果是很重要的更新显示在那也就算了，有时候就算一个破主题他还一直在那边，很是让小猪纠结。最关键的是要是更新了主题，那么之前所有自定义的样式以及针对主题定制的代码都会被覆盖，那是极蛋疼的。不更新的话又有个数字在那总是感觉不爽，这是强迫症啊！所以果断百度之：</p>
+<h2 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h2><p>禁止，插件更新，主题更新，wordpress本身更新提示的方法</p>
+<p>进入后台进入编辑页，打开使用的function.php文件。把下列代码加入到文件的最后面。</p>
+<p>禁止wp更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//关闭核心提示 add_filter(&apos;pre_site_transient_update_core&apos;,    create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭插件提示add_filter(&apos;pre_site_transient_update_plugins&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭主题提示add_filter(&apos;pre_site_transient_update_themes&apos;,  create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line"></span><br><span class="line">//禁止Wordpress检查更新 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_core&apos;);    </span><br><span class="line">//禁止Wordpress更新插件 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_plugins&apos;); </span><br><span class="line">//禁止Wordpress更新主题remove_action(&apos;admin_init&apos;, &apos;_maybe_update_themes&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/398.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dry-e5-8e-9f-e5-88-99-e5-92-8cshy-e5-8e-9f-e5-88-99" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -312,104 +405,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/392.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo集成giscus插件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/integation-giscus-in-yilia-with-hexo.html">集成了giscus插件,小猪的blog可以评论了</a>
-    </h1>
-  
-
-        
-        <a href="/integation-giscus-in-yilia-with-hexo.html" class="archive-article-date">
-  	<time datetime="2014-01-14T02:22:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开始之前感叹一下互联网的记忆，有句话叫互联网是有记忆的，在网络上留下的内容会被后人所记载，被后人所阅读。</p>
-<p>而实际上有多少人的博客活不过两年。</p>
-<p>有多少开源软件活不过两年。</p>
-<p>也许当时炙手可热的技术过了一段时间之后就无人问津了。</p>
-<p>其中我使用的hexo博客的主题yalia就是其中的一员。</p>
-<p>当时刚出来时使用的人是相当多，但随着时间的推移，热度下降，直到今天，打开主题的主页都已经打不开了。</p>
-<p>而当时发布的版本中并没有提供对giscus插件的默认支持，怎么办？</p>
-<p>自己根据文档慢慢来。</p>
-        
-          <a class="article-more-a" href="/integation-giscus-in-yilia-with-hexo.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/integation-giscus-in-yilia-with-hexo.html">展开全文 >></a>
         </p>
       
 
@@ -1707,8 +1702,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. 
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. 
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
+ 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
  茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
   	  	
     	</section>

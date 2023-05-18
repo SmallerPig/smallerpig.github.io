@@ -161,6 +161,100 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp-net-mvc-e7-bb-9f-e4-b8-80-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/422.html">ASP.NET MVC统一异常处理</a>
+    </h1>
+  
+
+        
+        <a href="/422.html" class="archive-article-date">
+  	<time datetime="2014-02-12T06:40:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>今早看了篇文章：<a href="http://www.cnblogs.com/stoneniqiu/p/3545230.html" target="_blank" rel="noopener">求知成瘾，却无作品 的思考</a>；很有感触，发现原来自己也是这样，对每样东西都抱有很大的兴趣或者希望自己去学，一年后发现原来自己什么都是皮毛什么都不精！最终发现真正的大牛都是在某一个领域的大牛，不会是全能的。所以是时候精一下了。</p>
+<p>本篇文章来源于今天的另外一篇阅读：《我的软件没bug》作者希望读者写的程序即使已经上线也能快速的发现自己bug而不是等着用户忍无可忍时的反馈，这样让用户产生错觉是其用的软件并没有bug，而能实现这些最关键的一点就是能不能发现bug。所以小猪今天写了其实已经关注非常久的一个主题：统一的异常处理</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>ASP.NET MVC提供了很方便的实现处理异常的机制：在需要进行异常处理的Controller中重写OnException。如果整个程序都需要异常处理，可以先写一个BaseController，其他所有Controller都继承它，然后在BaseController中重写OnException。<br>然后让自己的Controller继承自这个BaseController即可。</p>
+<p>另外如果只是针对某一个Action的捕获异常则可以写一个Attribute继承自HandleErrorAttribute：</p>
+<h2 id="存数据库还是文件"><a href="#存数据库还是文件" class="headerlink" title="存数据库还是文件"></a>存数据库还是文件</h2><p>细心的读者可能发现上述的代码小猪是保存在网站跟文件夹下的一个文件里的。这里涉及到把异常数据保存在什么地方的问题。有两种选择数据库和文件。但是小猪考虑到存数据库时存在一个问题：当数据库无法链接时网站也是会报错，这个时候的错误如果是采用存在数据库的机制的话则无法记录，而存在文件里则不存在这个问题，除非是web服务器奔了。综上原因小猪采取了把日志文件存放在文件里的方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/422.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e7-bc-96-e5-86-99-e8-87-aa-e5-b7-b1-e7-9a-84windows-live-writer-e6-8f-92-e4-bb-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1050,99 +1144,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/398.html">wordpress 中禁止更新提示</a>
-    </h1>
-  
-
-        
-        <a href="/398.html" class="archive-article-date">
-  	<time datetime="2014-01-15T06:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>在此之前每每打开blog的时候总是有那么个数字在那边显示，如果是很重要的更新显示在那也就算了，有时候就算一个破主题他还一直在那边，很是让小猪纠结。最关键的是要是更新了主题，那么之前所有自定义的样式以及针对主题定制的代码都会被覆盖，那是极蛋疼的。不更新的话又有个数字在那总是感觉不爽，这是强迫症啊！所以果断百度之：</p>
-<h2 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h2><p>禁止，插件更新，主题更新，wordpress本身更新提示的方法</p>
-<p>进入后台进入编辑页，打开使用的function.php文件。把下列代码加入到文件的最后面。</p>
-<p>禁止wp更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//关闭核心提示 add_filter(&apos;pre_site_transient_update_core&apos;,    create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭插件提示add_filter(&apos;pre_site_transient_update_plugins&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭主题提示add_filter(&apos;pre_site_transient_update_themes&apos;,  create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line"></span><br><span class="line">//禁止Wordpress检查更新 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_core&apos;);    </span><br><span class="line">//禁止Wordpress更新插件 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_plugins&apos;); </span><br><span class="line">//禁止Wordpress更新主题remove_action(&apos;admin_init&apos;, &apos;_maybe_update_themes&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/398.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/16/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/18/">Next &raquo;</a>
@@ -1603,8 +1604,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. 
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. 
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
+ 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
  茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
   	  	
     	</section>

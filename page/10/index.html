@@ -161,6 +161,108 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e4-bd-bf-e7-94-a8entityframeworkwithhierarchyid" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/972.html">使用EntityFrameworkWithHierarchyId</a>
+    </h1>
+  
+
+        
+        <a href="/972.html" class="archive-article-date">
+  	<time datetime="2016-01-27T10:13:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SQL SERVER2008以后提供了<a href="https://msdn.microsoft.com/zh-cn/ch/library/bb677290.aspx" target="_blank" rel="noopener">HierarchyId的数据类型</a>.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等.</p>
+<p>SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用EF的HierarchyId类型就需要使用<code>EntityFrameworkWithHierarchyId</code>替换原来的EntityFramework了.<br>安装方法”<br>可以使用Nugget管理器搜索安装<br>或者在程序包管理器里输入下列代码</p>
+<pre><code>install-package EntityFrameworkWithHierarchyId
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
+<p> public class Category<br>    {<br>        public int Id { get; set; }</p>
+<pre><code>    public string Title { get; set; }
+
+    public HierarchyId Path { get; set; }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后我们就可以愉快的使用HierarchyId类啦.</span><br><span class="line">实例化一个HierarchyId类:</span><br></pre></td></tr></table></figure>
+<p> HierarchyId model = new HierarchyId(“/2/6/8”);</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在具体的dbcontext中使用:</span><br></pre></td></tr></table></figure>
+<p> [HttpPost]<br>    [ValidateAntiForgeryToken]<br>    public ActionResult Add(Category model)<br>    {<br>        model.CreateTime = DateTime.Now;<br>        model.Path = new HierarchyId(Request.Form[“path”]);<br>        db.Categories.Add(model);<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
+<ul>
+<li>GetLevel()方法获取对象当前所在层级</li>
+<li>GetAncestor()取得某一个级别的祖先</li>
+<li>GetDescendant()取得某一个级别的子代</li>
+<li>IsDescendantOf()判断某个节点是否为某个节点的子代</li>
+<li>GetRoot()取得根</li>
+<li>GetReparentedValue()可以用来移动节点（或者子树）<br>在linq查询中该类可以直接转换成对应的sql语句.</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/972.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e4-bc-98-e5-8c-96-e4-bd-a0-e7-9a-84asp-net-mvc-e4-bb-a3-e7-a0-81-e4-bd-bf-e7-94-a8-e7-ad-96-e7-95-a5-e6-a8-a1-e5-bc-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1692,102 +1794,6 @@ class Picture(models.Model):
 
 
   
-    <article id="post-e8-ae-be-e7-bd-aemssql-2012-e8-87-aa-e5-8a-a8-e5-a4-87-e4-bb-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/933.html">设置MSSQL 2012自动备份</a>
-    </h1>
-  
-
-        
-        <a href="/933.html" class="archive-article-date">
-  	<time datetime="2015-11-11T06:10:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>保证数据的完整性是很有必要的，万一服务器出现故障的时候及时的恢复数据到最新的备份数据能让损失将到最小。所以说：数据无价。一旦我们有意或者无意的将数据库的数据弄没的时候就能切身的体会到数据备份的重要性。<br>而如果每次都需要手动备份的话那工作量还是不小的，最关键的是很难保证没有哪天我们会忘记去做这件事。<br>所以很有必要设置让数据库自动备份。<br>下面介绍在以SQL SERVER2012为例设置为自动备份。<br>设置步骤包括：<br>1. 打开MS SQL 代理服务，右击任务栏打开任务管理器切换到服务栏，启动SQLSERVERAGENT<br>2. 使用SQL SERVER Management Studio连接到SQL SERVER服务器<br>3. 点开管理菜单，右击“维护计划”选择维护计划向导。<br>4. 打开维护计划向导之后进行相关设置，通常需要的设置包括：</p>
-<ul>
-<li>频率设置</li>
-<li>时间点设置</li>
-<li>保存方式设置</li>
-<li>备份文件设置</li>
-<li>备份日志设置等</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/933.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
@@ -2248,8 +2254,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. 
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. 
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
+ 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
  茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
   	  	
     	</section>
