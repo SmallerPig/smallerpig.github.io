@@ -161,6 +161,95 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e8-ae-a9div-e5-ae-9e-e7-8e-b0-e6-8a-96-e5-8a-a8-e6-95-88-e6-9e-9c-ef-bc-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/401.html">让DIV实现抖动效果！</a>
+    </h1>
+  
+
+        
+        <a href="/401.html" class="archive-article-date">
+  	<time datetime="2014-01-16T09:23:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;html&amp;gt;</span><br><span class="line">&amp;lt;head&amp;gt;</span><br><span class="line">&amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&amp;gt;</span><br><span class="line">&amp;lt;title&amp;gt;JavaScript层抖动效果&amp;lt;/title&amp;gt;</span><br><span class="line">&amp;lt;style type=&quot;text/css&quot;&amp;gt;</span><br><span class="line">#body&#123;text-align:center;&#125;</span><br><span class="line">#test&#123;width:200px;position:absolute;margin:10px auto;height:100px;border:2px dotted red;text-align:center&#125;</span><br><span class="line">&amp;lt;/style&amp;gt;</span><br><span class="line">&amp;lt;/head&amp;gt;</span><br><span class="line">&amp;lt;body&amp;gt;</span><br><span class="line">&amp;lt;div style=&quot;margin:10px 200px&quot;&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;~点这里让我抖抖吧~&quot; onclick=&quot;nn.start\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;晃晕了，我不抖了！&quot; onclick=&quot;nn.stop\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div id=&quot;test&quot;&amp;gt;</span><br><span class="line">        &amp;lt;br&amp;gt;</span><br><span class="line">        &amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br><span class="line">&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;</span><br><span class="line"> var m=document.getElementById(&quot;test&quot;);</span><br><span class="line">function SKclass (obj,Rate,speed) &#123;</span><br><span class="line">     var oL=obj.offsetLeft;</span><br><span class="line">     var oT=obj.offsetTop;</span><br><span class="line">     this.stop=null;</span><br><span class="line">     this.oTime=null;</span><br><span class="line">     var om=this;</span><br><span class="line">     this.start=function\(\)&#123;</span><br><span class="line">             if(parseInt(obj.style.left)==oL-2)&#123;</span><br><span class="line">                obj.style.top=oT+2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL+2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">             &#125;</span><br><span class="line">             else&#123;</span><br><span class="line">                obj.style.top=oT-2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL-2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">            &#125;</span><br><span class="line">        this.oTime=setTimeout(function\(\)&#123;om.start\(\)&#125;,speed);</span><br><span class="line">     &#125;</span><br><span class="line">     this.stop=function\(\)&#123;</span><br><span class="line">       clearTimeout(this.oTime);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">var nn=new SKclass(m,20,70);</span><br><span class="line">&amp;lt;/script&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/401.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-防止用户按浏览器后退按钮回到登陆页面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1117,111 +1206,6 @@ Mask 过后的二维码就成最终的图了。
 
 
   
-    <article id="post-使用反射来编写实体类的XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/379.html">使用反射来编写实体类的XML</a>
-    </h1>
-  
-
-        
-        <a href="/379.html" class="archive-article-date">
-  	<time datetime="2013-12-31T01:19:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>开发过程中经常需要返回某实体类的列表，公司通常用的都是XML格式的接口，小猪借鉴了公司前辈留下的代码一直是类似这么写的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> public static string GetXMLList(IList&amp;lt;Article&amp;gt; articlelist)</span><br><span class="line">&#123;</span><br><span class="line">using (MemoryStream memoryStream = new MemoryStream\(\))</span><br><span class="line">&#123;</span><br><span class="line">    XmlWriterSettings xmlWriterSettings = new XmlWriterSettings\(\);</span><br><span class="line">    xmlWriterSettings.Indent = true;</span><br><span class="line">    xmlWriterSettings.Encoding = new UTF8Encoding(false);</span><br><span class="line">    xmlWriterSettings.NewLineChars = Environment.NewLine;</span><br><span class="line">    using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))</span><br><span class="line">    &#123;</span><br><span class="line">        xmlWriter.WriteStartDocument(true);</span><br><span class="line">        xmlWriter.WriteStartElement(&quot;Articles&quot;);</span><br><span class="line">        if (articlelist != null)</span><br><span class="line">        &#123;</span><br><span class="line">            foreach (var article in articlelist)</span><br><span class="line">            &#123;</span><br><span class="line">                xmlWriter.WriteStartElement(&quot;Article&quot;);</span><br><span class="line">                xmlWriter.WriteStartAttribute(&quot;id&quot;);</span><br><span class="line">                xmlWriter.WriteString(article.Id.ToString\(\));</span><br><span class="line">                xmlWriter.WriteEndAttribute\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;Title&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.Title);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;Summary&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.Summary);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;Author&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.Author);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;CreateDate&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.CreateDate.ToString(&quot;yyyy-MM-dd&quot;));</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;BannerURL&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.BannerURL);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;ImageURL&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.ImageURL);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;ImageAuthor&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.ImageAuthor);</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteStartElement(&quot;Category&quot;);</span><br><span class="line">                xmlWriter.WriteCData(article.Category.ToString\(\));</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line"></span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xmlWriter.WriteEndElement\(\);</span><br><span class="line">        xmlWriter.WriteEndDocument\(\);</span><br><span class="line">    &#125;</span><br><span class="line">    string xml = Encoding.UTF8.GetString(memoryStream.ToArray\(\));</span><br><span class="line">    return xml;</span><br><span class="line">｝</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>生成的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&amp;gt;</span><br><span class="line">&amp;lt;Articles&amp;gt;</span><br><span class="line">  &amp;lt;Article id=&quot;83&quot;&amp;gt;</span><br><span class="line">    &amp;lt;Title&amp;gt;&amp;lt;![CDATA[存储]]&amp;gt;&amp;lt;/Title&amp;gt;</span><br><span class="line">    &amp;lt;Summary&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Summary&amp;gt;</span><br><span class="line">    &amp;lt;Author&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Author&amp;gt;</span><br><span class="line">    &amp;lt;CreateDate&amp;gt;&amp;lt;![CDATA[2013-12-30]]&amp;gt;&amp;lt;/CreateDate&amp;gt;</span><br><span class="line">    &amp;lt;BannerURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153738573.png]]&amp;gt;&amp;lt;/BannerURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/201312301&lt;span id=&quot;transmark&quot;&gt;&lt;/span&gt;53731941.png]]&amp;gt;&amp;lt;/ImageURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageAuthor&amp;gt;&amp;lt;![CDATA[sda]]&amp;gt;&amp;lt;/ImageAuthor&amp;gt;</span><br><span class="line">    &amp;lt;Category&amp;gt;&amp;lt;![CDATA[1]]&amp;gt;&amp;lt;/Category&amp;gt;</span><br><span class="line">  &amp;lt;/Article&amp;gt;</span><br><span class="line">  &amp;lt;Article id=&quot;81&quot;&amp;gt;&amp;lt;span id=&quot;transmark&quot;&amp;gt;&amp;lt;/span&amp;gt;</span><br><span class="line">    &amp;lt;Title&amp;gt;&amp;lt;![CDATA[存储]]&amp;gt;&amp;lt;/Title&amp;gt;</span><br><span class="line">    &amp;lt;Summary&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Summary&amp;gt;</span><br><span class="line">    &amp;lt;Author&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Author&amp;gt;</span><br><span class="line">    &amp;lt;CreateDate&amp;gt;&amp;lt;![CDATA[2013-12-30]]&amp;gt;&amp;lt;/CreateDate&amp;gt;</span><br><span class="line">    &amp;lt;BannerURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153738573.png]]&amp;gt;&amp;lt;/BannerURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153731941.png]]&amp;gt;&amp;lt;/ImageURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageAuthor&amp;gt;&amp;lt;![CDATA[sda]]&amp;gt;&amp;lt;/ImageAuthor&amp;gt;</span><br><span class="line">    &amp;lt;Category&amp;gt;&amp;lt;![CDATA[1]]&amp;gt;&amp;lt;/Category&amp;gt;</span><br><span class="line">  &amp;lt;/Article&amp;gt;</span><br><span class="line">&amp;lt;/Articles&amp;gt;</span><br></pre></td></tr></table></figure></p>
-<p><span style="font-size: 13px; line-height: 1.6em;">代码一直延续到昨天！小猪决定重构他！</span></p>
-<h2 id="重构一：去除重复代码"><a href="#重构一：去除重复代码" class="headerlink" title="重构一：去除重复代码"></a>重构一：去除重复代码</h2><p>首先上述代码最大的问题就是大量的复制粘贴，违背了DRY(Don’t Repeated Yourself)原则。多个字段就要多粘贴一次，为了解决这个问题在遍历实体列表时使用下属代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> using (MemoryStream memoryStream = new MemoryStream\(\))</span><br><span class="line">&#123;</span><br><span class="line">    XmlWriterSettings xmlWriterSettings = new XmlWriterSettings\(\);</span><br><span class="line">    xmlWriterSettings.Indent = true;</span><br><span class="line">    xmlWriterSettings.Encoding = new UTF8Encoding(false);</span><br><span class="line">    xmlWriterSettings.NewLineChars = Environment.NewLine;</span><br><span class="line">    using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))</span><br><span class="line">    &#123;</span><br><span class="line">        xmlWriter.WriteStartDocument(true);</span><br><span class="line">        xmlWriter.WriteStartElement(&quot;Articles&quot;);</span><br><span class="line">        if (articlelist != null)</span><br><span class="line">        &#123;</span><br><span class="line">            foreach (var article in articlelist)</span><br><span class="line">            &#123;</span><br><span class="line">                Type type = typeof(Article);</span><br><span class="line">                foreach (PropertyInfo propertyInfo in type.GetProperties\(\))</span><br><span class="line">                &#123;</span><br><span class="line">                    object ob = propertyInfo.GetValue(article, null);</span><br><span class="line">                    if (null != ob)</span><br><span class="line">                    &#123;</span><br><span class="line">                        xmlWriter.WriteStartElement(propertyInfo.Name);</span><br><span class="line">                        xmlWriter.WriteCData(ob.ToString\(\));</span><br><span class="line">                        xmlWriter.WriteEndElement\(\);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                xmlWriter.WriteEndElement\(\);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xmlWriter.WriteEndElement\(\);</span><br><span class="line">        xmlWriter.WriteEndDocument\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    string xml = Encoding.UTF8.GetString(memoryStream.ToArray\(\));</span><br><span class="line">    return xml;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><span style="font-size: 13px; line-height: 1.6em;">可是这样只能遍历Article类型，其他类型还是使用不了这个方法</span></p>
-<h2 id="重构二：加入泛型"><a href="#重构二：加入泛型" class="headerlink" title="重构二：加入泛型"></a>重构二：加入泛型</h2><p>在最原始的代码中每为一个实体增加类似功能的时候都要把那一整块代码复制过来然后做修改，我们在重构一中还是没有解决这个问题，为了使上面的方法能够在以后被重复利用我们加入泛型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> public static string GetXMLList&amp;lt;T&amp;gt;(IList&amp;lt;T&amp;gt; articlelist)</span><br><span class="line">&#123;</span><br><span class="line">    using (MemoryStream memoryStream = new MemoryStream\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        XmlWriterSettings xmlWriterSettings = new XmlWriterSettings\(\);</span><br><span class="line">        xmlWriterSettings.Indent = true;</span><br><span class="line">        xmlWriterSettings.Encoding = new UTF8Encoding(false);</span><br><span class="line">        xmlWriterSettings.NewLineChars = Environment.NewLine;</span><br><span class="line">        using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))</span><br><span class="line">        &#123;</span><br><span class="line">            xmlWriter.WriteStartDocument(true);</span><br><span class="line">            xmlWriter.WriteStartElement(&quot;Roots&quot;);</span><br><span class="line">            Type type = typeof(T);</span><br><span class="line">            if (articlelist != null)</span><br><span class="line">            &#123;</span><br><span class="line">                foreach (var article in articlelist)</span><br><span class="line">                &#123;</span><br><span class="line">                    foreach (PropertyInfo propertyInfo in type.GetProperties\(\))</span><br><span class="line">                    &#123;</span><br><span class="line">                        object ob = propertyInfo.GetValue(article, null);</span><br><span class="line">                        if (null != ob)</span><br><span class="line">                        &#123;</span><br><span class="line">                            xmlWriter.WriteStartElement(propertyInfo.Name);</span><br><span class="line">                            xmlWriter.WriteCData(ob.ToString\(\));</span><br><span class="line">                            xmlWriter.WriteEndElement\(\);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    xmlWriter.WriteEndElement\(\);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            xmlWriter.WriteEndElement\(\);</span><br><span class="line">            xmlWriter.WriteEndDocument\(\);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        string xml = Encoding.UTF8.GetString(memoryStream.ToArray\(\));</span><br><span class="line">        return xml;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样代码完成了多类型的使用，但是却把所有的共有属性都写进了XML,在实际使用中我们可能不希望把所有属性都列进来，例如是否推荐字段，阅读权限字段等等~</p>
-<p>重构三：</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h2 id="重构-…"><a href="#重构-…" class="headerlink" title="重构:…"></a>重构:…</h2><p>…</p>
-<h2 id="重构N"><a href="#重构N" class="headerlink" title="重构N"></a>重构N</h2><p>为了使每个节点上面增加Id属性，定义一个抽象类<code>Listable</code>。抽象类中包涵自动Id，让需要提供列表的实体类继承至这个抽象类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> /*==========================================================</span><br><span class="line">*作者：SmallerPig</span><br><span class="line">*时间：2013/12/30 17:26:01</span><br><span class="line">*版权所有:无锡睿阅数字科技有限公司</span><br><span class="line">============================================================*/</span><br><span class="line">namespace RY.Entity</span><br><span class="line">&#123;</span><br><span class="line">    public abstract class Listable</span><br><span class="line">    &#123;</span><br><span class="line">        public int Id &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>实体类来继承它。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> public class Article : Listable</span><br><span class="line">&#123;</span><br><span class="line">    public string Title &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Summary &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
-<p>然后给泛型方法加上约束，在该指定Id的地方加上id属性！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> static string ToXML&amp;lt;T&amp;gt;(IList&amp;lt;T&amp;gt; TList, string ingor) where T : Listable</span><br><span class="line">&#123;</span><br><span class="line">    using (MemoryStream memoryStream = new MemoryStream\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        XmlWriterSettings xmlWriterSettings = new XmlWriterSettings\(\);</span><br><span class="line">        xmlWriterSettings.Indent = true;</span><br><span class="line">        xmlWriterSettings.Encoding = new UTF8Encoding(false);</span><br><span class="line">        xmlWriterSettings.NewLineChars = Environment.NewLine;</span><br><span class="line">        using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))</span><br><span class="line">        &#123;</span><br><span class="line">            xmlWriter.WriteStartDocument(true);</span><br><span class="line">            xmlWriter.WriteStartElement(&quot;Roots&quot;);</span><br><span class="line">            if (TList != null)</span><br><span class="line">            &#123;</span><br><span class="line">​                Type type = typeof(T);</span><br><span class="line">                foreach (T t in TList)</span><br><span class="line">                &#123;</span><br><span class="line">                    xmlWriter.WriteStartElement(type.Name);</span><br><span class="line">                    xmlWriter.WriteStartAttribute(&quot;id&quot;);</span><br><span class="line">                    xmlWriter.WriteString(t.Id.ToString\(\));</span><br><span class="line">                    xmlWriter.WriteEndAttribute\(\);                            </span><br><span class="line">                    foreach (PropertyInfo propertyInfo in type.GetProperties\(\))</span><br><span class="line">                    &#123;</span><br><span class="line">                        if (propertyInfo.CanRead &amp;amp;&amp;amp; propertyInfo.Name.ToLower\(\) != ingor.ToLower\(\))</span><br><span class="line">                        &#123;</span><br><span class="line">                            if (propertyInfo.PropertyType == typeof(DateTime))</span><br><span class="line">                            &#123;</span><br><span class="line">                                xmlWriter.WriteStartElement(propertyInfo.Name);</span><br><span class="line">                                DateTime dt = Convert.ToDateTime(propertyInfo.GetValue(t, null));</span><br><span class="line">                                xmlWriter.WriteCData(dt.ToString(&quot;yyyy-MM-dd hh:mm:ss&quot;));</span><br><span class="line">                                xmlWriter.WriteEndElement\(\);</span><br><span class="line">                            &#125;</span><br><span class="line">                            if (propertyInfo.PropertyType == typeof(String) || propertyInfo.PropertyType == typeof(int))</span><br><span class="line">                            &#123;</span><br><span class="line">                                object ob = propertyInfo.GetValue(t, null);</span><br><span class="line">                                if (null != ob)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    xmlWriter.WriteStartElement(propertyInfo.Name);</span><br><span class="line">                                    xmlWriter.WriteCData(ob.ToString\(\));</span><br><span class="line">                                    xmlWriter.WriteEndElement\(\);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    xmlWriter.WriteEndElement\(\);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            xmlWriter.WriteEndElement\(\);</span><br><span class="line">            xmlWriter.WriteEndDocument\(\);</span><br><span class="line">        &#125;</span><br><span class="line">        string xml = Encoding.UTF8.GetString(memoryStream.ToArray\(\));</span><br><span class="line">        return xml;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最后效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&amp;gt;</span><br><span class="line">&amp;lt;Roots&amp;gt;</span><br><span class="line">  &amp;lt;Article id=&quot;83&quot;&amp;gt;</span><br><span class="line">    &amp;lt;Title&amp;gt;&amp;lt;![CDATA[存储]]&amp;gt;&amp;lt;/Title&amp;gt;</span><br><span class="line">    &amp;lt;Summary&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Summary&amp;gt;</span><br><span class="line">    &amp;lt;Author&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Author&amp;gt;</span><br><span class="line">    &amp;lt;Category&amp;gt;&amp;lt;![CDATA[1]]&amp;gt;&amp;lt;/Category&amp;gt;</span><br><span class="line">    &amp;lt;CreateDate&amp;gt;&amp;lt;![CDATA[2013-12-30 03:37:52]]&amp;gt;&amp;lt;/CreateDate&amp;gt;</span><br><span class="line">    &amp;lt;BannerURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153738573.png]]&amp;gt;&amp;lt;/BannerURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153731941.png]]&amp;gt;&amp;lt;/ImageURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageAuthor&amp;gt;&amp;lt;![CDATA[sda]]&amp;gt;&amp;lt;/ImageAuthor&amp;gt;</span><br><span class="line">    &amp;lt;Id&amp;gt;&amp;lt;![CDATA[83]]&amp;gt;&amp;lt;/Id&amp;gt;</span><br><span class="line">  &amp;lt;/Article&amp;gt;</span><br><span class="line">  &amp;lt;Article id=&quot;82&quot;&amp;gt;</span><br><span class="line">    &amp;lt;Title&amp;gt;&amp;lt;![CDATA[存储]]&amp;gt;&amp;lt;/Title&amp;gt;</span><br><span class="line">    &amp;lt;Summary&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Summary&amp;gt;</span><br><span class="line">    &amp;lt;Author&amp;gt;&amp;lt;![CDATA[asdsa]]&amp;gt;&amp;lt;/Author&amp;gt;</span><br><span class="line">    &amp;lt;Category&amp;gt;&amp;lt;![CDATA[1]]&amp;gt;&amp;lt;/Category&amp;gt;</span><br><span class="line">    &amp;lt;CreateDate&amp;gt;&amp;lt;![CDATA[2013-12-30 03:37:51]]&amp;gt;&amp;lt;/CreateDate&amp;gt;</span><br><span class="line">    &amp;lt;BannerURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153738573.png]]&amp;gt;&amp;lt;/BannerURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageURL&amp;gt;&amp;lt;![CDATA[/Images/2013年12月/20131230153731941.png]]&amp;gt;&amp;lt;/ImageURL&amp;gt;</span><br><span class="line">    &amp;lt;ImageAuthor&amp;gt;&amp;lt;![CDATA[sda]]&amp;gt;&amp;lt;/ImageAuthor&amp;gt;</span><br><span class="line">    &amp;lt;Id&amp;gt;&amp;lt;![CDATA[82]]&amp;gt;&amp;lt;/Id&amp;gt;</span><br><span class="line">  &amp;lt;/Article&amp;gt;</span><br><span class="line">&amp;lt;/Roots&amp;gt;&amp;lt;span id=&quot;transmark&quot;&amp;gt;&amp;lt;/span&amp;gt;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/379.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1419,15 +1403,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1451,15 +1435,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1503,18 +1487,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1527,7 +1499,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1547,19 +1535,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1595,15 +1583,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">

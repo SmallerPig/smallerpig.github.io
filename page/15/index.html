@@ -161,6 +161,113 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8wamp-server-e7-8e-af-e5-a2-83-e4-b8-8b-e5-ae-89-e8-a3-85php-imagick-e6-8b-93-e5-b1-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/673.html">在wamp server环境下安装php_imagick拓展</a>
+    </h1>
+  
+
+        
+        <a href="/673.html" class="archive-article-date">
+  	<time datetime="2015-05-07T07:54:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般我们在安装php拓展会很简单.直接三部就可以搞定.!</p>
+<ol>
+<li>将下载好的dll文件放到php文件夹的ext文件夹下.  </li><li>编辑php.ini文件来加载之前的dll:extension:php_XXX.dll  </li><li>重启Apache </li>
+</ol>
+<p>这样我们就可以使用该拓展了.</p>
+<p>但是安装php_imagick这类拓展时会稍微麻烦一点,因为其拓展库已经不再是一个简单的dll文件了…</p>
+<p>下面跟随我的脚步来一步一步实现在wamp server环境下安装php_imagick拓展吧(其实其他环境是类似的!)</p>
+<p>1.在php安装目录的ext文件夹下新建imagick文件夹</p>
+<p>2.将该文件夹的路径添加到系统路径(path值).</p>
+<p>3.从网址<a href="http://windows.php.net/downloads/pecl/releases/imagick/" target="_blank" rel="noopener">http://windows.php.net/downloads/pecl/releases/imagick/</a>下载对应php版本的imagick</p>
+<p>4.这里需要注意的是下载的文件区别,我们从文件名中来区分,例如php_imagick-3.2.0b2-5.5-nts-vc11-x86.zip</p>
+<ul>
+<li>其中5.5是对应的php版本.</li>
+<li>nts值代表该文件适用于IIS和windows,ts代表该文件适用于Apache,</li>
+<li>VC11和VC9是编译器的版本.我们可以适用phpinfo()命令来查看我们机器上php适用的是哪个版本(如图1)</li>
+<li>x86代表适用32位系统,x64代表适用64位系统 </li>
+</ul>
+<p>5.下载好对应的zip文件后,将所有文件解压到我们第一步新建的imagick文件夹!</p>
+<p>6.添加php_imagick.dll的完整路径到php.ini文件中.例如:extension=C:\wamp\bin\php\php5.5.12\ext\ext\imagick\php_imagick.dll</p>
+<p>7.重启wamp服务器</p>
+<p>8.运行phpinfo看看是不是已经成功添加拓展了</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image1.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb1.png" alt="image" title="image"></a></p>
+<p>图1:使用phpinfo命令查看VC版本</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image2.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb2.png" alt="image" title="image"></a></p>
+<p>图2:安装成功后使用phpinfo查看imagick信息</p>
+<p>参考:<a href="http://stackoverflow.com/questions/25766737/where-to-find-php-imagick-dll-for-php-5-5-12-for-windows-wampserver-2-5" title="http://stackoverflow.com/questions/25766737/where-to-find-php-imagick-dll-for-php-5-5-12-for-windows-wampserver-2-5" target="_blank" rel="noopener">http://stackoverflow.com/questions/25766737/where-to-find-php-imagick-dll-for-php-5-5-12-for-windows-wampserver-2-5</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/673.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ci3-0-e5-bc-80-e5-a7-8b-e6-94-af-e6-8c-81translate-uri-dashes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1114,137 +1221,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-使用CodeIgniter的购物车类  一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/554.html">使用CodeIgniter的购物车类  一</a>
-    </h1>
-  
-
-        
-        <a href="/554.html" class="archive-article-date">
-  	<time datetime="2015-04-17T07:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>相关文章:</p>
-<ul>
-<li><a href="http://www.smallerpig.com/554.html" title="使用CodeIgniter的购物车类  一" target="_blank" rel="noopener">使用CodeIgniter的购物车类 一</a></li>
-<li><a href="http://www.smallerpig.com/570.html" title="使用CodeIgniter的购物车类 二" target="_blank" rel="noopener">使用CodeIgniter的购物车类 二</a><br>CI框架本身提供了很多类库来帮助我们简化网站的开发.今天我来分享在项目中使用购物车类的过程.希望对后来者有用!</li>
-</ul>
-<p>购物车类允许项目被添加到session中，session在用户浏览你的网站期间都保持有效状态。这些项目能够以标准的 “购物车” 格式被检索和显示，并允许用户更新数量或者从购物车中移除项目。</p>
-<p>请注意购物车类只提供核心的”购物车”功能。它不提供配送、信用卡授权或者其它处理组件.</p>
-<p>因为购物车类利用了CI的session类把购物车信息保存到数据库中,所以在使用购物车类之前,你必须根据session类文档中的说明来创建数据库表,并且在application/config/config.php 文件中把session相关参数设置为使用数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $config[&apos;sess_use_database&apos;]	= TRUE;</span><br><span class="line">$config[&apos;sess_table_name&apos;]	= &apos;ci_sessions&apos;;</span><br></pre></td></tr></table></figure></p>
-<p>创建数据库表的sql语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> CREATE TABLE IF NOT EXISTS  `ci_sessions` (</span><br><span class="line">  session_id varchar(40) DEFAULT &apos;0&apos; NOT NULL,</span><br><span class="line">  ip_address varchar(45) DEFAULT &apos;0&apos; NOT NULL,</span><br><span class="line">  user_agent varchar(120) NOT NULL,</span><br><span class="line">  last_activity int(10) unsigned DEFAULT 0 NOT NULL,</span><br><span class="line">  user_data text DEFAULT &apos;&apos; NOT NULL,</span><br><span class="line">  PRIMARY KEY (session_id),</span><br><span class="line">  KEY `last_activity_idx` (`last_activity`)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>为了在你的控制器构造函数中初始化购物车类,请使用$this-&gt;load-&gt;library函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$this-&amp;gt;load-&amp;gt;library(&apos;cart&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>说明: 购物车类会自动加载和初始化Session类，因此除非你在别处要用到session，否则你不需要再次加载Session类。</p>
-<h3 id="将一个项目添加到购物车"><a href="#将一个项目添加到购物车" class="headerlink" title="将一个项目添加到购物车"></a>将一个项目添加到购物车</h3><p>要添加项目到购物车,只需将一个包含了商品信息的数组传递给$this-&gt;cart-&gt;insert()函数即可,就像下面这样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $data = array(</span><br><span class="line">               &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">               &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">               &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">               &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">               &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;insert($data);</span><br></pre></td></tr></table></figure></p>
-<p>五个保留的索引分别是:</p>
-<ul>
-<li>id - 你的商店里的每件商品都必须有一个唯一的标识符(identifier)。典型的标识符是 “sku”(译者注：库存量单位) 或者其它类似的标识符。</li>
-<li>qty - 购买的数量(quantity)。</li>
-<li>price - 商品的价格(price)。</li>
-<li>name - 商品的名称(name)。</li>
-<li>options - 标识商品的任何附加属性。必须通过数组来传递。<br>除以上五个索引外，还有两个保留字：rowid 和 subtotal。它们是购物车类内部使用的，因此，往购物车中插入数据时，请不要使用这些词作为索引。</li>
-</ul>
-<p>你的数组可能包含附加的数据。你的数组中包含的所有数据都会被存储到session中。然而，最好的方式是标准化你所有商品的数据，这样更方便你在表格中显示它们。</p>
-<p>如果成功的插入一条数据后，insert()方法将会返回一个id值（$rowid）</p>
-<p>完整的php代码如下.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> class Cart extends CI_Controller&#123;</span><br><span class="line">    public  function Add\(\)&#123;</span><br><span class="line">        $this-&amp;gt;load-&amp;gt;library(&quot;cart&quot;);</span><br><span class="line">        $data = array(</span><br><span class="line">            &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">            &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">            &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">            &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">            &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">        );</span><br><span class="line">        $this-&amp;gt;cart-&amp;gt;insert($data);</span><br><span class="line"></span><br><span class="line">        echo &quot;add\(\) called&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在浏览器中访问地址:<a href="http://127.0.0.1/cart/add" title="http://127.0.0.1/cart/add" target="_blank" rel="noopener">http://127.0.0.1/cart/add</a> 我们可以看到正确的调用:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb.png" alt="image" title="image"></a></p>
-<p>.为了查看先有购物车的数据,我们编写一个单独的方法来显示数据.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line">public function show\(\)&#123;</span><br><span class="line">    $data = $this-&amp;gt;cart-&amp;gt;contents\(\);</span><br><span class="line">    echo &quot;&amp;gt;pre&amp;gt;&quot;;</span><br><span class="line">    print_r($data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在浏览器里查看地址<a href="http://127.0.0.1/cart/show" title="http://127.0.0.1/cart/show" target="_blank" rel="noopener">http://127.0.0.1/cart/show</a>,可以看到我们的刚才的数据已经在里面</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image3.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image3_thumb.png" alt="image" title="image"></a></p>
-<p>如果你可以查看数据库的话,打开数据库你也可以在表ci_session中看到已经插入了一条数据</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image2.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb2.png" alt="image" title="image"></a></p>
-<p>&nbsp;</p>
-<p><strong>什么是 Row ID?</strong>  当一个项目被添加到购物车时，程序所生成的那个唯一的标识符就是row ID。创建唯一ID的理由是，当购物车中相同的商品有不同的选项时，购物车就能够对它们进行管理。</p>
-<p>比如说，有人购买了两件相同的T-shirt (相同的商品ID)，但是尺寸不同。商品ID(以及其它属性)都会完全一样，因为它们是相同的T-shirt。它们唯一的差别就是尺寸不同。因此购物车必须想办法来区分它们，这样才能独立地管理这两件尺寸不同的T-shirt。而基于商品ID和其它相关选项信息来创建一个唯一的 “row ID” 就能解决这个问题。</p>
-<p>在几乎所有情况下，更新购物车都将是用户通过 “查看购物车” 页面来实现的，因此对开发者来说，不必太担心”row ID”，只要保证你的 “查看购物车” 页面中的一个隐藏表单字段包含了这个信息，并且确保它能被传递给表单提交时所调用的更新函数就行了。请仔细分析上面的 “查看购物车” 页面的结构以获取更多信息。</p>
-<p>#### </p>
-<h3 id="将多个项目添加到购物车"><a href="#将多个项目添加到购物车" class="headerlink" title="将多个项目添加到购物车"></a>将多个项目添加到购物车</h3><p>通过下面这种多维数组的方式，可以一次性添加多个产品到购物车中。当你希望允许用户选择同一页面中的多个项目时，这就非常有用了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_123ABC&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 39.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;T-Shirt&apos;,</span><br><span class="line">                      &apos;options&apos; =&amp;gt; array(&apos;Size&apos; =&amp;gt; &apos;L&apos;, &apos;Color&apos; =&amp;gt; &apos;Red&apos;)</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_567ZYX&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 9.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;Coffee Mug&apos;</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;id&apos;      =&amp;gt; &apos;sku_965QRS&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 1,</span><br><span class="line">                      &apos;price&apos;   =&amp;gt; 29.95,</span><br><span class="line">                      &apos;name&apos;    =&amp;gt; &apos;Shot Glass&apos;</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;insert($data);</span><br></pre></td></tr></table></figure></p>
-<h3 id="更新购物车"><a href="#更新购物车" class="headerlink" title="更新购物车"></a>更新购物车</h3><p>为了更新购物车中的信息，你必须将一个包含了 Row ID 和数量(quantity)的数组传递给 $this-&gt;cart-&gt;update() 函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              &apos;rowid&apos; =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">              &apos;qty&apos;   =&amp;gt; 3</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data); </span><br><span class="line"></span><br><span class="line">// 或者是一个多维数组</span><br><span class="line"></span><br><span class="line">$data = array(</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 3</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;xw82g9q3r495893iajdh473990rikw23&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 4</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &apos;rowid&apos;   =&amp;gt; &apos;fh4kdkkkaoe30njgoe92rkdkkobec333&apos;,</span><br><span class="line">                      &apos;qty&apos;     =&amp;gt; 2</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data);</span><br></pre></td></tr></table></figure></p>
-<h3 id="删除购物车条目"><a href="#删除购物车条目" class="headerlink" title="删除购物车条目"></a>删除购物车条目</h3><p>删除购物车条目其实就是将某一条数据的qty置为0,例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data = array(</span><br><span class="line">              &apos;rowid&apos; =&amp;gt; &apos;b99ccdf16028f015540f341130b6d8ec&apos;,</span><br><span class="line">              &apos;qty&apos;   =&amp;gt; 0</span><br><span class="line">           );</span><br><span class="line">$this-&amp;gt;cart-&amp;gt;update($data);</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/554.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1442,15 +1418,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1474,15 +1450,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1526,18 +1502,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1550,7 +1514,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1570,19 +1550,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1618,15 +1598,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">

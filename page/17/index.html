@@ -161,6 +161,90 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用Linq快速的操作XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/425.html">使用Linq快速的操作XML</a>
+    </h1>
+  
+
+        
+        <a href="/425.html" class="archive-article-date">
+  	<time datetime="2014-02-21T08:06:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="开始内容之前先分享一段话"><a href="#开始内容之前先分享一段话" class="headerlink" title="开始内容之前先分享一段话"></a>开始内容之前先分享一段话</h3><p>有时候，当你知道要做什么的时候就做的很快，比如你要实现个功能，码字的活儿不算很难，做个检索也不会有什么难倒你的。<br>但是，做着做着，你发现好像世界上的工作都在重复，于是你有种心要飞起来的感觉，但总觉得脚步速度太慢，你开始抱怨进度，公司也对你充满期待，于是会给你配备助手，一来二去，你成为了小领导，你不再自己编码了，而且要做什么也都告诉你的助手们了，这时，你陷入了沉思，我该干什么呢？<br>偶然的，你发现某些事情朝着错误的方向发展，用户开始抱怨了，你跳出来，指出助手们的错误，然后事情过去了，你却停不下来，你怕这样的事情再次发生，于是你开始更深的沉思，这次你学会了思考，我要做的就是保持优秀的团队力量，如何保持呢？古板不是个办法，因为古板会使你的团队成员走你的老路，他们会感到单一、重复、枯燥。。。<br>你不能再去写代码以逃避无休无止的思考，因为你写的那点代码也起不到作用，还冷不丁的出个意外需要你公关，你很想突破，突破思维的限制，你发现突破不仅是你的挑战，更是你唯一的出路。 </p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;Columns&gt;</span><br><span class="line">  &lt;column id=&quot;序号&quot;&gt;</span><br><span class="line">    &lt;name&gt;序号&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验项目&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验项目&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;单位&quot;&gt;</span><br><span class="line">    &lt;name&gt;单位&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;标准要求&quot;&gt;</span><br><span class="line">    &lt;name&gt;标准要求&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验结果&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验结果&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;结论&quot;&gt;</span><br><span class="line">    &lt;name&gt;结论&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">&lt;/Columns&gt;</span><br></pre></td></tr></table></figure>
+<p>以上就是一个Xml文件，我们知道，Xml文件是用来存储数据的，那么我们如何遍历这些数据呢？<br>其实最简单的方法，就是使用Linq：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iTestResultXml=new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;testResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">          iTestResultXml.Add(node.Value);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们就可以获得&lt;column/&gt;标签里所有的数据了，并把他们存储到列表iTestResultXml中。<br>在testResult.xml文件中，我们看到，&lt;column/&gt;标签设置了本身的id,而此id并不是他的数据，而是他的一个属性，那么如果我们想获得他的属性而不是他标签里的内容该如何获得呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iXmlID = new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;....XmltestResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">            iXmlID.Add(node.Attribute(&quot;id&quot;).Value);   //获取指定属性的方法</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们就获取了&lt;column/&gt;标签里id属性的列表iXmlID。</p>
+<p>参考地址：<a href="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" title="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" target="_blank" rel="noopener">http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN</a></p>
+<p><a href="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" title="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" target="_blank" rel="noopener">http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/425.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-86-8d-e4-b9-9f-e4-b8-8d-e7-9b-b8-e4-bf-a1-e7-ba-a2-e7-b1-b3-e4-ba-86" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1048,95 +1132,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e8-ae-a9div-e5-ae-9e-e7-8e-b0-e6-8a-96-e5-8a-a8-e6-95-88-e6-9e-9c-ef-bc-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/401.html">让DIV实现抖动效果！</a>
-    </h1>
-  
-
-        
-        <a href="/401.html" class="archive-article-date">
-  	<time datetime="2014-01-16T09:23:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;html&amp;gt;</span><br><span class="line">&amp;lt;head&amp;gt;</span><br><span class="line">&amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&amp;gt;</span><br><span class="line">&amp;lt;title&amp;gt;JavaScript层抖动效果&amp;lt;/title&amp;gt;</span><br><span class="line">&amp;lt;style type=&quot;text/css&quot;&amp;gt;</span><br><span class="line">#body&#123;text-align:center;&#125;</span><br><span class="line">#test&#123;width:200px;position:absolute;margin:10px auto;height:100px;border:2px dotted red;text-align:center&#125;</span><br><span class="line">&amp;lt;/style&amp;gt;</span><br><span class="line">&amp;lt;/head&amp;gt;</span><br><span class="line">&amp;lt;body&amp;gt;</span><br><span class="line">&amp;lt;div style=&quot;margin:10px 200px&quot;&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;~点这里让我抖抖吧~&quot; onclick=&quot;nn.start\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;晃晕了，我不抖了！&quot; onclick=&quot;nn.stop\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div id=&quot;test&quot;&amp;gt;</span><br><span class="line">        &amp;lt;br&amp;gt;</span><br><span class="line">        &amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br><span class="line">&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;</span><br><span class="line"> var m=document.getElementById(&quot;test&quot;);</span><br><span class="line">function SKclass (obj,Rate,speed) &#123;</span><br><span class="line">     var oL=obj.offsetLeft;</span><br><span class="line">     var oT=obj.offsetTop;</span><br><span class="line">     this.stop=null;</span><br><span class="line">     this.oTime=null;</span><br><span class="line">     var om=this;</span><br><span class="line">     this.start=function\(\)&#123;</span><br><span class="line">             if(parseInt(obj.style.left)==oL-2)&#123;</span><br><span class="line">                obj.style.top=oT+2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL+2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">             &#125;</span><br><span class="line">             else&#123;</span><br><span class="line">                obj.style.top=oT-2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL-2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">            &#125;</span><br><span class="line">        this.oTime=setTimeout(function\(\)&#123;om.start\(\)&#125;,speed);</span><br><span class="line">     &#125;</span><br><span class="line">     this.stop=function\(\)&#123;</span><br><span class="line">       clearTimeout(this.oTime);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">var nn=new SKclass(m,20,70);</span><br><span class="line">&amp;lt;/script&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/401.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/16/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/18/">Next &raquo;</a>
@@ -1334,15 +1329,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1366,15 +1361,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1418,18 +1413,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1442,7 +1425,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1462,19 +1461,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1510,15 +1509,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
