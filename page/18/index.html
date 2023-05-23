@@ -161,6 +161,93 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-防止用户按浏览器后退按钮回到登陆页面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/400.html">防止用户按浏览器后退按钮回到登陆页面</a>
+    </h1>
+  
+
+        
+        <a href="/400.html" class="archive-article-date">
+  	<time datetime="2014-01-15T12:54:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个在注册或者登陆的时候是一个普遍的问题，登陆之后，跳转到另外一个页面，如果这时候用户不小心点了后退按钮如果处理不当的话就会重新回到登陆页面，但事实是用户已经登录了，所有页面的状态都应该是已登录的，不管什么情况下都不应该让用户在看到这个页面。用户的点击操作会引发上面的问题，而程序 <code>history.go(-1) ;history.back()</code> 也会有一样的bug。  </p>
+<p>这样的问题处理方案比较简单，ajax 拿到 success 的状态码时立刻做跳转，但是这里不能用 <code>window.location.href</code>，这样浏览器还是会记录这个登录历史，应该使用 <code>window.location.replace</code>，替换当前历史记录。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/400.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -343,7 +430,7 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e4-bd-bf-e7-94-a8-e4-ba-86windows-live-writer-e5-86-99-e7-9a-84-e5-8d-9a-e5-ae-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-使用了Windows Live Writer 写的博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -1030,7 +1117,7 @@ Mask 过后的二维码就成最终的图了。
 
 
   
-    <article id="post-e4-bd-bf-e7-94-a8-e5-8f-8d-e5-b0-84-e6-9d-a5-e7-bc-96-e5-86-99-e5-ae-9e-e4-bd-93-e7-b1-bb-e7-9a-84xml" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-使用反射来编写实体类的XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -1135,113 +1222,6 @@ Mask 过后的二维码就成最终的图了。
 
 
   
-    <article id="post-e5-9c-a8asp-net-mvc-e4-b8-ad-e4-bd-bf-e7-94-a8area" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/378.html">在ASP.NET MVC中使用Area</a>
-    </h1>
-  
-
-        
-        <a href="/378.html" class="archive-article-date">
-  	<time datetime="2013-12-30T06:47:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">前言：</span><br><span class="line"></span><br><span class="line">	这段时间小猪花了不少功夫在研究ASP.NET MVC的源码上面，可谓思想是了解了不少，用的上用不上却是另外一回事了。！</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>应用场景：</p>
-<pre><code>ASP.NET MVC中,是依靠某些文件夹以及类的固定命名规则去组织model实体层，views视图层和控制层的。如果是大规模的应用程序，经常会由不同功能的模块组成，而每个功能模块都由MVC中的三层所构成，因此，随着应用程序规模的增大，如何组织这些不同功能模块中的MVC三层的目录结构，有时对开发者来说显得是种负担。
-
-另一个问题就是Controller不允許有相同命名的存在，偏偏模块中常有父子关系，有时子模块命名相同就会造成错误。
-
-幸运的是，ASP.NET MVC允许开发者将应用划分为&amp;ldquo;区域&amp;rdquo;(Area)的概念。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Area(区域)简介：</span><br><span class="line"></span><br><span class="line">	每个区域都是按照asp.net mvc的规定对文件目录结构和类的命名规则进行命名。添加方法也很简单，右击项目，点击添加区域，在弹出框里写上Area的名称点击确定即可。</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1、新建&amp;nbsp;Area：右键&amp;nbsp;-&amp;gt;&amp;nbsp;Add&amp;nbsp;-&amp;gt;&amp;nbsp;Area...</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2、继承&amp;nbsp;AreaRegistration，配置对应此&amp;nbsp;Area&amp;nbsp;的路由</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3、在&amp;nbsp;Global&amp;nbsp;中通过&amp;nbsp;AreaRegistration.RegisterAllAreas\(\);&amp;nbsp;注册此&amp;nbsp;Area</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4、有了&amp;nbsp;Area，就一定要配置路由的命名空间</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>Area的路由</p>
-<pre><code>在添加好了区域之后，vs会自动帮我们注册Area的路由信息：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public class AdminAreaRegistration : AreaRegistration</span><br><span class="line">&#123;</span><br><span class="line">    public override string AreaName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return &amp;quot;Admin&amp;quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void RegisterArea(AreaRegistrationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        context.MapRoute(</span><br><span class="line">            &amp;quot;Admin_default&amp;quot;,</span><br><span class="line">            &amp;quot;Admin/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">            new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">问题</span><br><span class="line"></span><br><span class="line">	试想如果这时候有这样的情形：</span><br><span class="line"></span><br><span class="line">	如果有一个Area叫Database，在它的下面有一个Controller名字叫做Browse。</span><br><span class="line"></span><br><span class="line">	另外我在顶层也有一个Controller，名字也叫Browse。</span><br><span class="line"></span><br><span class="line">	那么我们在&lt;span style=&quot;font-size: 13px; line-height: 1.6em;&quot;&gt;输入http://localhost/Browse，我们得到的将是一个异常:&amp;nbsp;Multiple types were found that match the controller named &amp;#39;Browse&amp;#39;.&amp;nbsp;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	而输入http://localhost/Database/Browse，我们却能够正常地访问到 MvcApplication.Areas.Database.Controllers.BrowseController。</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
-<p>## </p>
-<p>原来：</p>
-<pre><code>在注册Area的路由时，如果没有填写命名空间的话，则会默认使用Area所在的命名空间。如此一来，使用Area的路由在寻找Controller时，只会在Area所在的空间下寻找相应的Controller，那就不存在与顶层Controller的冲突问题了，可是顶层的同名Controller问题如何解决呢，这个好办，在顶层路由映射的时候主动加上命名空间吧，这样子就皆大欢喜，你用你的Browse，我用我的Browse，互不相干。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">     routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">     routes.MapRoute(</span><br><span class="line">        &amp;quot;Default&amp;quot;, // Route name</span><br><span class="line">        &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;, // URL with parameters</span><br><span class="line">        new &#123; controller = &amp;quot;Home&amp;quot;, action = &amp;quot;Index&amp;quot;, id = UrlParameter.Optional &#125;,// Parameter defaults</span><br><span class="line">        new[] &#123; &amp;quot;Web.Controllers&amp;quot; &#125;// Namespaces 引入默认的命名空间</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">让起始页为某Area的页面：</span><br><span class="line"></span><br><span class="line">	修改RoutConfig代码：</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">    routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: &amp;quot;Default&amp;quot;,</span><br><span class="line">        url: &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">        defaults: new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">    ).DataTokens.Add(&amp;quot;area&amp;quot;,&amp;quot;Admin&amp;quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>注意后面的DataTokens.Add方法！
-
-Done！
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/378.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1256,11 +1236,7 @@ Done！
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-			&copy; 2023 smallerpig
-			<img src="https://static.dy208.cn/o_1dfilp8ruo521thr1hvf18ji17soa.png" title="备案管理系统">
-        <a href="http://www.beian.miit.gov.cn/"  target="_blank" title="备案号">
-            苏ICP备15013264号
-        </a>
+    		&copy; 2023 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1339,10 +1315,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
@@ -1391,22 +1363,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -1435,14 +1391,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
@@ -1451,7 +1399,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1459,7 +1415,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1467,11 +1423,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1495,11 +1451,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1539,7 +1499,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1555,14 +1527,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
@@ -1575,15 +1539,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1595,6 +1563,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1603,15 +1579,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1639,15 +1619,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">

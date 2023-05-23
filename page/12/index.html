@@ -161,6 +161,108 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-be-ae-e4-bf-a1jssdk-python-e7-89-88-e6-9c-ac-e8-ae-b2-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/889.html">微信JSSDK python版本讲解</a>
+    </h1>
+  
+
+        
+        <a href="/889.html" class="archive-article-date">
+  	<time datetime="2015-09-16T05:50:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文对微信官方的JSSDK的python版中的代码进行讲解,并在最后给到了其对应的python3.*版本.</p>
+<p>官方示例代码下载链接:<a href="http://demo.open.weixin.qq.com/jssdk/sample.zip" title="http://demo.open.weixin.qq.com/jssdk/sample.zip" target="_blank" rel="noopener">http://demo.open.weixin.qq.com/jssdk/sample.zip</a></p>
+<p>官方示例代码python版:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> import time</span><br><span class="line">import random</span><br><span class="line">import string</span><br><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">class Sign:</span><br><span class="line">    def __init__(self, jsapi_ticket, url):</span><br><span class="line">        self.ret = &#123;</span><br><span class="line">            &apos;nonceStr&apos;: self.__create_nonce_str\(\),</span><br><span class="line">            &apos;jsapi_ticket&apos;: jsapi_ticket,</span><br><span class="line">            &apos;timestamp&apos;: self.__create_timestamp\(\),</span><br><span class="line">            &apos;url&apos;: url</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    def __create_nonce_str(self):</span><br><span class="line">        return &apos;&apos;.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))</span><br><span class="line"></span><br><span class="line">    def __create_timestamp(self):</span><br><span class="line">        return int(time.time\(\))</span><br><span class="line"></span><br><span class="line">    def sign(self):</span><br><span class="line">        string = &apos;&amp;amp;&apos;.join([&apos;%s=%s&apos; % (key.lower\(\), self.ret[key]) for key in sorted(self.ret)])</span><br><span class="line">        print string</span><br><span class="line">        self.ret[&apos;signature&apos;] = hashlib.sha1(string).hexdigest\(\)</span><br><span class="line">        return self.ret</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # 注意 URL 一定要动态获取，不能 hardcode</span><br><span class="line">    sign = Sign(&apos;jsapi_ticket&apos;, &apos;http://example.com&apos;)</span><br><span class="line">    print sign.sign\(\)</span><br></pre></td></tr></table></figure></p>
+<p>可见代码其实非常少而且都挺简单.并没有什么高深的技术,只用到了4个模块的内容.time模块用来获取时间戳,random模块来生成随机字符串.string模块生成字符串,hashlib对数据进行sha1加密.</p>
+<p>代码中只定义了一个类Sign,用来提供签名方法.在该类的构造函数中需要传入jsapi_ticket和url两个参数.利用这两个参数生成一个字典:ret.字典有4个键,分别为:</p>
+<ul>
+<li>nonceStr</li>
+<li>jsapi_ticket</li>
+<li>timestamp</li>
+<li>url<br>其中jsapi_ticket和url就是直接传进来的参数.时间戳调用了私有方法<strong>create_timestamp(),这个方法返回当前时间戳.nonceStr调用了私有方法</strong>create_nonce_str().在__create_nonce_str()方法中生成了随机字符串.</li>
+</ul>
+<p>然后就是Sign类对外提供的签名方法sign(),在该方法中首先对ret字典进行排序并使用&amp;串联.然后对他进行sha1加密,然后将结果赋值给ret字典的signature键.最后返回ret字典.至此,整个生成验证过程结束.</p>
+<p>其中判断<strong>name</strong> 属性的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">   # 注意 URL 一定要动态获取，不能 hardcode</span><br><span class="line">   sign = Sign(&apos;jsapi_ticket&apos;, &apos;http://example.com&apos;)</span><br><span class="line">   print sign.sign\(\)</span><br></pre></td></tr></table></figure></p>
+<p>作用为如果是在命令行条件下执行的话则执行这段代码,如果是其他环境下则不执行这段代码.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/889.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp-net-mvc-e6-98-af-e4-b8-8d-e6-98-af-e7-ac-a6-e5-90-88mvc-e6-80-9d-e6-83-b3-e7-9a-84-e6-a1-86-e6-9e-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -430,7 +532,7 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e4-bb-80-e4-b9-88-e6-98-af-e6-84-9f-e5-8a-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-什么是感动?" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -1075,114 +1177,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e8-ae-b0-e5-ae-89-e8-a3-85ubuntu-e8-bf-87-e7-a8-8b" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/833.html">记安装Ubuntu过程</a>
-    </h1>
-  
-
-        
-        <a href="/833.html" class="archive-article-date">
-  	<time datetime="2015-07-17T13:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>主要是为了体验下Lunix系统,在13年的时候尝试过用wubi.exe直接在win7下面安装,后来也没打开过几次系统,14年从睿阅出来换电脑后就没使用过lunix了.</p>
-<p>这段时间因为使用Php和python比较多,所以又有了尝试ubuntu的想法.可惜在使用wubi.exe安装时总是提示can not download***的错误,意思是无法下载ubuntu的镜像,可是我明明已经按照网上的说法把iso镜像文件放到除了c盘下的跟目录,可还是报同样的错误,所以小猪就直接使用高逼格的u盘安装了!</p>
-<p>电脑使用的是老婆5年前的DELL电脑,cpu为t6600,内存2g,所以第一步先从官网下载最新的32位系统</p>
-<p>制作u盘启动工具,即将iso文件刻制到U盘中</p>
-<p>使用U盘启动电脑</p>
-<p>执行图形化安装,安装过程比较简单.</p>
-<p>安装好了之后发现啥事都干不了,原来是没有无线网卡驱动,只好找来网线插到路由器上来寻找解决方法,还好这里直接插了网线就能上网,也能下载安装一些东西.</p>
-<p>修改系统的默认软件更新地址(系统设置=&gt;软件和更新=&gt;下载至=&gt;其他站点,这里我选择的是阿里云的镜像站点),不得不吐槽一下这里,之前小猪在公司电脑的虚拟机上没有设置这一步,所有的软件安装和更新都是奇慢无比,快的时候下载几十kb,慢的时候直接没速度.发现连上了阿里云的镜像之后,速度提升了N倍,心情立马不一样了!</p>
-<p>安装网卡驱动:上一步设置好了之后在”系统设置=&gt;软件和更新=&gt;附加驱动”栏目下会自动寻找当前电脑的可用驱动,按照提示安装即可.</p>
-<p>连上WiFi开始安装一些必要的php,python,pip,mysql等等!!</p>
-<p>发现自己在一边写着博客,另外一遍的Ubuntu上终端命令行在不断的输出内容的时候逼格真是大大的有啊,仿佛看到了电影里面的程序员的样子!</p>
-<p>参考文章:<a href="http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html" title="http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE//" class="article-tag-list-link color4">IDE</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/833.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
@@ -1197,11 +1191,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-			&copy; 2023 smallerpig
-			<img src="https://static.dy208.cn/o_1dfilp8ruo521thr1hvf18ji17soa.png" title="备案管理系统">
-        <a href="http://www.beian.miit.gov.cn/"  target="_blank" title="备案号">
-            苏ICP备15013264号
-        </a>
+    		&copy; 2023 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1280,10 +1270,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
@@ -1332,22 +1318,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -1376,14 +1346,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
@@ -1392,7 +1354,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1400,7 +1370,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1408,11 +1378,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1436,11 +1406,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1480,7 +1454,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1496,14 +1482,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
@@ -1516,15 +1494,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1536,6 +1518,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1544,15 +1534,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1580,15 +1574,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
