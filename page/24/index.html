@@ -161,6 +161,178 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-b7-a5-e4-bd-9c-e6-95-88-e7-8e-87" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/253.html">工作效率</a>
+    </h1>
+  
+
+        
+        <a href="/253.html" class="archive-article-date">
+  	<time datetime="2013-08-08T05:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小猪的工作时间算起来也差不多一年了</p>
+<p>去年6月的时候开始进入核心科技，真正做事的差不多是从9月的那次变动。那段时间由于刚开始接触真正的项目，所以每天的时间巴不得扳两半来花，很多东西因为没人交流的缘故可能只需要1个小时的东西我要琢磨两天才能搞定。</p>
+<p>过程中逐渐的发现工作的效率是多么重要。</p>
+<p>每天工作时间就是8个小时，8 个小时里面真正能够投入工作的差不多只有5个小时，中间总是会点开QQ看看群里在说什么。看看论坛里有什么新帖，等等。也就是现在很少能静下浮躁的心来学习“一段”时间了。</p>
+<p>小猪在想怎么来通过时间措施来提高自己的工作效率：</p>
+<p>1：撸代码时不开QQ。</p>
+<p>2：工作时间尽量少逛论坛。</p>
+<p>3：早上来杯咖啡精神一上午，午间爬上半小时活力多</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/253.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-e4-bd-bf-e7-94-a8sharpziplib-e7-bc-96-e8-be-91zip-e5-8c-85-e4-b8-ad-e5-86-85-e5-ae-b9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/246.html">C#使用SharpZipLib编辑zip包中内容</a>
+    </h1>
+  
+
+        
+        <a href="/246.html" class="archive-article-date">
+  	<time datetime="2013-08-07T05:53:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小猪最近在使用SharpZipLib进行zip包的操作，编写了下列测试代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;---------------------Zip包中的文件并解压测试-------------------------&quot;);</span><br><span class="line">    string content;</span><br><span class="line"></span><br><span class="line">    string filename = @&quot;E:wamp.zip&quot;;//需要测试的zip包地址</span><br><span class="line">    string searchname = @&quot;Web.config&quot;;</span><br><span class="line">    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))</span><br><span class="line">    using (ZipFile zf = new ZipFile(fs))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;开始查找：&quot; + searchname + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        Console.WriteLine(&quot;Zip包大小:&quot; + fs.Length);</span><br><span class="line">        var ze = zf.GetEntry(searchname);</span><br><span class="line">        if (ze == null)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;文件长度：&quot; + ze.Size);</span><br><span class="line">            Console.WriteLine(&quot;开始修改：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">            using (Stream s = zf.GetInputStream(ze))</span><br><span class="line">            &#123;</span><br><span class="line">                StreamReader inputReader = new StreamReader(s);</span><br><span class="line">                content = inputReader.ReadToEnd\(\);</span><br><span class="line">                content += &quot;nthis is SmallerPig Test 测试下中文&quot;;//在原流中增加字符串</span><br><span class="line">            &#125;</span><br><span class="line">            zf.BeginUpdate\(\);</span><br><span class="line">            zf.Add(new StateDataSource(content), searchname);</span><br><span class="line">            zf.CommitUpdate\(\);</span><br><span class="line">            Console.WriteLine(&quot;结束：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StateDataSource:IStaticDataSource//自定义实现IStaticDataSource接口的类</span><br><span class="line">&#123;</span><br><span class="line">    string source;</span><br><span class="line"></span><br><span class="line">    public StateDataSource(string source)</span><br><span class="line">    &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Stream GetSource\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        byte[] array = Encoding.ASCII.GetBytes(source);</span><br><span class="line">        MemoryStream stream = new MemoryStream(array);</span><br><span class="line">        return stream;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由测试结果知道：编辑一个zip中文件所需时间主要是由zip的大小来决定的，整个提交过程需要重新打包。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/246.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c-e5-ad-97-e7-ac-a6-e4-b8-b2-e7-bc-96-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -954,200 +1126,9 @@ public Hero(string name)
 
 
   
-    <article id="post-e5-b0-8f-e7-8c-aa-e8-af-84-e3-80-8a101-e6-ac-a1-e6-b1-82-e5-a9-9a-e3-80-8b-e5-b1-8c-e4-b8-9d-e6-98-af-e5-90-a6-e8-83-bd-e5-a4-9f-e9-80-86-e8-a2-ad-e5-a5-b3-e7-a5-9e" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/208.html">小猪评《101次求婚》——屌丝是否能够逆袭女神</a>
-    </h1>
-  
-
-        
-        <a href="/208.html" class="archive-article-date">
-  	<time datetime="2013-06-29T05:51:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>注：本文实为吐槽之作。</p>
-<p>昨晚看了大约在年初时候上映的电影&lt;101次求婚&gt;。很庆幸没有浪费钱去电影院看，只能说小猪已经过了看这种电影的年纪了。</p>
-<p>很欣慰的看到最后女神终于还是选择了和他在一起，这也让我想到了经典的《平凡的世界》里面的一对爱情故事，男主角叫孙少平，女主角叫田小霞。而路遥处理这两个人的关系的时候是使用非常完美的爱情主意的，两个人都深爱着对方，都愿意为对方付出所有，但是事实是孙少平是个从农村走出来什么都没有的煤矿工人，而田小霞是国家重点大学毕业后分配到重点单位的新闻记者。这两个人因为两小无猜的情感走在了一起。但是，路遥却巧妙了结束了这段美好的爱情，当田小霞最终殉职的时候我剩下的除了感动之外还有就是对作者处理不得不钦佩。想象一下他们最终在一起了，结婚了，生孩子了，他们会幸福吗？他们能够以各自的生活方式来适应对方的生活方式吗？他们之间一旦出现了因柴米油盐的小事而产生的矛盾时他们会争吵吗？我觉得不会，他们的这种爱情观只能活在每个人的心里，那是一种理想状态。</p>
-<p>又想到了另外一部经典的电影，也是我最喜欢的一部电影——《泰坦尼克号》，屌丝最终逆袭了，得到了女神。可是导演采用的结局是和路遥一样的，最终让这样理想的爱情观因为其他的事情而存活。导演不忍心继续讲jack和rose一起下了“泰坦尼克号”之后需要面对的各种现实中的小问题，导演也不知道接下来jack上岸后是否真的能够给rose带来幸福。与其这样就不如让这样美好的爱情直接结束吧，结束在一种悲壮之中。</p>
-<p>101次求婚 最终也没有继续讲下去他们两个接下来的生活，我觉得是残酷的，也是对女神的考验。</p>
-<p>对比下前段时间另外一部屌丝逆袭女神的电影——《将爱情进行到底》，导演处理他们结局的时候是另外一种悲壮，当刘烨又因为职业关系被小偷拍砖送到医院时再次让观众体验到了苏琪对他的真心，那一刻，之前生活上面的不愉快已经不再重要，重要的是你还活着，影片到这会也就结束了，导演是不想把生活中的小事作为最终结局而是选择了这样的一种方式避开。另外别忘了，这部电影里面的女神只能说半个女神，当初的女神在因为生意失败后穷困潦倒到比屌丝还要屌丝的时候才选择了他。这时候她才有勇气选择她，死心塌地的和他在一起。</p>
-<p>所以小猪觉得：屌丝可以逆袭女神吗？答案是这只存在于理想状态，像共产主义那么遥远。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/208.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-e7-9a-84-e5-a7-94-e6-89-98-e7-9a-84-e7-90-86-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/206.html">C#委托的理解</a>
-    </h1>
-  
-
-        
-        <a href="/206.html" class="archive-article-date">
-  	<time datetime="2013-06-28T06:20:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一直以来小猪都没有跨过委托的这个概念的门槛，只能够回答委托就是函数的指针。但是怎么用却并不能够理解。</p>
-<p>这也一直困扰着我，最近越发的决定要把他拿下。</p>
-<p>现在讲讲我对他的理解。</p>
-<p>网上很多例子都讲了他是函数的指针，即把某个方法传递给另外一个方法作为参数来用。一直不理解为什么这样。直到今天想到去年的时候用到一个方法时回头看才发现那会已经用到了。</p>
-<p>例子是这样的，我需要一个方法来过滤一个List&lt;&gt;里面相同的元素，“相同的”的这是个模糊的概念，不同类型对“相同的”概念的定义是不同的。</p>
-<p>这样在写这么一个过滤类的方法的时候就不能直接的判断List里面的元素是否==了，从而也就不能够删除达到过滤的效果。那这个怎么办呢？</p>
-<p>可以给这个方法加上一个参数，这个参数是委托的类型。在定义委托的时候需要给其加上返回bool的标签（相同返回true，不同返回false）。</p>
-<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public delegate bool EqualsComparer&amp;lt;T&amp;gt;(T x, T y);</span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 过滤重复数据</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">public class Comparint&amp;lt;T&amp;gt; : IEqualityComparer&amp;lt;T&amp;gt;</span><br><span class="line">&#123;</span><br><span class="line">    private EqualsComparer&amp;lt;T&amp;gt; ec;</span><br><span class="line">    public Comparint\(\) &#123; &#125;</span><br><span class="line">    public Comparint(EqualsComparer&amp;lt;T&amp;gt; e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.ec = e;</span><br><span class="line">    &#125;</span><br><span class="line">    #region IEqualityComparer&amp;lt;BudgetBE&amp;gt; 成员</span><br><span class="line"></span><br><span class="line">    public bool Equals(T x, T y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (null != this.ec)</span><br><span class="line">            return this.ec(x, y);</span><br><span class="line">        else</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(T obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return obj.ToString\(\).GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样在使用这个类的比较方法时必须要给这个方法传递一个方法，这个方法用来判断你要比较的类是否相等。(即需要确定是否相等)</p>
-<p>下面给出实现的这个方法，很简单，我拿string类型做示例，如果复杂的类需要自己实现返回的true 或者false</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public bool bijiao(string a , string b)</span><br><span class="line">&#123;</span><br><span class="line">    return a==b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样再配合通用的类这样来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&amp;lt;string&amp;gt; distinceString = TestList.Distinct(new Comparint&amp;lt;string&amp;gt;(bijiao)).ToList\(\);</span><br></pre></td></tr></table></figure></p>
-<p>代码中的TestList即是含有重复类容的List</p>
-<p>这样我们就把bijiao这个方法传递给了<code>Comparint</code>。</p>
-<p>注意：给委托赋值的时候是对其值是没有括号的，有括号的是方法的调用，没括号是方法的地址。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/206.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
     </nav>
   
 
@@ -1242,6 +1223,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1314,6 +1299,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
@@ -1322,7 +1311,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1330,11 +1319,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1343,10 +1332,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1374,11 +1359,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1426,6 +1411,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1450,11 +1439,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1466,19 +1451,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1522,15 +1503,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1546,15 +1527,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
