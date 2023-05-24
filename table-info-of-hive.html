@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="hive的数据类型支持有好多种。 那么hive的表类型有哪些呢？ 今天就来对其进行整理： 123456789内部表和外部表静态分区表动态分区表 分桶表抽样查询">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-23T07:55:06.659Z">
+<meta property="og:updated_time" content="2023-05-24T01:27:52.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive基础知识-表类型">
 <meta name="twitter:description" content="hive的数据类型支持有好多种。 那么hive的表类型有哪些呢？ 今天就来对其进行整理： 123456789内部表和外部表静态分区表动态分区表 分桶表抽样查询">
@@ -206,6 +206,8 @@ var _hmt = _hmt || [];
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_name <span class="keyword">where</span> dt=<span class="number">2020</span><span class="number">-06</span><span class="number">-18</span> ;</span><br></pre></td></tr></table></figure>
 <p>查询表中的数据是加载HDFS中对应表文件夹下的数据 ,文件夹下的数据很多,将数据全部加载以后再筛选过滤出数据, 显然效率低 ,Hive中的分区表起始就是根据某种维度将数据分文件夹管理 ,当安装这种维度查询的时候,直接从对应的文件夹下加载数,效率更高!                         </p>
 <p>hive中有分区表的概念，我们可以看到分区具重要性能优势，而且分区表还可以将数据以一种符合逻辑的方式进行组织，比如分层存储<br>分区表分别有静态分区和动态分区 !</p>
+<p>分区表详情推荐阅读以下内容。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/445240161" target="_blank" rel="noopener">大数据开发之Hive篇19-Hive分区表详解 - 知乎 (zhihu.com)</a></p>
 <h2 id="静态分区表"><a href="#静态分区表" class="headerlink" title="静态分区表"></a>静态分区表</h2><h2 id="动态分区表"><a href="#动态分区表" class="headerlink" title="动态分区表"></a>动态分区表</h2><p>上述是静态分区 , 静态分区是数据原本已经安装某维度保存在了不同的文件中了 , 如果想要根据查询的数据的某个属性进行分区 ,就是动态分区!</p>
 <p>数据如下 ,想要根据性别, 或者是地理位置来进行分区,那么就是根据每个属性的值来进行分区的!!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">user.txt</span><br><span class="line">u001 ZSS 23 M beijing</span><br><span class="line">u002 YMM 33 F nanjing</span><br><span class="line">u003 LSS 43 M beijing</span><br><span class="line">u004 ZY 23 F beijing</span><br><span class="line">u005 ZM 23 M beijing</span><br><span class="line">u006 CL 23 M dongjing</span><br><span class="line">u007 LX 23 F beijing</span><br><span class="line">u008 YZ 23 M beijing</span><br><span class="line">u009 YM 23 F nanjing</span><br><span class="line">u010 XM 23 M beijing</span><br><span class="line">u011 XD 23 F beijing</span><br><span class="line">u012 LH 23 M dongjing</span><br><span class="line">u013 FTM 23 F dongjing</span><br></pre></td></tr></table></figure>
