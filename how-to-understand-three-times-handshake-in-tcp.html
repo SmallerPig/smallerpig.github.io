@@ -16,8 +16,8 @@
 <meta property="og:description" content="某次小猪接到一个很重要的电话，于是便有了以下场景： Other：诶，你好，是xxx吗？， Me：你好，是我，能听见我说话吗？ Other：能听见，那我们聊正事吧。 Me：好的，开始吧。 Other：xxxxxx 这个过程让我瞬间想起来咱们经典的TCP链接三次握手的过程。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://pdai.tech/images/develop/network/dev-network-protocol-x1.png">
-<meta property="og:image" content="http://qiniu.smallerpig.com/images/image-20230524163602133.png">
-<meta property="og:updated_time" content="2023-05-24T08:41:55.362Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/SmallerPig/public-assets@main/image/image-20230524163602133.png">
+<meta property="og:updated_time" content="2023-05-24T11:16:06.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次接电话过程理解TCP的三次握手">
 <meta name="twitter:description" content="某次小猪接到一个很重要的电话，于是便有了以下场景： Other：诶，你好，是xxx吗？， Me：你好，是我，能听见我说话吗？ Other：能听见，那我们聊正事吧。 Me：好的，开始吧。 Other：xxxxxx 这个过程让我瞬间想起来咱们经典的TCP链接三次握手的过程。">
@@ -200,9 +200,8 @@ var _hmt = _hmt || [];
 <p>Me（服务端）：我能听见，我说话你能听见吗？–第二次握手：你说话OK，我听力OK，我说话OK，</p>
 <p>Other（客户端）：能听见，我们聊正事吧。–第三次握手：我听力OK，你说话OK</p>
 <p>Me（服务端）：好的，开始吧。– 开始发送请求的具体内容。</p>
-<p><img src="http://qiniu.smallerpig.com/images/image-20230524163602133.png" alt="各自确认自己及对方的发送和接收能力"></p>
-<p>对着上面这张图，应该更好理解。</p>
-<p>最后做个总结：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/SmallerPig/public-assets@main/image/image-20230524163602133.png" alt="各自确认自己及对方的发送和接收能力"></p>
+<p>对着上面这张图，应该更好理解。<br>最后做个总结：</p>
 <p>为了保证数据能到达目标，TCP采用三次握手策略：</p>
 <ol>
 <li>发送端首先发送一个带<strong>SYN</strong>（synchronize）标志的数据包给接收方【第一次的seq序列号是随机产生的，这样是为了网络安全，如果不是随机产生初始序列号，黑客将会以很容易的方式获取到你与其他主机之间的初始化序列号，并且伪造序列号进行攻击】。</li>
