@@ -161,6 +161,99 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用Lucene.Net管理索引实现搜索" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/manage-index-with-lucene-dot-net.html">使用Lucene.Net管理索引实现搜索</a>
+    </h1>
+  
+
+        
+        <a href="/manage-index-with-lucene-dot-net.html" class="archive-article-date">
+  	<time datetime="2014-01-19T07:17:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前使用一直是没有问题的，只到今天发现删除的时候无法删除，增加的时候却一直在增加，导致搜索的时候可以搜出来很多相同的结果。</p>
+<p>小猪决定趁今天这个机会好好的把这个问题给解决了。<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ProcessJobs</span>(<span class="params">IndexWriter writer</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (jobs.Count != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        IndexJob job = jobs.Dequeue\(\);</span><br><span class="line">        writer.DeleteDocuments(<span class="keyword">new</span> Term(<span class="string">"Id"</span>, job.Id.ToString\(\)));<span class="comment">//先执行删除的操作</span></span><br><span class="line">        <span class="comment">//如果“添加文章”任务再添加，</span></span><br><span class="line">        <span class="keyword">if</span> (job.JobType == JobType.Add)</span><br><span class="line">        &#123;</span><br><span class="line">            BLL.BooksManage bll = <span class="keyword">new</span> BLL.BooksManage\(\);</span><br><span class="line">            Entity.Books art = bll.GetById(job.Id);</span><br><span class="line">            <span class="keyword">if</span> (art == <span class="literal">null</span>)<span class="comment">//有可能刚添加就被删除了</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//string channel_id = art.channel_id.ToString\(\);</span></span><br><span class="line">            <span class="keyword">string</span> title = art.Title;</span><br><span class="line">            DateTime time = art.CreateDate;</span><br><span class="line">            <span class="keyword">string</span> content = Utils.DropHTML(art.Brief.ToString\(\));</span><br><span class="line">            <span class="keyword">string</span> Addtime = art.CreateDate.ToString(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line"></span><br><span class="line">            Document document = <span class="keyword">new</span> Document\(\);</span><br><span class="line">            <span class="comment">//只有对需要全文检索的字段才ANALYZED</span></span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Id"</span>, job.Id.ToString\(\), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Title"</span>, title, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Tag"</span>, art.Tag, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"PubTime"</span>, art.PubTime.ToString(<span class="string">"yyyy-MM-dd"</span>), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Cover"</span>, art.Cover, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Author"</span>, art.Author == <span class="literal">null</span> ? <span class="string">""</span> : art.Author, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Translator"</span>, art.Translator == <span class="literal">null</span> ? <span class="string">""</span> : art.Translator, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Publisher"</span>, art.Publisher == <span class="literal">null</span> ? <span class="string">""</span> : art.Publisher, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Language"</span>, art.Language, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Brief"</span>, Utils.DropHTML(art.Brief.ToString\(\)), Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Icon"</span>, art.Icon, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Rate"</span>, art.Rate.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Price"</span>, art.Price.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Device"</span>, art.Device, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"EngineVersion"</span>, art.EngineVersion.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"ContentType"</span>, art.ContentType, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Size"</span>, art.Size.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Status"</span>, art.Status.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Other2"</span>, art.Other2, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            writer.AddDocument(document);</span><br><span class="line">            logger.Debug(<span class="string">"索引"</span> + job.Id + <span class="string">"完毕"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123; </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之前小猪还在想为什么这里没有处理删除的逻辑，仔细看了下发现只要增加了任务不管是删除还是添加都会先执行删除操作以防止索引结果的重复。问题就出现在这里，依照什么规则来删除呢？之前小猪直接用的别人的代码，今天才发现需要自己定义删除的规则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">writer.DeleteDocuments(new Term(&quot;number&quot;, job.Id.ToString\(\)))</span><br></pre></td></tr></table></figure></p>
+<p>另外就是要处理好啥时候删除，啥时候增加的逻辑。不然很容易出现各种问题，例如数据库中没有而索引里有的，或者数据库里有的但是不可用的但是搜索出来的等等等等~~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/SQL/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/manage-index-with-lucene-dot-net.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e6-9c-ac-e5-9c-b0-e8-b0-83-e8-af-95wordpress-e8-ae-a1-e5-88-92-e7-bb-88-e5-91-8a-e5-a4-b1-e8-b4-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1037,91 +1130,6 @@ Android版本、Ios版本微信5.0版本通过测试。
 
 
   
-    <article id="post-e5-be-ae-e4-bf-a1-e6-b5-8f-e8-a7-88-e5-99-a8-user-agent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/385.html">微信浏览器——User Agent</a>
-    </h1>
-  
-
-        
-        <a href="/385.html" class="archive-article-date">
-  	<time datetime="2014-01-07T12:26:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">在iPhone</span><br><span class="line"></span><br><span class="line">	返回</span><br><span class="line"></span><br><span class="line">	`Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9B176 MicroMessenger/4.3.2`</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>Android</p>
-<pre><code>返回
-
-`Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255`
-
-不难发现微信浏览器为&amp;nbsp;MicroMessenger&amp;nbsp;，并且有版本号，也可以判断手机类型为iPhone还是Android
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/385.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1299,15 +1307,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">

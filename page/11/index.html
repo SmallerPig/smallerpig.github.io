@@ -161,6 +161,107 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-django-cache-e6-96-87-e4-bb-b6-e7-bc-93-e5-ad-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/952.html">Django Cache 文件缓存</a>
+    </h1>
+  
+
+        
+        <a href="/952.html" class="archive-article-date">
+  	<time datetime="2015-11-25T05:46:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>setting 部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;BACKEND&apos;: &apos;django.core.cache.backends.filebased.FileBasedCache&apos;,</span><br><span class="line">        &apos;LOCATION&apos;: os.path.join(BASE_DIR, &apos;cache&apos;),</span><br><span class="line">        &apos;TIMEOUT&apos;: 60,</span><br><span class="line">        &apos;OPTIONS&apos;: &#123;</span><br><span class="line">            &apos;MAX_ENTRIES&apos;: 1000</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>### 缓存视图
+
+view部分代码
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@cache_page(60 * 15, key_prefix=&quot;site1&quot;)</span><br><span class="line">def index(request):</span><br></pre></td></tr></table></figure>
+<pre><code>### 缓存模板
+
+html部分代码：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load cache %&#125;</span><br><span class="line">&#123;% cache 500 sidebar %&#125;</span><br><span class="line">    .. sidebar ..</span><br><span class="line">&#123;% endcache %&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>### 缓存指定数据
+
+view 代码
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from django.core.cache import cache</span><br><span class="line">cache.set(&apos;key&apos;,&apos;hello,world!&apos;,30)</span><br><span class="line">value = cache.get(&apos;key&apos;) # hello,world!</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/952.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-django-e8-87-aa-e5-ae-9a-e4-b9-89-e4-b8-83-e7-89-9b-e5-ad-98-e5-82-a8storage" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1669,103 +1770,6 @@ was_published_recently.short_description = &apos;Published recently?&apos;
 
 
   
-    <article id="post-asp-net-mvc-e4-bd-bf-e7-94-a8url-e8-be-85-e5-8a-a9-e6-96-b9-e6-b3-95-e8-b0-83-e7-94-a8-e6-8c-87-e5-ae-9aarea-e4-b8-8b-e7-9a-84-e6-8e-a7-e5-88-b6-e5-99-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/908.html">ASP.NET MVC使用Url辅助方法调用指定Area下的控制器</a>
-    </h1>
-  
-
-        
-        <a href="/908.html" class="archive-article-date">
-  	<time datetime="2015-10-26T14:18:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们都知道在生成url链接的时候，官方是推荐使用Url.Action()方法来生成的。框架会自动帮我们生成指定的url而且一般来说不会出错。小猪只从知道有这么个方法之后一直对它相见恨晚，特别是其能够通过优雅的代码生成指定的get参数。</p>
-<p>可是今天小猪却在这个方法上面栽了个跟头……</p>
-<p>原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空间下的HomeController中的Index方法，小猪自然的想到使用代码Url.Action(“Index”,”Home”)来生成。可是生成的却是：/Admin/Home/Index。。为此小猪在area下面的路由注册了下面的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;home&quot;,</span><br><span class="line">    &quot;Home/&#123;action&#125;&quot;,</span><br><span class="line">    new &#123; controller = &quot;Home&quot;, action = &quot;Login&quot; &#125;,</span><br><span class="line">    namespaces: new[] &#123; &quot;ConsoleProject.Controllers&quot; &#125;</span><br><span class="line">    );</span><br></pre></td></tr></table></figure></p>
-<p>这样貌似在该area下面生成Home控制器的url是没问题的。小猪也以为这个需求就这么结束了……</p>
-<p>可是结果却是在原来的默认不在该area的url.action()方法都会生成该area下的url。这下蛋疼了。例如使用代码</p>
-<p>@Url.Action(“Index”, “Console”, new { articleId = 343 })生成的链接竟然是：/Admin/Console/Index?articleId=343</p>
-<p>谷歌了好一会才知道Url.Action()方法会自动使用第一个能够匹配的路由来生成URL。很显然area的路由注册是在本身的default路由之前的。这个可通过Global.asax的部分代码看出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Start\(\)</span><br><span class="line">&#123;</span><br><span class="line">    AreaRegistration.RegisterAllAreas\(\);</span><br><span class="line">    WebApiConfig.Register(GlobalConfiguration.Configuration);</span><br><span class="line">    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">    RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">    ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory\(\));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而在新建area的时候会自动注册路由Admin_default：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;Admin_default&quot;,</span><br><span class="line">    &quot;Admin/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;,</span><br><span class="line">    new &#123; controller = &quot;Console&quot;, action = &quot;Login&quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-<p>这个时候使用@Url.Action(“Index”, “Console”, new { articleId = 343 })生成的链接就是：/Admin/Console/Index?articleId=343。因为这个时候首先匹配的就是名称为Admin_default的路由。</p>
-<p>不过有一个问题小猪搞不明白的是为啥只有在注册了home路由的时候才会这个问题。而默认仅有Admin_default的时候就没有这个问题了！</p>
-<p>所以一开始使用注册新路由的方法只会使原来的项目更糟糕，需要修改大量原来使用Url.Action()方法的地方。</p>
-<p>最终取消了所有自己注册的路由，只使用系统默认的两个路由，而在需要制定使用某个路由生成URL的时候使用Url.RouteUrl()方法：@Url.RouteUrl(“default”,new {controller = “Library”,action=”AnnouncementContent”,articleId=item.Id})<br>这样就只在需要“跨域”生成链接的时候稍微麻烦点，而不必要动整个项目了！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/908.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
@@ -1943,15 +1947,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">

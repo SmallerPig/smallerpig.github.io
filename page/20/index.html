@@ -161,6 +161,125 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-92-8c-e5-b0-8f-e7-8c-aa-e4-b8-80-e8-b5-b7-e6-90-9e-e5-be-ae-e4-bf-a1-e5-85-ac-e4-bc-97-e5-8f-b7-e5-bc-80-e5-8f-91-e5-9b-9e-e5-a4-8d-e7-ae-80-e5-8d-95-e6-96-87-e6-9c-ac" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/360.html">和小猪一起搞微信公众号开发—回复简单文本</a>
+    </h1>
+  
+
+        
+        <a href="/360.html" class="archive-article-date">
+  	<time datetime="2013-12-04T04:07:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#<br>    前言</p>
+<pre><code>今天小猪来和大家分享怎样使用微信公众号来自定义回复简单文本！
+</code></pre><p>#<br>    正题</p>
+<pre><code>首先要说明的是：当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的指定URL上。
+
+知道了上面这点之后我们来假定一个需求：将用户发的内容加上一个字符串&amp;quot;welcome by smallerpig&amp;quot;后回复给用户。
+
+下面跟随小猪一步一步来实现该功能。
+</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">&lt;span style=&quot;font-size: 13px;&quot;&gt;第一步：申请调用接口的权限。&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;访问地址&amp;nbsp;[http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login](http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)&amp;nbsp;可通过手机号来申请一个微信开发者测试帐号。&lt;span style=&quot;line-height: 1.6em;&quot;&gt;测试账号的有效期只有一年，最多只能有20个关注者。对于我们来测试开发来说足够了！&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+<p>## </p>
+<p><span style="font-size: 13px;">第二步：设置自己的推送的URL及token</span></p>
+<pre><code>&lt;span style=&quot;font-size: 13px;&quot;&gt;&amp;nbsp;填写接口配置信息，此信息需要你有自己的服务器资源，填写的URL需要正确响应微信发送的Token验证！这里需要的服务器资源就是你能够接收到微信服务器通过您填写的URL给你发送的消息，并且在第一次的时候微信是需要验证该地址是否是您的切实可用的，方法就是微信会给你发送一个get请求，让您来返回指定的内容，如果验证内容合格，则这一步通过。下面小猪的代码只是简单的将微信服务器发送的数据返回，并没有验证数据是否来自微信服务器，在项目正式上线之前，这里需要验证消息是否来自微信服务器。&lt;/span&gt;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public ActionResult Login(string signature ,string timestamp , string nonce, string echostr)</span><br><span class="line">&#123;</span><br><span class="line">       //TODO:验证消息是否来自微信服务器</span><br><span class="line">       return Content(echostr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>这里小猪是用的ASP.NET MVC的开发框架，目前百度貌似有免费的空间免费的域名来让开发者使用，但是环境是php的，所以小猪就没怎么涉及。但是开发逻辑都是一样滴！
+</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">&lt;span style=&quot;font-size: 13px;&quot;&gt;第三步：实现回复消息代码&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	在微信上面，当用户与公众号进行交互时，其实是 &lt;span style=&quot;color:#FF0000;&quot;&gt;用户=》微信服务器=》公众号服务器=》微信服务器=》用户&lt;/span&gt; &amp;nbsp;的一整个过程。完成了上面第二部也就完成了公众号服务器与微信服务器的绑定，绑定之后每次有交互微信服务器都会告诉公众号：你的小弟给你发消息了，请将你要回复给小弟的消息赶紧告诉我，如果你5秒内不给我我就不睬你小弟了！！</span><br><span class="line"></span><br><span class="line">	所以当我们的服务器收到微信服务器的推送后我们要及时的给他返回对应格式的消息，请看实现代码：</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">/*</span><br><span class="line">微信推送数据格式</span><br><span class="line">&amp;lt;xml&amp;gt;</span><br><span class="line">&amp;lt;ToUserName&amp;gt;&amp;lt;![CDATA[toUser]]&amp;gt;&amp;lt;/ToUserName&amp;gt;</span><br><span class="line">&amp;lt;FromUserName&amp;gt;&amp;lt;![CDATA[fromUser]]&amp;gt;&amp;lt;/FromUserName&amp;gt; </span><br><span class="line">&amp;lt;CreateTime&amp;gt;1348831860&amp;lt;/CreateTime&amp;gt;</span><br><span class="line">&amp;lt;MsgType&amp;gt;&amp;lt;![CDATA[text]]&amp;gt;&amp;lt;/MsgType&amp;gt;</span><br><span class="line">&amp;lt;Content&amp;gt;&amp;lt;![CDATA[this is a test]]&amp;gt;&amp;lt;/Content&amp;gt;</span><br><span class="line">&amp;lt;MsgId&amp;gt;1234567890123456&amp;lt;/MsgId&amp;gt;</span><br><span class="line">&amp;lt;/xml&amp;gt;</span><br><span class="line">    * */</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">[HttpPost]</span><br><span class="line">public ActionResult Login\(\)</span><br><span class="line">&#123;</span><br><span class="line">    string xmlFromWeChat =new StreamReader(Request.InputStream).ReadToEnd\(\);</span><br><span class="line">    XmlDocument xmldocument = new XmlDocument\(\);</span><br><span class="line">    xmldocument.LoadXml(xmlFromWeChat);</span><br><span class="line">    string fromUserName = xmldocument.GetElementsByTagName(&amp;quot;FromUserName&amp;quot;).Item(0).InnerText;</span><br><span class="line">    string fromContent = xmldocument.GetElementsByTagName(&amp;quot;Content&amp;quot;).Item(0).InnerText;</span><br><span class="line">    string toContent = fromContent + &amp;quot; welcome by smallerpig!&amp;quot;;//给用户发来的内容加上welcome by smallerpig！</span><br><span class="line">    string testresult = &amp;quot;&amp;lt;xml&amp;gt;&amp;lt;ToUserName&amp;gt;&amp;lt;![CDATA[&quot; + fromUserName + &quot;]]&amp;gt;&amp;lt;/ToUserName&amp;gt;&amp;quot;</span><br><span class="line">        + &amp;quot;&amp;lt;FromUserName&amp;gt;&amp;lt;![CDATA[gh_716621f6673f]]&amp;gt;&amp;lt;/FromUserName&amp;gt;&amp;quot;</span><br><span class="line">        + &amp;quot;&amp;lt;CreateTime&amp;gt;12345678&amp;lt;/CreateTime&amp;gt;&amp;lt;MsgType&amp;gt;&amp;lt;![CDATA[text]]&amp;gt;&amp;lt;/MsgType&amp;gt;&amp;quot;</span><br><span class="line">        + &amp;quot;&amp;lt;Content&amp;gt;&amp;lt;![CDATA[&quot; + toContent + &quot;]]&amp;gt;&amp;lt;/Content&amp;gt;&amp;lt;/xml&amp;gt;&amp;quot;;</span><br><span class="line">    return Content(testresult);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>上面的代码实现了一开始我们提的需求！
+</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">&lt;span style=&quot;font-size: 13px;&quot;&gt;第四步：将代码编译(如果需要)后上传到指定的服务器&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	确保你的服务器能收到微信的推送！</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+<p>## </p>
+<p><span style="font-size: 13px;">第五步：</span><span style="font-size: 13px; line-height: 1.2em;">关注测试微信帐号</span></p>
+<pre><code>拿起你的手机打开扫一扫功能对紧二维码扫扫~点关注(这步最简单了&amp;hellip;&amp;hellip;哈哈)！让你成为开发者帐号关注者的20名限额之一吧。
+
+关注后应该能够从你的开发者账号页面看到您的帐号
+
+[![QQ截图20131204123358](http://www.smallerpig.com/wp-content/uploads/2013/12/QQ截图20131204123358-300x118.png)](http://www.smallerpig.com/wp-content/uploads/2013/12/QQ截图20131204123358.png)
+
+&lt;span style=&quot;line-height: 1.2em;&quot;&gt;第六步：发送消息到测试账号试试&lt;/span&gt;
+
+[![wp_ss_20131204_0001](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131204_0001-180x300.png)](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131204_0001.png)
+</code></pre><p>#<br>    <font size="2">结语：</font></p>
+<pre><code>上面小猪实现了一个很简单的功能，该功能虽然简单，但却基本上完成了整个微信公众号开发的逻辑过程，能够实现了该篇内容的读者相信自己能够举一反三的完成其他接口的相关功能。
+
+&lt;span style=&quot;line-height: 1.6em;&quot;&gt;加上一些对用户发送内容的处理&lt;/span&gt;结合数据库内容的读取后可以为用户定制不同的服务。例如天气查询、路况查询等等等etc~~
+
+当然比较高级的接口小猪下面也会慢慢的分享。但是整体思路应该和本篇一样！相信读者能够开发出优秀的微信公众账号！
+
+&amp;nbsp;
+
+最后，觉得小猪说的好的请评论下哈，让人家知道你曾经出现过~555555~~
+
+&amp;nbsp;
+
+&amp;nbsp;
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/360.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-htmlhelper-checkbox" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1222,106 +1341,6 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 
 
   
-    <article id="post-e5-9c-a8html-e4-b8-ad-e4-bd-bf-e7-94-a8javascript-e7-9a-84-e5-87-a0-e7-82-b9-e5-b0-8f-e7-bb-93" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/326.html">在Html中使用JavaScript的几点小结</a>
-    </h1>
-  
-
-        
-        <a href="/326.html" class="archive-article-date">
-  	<time datetime="2013-10-14T09:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>越发的意识到JS这门作为前端语言的重要性。所以下定决心这段时间在项目允许的情况下花大量时间在学习JS上。争取让自己的前端功底深厚一点。</p>
-<p><strong>小结</strong></p>
-<ul>
-<li><p>在包含外部js文件时，必须将src属性设置为指向相应文件的URL。而这个文件既可以是包含它的页面位于同一个服务器上的文件，也可以是其他任何域中的文件。</p>
-</li>
-<li><p>所有&lt;script&gt;元素都会按照他们在页面中出现的先后顺序依次呗解析。在不适用defer和async属性的情况下，只有解析完前面&lt;script&gt;元素中的代码之后，才会开始解析后面的&lt;script&gt;元素中的代码。</p>
-</li>
-<li><p>由于浏览器会先解析完不适用defer属性的&lt;script&gt;元素中的代码，然后再解析后面的内容，所以一般把&lt;script&gt;元素放在页面最后，即主要内容后面，&lt;/body&gt;标签前面。</p>
-</li>
-<li><p>适用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定他们的顺序执行。</p>
-</li>
-<li><p>适用async属性可以是表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照它们在页面中出现的顺序执行。</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/326.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/21/">Next &raquo;</a>
@@ -1499,15 +1518,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">

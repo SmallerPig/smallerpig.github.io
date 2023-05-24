@@ -161,6 +161,106 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8html-e4-b8-ad-e4-bd-bf-e7-94-a8javascript-e7-9a-84-e5-87-a0-e7-82-b9-e5-b0-8f-e7-bb-93" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/326.html">在Html中使用JavaScript的几点小结</a>
+    </h1>
+  
+
+        
+        <a href="/326.html" class="archive-article-date">
+  	<time datetime="2013-10-14T09:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>越发的意识到JS这门作为前端语言的重要性。所以下定决心这段时间在项目允许的情况下花大量时间在学习JS上。争取让自己的前端功底深厚一点。</p>
+<p><strong>小结</strong></p>
+<ul>
+<li><p>在包含外部js文件时，必须将src属性设置为指向相应文件的URL。而这个文件既可以是包含它的页面位于同一个服务器上的文件，也可以是其他任何域中的文件。</p>
+</li>
+<li><p>所有&lt;script&gt;元素都会按照他们在页面中出现的先后顺序依次呗解析。在不适用defer和async属性的情况下，只有解析完前面&lt;script&gt;元素中的代码之后，才会开始解析后面的&lt;script&gt;元素中的代码。</p>
+</li>
+<li><p>由于浏览器会先解析完不适用defer属性的&lt;script&gt;元素中的代码，然后再解析后面的内容，所以一般把&lt;script&gt;元素放在页面最后，即主要内容后面，&lt;/body&gt;标签前面。</p>
+</li>
+<li><p>适用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定他们的顺序执行。</p>
+</li>
+<li><p>适用async属性可以是表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照它们在页面中出现的顺序执行。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/326.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-b0-8f-e7-8c-aa-e7-9a-84-e6-83-85-e7-bb-aa" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1070,112 +1170,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-小猪学设计模式之——门面模式(外观模式)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/308.html">小猪学设计模式——门面模式(外观模式)</a>
-    </h1>
-  
-
-        
-        <a href="/308.html" class="archive-article-date">
-  	<time datetime="2013-09-13T05:36:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>在学习这个模式的时候小猪有这样的感觉：我们很多时候会把设计模式想的多么高深，多么的深不可测，新手完全看不懂之类的话，其实只要我们把面向对象基础打好，在写代码的时候会不自不觉的用到一些设计模式，只是我们不知道它叫什么名字而已。</p>
-<p><strong>模式定义</strong></p>
-<p>外观模式(Facade),为子系统中的一组接口提供了一个一致的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<p><strong>实现代码</strong></p>
-<p>代码清单一：子系统的类<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">SubSystemOne</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodOne</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法一"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemTwo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodTwo</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法二"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemThree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodThree</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法三"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemFour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodFour</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法四"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码清单二：外观类<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Facade</span></span><br><span class="line">&#123;</span><br><span class="line">    SubSystemOne one;</span><br><span class="line">    SubSystemTwo two;</span><br><span class="line">    SubSystemThree three;</span><br><span class="line">    SubSystemFour four;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Facade</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        one = <span class="keyword">new</span> SubSystemOne();</span><br><span class="line">        two = <span class="keyword">new</span> SubSystemTwo();</span><br><span class="line">        three = <span class="keyword">new</span> SubSystemThree();</span><br><span class="line">        four = <span class="keyword">new</span> SubSystemFour();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodA</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"n方法组A() ---- "</span>);</span><br><span class="line">        one.MethodOne();</span><br><span class="line">        two.MethodTwo();</span><br><span class="line">        four.MethodFour();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodB</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"n方法组B() ---- "</span>);</span><br><span class="line">        two.MethodTwo();</span><br><span class="line">        three.MethodThree();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码清单三：客户端调用<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Facade facade = <span class="keyword">new</span> Facade();</span><br><span class="line"></span><br><span class="line">        facade.MethodA();</span><br><span class="line">        facade.MethodB();</span><br><span class="line"></span><br><span class="line">        Console.Read();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>对于面向对象有一定基础的同学，即使没有听说过门面(外观)模式，也完全由可能在很多时候使用它，因为它完美体现了依赖倒转原则和迪米特法则的思想，所以是非常常用的模式之一。</p>
-<p>举个例子：很多人喜欢炒股票，但凡是个有心眼的人都知道：股市有风险、入股需谨慎。自己直接买股票就是客户端直接与大量股票打交道，这在写程序时叫做：耦合度太高。但是这个时候我们发现有一个叫做“基金”的东西。我们只需要来买基金，这个基金来买什么股票我们不关心也不需要了解，客户端买基金之后就可以回家睡觉打麻将了，而买股票这种专业的东西让卖基金的人去搞，这样我们就去除了客户端与股票的耦合。这就是门面(外观)模式的思想。</p>
-<p>再具一个例子：添加事件标准浏览器使用addEventListener，旧版本IE使用attachEvent，可能自己需要封装一个addEvent函数，这个addEvent函数就是一个门面。</p>
-<p>代码清单四：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">addEvent</span>(<span class="params">el, type, fn</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (el.addEventListener) &#123;</span><br><span class="line">        el.addEventListener(type, fn, <span class="literal">false</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (el.attachEvent) &#123;</span><br><span class="line">        el.attachEvent(<span class="string">'on'</span> + type, fn)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        el[<span class="string">'on'</span> + type] = fn</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样我们再给对象添加事件的时候就不需要考虑客户端到底是什么浏览器而直接使用addEvent方法了。</p>
-<p><strong>适用场合</strong><br>对于那些反复同时出现的代码，如函数a和b多次同时出现在代码中，应考虑将a，b组合起来放到一个新函数中。</p>
-<p><strong>优点</strong><br>简化了一些复杂接口（如$.ajax, $.event.add），清除不再需要的大对象以及提供一种更加单一，便利的方式展现接口功能。编写一次组合代码，就可以反复使用它，节省了代码量，时间和精力。它还提供了较高层的功能，抽象，降低客户端代码对底层接口的耦合。如$.getJSON，通过$.ajax方法也可以得到相同的效果。但每次都需要配置相同的参数，如果获取JSON的需求很频繁，页面中的相同的代码就需要写很多次。而封装一次$.getJSON，之后就少写很多代码，且该方法更直观。</p>
-<p><strong>缺点</strong></p>
-<p>外观模式并非必不可少，同样的功能不使用它也能完成功能。如不使用$.getJSON，通过$.ajax方法也可以得到相同的效果。此外由于增加了一层闭包，性能会有一定降低。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/308.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
@@ -1353,15 +1347,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
