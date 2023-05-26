@@ -161,6 +161,334 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-跟着小猪来做小程序开发吧——准备" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1179.html">跟着小猪来做小程序开发吧——准备</a>
+    </h1>
+  
+
+        
+        <a href="/1179.html" class="archive-article-date">
+  	<time datetime="2017-04-06T11:02:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>决定好要做的之后，这一篇来说说在动手之前我们需要准备些什么。</p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>这里小猪使用的是本站的vps：阿里云的入门款。因为blog本身的流量比较小，所以很多性能并没有完全发挥作用，而且小程序也只是作为练手，不会作为一个正式的产品商用。</p>
+<p>所以这里占时不考虑性能了。</p>
+<p>具体配置如下：</p>
+<p>CPU：1核</p>
+<p>内存：1024 MB<br>带宽：1Mbps</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>smallerpig的域名已经持有一段时间了。并且已经备案，而且在小程序里面并没有能够看到域名的地方，所以没有理由不使用原来的域名。</p>
+<p>原来的域名每年的续费费用是49。小猪觉得这个费用小猪还能出得起……</p>
+<p>具体的域名购买和备案可到<a href="www.aliyun.com">阿里云</a> 了解。</p>
+<h2 id="SSL证书"><a href="#SSL证书" class="headerlink" title="SSL证书"></a>SSL证书</h2><p>这里暂时推荐腾讯云的免费SSL证书。</p>
+<p>注册好账户之后登陆<a href="https://console.qcloud.com/ssl?utm_source=solution_la&amp;utm_medium=ssl&amp;utm_campaign=qcloud" target="_blank" rel="noopener">腾讯云网站</a>根据提示就可以申请到一个免费的证书，有效期一年，一年之后可重复申请。<br>期间会需要将申请的域名解析到指定的一个值然后等待审核。审核时间大概20分钟，好了之后会有短信和邮件通知：<br>到后台可以看到申请到的信息。如下图<br><img src="http://wx2.sinaimg.cn/small/88e12591gy1fed4psjom5j20iy0jcmzo.jpg" alt><br>申请信息如下：</p>
+<blockquote>
+<p>证书类型   TrustAsia DV SSL CA - G5(1年)<br>  通用名称   <em>**</em>.smallerpig.com</p>
+</blockquote>
+<p>然后进行相关的配置。</p>
+<p>按照腾讯云的<a href="https://www.qcloud.com/document/product/400/4143" target="_blank" rel="noopener">指引</a>来安装证书</p>
+<p>腾讯云官方使用了<a href="https://www.qcloud.com/solution/la" target="_blank" rel="noopener">一定的页面</a>宣传他们的某些服务器是专门为小程序定制的，有兴趣的话可以直接使用腾讯云来做整个环境，这样的话可能会方便点，毕竟他们是一家的。</p>
+<h2 id="开发工具IDE"><a href="#开发工具IDE" class="headerlink" title="开发工具IDE"></a>开发工具IDE</h2><p>开发工具首选微信自带的《微信WEB开发者工具》。<br>这其中不仅可以调试小程序，公众号的很多功能都可以在里面找到。<br>目前小猪还不知道有没有其他工具能够支持小程序的调试，毕竟微信的开发环境是比较封闭的。想以前在没有这个工具之前，为了调试微信浏览器的种种bug，真是痛苦死了。</p>
+<h2 id="开发语言"><a href="#开发语言" class="headerlink" title="开发语言"></a>开发语言</h2><p>小程序当中已经为我们封装好了很多的语言标准，js、wxm等等，所以小程序本身是没有其他选择的。<br>服务器端小猪准备使用python，框架选用简洁的flask。</p>
+<p>这样，我们的准备工作机会差不多了，下一篇就开始我们的hello world吧。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1179.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-跟着小猪来做小程序开发吧——前奏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1177.html">跟着小猪来做小程序开发吧——前奏</a>
+    </h1>
+  
+
+        
+        <a href="/1177.html" class="archive-article-date">
+  	<time datetime="2017-04-05T07:38:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前些阵子小程序火了几天，但是紧接着就是熄火了。小程序像干柴烈火似的燃烧了几天之后就再也没有消息了。<br>苦于之前小程序只对公司类型的开发者开放，作为个人是无法得到小程序开发的权限的。所以小猪之前对这些所谓的热点都感觉无所谓，反正我参与不了。只是简单的看了下大概的开发文档，觉得是挺规范的，但是拿不到接口权限也没有办法体验开发过程。</p>
+<p>前几天得到消息，小程序对个人开发者开放了。得到这消息之后小猪第一时间注册了小程序开发者账号。想体验接口就要各种申请。</p>
+<blockquote>
+<p>这里吐槽一下微信的开发，想要申请小程序的开发账号，就又要提供一个邮箱地址，而所有的订阅号、服务号、企业号、小程序的后台<a href="https://mp.weixin.qq.com" target="_blank" rel="noopener">入口</a>都是一个。导致同一个邮箱只能申请这其中的一个类型。所以在申请过程中发现小猪的所有邮箱竟然全部都被申请过了。哎~无奈之下只好用了gmail的强大的.功能，也就是申请了zhuqiwuxi#gmail.com的邮箱之后。你可以在zhuqiwuxi这几个字符之间任意位置加一个<code>.</code>。gmail邮箱都会发到你的主邮箱上面。例如zhuqi.wuxi#gmail.com会发到zhuqiwuxi#gmail.com上面。还好有这个功能，要不然还得单独为它再申请一个邮箱。</p>
+</blockquote>
+<p>这一系列文章主要是为了熟悉微信小程序的开发流程。</p>
+<h2 id="第一问题：硬件"><a href="#第一问题：硬件" class="headerlink" title="第一问题：硬件"></a>第一问题：硬件</h2><p>首先遇到的阻碍就是小程序的网络请求强制要求是使用<code>https</code>类型的请求。<br>这个就要求不但要有自己的域名，还得要求有自己的ssl证书。<br>之前小猪用过免费的ssl证书，后来因为第三方七牛好像不知道HTTPS外链，所以没有继续使用。现在看样子是可以利用起来了。<br>小猪blog是有自己单独的vps的，所以服务器也不是问题。</p>
+<p>综上所述，开发小程序的硬件条件是有的。</p>
+<h2 id="第二个问题：软件"><a href="#第二个问题：软件" class="headerlink" title="第二个问题：软件"></a>第二个问题：软件</h2><p>做什么样的小程序？<br>小猪仔细想过，现如今想要在小程序上面做的好的，还是得有自己本身的资源。小程序只提供便捷的入口，而程序本身的数据还是需要开发者本身来维护的。这样想通过小程序来和之前已经做大的公司或者内容商比的话肯定是抢不了人家任何资源的。</p>
+<p>这样想了之后，再加上本身也只是为了熟悉开发流程。所以小猪决定这个小程序只提供一些便利查询信息。所有的查询类信息都可以在网络资源中找到。我的小程序只是做个整合。</p>
+<p>另外，小程序有模板消息的权限，这样我就可以在使用者需要的时候做一些提醒。这方便小猪使用的iphone和mac的提醒事项功能就做的比较好。可惜安卓上面貌似没有类似自带程序，所以也可以在我的小程序上来实现。</p>
+<p>解决了上两个问题之后就可以动手来做开发了。</p>
+<p>申请小程序的过程这里就不再赘述了，相信网上一抓一大把。<br>下一篇直接从配置开发来开始吧。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1177.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-e5-85-ac-e5-91-8a-e5-85-b3-e9-97-ad-e4-ba-86-e5-8d-9a-e5-ae-a2-e7-9a-84-e8-af-84-e8-ae-ba-e5-8a-9f-e8-83-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1173.html">[公告]关闭了博客的评论功能</a>
+    </h1>
+  
+
+        
+        <a href="/1173.html" class="archive-article-date">
+  	<time datetime="2017-03-23T02:37:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小猪的博客访问量一直不高，但是垃圾评论却不算少。</p>
+<p>很久之前用了国外的垃圾评论过滤插件，感觉效果一般。后来就放弃了……</p>
+<p>直到国内的多说上线，当时看到这个插件真是异常的开心，能够一站式的解决很多问题。包括其他站点的用户评论，从此评论其他一些网站的文章也不需要先注册再评论了。真所谓用完即走。</p>
+<p>可惜的是前两年开始，多说也被垃圾评论所占领，使用多说的网站随处可见的是：<code>高清 A 骗</code>、<code>学生妹</code>。。</p>
+<p>无奈之下小猪只好使用手动批准的方式，每次有文章评论了小猪都手动到后台看看是不是垃圾评论，确定不是垃圾评论了才批准。</p>
+<p>随着<a href="http://dev.duoshuo.com/threads/58d1169ae293b89a20c57241" target="_blank" rel="noopener">多说宣布即将关闭该项目</a>。可是连这样的最后一个稻草都没了，所以无奈之下，小猪也关闭了博客的评论功能。</p>
+<p>如果你确实有需求需要联系我，可以到我的<a href="www.smallerpig.com/about">关于页面</a>，找到我的联系方式。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">多说</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">评论</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1173.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-仅向朋友展示最近半年的朋友圈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -906,297 +1234,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/1148.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e8-8e-b7-e5-8f-96-e5-95-86-e6-88-b7-e8-ae-a2-e5-8d-95-e4-bf-a1-e6-81-af-e8-b6-85-e6-97-b6-e6-88-96-e5-95-86-e6-88-b7-e8-bf-94-e5-9b-9ehttp-e9-9d-9e200" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1146.html">获取商户订单信息超时或商户返回http非200</a>
-    </h1>
-  
-
-        
-        <a href="/1146.html" class="archive-article-date">
-  	<time datetime="2017-01-09T02:46:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在开发微信支付时，如果使用扫码模式一来进行的话有可能出现标题所述错误。</p>
-<p>这是因为扫码支付有两种模式，<br>1. 二维码固定，有用户扫码二维码时微信后台通知商户后台下单。<br>2. 二维码不固定，当生成二维码时已经下单等待用户支付。</p>
-<p>当使用模式一时，用户进行了扫码操作时微信后台会通知商户进行下单处理。这个通知的地址可以在微信后台的微信支付=》开发设置里进行设置。如果微信服务器通知这个地址时发现出现错误或者返回了不是200的http状态码。就出现了标题错误。</p>
-<p>解决方法就是到指定地址解决错误。</p>
-<p>网上还有同学说会间歇性出现这个错误，那么只能说明你的程序或者服务器不太稳定。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">微信支付</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1146.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2016-e5-a4-a7-e4-ba-8b-e8-ae-b0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1143.html">2016大事记</a>
-    </h1>
-  
-
-        
-        <a href="/1143.html" class="archive-article-date">
-  	<time datetime="2017-01-03T03:09:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2016年已经过去了，本来打算是在元旦节假期做总结，可由于假期匆忙的回了老家。也没带电脑回去，所以就搁置了到了今天。</p>
-<p>每年一次的大事记也成惯例，让自己清楚这一年来发生了什么。</p>
-<p>2016年这一整年对于我来说是意义非凡，这一年中有很多对于整个人生来说的大事。</p>
-<h2 id="升级做父亲"><a href="#升级做父亲" class="headerlink" title="升级做父亲"></a>升级做父亲</h2><p>在2016年的2月11日晚上，我的宝贝儿子出生了，伴随着第一声儿子的哭声，也让我彻底升级为一个父亲的角色。虽然在儿子出生之前已经做了很多的准备，但是这一整年下来还是感觉自己给儿子准备的不够充分。自己心里也有时候不太相信自己已经是个父亲了。儿子出生以后基本上是老婆在带，也是辛苦了老婆，尤其是在儿子生病的时候。</p>
-<h2 id="和老爸单独生活的几个月"><a href="#和老爸单独生活的几个月" class="headerlink" title="和老爸单独生活的几个月"></a>和老爸单独生活的几个月</h2><p>2016年上半年老爸来无锡给我装修房子。这让已经很多年没跟老爸单独生活在一起的我又一次与年过花甲的老爸单独生活了几个月。还记得小学时期的父亲带着我在响水读书，妈妈在农村种地的日子，也让我渐渐的发现他的身体已经越发的不像我印象中的样子了，印象中的老爸还是那个虽然身高不高，但是身体却特别强壮有力量的老爸。但是现在却在每天说话多的时候明显感到他的疲惫。可却还是一个喜欢硬撑，不服老的老爸。</p>
-<h2 id="换工作"><a href="#换工作" class="headerlink" title="换工作"></a>换工作</h2><p>5月份换工作：从江大毕业了之后出来就一直在嗨哥的公司待着，虽然公司换了几次名字，也经历过几次大的变动，但是我作为公司比较“老”的员工一直跟着嗨哥，甚至在12年嗨哥离开核心到睿阅没带上我，我也是死皮赖脸的找他表示希望跟着他。这期间也很感谢嗨哥跟ys对我的关照，在我负责的区块出现问题的时候他们从来没有给过我压力。也感谢他们当初选择了毫无工作经验由是跨专业的我，但是迫于我现在生活上的压力才不得不选择离开。到了新的单位明显感到的是与以前工作内容方面的不一致，这也需要我来适应一段时间。新工作面临着不少挑战，尤其是因为科研性质，工作内容对属于比较前沿的，而我之前做的工作基本上是开发。看着听着同事们讲的高大上的概念的时候心里还是有点没底的。</p>
-<h2 id="搬家"><a href="#搬家" class="headerlink" title="搬家"></a>搬家</h2><p>毕业之后一直和老婆挤在出租屋内，谢谢老婆的宽宏大量。人家姑娘都是结婚前要求买房啥的，而我的老婆从结婚前五六年到结婚后的两三年，从来都没在这方面给过我任何的抱怨或者压力。<br>好在今年国庆我们搬进了属于我们自己的房子里，真正意义上的有了我们自己的小窝，虽然没有豪华的装修，没有很大的面积，还是让我们很开心，很知足……</p>
-<p>2016感觉对于我来说是特别重要的一年，光儿子出生这一件事就足够让我的人生日历上在2016年这一格画上一个五角星。2017年已经开始，也希望2017对于我、对于国家来说是一个丰满的，值得纪念的年份。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1143.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2016-12-1718-e4-b8-8a-e6-b5-b7-e6-89-98-e4-b8-9a-e8-80-83-e8-af-95-e6-80-bb-e7-bb-93" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1138.html">2016.12.17/18 上海托业考试总结</a>
-    </h1>
-  
-
-        
-        <a href="/1138.html" class="archive-article-date">
-  	<time datetime="2016-12-19T07:44:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为是第一次考托业，发现在整个考试过程中还是有很多跟之前想的不一样的。特记录下来以帮助第一次考的同学知道一些实际情况，各个考点的情况可能不一样，我只说的是这一次在上海考点的情况。<br>考试时间：</p>
-<h2 id="12-17上海开放大学：口语与写作考试"><a href="#12-17上海开放大学：口语与写作考试" class="headerlink" title="12.17上海开放大学：口语与写作考试"></a>12.17上海开放大学：口语与写作考试</h2><p>到地点发现这大学是挺开放的，这个校区只有一栋楼，提前一个小时到考点，发现人并不多。到下午三点半的时候一楼大厅的负责人让考生到三楼。然后就是一个个的检查相应证件，签了字的准考证自己打印出来在进教室的时候会被收走。然后就是等待考试开始了。<br>考试是机考的形式，找到自己的位置之后可以看到屏幕上面的提示，需要输入自己的身份证号码进入下一步，下一步是输入密码，这个密码事先我们是不知道的，到时间之后监考人员（穿着托业考试logo的工作人员）会统一通知密码是什么（4位数字），输入正确密码之后可以看到系统正在下载试题，过程很快。下载好之后会最后让确认自己的身份信息，包括身份证号码，姓名的汉语拼音，以及生日。<br>然后就是调试耳机和麦克风了，一般不会有什么问题，自己可以对着麦克风说话，然后听自己的录音。<br>下面就是一段调查，内容大概就是你的学历啊，专业、工作情况、为啥参加托业考试呀，之前有没有考过呀，平时用不用英语呀，觉得哪方面（听说读写）最重要呀。<br>屏幕上有开始倒计时，倒计时结束之后会开始考试，<br>关于口语与写作的考试内容我只能说看官方的说明文件，包括样题，真的很有用。很多题都类似。不过在进行考试之前好像要考生同意一份协议，协议内容中的有一条就是不可以向任何人透露考试的内容，否则……你懂的……<br>对了，所有上海区的考生也就是大概三四十个人，一个教室都没坐满。而且考生与考生之间坐的非常近，虽然每个人中间有一个小的隔断，但是你稍微向后仰一点就能够看到隔壁考生的屏幕。最最重要的是带的耳机并不能很好的隔音，也就是说你可以很清楚的听到教室里其他考生的发声。只不过对每个考生的考试时间都是同步的，不然真可以听听其他人是怎么回答的然后再自己回答。这也造成了当开始说话的时候教室里乱糟糟、特别吵。</p>
-<h2 id="12-18-上海外国语大学出国培训部：听力与阅读。"><a href="#12-18-上海外国语大学出国培训部：听力与阅读。" class="headerlink" title="12.18 上海外国语大学出国培训部：听力与阅读。"></a>12.18 上海外国语大学出国培训部：听力与阅读。</h2><p>听力与阅读考试的参加人数明显比口语与写作的人数多很多，开考之前大楼门前站了好多人。大约到了进考场的时候，考务人员通知进考场，还是要收走签字的准考证，然后会有个考务用设备给你录个视频，问你的座位号以及姓名。然后找到自己位置后可以看到桌面上已经摆好了A4纸大小的答题纸和答题纸填写指导——一张同样的答题纸。<br>然后就是等待时间，期间你可以对答题纸上的内容进行阅读。<br>这时候坑爹的地方出现了，答题纸上有的地方是要求你手写的，内容是一段声明，大概是声明是本人参加的考试。我旁边的外国妹纸就直接拿着黑色签字笔给抄录了。最后才发现答题纸最上面的要求：整个答题纸必须用铅笔……<br>然后就是对着答题纸发呆二十分钟。期间考务会通知声明必须把个人物品送到讲台来，手机必须关机，考试过程中不能响起来。还一直提示先不要对答题纸做任何填写。</p>
-<p>到了9点，试题还没发下来，到是开始播放考生须知，答题卡填写指南。这个时候才发现整个考试最坑爹的地方：<strong>所谓的9点开始是指9点开始播放答题指南，播放听力试题的时间大概是9点半，考试结束时间大概是11点半……</strong></p>
-<p>答题纸上同样有内容和昨天一样的背景调查，只不过这次不是通过电脑选，而是在每一项之前用2b铅笔涂起来。</p>
-<p>试题发下来的时候是封起来的，考务会告诉你在没得到拆封指示之前是不允许拆试卷的。这也为了保证每个考生的考试时间公平吧。发下来会有一分钟时间让仔细阅读试题册最后的扉页内容，大概是考试题型介绍吧。<br>每个考生之间的位置还是同样的非常近，我旁边的外国高挑妹纸动肩膀的时候甚至能够碰到我胳膊……<br>虽然位置上都有耳机，还有调试装置，但是考务在考前告诉我们，是通过喇叭播放录音，而不需要带耳机。</p>
-<p>考试内容就不讲了，只是感觉听力的口语化没有买的《全真试题part1234》那么重，part7的阅读难度比买的《全真试题part7》难度高，很多题目还是稍微要绕个弯子的。</p>
-<p>考试时间感觉还是非常紧的。听力考试大概45分钟，反正跟着录音就行了，阅读考试的时候是人工计时的，也就是说从听力录音结束之后不管录音放了43分钟还是48分钟，从录音结束那时开始计时75分钟开始考阅读部分。结束前15分钟考务会通知还有15分钟，然后到离考试结束还有10分钟、5分钟、2分钟、1分钟时会分别进行人工提示。考场的前面黑板上也挂着鈡，考生可以随时抬头看时间。<br>我所在的考场时间到了之后考务要求所有人停下笔把考卷合起来，答题纸放在考卷的上面。这个时候后面的某一个妹纸哭腔着声音求着考务能不能多给两分钟，就两分钟，可还是徒然了，考务指着摄像头说这边都拍着呢，你这样对其他考生是不公平的。那姑娘追着考务到讲台求着能不能通融，在全教室的考生面前，考务毅然决然的拒绝了她。</p>
-<p>以上就是本人经历的这次上海考点的托业考试。</p>
-<p>得出的结论是要想在托业考试中取得高分，确实是要在日常生活中能使用到的地方都使用英语，抓住任何机会锻炼自己的能力。分数真不是通过短短的二三十天的准备就能有个质的变化。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1138.html">展开全文 >></a>
         </p>
       
 

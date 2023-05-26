@@ -161,6 +161,315 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp-net-mvc-e7-bb-9f-e4-b8-80-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/422.html">ASP.NET MVC统一异常处理</a>
+    </h1>
+  
+
+        
+        <a href="/422.html" class="archive-article-date">
+  	<time datetime="2014-02-12T06:40:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>今早看了篇文章：<a href="http://www.cnblogs.com/stoneniqiu/p/3545230.html" target="_blank" rel="noopener">求知成瘾，却无作品 的思考</a>；很有感触，发现原来自己也是这样，对每样东西都抱有很大的兴趣或者希望自己去学，一年后发现原来自己什么都是皮毛什么都不精！最终发现真正的大牛都是在某一个领域的大牛，不会是全能的。所以是时候精一下了。</p>
+<p>本篇文章来源于今天的另外一篇阅读：《我的软件没bug》作者希望读者写的程序即使已经上线也能快速的发现自己bug而不是等着用户忍无可忍时的反馈，这样让用户产生错觉是其用的软件并没有bug，而能实现这些最关键的一点就是能不能发现bug。所以小猪今天写了其实已经关注非常久的一个主题：统一的异常处理</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>ASP.NET MVC提供了很方便的实现处理异常的机制：在需要进行异常处理的Controller中重写OnException。如果整个程序都需要异常处理，可以先写一个BaseController，其他所有Controller都继承它，然后在BaseController中重写OnException。<br>然后让自己的Controller继承自这个BaseController即可。</p>
+<p>另外如果只是针对某一个Action的捕获异常则可以写一个Attribute继承自HandleErrorAttribute：</p>
+<h2 id="存数据库还是文件"><a href="#存数据库还是文件" class="headerlink" title="存数据库还是文件"></a>存数据库还是文件</h2><p>细心的读者可能发现上述的代码小猪是保存在网站跟文件夹下的一个文件里的。这里涉及到把异常数据保存在什么地方的问题。有两种选择数据库和文件。但是小猪考虑到存数据库时存在一个问题：当数据库无法链接时网站也是会报错，这个时候的错误如果是采用存在数据库的机制的话则无法记录，而存在文件里则不存在这个问题，除非是web服务器奔了。综上原因小猪采取了把日志文件存放在文件里的方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/422.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-e7-bc-96-e5-86-99-e8-87-aa-e5-b7-b1-e7-9a-84windows-live-writer-e6-8f-92-e4-bb-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/420.html">编写自己的Windows Live Writer插件</a>
+    </h1>
+  
+
+        
+        <a href="/420.html" class="archive-article-date">
+  	<time datetime="2014-02-10T04:34:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>自从小猪使用Windows Live Writer(wlw)来写博客之后就很少打开网站的后台编辑器了，这真是个写博客的好东西啊，但是任何东西都是不完美的。索契冬奥会开幕式都会把五环弄成四环呢！对于写博一个很简单的情景：小猪需要从别的网站上面引用一段话，我希望引用的这端话有独立的标签好定义其样式，就这么个简单的需求在原生的wlw里面却束手无策了。好在现在的软件都强调对其自身的拓展，wlw也不例外。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>其实需求很简单，就是希望能有那么个按钮，这个按钮的功能是给我的文字加上一段固定的标签就可以了。参考很多的代码高亮插件之后发现这个完全是可行的，而且相比于代码高亮来说实在是再简单不过了——我不需要针对每个关键字设置不同的标签样式，也就是我不需要解析插入的内容直接贴上去就好了。</p>
+<p>有了上述思想准备后小猪就开始了自己的插件开发</p>
+<h3 id="第一步：创建类库项目"><a href="#第一步：创建类库项目" class="headerlink" title="第一步：创建类库项目"></a>第一步：创建类库项目</h3><p>使用VS来创建类库项目：需要注意的是.NET的版本一定要是3.0以下(包括)的。小猪做的时候就在这上面浪费了很长的时间。</p>
+<h3 id="第二步：对官方API库的引用"><a href="#第二步：对官方API库的引用" class="headerlink" title="第二步：对官方API库的引用"></a>第二步：对官方API库的引用</h3><p>库在哪里？不需要去下载，只要电脑上安装了wlw，这个库就静静的躺在你的电脑里wlw的安装文件目录下，例如：C:Program Files (x86)Windows LiveWriterSystem.Windows.Forms.dll。当然因为需要新建一个输入代码的窗口，所以需要对System.Windows.Forms库的引用。</p>
+<h3 id="第三步：设置生成路径"><a href="#第三步：设置生成路径" class="headerlink" title="第三步：设置生成路径"></a>第三步：设置生成路径</h3><p>因为我们很多时候需要实时预览我们的插件，避免每次编译好了都自己安装的麻烦我们设置生成路径，让VS编译的时候直接帮我们生成的DLL文件放到指定的文件夹下。</p>
+<p>打开项目属性设置生成事件，在“后期生成事件命令行:”一栏中输入:XCOPY /D /Y /R “$(TargetPath)” “C:Program Files (x86)Windows LiveWriterPlugins”。保存并退出！</p>
+<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl = &quot;http://www.smallerpig.com&quot;, </span><br><span class="line">    Description = &quot;This is an Test plugin.&quot;, Name = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content = ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>第一个参数为一个Guid，我们可以用Visual Studio自动生成，其标识的作用。</li>
+<li>第二个参数为该插件的名称，将在Windows Live Writer的插件管理器中看到。</li>
+<li>PublisherUrl为发布者的网站地址，这里就写了我的Blog地址。</li>
+<li>ImagePath为插件的图标文件路径，注意该图标应为18*16大小，且一定以Embedded Resource形式编译在程序集中。</li>
+<li>Description为插件的一小段描述介绍。</li>
+</ol>
+<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// End the process.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再新建一个类来单独处理加标签的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The processed content.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The process function.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;/param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent = (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href=&quot;&#123;0&#125;&quot;&gt;引用:&lt;/a&gt;&lt;/legend&gt;&lt;div style=&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;/div&gt;&lt;/fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个时候这个简单控件的完整代码就已经完成。编译后重新打开wlw就可以在插件栏里发现它。</p>
+<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
+<blockquote>
+<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
+</blockquote>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>小猪写完这个简单的插件之后发现wlw不仅仅可以这么用，我们自己写的新闻发布页、博客等等程序其实都可以使用wlw来发布，如果需要一定自定义的格式或者要求我们完全可以使用插件来完成。这样我们就不需要在网页端使用富文本编辑器来编辑发布。有时间小猪好好研究研究者块内容。如果发现这个思路确实可行的话那么以后可以在项目中实施。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/420.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-饭店招两个服务员、洗碗工" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/411.html">饭店招两个服务员、洗碗工</a>
+    </h1>
+  
+
+        
+        <a href="/411.html" class="archive-article-date">
+  	<time datetime="2014-01-22T13:17:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今个和我们持续奋战将近两年的广东仔请我们吃饭了，只是吃的是离别的饭。大家都很舍不得、结果大家没怎么喝酒广东仔自己一个人敬了一杯喝了不少。</p>
+<p>但是今天小猪分享的不是这个伤感的主题，而是在进饭店之前，饭店门口招牌上面写的几个字：招服务员两年、洗碗工两名，工资待遇面议！</p>
+<p>在小猪的记忆中，貌似有印象的饭店特别是档次不是特别高的饭店都会在门口弄上这么几个字，而且要放在醒目的地方，最关键的：一定要是红纸或者黄纸的底。反正就是要让你看得到，不管你是不是吃饭的，要不要找工作的。</p>
+<p>事实上这家饭店真的是要招人或者是人手不够用了吗？</p>
+<p>小猪不是这么认为的，小猪认为的是很多饭店的真正目的不是招聘而是招人，最起码最大的目的不是招聘。那为什么要贴这么个东西呢？</p>
+<p>先让小猪来分享一个真实的案例：大学毕业后小猪某个同学自己开店创业，有次小猪去光顾其生意的时候看到了卡贴心想买几个美化美化自己的各式各样的饭卡、银行卡……这个时候这位同学和我说了个很有意思的事情：本来一大张卡贴完整的放在那边怎么都不会有人去买(一张海报大小的纸上面贴着漫漫的卡片大小的卡贴)，他很郁闷为什么在有这么多选择的时候顾客会对其不理睬，然后他就随意的在这满满的卡贴中撕下来几张，然后同样的放在那里卖！结果就是没多会的功夫就被大家”抢购“光了……</p>
+<p>小猪说这个事情是想让大家知道一个道理:作为商家，总是想方设法的制造一种现象：我的商品是很火的！他可不管这个到底是假象还是真实的。如果是真实的最好，不是真实的那也要制造这种假象。</p>
+<p>回到饭店招服务员这个事情上来，他招不招对于普通吃饭的人来说是并不关心的，但是却能让顾客心里起到一种暗示的效果：我们这家饭店是很火的，你看，服务员和洗碗工压根不够用了！这样在下次选择的时候会不会被潜移默化的影响了呢？</p>
+<p>再看看某宝的主页都是三折两浙的广告，点进去看看价钱还不是该高的还是高，好的作为屌丝的小猪还是买不起？谁说你不是呢？</p>
+<p>呵呵~~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/411.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-闭包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -802,283 +1111,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/400.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/398.html">wordpress 中禁止更新提示</a>
-    </h1>
-  
-
-        
-        <a href="/398.html" class="archive-article-date">
-  	<time datetime="2014-01-15T06:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>在此之前每每打开blog的时候总是有那么个数字在那边显示，如果是很重要的更新显示在那也就算了，有时候就算一个破主题他还一直在那边，很是让小猪纠结。最关键的是要是更新了主题，那么之前所有自定义的样式以及针对主题定制的代码都会被覆盖，那是极蛋疼的。不更新的话又有个数字在那总是感觉不爽，这是强迫症啊！所以果断百度之：</p>
-<h2 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h2><p>禁止，插件更新，主题更新，wordpress本身更新提示的方法</p>
-<p>进入后台进入编辑页，打开使用的function.php文件。把下列代码加入到文件的最后面。</p>
-<p>禁止wp更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//关闭核心提示 add_filter(&apos;pre_site_transient_update_core&apos;,    create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭插件提示add_filter(&apos;pre_site_transient_update_plugins&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line">//关闭主题提示add_filter(&apos;pre_site_transient_update_themes&apos;,  create_function(&apos;$a&apos;, &quot;return null;&quot;)); </span><br><span class="line"></span><br><span class="line">//禁止Wordpress检查更新 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_core&apos;);    </span><br><span class="line">//禁止Wordpress更新插件 remove_action(&apos;admin_init&apos;, &apos;_maybe_update_plugins&apos;); </span><br><span class="line">//禁止Wordpress更新主题remove_action(&apos;admin_init&apos;, &apos;_maybe_update_themes&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/398.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dry-e5-8e-9f-e5-88-99-e5-92-8cshy-e5-8e-9f-e5-88-99" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/397.html">DRY原则和Shy原则</a>
-    </h1>
-  
-
-        
-        <a href="/397.html" class="archive-article-date">
-  	<time datetime="2014-01-15T05:38:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>保障可维护性的主要诀窍是 遵循DRY原则和Shy原则。</p>
-<p>在一个系统的整个生命周期里，理解和改动这类维护工作的比例一般非常之高。为了维护的方便，要尽量将系统划分为可以独立理解与改动的模块。这就要在设计的 时候注重DRY原则与Shy原则。不过，这两条原则有一定的冲突，并不总能兼得，于是在追求的时候要重视分寸。</p>
-<h2 id="维护者的两大困扰"><a href="#维护者的两大困扰" class="headerlink" title="维护者的两大困扰"></a>维护者的两大困扰</h2><p>有两种情况会给维护者增添很大的麻烦：一种是为了调整一个效果，要改动无数个地方；一种是只改动了一个地方，却影响了很多效果。</p>
-<p>在前一种情况下，非常容易出现漏改的问题——因为需要改动的地方太多，有些应该改动的地方没有改动；在后一种情况下，非常容易出现误改的情况——因为被影响的效果太多，有些不该改动的地方跟着变了。</p>
-<p>无论出现那种情形，都会使得理解和改动设计变得困难。不过，只要在设计的时候秉持一些原则，这两种事情都可以得到有效的遏制。</p>
-<h2 id="DRY原则"><a href="#DRY原则" class="headerlink" title="DRY原则"></a>DRY原则</h2><p>DRY是“Don’t Repeat Yourself”的缩写。意思是说，在一个设计里，对于任何东西，都应该有且只有一个表示，其它的地方都应该引用这一处。这样需要改动的时候，只需调整 这一处，所有的地方就都变更过来了。</p>
-<p>运用DRY原则的时候，有一个很微妙的事情是要认真判别两样东西是否是一回事。有时候也有“两样东西现在碰巧看起来是一样的，但是并不能保证将来始终都一 样”的情况。这种时候，很可能就有制造一点表面上的重复的必要了。</p>
-<h2 id="Shy原则"><a href="#Shy原则" class="headerlink" title="Shy原则"></a>Shy原则</h2><p>Shy不是任何东西的缩写。这里是取其字面意思，说系统的每个部分都应该害羞一点，不要把只和自己有关的信息暴露给其它部分，同时也不要毫不客气的依赖太多的其它部分。这样一来，日后便可以放心的修改这些没变暴露的东西，也不用太过担心自己依赖的东西发生了变化。</p>
-<p>运用Shy原则的时候的主要挑战在于理清哪些东西适合被做成系统里的独立单元。特别是确定独立单元的大小。</p>
-<h2 id="两条原则的平衡"><a href="#两条原则的平衡" class="headerlink" title="两条原则的平衡"></a>两条原则的平衡</h2><p>DRY原则和Shy原则的目标是相同的，都是为了增强系统的可维护性。一个很好的遵循了DRY原则和Shy原则的系统，被称为具有“正交性”的系统。</p>
-<p>DRY原则和Shy原则在某种程度上是不能兼得的：想要一个系统够DRY，就得尽量把各部分里相同的东西分离出去放在一起，这难免就会导致很多部分都和分 离出来的这些东西存在一些关系，从而不够Shy；想要一个系统够Shy，就得努力让各部分都做得和其它部分没有什么暧昧，这难免就会致使每个部分里面都有 一些本来可以共同使用的内容，从而不够DRY。这里小猪的理解是：在能依赖注入的地方就依赖注入，这样使用的时候就不需要考虑类的本身的实现逻辑，但是一旦类的实现逻辑出现了变动，那么所有用到这个类的地方的结果也就都发生了改变，这也就是两者之间的冲突。</p>
-<p>但是，实际需要的是能兼顾两条原则的设计。这就需要追求每条原则的时候都注意保持一定的分寸。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/397.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用了Windows Live Writer 写的博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/392.html">使用了Windows Live Writer 写的博客</a>
-    </h1>
-  
-
-        
-        <a href="/392.html" class="archive-article-date">
-  	<time datetime="2014-01-14T07:31:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&lt;为什么标签不能正确的显示&gt;</p>
-<p>重新设置了之后再看看</p>
-<p>停用了一些插件！</p>
-<p><img src="http://clamis.net/wp-content/uploads/2010/10/wlw_wrong_thumb.png" alt>​</p>
-<p>偶然看到很多Blog都在说：&ldquo;尝试连接到您的日志时出错:服务器响应无效 &ndash; 从日志服务器接收的对 blogger.getUsersBlogs 方法的响应无效:Invalid response document returned from XmlRpc server必须先纠正此错误才能继续操作。&rdquo;这个错误，好像跟我的有几分相似。都是说wordpress返回的的XmlRpc无法被wlw识别。可具体是那个部分不对却没给提示。</p>
-<p>他们说这是因为wordpress本身的一个bug。在utf-8编码下，xml-rpc返回的格式不正确，缺了三个字节，所以wlw就会提示出错。解决的方法是找到博客目录的wp-includes下的class.ixr.php，然后用一个文本编辑工具打开它，查找：</p>
-<p>$length = strlen($xml);</p>
-<p>替换为：</p>
-<p>$length = strlen($xml)+3;</p>
-<p>我按照这个方法修改之后就真的没问题了&middot;&middot;看来这个Bug影响不小啊。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/392.html">展开全文 >></a>
         </p>
       
 

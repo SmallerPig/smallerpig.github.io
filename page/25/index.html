@@ -161,6 +161,309 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-c-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/232.html">C#延迟加载</a>
+    </h1>
+  
+
+        
+        <a href="/232.html" class="archive-article-date">
+  	<time datetime="2013-07-30T06:29:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>延迟加载(lazy loading) 设计模式是为了避免一些无谓的性能开销而提出来的，所谓延迟加载就是当在真正需要数据(读取属性值)的时候，才真正执行数据加载操作.</p>
+<p>有效使用它可以大大提高系统性能.</p>
+<more></more>
+
+<p>为了便于理解, 我们来建立一个场景, 假设我们要构造一个Hero(英雄) 类, 每个Hero 有自己的名字和(SpecialSkill)特殊技能.</p>
+<p>建模</p>
+<p>这是一种建立的方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public class Hero</span><br><span class="line">&#123;</span><br><span class="line">    public string FullName &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public SpecialSkill Skill&#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public Hero(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        Name = name;</span><br><span class="line">        FullName = &quot;Super &quot; + name;</span><br><span class="line">        Skill = new SpecialSkill(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SpecialSkill</span><br><span class="line">&#123;</span><br><span class="line">    public int Power &#123; get; set; &#125;</span><br><span class="line">    public string SkillName &#123; get; set; &#125;</span><br><span class="line">    public int StrengthSpent &#123; get; set; &#125;</span><br><span class="line">    public SpecialSkill(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;loading special skill .....&quot;);</span><br><span class="line">        Power = name.Length;</span><br><span class="line">        StrengthSpent = name.Length * 3;</span><br><span class="line">        SkillName = name + &quot; Blazing&quot;;</span><br><span class="line">        Console.WriteLine(SkillName + &quot;,... this&apos;s what makes a legend!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Hero hero = new Hero(&quot;wukong&quot;);            </span><br><span class="line">        Console.WriteLine(&quot;nn..............Press Enter to continue ................nn&quot;);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">        Console.WriteLine(&quot;Hero&apos;s special skill: &quot; + hero.Skill.SkillName);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> ```&lt;div&gt;运行程序后输出如下, 这个例子非常的容易理解, 结果也是显然的.&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">![ScreenShot066](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/89571375165521.jpg &quot;ScreenShot066&quot;)</span><br><span class="line"></span><br><span class="line">它的缺点是, 当运行Hero 构造函数的时候, SpecialSkill 的所有属性都已经加载了. 如果我们只想获取这个Hero 的FullName, 我们也加载了SpecialSkill 所有值. </span><br><span class="line"></span><br><span class="line">## 属性的加载延迟</span><br><span class="line"></span><br><span class="line">在没有Lazy&amp;lt;T&amp;gt; 以前我们可以这样做:</span><br></pre></td></tr></table></figure></p>
+<p>public class Hero<br> {<br>     public string FullName { get; set; }<br>     public string Name { get; set; }<br>     private SpecialSkill skill;<br>     public SpecialSkill Skill<br>     {<br>         get { return skill ?? (skill = new SpecialSkill(Name)); }<br>     }<br>     public Hero(string name)<br>     {<br>         Name = name;<br>         FullName = “Super “ + name;</p>
+<pre><code>}
+</code></pre><p> }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">即: 修改属性SpecialSkill的加载方法. 那么当我们再运行程序时, 得到的输出就是:</span><br><span class="line"></span><br><span class="line">![ScreenShot067](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/45811375165521.jpg &quot;ScreenShot067&quot;)</span><br><span class="line"></span><br><span class="line">非常好! 这就是我们要的效果, 这样可以让系统更加的有效率.</span><br><span class="line"></span><br><span class="line">## Lazy&amp;lt;T&amp;gt;</span><br><span class="line"></span><br><span class="line">当net framework 引入了Lazy&amp;lt;T&amp;gt; 类后, 我们也可以使用它来实现:</span><br></pre></td></tr></table></figure>
+<p>public class Hero<br>{<br>    public string FullName { get; set; }<br>    public string Name { get; set; }</p>
+<pre><code>private readonly Lazy&amp;lt;SpecialSkill&amp;gt; skill;
+public SpecialSkill Skill
+{
+    get { return skill.Value; }
+}
+
+public Hero(string name)
+{
+    Name = name;
+    FullName = &quot;Super &quot; + name;
+
+    skill = new Lazy&amp;lt;SpecialSkill&amp;gt;(\(\) =&amp;gt; new SpecialSkill(name));
+}
+</code></pre><p>}</p>
+<p> <code>`</code></p>
+<p>Lazy&lt;T&gt;提供对延迟初始化的支持。而 Lazy&lt;T&gt; 中的一个属性 Value, 则是获取当前 Lazy&lt;T&gt; 实例的延迟初始化值。</p>
+<h2 id="Lazy-lt-T-gt-的优势"><a href="#Lazy-lt-T-gt-的优势" class="headerlink" title="Lazy&lt;T&gt;的优势"></a>Lazy&lt;T&gt;的优势</h2><p>那么既然我们已经可以用属性缓存的方法实现, 为什么还要引入Lazy&lt;T&gt; ?</p>
+<p>至少Lazy&lt;T&gt; 有以下几点优势:</p>
+<ol>
+<li><p>它具有 LazyThreadSafetyMode, 但是我们一般不使用它, 除非是很关键的情况下(在此略去181个字)</p>
+</li>
+<li><p>它使属性的定义行更加简单</p>
+</li>
+<li><p>从语义上来讲, 它更加明确, 更加具有可读性</p>
+</li>
+<li><p>它允许null为有效值</p>
+</li>
+</ol>
+<h2 id="ASP-NET"><a href="#ASP-NET" class="headerlink" title="ASP.NET"></a>ASP.NET</h2><p>其实小猪今天想到这个主题的原因是想到了一个面试题。在web页面中怎么实现数据的缓存，或者不是每次打开页面的时候都去访问数据库。</p>
+<p>下篇小猪将做种说说对数据库的延迟加载或者缓存。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/232.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-e6-a0-bc-e5-bc-8f-e5-8c-96datetime-e6-97-b6-e9-97-b4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/230.html">C#格式化DateTime时间</a>
+    </h1>
+  
+
+        
+        <a href="/230.html" class="archive-article-date">
+  	<time datetime="2013-07-29T02:22:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    DateTime dt = DateTime.Now;</span><br><span class="line">Label1.Text = dt.ToString\(\);//2005-11-5 13:21:25</span><br><span class="line">Label2.Text = dt.ToFileTime\(\).ToString\(\);//127756416859912816</span><br><span class="line">Label3.Text = dt.ToFileTimeUtc\(\).ToString\(\);//127756704859912816</span><br><span class="line">Label4.Text = dt.ToLocalTime\(\).ToString\(\);//2005-11-5 21:21:25</span><br><span class="line">Label5.Text = dt.ToLongDateString\(\).ToString\(\);//2005年11月5日</span><br><span class="line">Label6.Text = dt.ToLongTimeString\(\).ToString\(\);//13:21:25</span><br><span class="line">Label7.Text = dt.ToOADate\(\).ToString\(\);//38661.5565508218</span><br><span class="line">Label8.Text = dt.ToShortDateString\(\).ToString\(\);//2005-11-5</span><br><span class="line">Label9.Text = dt.ToShortTimeString\(\).ToString\(\);//13:21</span><br><span class="line">Label10.Text = dt.ToUniversalTime\(\).ToString\(\);//2005-11-5 5:21:25</span><br><span class="line">    2005-11-5 13:30:28.4412864</span><br><span class="line">Label1.Text = dt.Year.ToString\(\);//2005</span><br><span class="line">Label2.Text = dt.Date.ToString\(\);//2005-11-5 0:00:00</span><br><span class="line">Label3.Text = dt.DayOfWeek.ToString\(\);//Saturday</span><br><span class="line">Label4.Text = dt.DayOfYear.ToString\(\);//309</span><br><span class="line">Label5.Text = dt.Hour.ToString\(\);//13</span><br><span class="line">Label6.Text = dt.Millisecond.ToString\(\);//441</span><br><span class="line">Label7.Text = dt.Minute.ToString\(\);//30</span><br><span class="line">Label8.Text = dt.Month.ToString\(\);//11</span><br><span class="line">Label9.Text = dt.Second.ToString\(\);//28</span><br><span class="line">Label10.Text = dt.Ticks.ToString\(\);//632667942284412864</span><br><span class="line">Label11.Text = dt.TimeOfDay.ToString\(\);//13:30:28.4412864</span><br><span class="line">Label1.Text = dt.ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label2.Text = dt.AddYears(1).ToString\(\);//2006-11-5 13:47:04</span><br><span class="line">Label3.Text = dt.AddDays(1.1).ToString\(\);//2005-11-6 16:11:04</span><br><span class="line">Label4.Text = dt.AddHours(1.1).ToString\(\);//2005-11-5 14:53:04</span><br><span class="line">Label5.Text = dt.AddMilliseconds(1.1).ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label6.Text = dt.AddMonths(1).ToString\(\);//2005-12-5 13:47:04</span><br><span class="line">Label7.Text = dt.AddSeconds(1.1).ToString\(\);//2005-11-5 13:47:05</span><br><span class="line">Label8.Text = dt.AddMinutes(1.1).ToString\(\);//2005-11-5 13:48:10</span><br><span class="line">Label9.Text = dt.AddTicks(1000).ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label10.Text = dt.CompareTo(dt).ToString\(\);//0</span><br><span class="line">Label11.Text = dt.Add(?).ToString\(\);//问号为一个时间段</span><br><span class="line">Label1.Text = dt.Equals(&quot;2005-11-6 16:11:04&quot;).ToString\(\);//False</span><br><span class="line">Label2.Text = dt.Equals(dt).ToString\(\);//True</span><br><span class="line">Label3.Text = dt.GetHashCode\(\).ToString\(\);//1474088234</span><br><span class="line">Label4.Text = dt.GetType\(\).ToString\(\);//System.DateTime</span><br><span class="line">Label5.Text = dt.GetTypeCode\(\).ToString\(\);//DateTime</span><br><span class="line"></span><br><span class="line">Label1.Text = dt.GetDateTimeFormats(&apos;s&apos;)[0].ToString\(\);//2005-11-05T14:06:25</span><br><span class="line">Label2.Text = dt.GetDateTimeFormats(&apos;t&apos;)[0].ToString\(\);//14:06</span><br><span class="line">Label3.Text = dt.GetDateTimeFormats(&apos;y&apos;)[0].ToString\(\);//2005年11月</span><br><span class="line">Label4.Text = dt.GetDateTimeFormats(&apos;D&apos;)[0].ToString\(\);//2005年11月5日</span><br><span class="line">Label5.Text = dt.GetDateTimeFormats(&apos;D&apos;)[1].ToString\(\);//2005 11 05</span><br><span class="line">Label6.Text = dt.GetDateTimeFormats(&apos;D&apos;)[2].ToString\(\);//星期六 2005 11 05</span><br><span class="line">Label7.Text = dt.GetDateTimeFormats(&apos;D&apos;)[3].ToString\(\);//星期六 2005年11月5日</span><br><span class="line">Label8.Text = dt.GetDateTimeFormats(&apos;M&apos;)[0].ToString\(\);//11月5日</span><br><span class="line">Label9.Text = dt.GetDateTimeFormats(&apos;f&apos;)[0].ToString\(\);//2005年11月5日 14:06</span><br><span class="line">Label10.Text = dt.GetDateTimeFormats(&apos;g&apos;)[0].ToString\(\);//2005-11-5 14:06</span><br><span class="line">Label11.Text = dt.GetDateTimeFormats(&apos;r&apos;)[0].ToString\(\);//Sat, 05 Nov 2005 14:06:25 GMT</span><br><span class="line">Label1.Text =   string.Format(&quot;&#123;0:d&#125;&quot;,dt);//2005-11-5</span><br><span class="line">Label2.Text =   string.Format(&quot;&#123;0:D&#125;&quot;,dt);//2005年11月5日</span><br><span class="line">Label3.Text =   string.Format(&quot;&#123;0:f&#125;&quot;,dt);//2005年11月5日 14:23</span><br><span class="line">Label4.Text =   string.Format(&quot;&#123;0:F&#125;&quot;,dt);//2005年11月5日 14:23:23</span><br><span class="line">Label5.Text =   string.Format(&quot;&#123;0:g&#125;&quot;,dt);//2005-11-5 14:23</span><br><span class="line">Label6.Text =   string.Format(&quot;&#123;0:G&#125;&quot;,dt);//2005-11-5 14:23:23</span><br><span class="line">Label7.Text =   string.Format(&quot;&#123;0:M&#125;&quot;,dt);//11月5日</span><br><span class="line">Label8.Text =   string.Format(&quot;&#123;0:R&#125;&quot;,dt);//Sat, 05 Nov 2005 14:23:23 GMT</span><br><span class="line">Label9.Text =   string.Format(&quot;&#123;0:s&#125;&quot;,dt);//2005-11-05T14:23:23</span><br><span class="line">Label10.Text = string.Format(&quot;&#123;0:t&#125;&quot;,dt);//14:23</span><br><span class="line">Label11.Text = string.Format(&quot;&#123;0:T&#125;&quot;,dt);//14:23:23</span><br><span class="line">Label12.Text = string.Format(&quot;&#123;0:u&#125;&quot;,dt);//2005-11-05 14:23:23Z</span><br><span class="line">Label13.Text = string.Format(&quot;&#123;0:U&#125;&quot;,dt);//2005年11月5日 6:23:23</span><br><span class="line">Label14.Text = string.Format(&quot;&#123;0:Y&#125;&quot;,dt);//2005年11月</span><br><span class="line">Label15.Text = string.Format(&quot;&#123;0&#125;&quot;,dt);//2005-11-5 14:23:23</span><br><span class="line">Label16.Text = string.Format(&quot;&#123;0:yyyyMMddHHmmssffff&#125;&quot;,dt);</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/230.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-e6-93-8d-e4-bd-9c-e6-96-87-e4-bb-b6-e5-a4-b9-e5-88-9b-e5-bb-ba-e3-80-81-e7-a7-bb-e5-8a-a8-e3-80-81-e5-88-a0-e9-99-a4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/228.html">C# 操作文件夹(创建、移动、删除)</a>
+    </h1>
+  
+
+        
+        <a href="/228.html" class="archive-article-date">
+  	<time datetime="2013-07-24T06:17:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">if (!Directory.Exists(@&quot;E:ziptest&quot;))</span><br><span class="line">    Directory.CreateDirectory(@&quot;E:ziptest&quot;);</span><br></pre></td></tr></table></figure>
+<p>主要用到了System.IO.<code>Directory</code>类，该类提供了相关操作文件夹的<span style="color:#FF0000;">静态</span>方法。</p>
+<p>删除文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     从指定路径删除空目录。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   path:</span><br><span class="line">//     要移除的空目录的名称。此目录必须为可写或为空。</span><br><span class="line">public static void Delete(string path);</span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     删除指定的目录并（如果指示）删除该目录中的任何子目录。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   path:</span><br><span class="line">//     要移除的目录的名称。</span><br><span class="line">//</span><br><span class="line">//   recursive:</span><br><span class="line">//     若要移除 path 中的目录、子目录和文件，则为 true；否则为 false。</span><br><span class="line">public static void Delete(string path, bool recursive);</span><br></pre></td></tr></table></figure></p>
+<p>移动文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     将文件或目录及其内容移到新位置。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   sourceDirName:</span><br><span class="line">//     要移动的文件或目录的路径。</span><br><span class="line">//</span><br><span class="line">//   destDirName:</span><br><span class="line">//     指向 sourceDirName 的新位置的路径。如果 sourceDirName 是一个文件，则 destDirName 也必须是一个文件名。</span><br><span class="line">public static void Move(string sourceDirName, string destDirName);</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/228.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c-e6-93-8d-e4-bd-9czip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -790,258 +1093,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/203.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-list-e7-9a-84-e5-90-84-e7-a7-8d-e5-8a-a0-e5-87-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/195.html">C# LIST 的各种加减</a>
-    </h1>
-  
-
-        
-        <a href="/195.html" class="archive-article-date">
-  	<time datetime="2013-06-25T01:27:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现自己的基础还是很薄弱，</p>
-<p>一个List&lt;&gt; 的相减花了一整天的时间，到最后还是选择了折中的方法。</p>
-<p>有时间收集下List&lt;&gt; 资料</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/195.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-b0-8f-e7-8c-aa-e5-86-b3-e5-ae-9a-e5-81-9a-e4-b8-80-e4-bb-b6-e5-b0-9d-e8-af-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/193.html">小猪决定做一件尝试</a>
-    </h1>
-  
-
-        
-        <a href="/193.html" class="archive-article-date">
-  	<time datetime="2013-06-24T02:59:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>每当早上因为其他事情被吵醒来的时候感觉自己都很清醒，感觉一点都不困了。</p>
-<p>但是每当因为是闹钟闹醒的时候就感觉累的不醒，闭上眼睛三秒就可以重新睡着。</p>
-<p>下次直接在被其他东西搞醒的时候起床是不是个好的选择呢。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/193.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e6-89-8b-e6-9c-ba-e5-ae-a2-e6-88-b7-e7-ab-af-e5-92-8c-e6-9c-8d-e5-8a-a1-e5-99-a8-e9-80-9a-e4-bf-a1-e6-97-b6-e5-a6-82-e4-bd-95-e5-ae-89-e5-85-a8-e9-ab-98-e6-95-88-e7-9a-84-e8-bf-9b-e8-a1-8c-e8-ba-ab" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/181.html">手机客户端和服务器通信时如何安全高效的进行身份验证</a>
-    </h1>
-  
-
-        
-        <a href="/181.html" class="archive-article-date">
-  	<time datetime="2013-06-13T13:07:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在网站开发过程中，要进行身份验证，大多数时候我们才用服务器端的session和客户端的cookie来进行。在用户登陆的过程中，服务器生成对应的session保存在服务器中，浏览器保存cookie记录用户信息，下次进行交互时直接使用两者来进行身份辨别。</p>
-<p>而在移动端对于一个已经登陆的用户来说，服务器如何进行身份识别呢？不考虑存在session或者cookie的情况。如果客户端每次请求都发送用户名密码，可能不太安全，同时服务器也必须每次都对其进行验证。这种方法很显然不可取。</p>
-<p>或者用户登陆后服务器生成一个token发给客户端，客户端每次请求携带用户id和token，服务器检验id和token是否对应从而进行身份认证，但这样似乎又不安全，只要知道id和token后就可以和服务器进行通信了。 </p>
-<p>还想到一点，方法同上，只是生成的token中记录用户信息以及失效时间，这样就不需要每次请求加上用户id了，服务器得到请求后检查token值并检查是否有效和是否过期，一切正常后返回请求。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/181.html">展开全文 >></a>
         </p>
       
 

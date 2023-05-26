@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>朱启的个人博客</title>
+  <title>JVM-垃圾回收 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="朱启的个人博客">
-<meta property="og:url" content="http://blog.smallerpig.com/page/24/index.html">
+  <meta name="description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
+<meta name="keywords" content="jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM-垃圾回收">
+<meta property="og:url" content="http://blog.smallerpig.com/rubbish-recover-of-jvm.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
+<meta property="og:description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-05-26T09:47:13.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
+<meta name="twitter:title" content="JVM-垃圾回收">
+<meta name="twitter:description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -159,901 +161,135 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-e8-ae-b0-e7-b4-a0-e8-b4-a8-e6-8b-93-e5-b1-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-JVM-垃圾回收" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/282.html">记素质拓展</a>
+    <h1 class="article-title" itemprop="name">
+      JVM-垃圾回收
     </h1>
   
 
         
-        <a href="/282.html" class="archive-article-date">
-  	<time datetime="2013-08-18T13:59:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-18</time>
+        <a href="/rubbish-recover-of-jvm.html" class="archive-article-date">
+  	<time datetime="2021-05-26T02:10:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> &nbsp; &nbsp;</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/46351376834394.jpg" alt title="WP_20130816_019.jpg"></p>
-<p>什么都阻挡不了加班到11点的节奏</p>
+        <p>本文整理常见的JVM垃圾回收算法和JVM参数</p>
+<a id="more"></a>
+<p><strong>垃圾回收算法</strong> :</p>
+<ul>
+<li>引用计数法: 会有循环引用的问题，古老的方法；</li>
+<li>Mark-Sweep: 标记清除。根可达判断，最大的问题是空间碎片(清除垃圾之后剩下不连续的内存空间)；</li>
+<li>Copying: 复制算法。对于短命对象来说有用，否则需要复制大量的对象，效率低。<strong>如Java的新生代堆空间中就是使用了它(survivor空间的from和to区)；</strong></li>
+<li>Mark-Compact: 标记整理。对于老年对象来说有用，无需复制，不会产生内存碎片</li>
+</ul>
+<p><strong>GC考虑的指标</strong></p>
+<ul>
+<li>吞吐量: 应用耗时和实际耗时的比值；</li>
+<li>停顿时间: 垃圾回收的时候，由于Stop the World，应用程序的所有线程会挂起，造成应用停顿。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">吞吐量和停顿时间是互斥的。</span><br><span class="line">对于后端服务(比如后台计算任务)，吞吐量优先考虑(并行垃圾回收)；</span><br><span class="line">对于前端应用，RT响应时间优先考虑，减少垃圾收集时的停顿时间，适用场景是Web系统(并发垃圾回收)</span><br></pre></td></tr></table></figure>
+<p><strong>回收器的JVM参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-XX:+UseSerialGC</td>
+<td>串行垃圾回收，现在基本很少使用。</td>
+</tr>
+<tr>
+<td>-XX:+UseParNewGC</td>
+<td>新生代使用并行，老年代使用串行；</td>
+</tr>
+<tr>
+<td>-XX:+UseConcMarkSweepGC</td>
+<td>新生代使用并行，老年代使用CMS(一般都是使用这种方式)，CMS是Concurrent Mark Sweep的缩写，并发标记清除，一看就是老年代的算法，所以，它可以作为老年代的垃圾回收器。CMS不是独占式的，它关注停顿时间</td>
+</tr>
+<tr>
+<td>-XX:ParallelGCThreads</td>
+<td>指定并行的垃圾回收线程的数量，最好等于CPU数量</td>
+</tr>
+<tr>
+<td>-XX:+DisableExplicitGC</td>
+<td>禁用System.gc()，因为它会触发Full GC，这是很浪费性能的，JVM会在需要GC的时候自己触发GC。</td>
+</tr>
+<tr>
+<td>-XX:CMSFullGCsBeforeCompaction</td>
+<td>在多少次GC后进行内存压缩，这个是因为并行收集器不对内存空间进行压缩的，所以运行一段时间后会产生很多碎片，使得运行效率降低。</td>
+</tr>
+<tr>
+<td>-XX:+CMSParallelRemarkEnabled</td>
+<td>降低标记停顿</td>
+</tr>
+<tr>
+<td>-XX:+UseCMSCompactAtFullCollection</td>
+<td>在每一次Full GC时对老年代区域碎片整理，因为CMS是不会移动内存的，因此会非常容易出现碎片导致内存不够用的</td>
+</tr>
+<tr>
+<td>-XX:+UseCmsInitiatingOccupancyOnly</td>
+<td>使用手动触发或者自定义触发cms 收集，同时也会禁止hostspot 自行触发CMS GC</td>
+</tr>
+<tr>
+<td>-XX:CMSInitiatingOccupancyFraction</td>
+<td>使用CMS作为垃圾回收，使用70%后开始CMS收集</td>
+</tr>
+<tr>
+<td>-XX:+CMSIncrementalMode</td>
+<td>设置为增量模式</td>
+</tr>
+<tr>
+<td>-XX:+CmsClassUnloadingEnabled</td>
+<td>CMS是不会默认对永久代进行垃圾回收的，设置此参数则是开启</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCDetails</td>
+<td>开启详细GC日志模式，日志的格式是和所使用的算法有关</td>
+</tr>
+<tr>
+<td>-XX:+PrintGCDateStamps</td>
+<td>将时间和日期也加入到GC日志中</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
 
       
 
       
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟/未分类//" class="article-tag-list-link color4">未分类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/282.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-操场边的人" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/279.html">操场边的人</a>
-    </h1>
-  
-
-        
-        <a href="/279.html" class="archive-article-date">
-  	<time datetime="2013-08-15T05:07:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些天养成了一个习惯，自从开始使用韩寒的“一个”之后发现每天抽一点时间来阅读一篇文章是件让人愉快的事情。“一个”吸引我的地方是他每天只推荐一篇文章。现在太多的应用信息量太大导致我有点疲劳，相反“一个”每天只有一篇文章，这反而使我每天定时的打开应用仔细的阅读他。</p>
-<p>这篇文章起源于今天推荐的关于跑步的文章。其中一段讲到了开始晨跑的原因，有那么一个人鼓励作者跑步，每次作者跑步的时候他总是拿着衣服在操场边上边走边等着他跑完。</p>
-<p>……</p>
-<p>我在大学的时候大二的时候学校由于迎接本科教育评估，硬是让已经耍了一年的我们大二学生起床做早操。每天早上我都需要像赶鸭子似的一个个宿舍敲门叫大家起来做早操，导致同学见到我就像是见了仇人。当评估结束了之后也就取消了做操的政策，但当时我作为班级里面位数不多的几个四级还没过的人不知道是从什么时候起决定早上6点起床跑步，背英语。</p>
-<p>自己一个人跑了一段时间之后有一个人出现在我的每天跑步的操场边上。</p>
-<p>我要考四级、她要考六级。</p>
-<p>我每天坚持跑几圈，她不跑，她只是在操场边上读她的英语。</p>
-<p>十一月份的天气早上六点多虽然太阳已经懒洋洋的升起来，但早上的风吹着却是很冷的，每次我跑完看着她冻的鼻子通红的时候我都会有种怜悯之心，衷心的祝福她能够顺利通过六级考试。</p>
-<p>某个早晨她告诉我，假期她要回家一次，所以早上她就不来了，我说嗯，你忙你的。</p>
-<p>直到那个短假期内的夜里我接到一个电话，电话的内容很短：“请你不要做伤害感情的事情！”我回答：“我没有做伤害感情的事”“那就好……”而背景里面隐约出现她的声音……</p>
-<p>挂完电话我躺床上楞了好久……</p>
-<p>躺在床上想我和她的事，他和她的事，整个过程。想我所做的一切是不是值得。</p>
-<p>后来早上跑步的时候操场边上就一直没有了她，可能是她已经不再早读了，或者他已经不需要早读了，或者她已经不需要我了。</p>
-<p>后来我听说那次她六级没过，再后来我六级过了她六级好像也没过，再后来就不知道她过没过了。</p>
-<p>很多年过去了，现在的她不知道是什么样子了，偶尔还能从她的QQ状态中了解她还是那么的乐观开朗，一切都是那么的平静。</p>
-<p>只是我有时候还是能够回忆起那点记忆，那短暂的记忆，一起吃麻辣烫，一起到旱冰场她不愿意穿鞋，她为我写了又删掉的日志。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/279.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp-net-mvc-fileresult-e4-bb-8b-e7-bb-8d" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/272.html">ASP.NET MVC FileResult介绍</a>
-    </h1>
-  
-
-        
-        <a href="/272.html" class="archive-article-date">
-  	<time datetime="2013-08-13T02:10:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在前一篇中，小猪向大家分享了在WebForm中<a href="http://www.smallerpig.com/archives/257" target="_blank" rel="noopener">使用Response.WriteFile()方法来向客户端提供指定文件的下载</a>。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。</p>
-<p>我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。<br><figure class="highlight plain"><figcaption><span>FileResult DownLoad\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    //Some code</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>FileResult 是一个抽象类，继承自 ActionResult。在 System.Web.Mvc.dll 中，它有如上三个子类，分别以不同的方式向客户端发送文件。</p>
-<p>在实际使用中我们通常不需要直接实例化一个 FileResult 的子类，因为 Controller 类已经提供了六个 File 方法来简化我们的操作：<br><figure class="highlight plain"><figcaption><span>internal FilePathResult File(string fileName, string contentType);</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected internal virtual FilePathResult File(string fileName, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileContentResult File(byte[] fileContents, string contentType);</span><br><span class="line">protected internal virtual FileContentResult File(byte[] fileContents, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileStreamResult File(Stream fileStream, string contentType);</span><br><span class="line">protected internal virtual FileStreamResult File(Stream fileStream, string contentType, string fileDownloadName);</span><br></pre></td></tr></table></figure></p>
-<p><strong>1.最简单的方法</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>第一个参数指定文件路径，第二个参数指定文件的 MIME 类型。</p>
-<p>用户点击浏览器上的下载链接后，会调出下载窗口。</p>
-<p>大家应该注意到，文件名称会变成 Download1.zip，默认成了 Action 的名字。我们使用 File 方法的第二个重载来解决文件名的问题：</p>
-<p><strong>2.为文件指定默认下载名</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload2\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    return File(&quot;F:\小小猪.zip&quot;, &quot;application/x-zip-compressed&quot;, &quot;crane.zip&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ActionResult FilePathDownload3\(\)</span><br><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们可以通过给 fileDownloadName 参数传值来指定文件名，fileDownloadName 不必和磁盘上的文件名一样。下载提示窗口还是默认为了 Action 的名字。原因是 fileDownloadName 将作为 URL 的一部分，只能包含 ASCII 码。我们把 FilePathDownload3 改进一下：</p>
-<p><strong>3. 对 fileDownloadName 进行 Url 编码</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload4\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, Url.Encode(name));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>好了，没问题了。上面代码中 Url.Encode(…)，也可使用 HttpUtility.UrlEncode(…)，前者在内部调用后者。</p>
-<p>我们再来看 FileContentResult.</p>
-<p><strong>4.FileContentResult</strong></p>
-<p>FileContentResult 可以直接将 byte[] 以文件形式发送至浏览器（而不用创建临时文件）。参考代码如下：<br><figure class="highlight plain"><figcaption><span>ActionResult FileContentDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    byte[] data = Encoding.UTF8.GetBytes(&quot;欢迎访问 小小猪 的博客 www.smallerpig.com&quot;);</span><br><span class="line">    return File(data, &quot;text/plain&quot;, &quot;welcome.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>点击后下载链接后，弹出提示窗口是否下载“welcome.txt”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/272.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-sql-server-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8b-e8-af-a6-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/258.html">SQL SERVER 数据类型详解</a>
-    </h1>
-  
-
-        
-        <a href="/258.html" class="archive-article-date">
-  	<time datetime="2013-08-12T08:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>bit &nbsp; &nbsp;整型<br>bit数据类型是整型，其值只能是0、1或空值。这种数据类型用于存储只有两种可能值的数据，如Yes 或No、True 或False 、On 或Off. &nbsp;<br>注意：很省空间的一种数据类型，如果能够满足需求应该尽量多用。</p>
-<p>tinyint &nbsp; 整型<br>tinyint 数据类型能存储从0到255 之间的整数。它在你只打算存储有限数目的数值时很有用。这种数据类型在数据库中占用1 个字节.<br>注意：如果bit类型太单调不能满足您的需求，您可以考虑用tinyint类型，因为这个类型相对也是比较安全的，不接受恶意脚本内容的嵌入。</p>
-<p>smallint &nbsp; &nbsp; 整型 &nbsp;<br>smallint 数据类型可以存储从- 2的15次幂(-32768)到2的15次幂(32767)之间的整数。这种数据类型对存储一些常限定在特定范围内的数值型数据非常有用。这种数据类型在数据库里占用2 字节空间.<br>注意：如果tinyint类型太单调不能满足您的需求，您可以考虑用smallint类型，因为这个类型相对也是比较安全的，不接受恶意脚本内容的嵌入。 </p>
-<p>int &nbsp; &nbsp;整型<br>int 数据类型可以存储从- 2的31次幂(-2147483648)到2的31次幂 (2147483 647)之间的整数。存储到数据库的几乎所有数值型的数据都可以用这种数据类型。这种数据类型在数据库里占用4个字节. </p>
-<p>注意：如果smallint也不能够满足您的需求，您可以考虑用长度更大的int类型。</p>
-<p>decimal &nbsp; 精确数值型<br>decimal 数据类型能用来存储从-10的38次幂-1到10的38次幂-1的固定精度和范围的数值型数据。使用这种数据类型时，必须指定范围和精度。 范围是小数点左右所能存储的数字的总位数。精度是小数点右边存储的数字的位数</p>
-<p>numeric &nbsp; 精确数值型<br>numeric数据类型与decimal 相似。</p>
-<p>smallmoney &nbsp; &nbsp;货币型<br>smallmoney 数据类型用来表示钱和货币值。这种数据类型能存储从-214748.3648 到214748.3647 之间的数据，精确到货币单位的万分之一<br>money &nbsp; 货币型<br>money数据类型用来表示钱和货币值。这种数据类型能存储从-9220亿到9220 亿之间的数据，精确到货币单位的万分之一 &nbsp;</p>
-<p>float &nbsp; &nbsp;近似数值型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>float 数据类型是一种近似数值类型，供浮点数使用。说浮点数是近似的，是因为在其范围内不是所有的数都能精确表示。浮点数可以是从-1.79E+308到1.79E+308 之间的任意数 </p>
-<p>real &nbsp; &nbsp; 近似数值型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>real 数据类型像浮点数一样，是近似数值类型。它可以表示数值在-3.40E+38到3.40E+38之间的浮点数<br>Smalldatetime &nbsp; 日期时间型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>smalldatetime 数据类型用来表示从1900年1月1日到2079年6月6日间的日期和时间，精确到一分钟 &nbsp;</p>
-<p>datetime &nbsp; 日期时间型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>datetime数据类型用来表示日期和时间。这种数据类型存储从1753年1月1日到9999年12月31日间所有的日期和时间数据， 精确到三百分之一秒或3.33毫秒 . </p>
-<p>cursor &nbsp; &nbsp;特殊数据型<br>cursor 数据类型是一种特殊的数据类型，它包含一个对游标的引用。这种数据类型用在存储过程中，而且创建表时不能用 </p>
-<p>timestamp &nbsp; 特殊数据型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>timestamp 数据类型是一种特殊的数据类型，用来创建一个数据库范围内的唯一数码。 一个表中只能有一个timestamp列。每次插入或修改一行时，timestamp列的值都会改变。尽管它的名字中有“time”， 但timestamp列不是人们可识别的日期。在一个数据库里，timestamp值是唯一的 &nbsp;</p>
-<p>Uniqueidentifier &nbsp; &nbsp;特殊数据型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>Uniqueidentifier数据类型用来存储一个全局唯一标识符，即GUID。GUID确实是全局唯一的。这个数几乎没有机会在另一个系统中被重建。可以使用NEWID 函数或转换一个字符串为唯一<br>标识符来初始化具有唯一标识符的列 .</p>
-<p>char &nbsp; &nbsp;字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>char数据类型用来存储指定长度的定长非统一编码型的数据。当定义一列为此类型时，你必须指定列长。当你总能知道要存储的数据的长度时，此数据类型很有用。例如，当你按邮政编码加4个字符格式来存储数据时，你知道总要用到10个字符。此数据类型的列宽最大为8000 个字符.</p>
-<p>varchar &nbsp; 字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; varchar数据类型，同char类型一样，用来存储非统一编码型字符数据。与char 型不一样，此数据类型为变长。当定义一列为该数据类型时，你要指定该列的最大长度。 它与char数据类型最大的区别是，存储的长度不是列长，而是数据的长度 &nbsp; .</p>
-<p>text &nbsp; &nbsp;字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>text 数据类型用来存储大量的非统一编码型字符数据。这种数据类型最多可以有231-1或20亿个字符.</p>
-<p>nchar &nbsp; &nbsp;统一编码字符型 &nbsp;<br>nchar 数据类型用来存储定长统一编码字符型数据。统一编码用双字节结构来存储每个字符，而不是用单字节(普通文本中的情况)。它允许大量的扩展字符。此数据类型能存储4000种字符，使用的字节空间上增加了一倍.</p>
-<p>nvarchar &nbsp; &nbsp;统一编码字符型 &nbsp; &nbsp;<br>nvarchar 数据类型用作变长的统一编码字符型数据。此数据类型能存储4000种字符，使用的字节空间增加了一倍.</p>
-<p><span style="color:#FF0000;">使用VARCHAR，CHAR每个汉字是占2位但NVARCHAR是Unicode字符一个汉字只占1位！所以NVARCHAR(10)应该可以存10个汉字</span></p>
-<p>ntext &nbsp; &nbsp;统一编码字符型 &nbsp; &nbsp;<br>ntext 数据类型用来存储大量的统一编码字符型数据。这种数据类型能存储230 -1或将近10亿个字符，且使用的字节空间增加了一倍</p>
-<p>binary &nbsp; &nbsp;二进制数据类型 &nbsp;<br>binary数据类型用来存储可达8000 字节长的定长的二进制数据。当输入表的内容接近相同的长度时，你应该使用这种数据类型.</p>
-<p>varbinary &nbsp; &nbsp; 二进制数据类型 &nbsp;<br>varbinary 数据类型用来存储可达8000 字节长的变长的二进制数据。当输入表的内容大小可变时，你应该使用这种数据类型 &nbsp;</p>
-<p>image &nbsp; &nbsp;二进制数据类型 &nbsp; &nbsp;<br>image 数据类型用来存储变长的二进制数据，最大可达231-1或大约20亿字节 &nbsp;</p>
-<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>(1)二进制数据类型<br>　　二进制数据包括 Binary、Varbinary 和 Image<br>　　Binary 数据类型既可以是固定长度的(Binary),也可以是变长度的。<br>　　Binary[(n)] 是 n 位固定的二进制数据。其中，n 的取值范围是从 1 到 8000。其存储窨的大小是 n + 4 个字节。<br>　　Varbinary[(n)] 是 n 位变长度的二进制数据。其中，n 的取值范围是从 1 到 8000。其存储窨的大小是 n + 4个字节，不是n 个字节。<br>　　在 Image 数据类型中存储的数据是以位字符串存储的，不是由 SQL Server 解释的，必须由应用程序来解释。例如，应用程序可以使用BMP、TIEF、GIF 和 JPEG 格式把数据存储在 Image 数据类型中。 </p>
-<p>(2)字符数据类型 </p>
-<p>　　字符数据的类型包括 Char，Varchar 和 Text<br>　　字符数据是由任何字母、符号和数字任意组合而成的数据。<br>　　Varchar 是变长字符数据，其长度不超过 8KB。Char 是定长字符数据，其长度最多为 8KB。超过 8KB 的ASCII 数据可以使用Text数据类型存储。例如，因为 Html 文档全部都是 ASCII 字符，并且在一般情况下长度超过 8KB，所以这些文档可以 Text 数据类型存储在SQL Server 中。 </p>
-<p>(3)Unicode 数据类型 </p>
-<p>　　Unicode 数据类型包括 Nchar,Nvarchar 和Ntext<br>　　在 Microsoft SQL Server 中，传统的非 Unicode 数据类型允许使用由特定字符集定义的字符。在 SQL Server安装过程中，允许选择一种字符集。使用 Unicode 数据类型，列中可以存储任何由Unicode 标准定义的字符。在 Unicode 标准中，包括了以各种字符集定义的全部字符。使用Unicode数据类型，所战胜的窨是使用非 Unicode 数据类型所占用的窨大小的两倍。<br>　　在 SQL Server 中，Unicode 数据以 Nchar、Nvarchar 和 Ntext 数据类型存储。使用这种字符类型存储的列可以存储多个字符集中的字符。当列的长度变化时，应该使用Nvarchar 字符类型，这时最多可以存储 4000 个字符。当列的长度固定不变时，应该使用 Nchar 字符类型，同样，这时最多可以存储4000 个字符。当使用 Ntext 数据类型时，该列可以存储多于 4000 个字符。 </p>
-<p>(4)日期和时间数据类型 </p>
-<p>　　日期和时间数据类型包括 Datetime 和 Smalldatetime两种类型<br>　　日期和时间数据类型由有效的日期和时间组成。例如，有效的日期和时间数据包括“4/01/98 12:15:00:00:00 PM”和“1:28:29:15:01AM 8/17/98”。前一个数据类型是日期在前，时间在后一个数据类型是霎时间在前，日期在后。在 Microsoft SQL Server中，日期和时间数据类型包括Datetime 和 Smalldatetime 两种类型时，所存储的日期范围是从 1753 年 1 月 1 日开始，到9999 年12 月 31 日结束(每一个值要求 8 个存储字节)。使用 Smalldatetime 数据类型时，所存储的日期范围是 1900年 1 月 1日 开始，到 2079 年 12 月 31 日结束(每一个值要求 4 个存储字节)。<br>　　日期的格式可以设定。设置日期格式的命令如下：<br>　　Set DateFormat {format | @format _var|<br>　　其中，format | @format_var 是日期的顺序。有效的参数包括 MDY、DMY、YMD、YDM、MYD 和 DYM。在默认情况下，日期格式为MDY。<br>　　例如，当执行 Set DateFormat YMD 之后，日期的格式为年 月 日 形式；当执行 Set DateFormat DMY 之后，日期的格式为日 月有年 形式 </p>
-<p>（5）数字数据类型 </p>
-<p>　　数字数据只包含数字。数字数据类型包括正数和负数、小数（浮点数）和整数<br>　　整数由正整数和负整数组成，例如 39、25、0-2 和 33967。在 Micrsoft SQL Server 中，整数存储的数据类型是 　　 Int，Smallint和 Tinyint。Int 数据类型存储数据的范围大于 Smallint 数据类型存储数据的范围，而 Smallint 据类型存储数据的范围大于Tinyint 数据类型存储数据的范围。使用 Int 数据狗昔存储数据的范围是从 -2 147 483 648 到 2 147 483 647（每一个值要求4个字节存储空间）。使用 Smallint 数据类型时，存储数据的范围从 -32 768 到 32 767（每一个值要求2个字节存储空间）。使用Tinyint 数据类型时，存储数据的范围是从0 到255（每一个值要求1个字节存储空间）。<br>　　精确小娄数据在 SQL Server 中的数据类型是 Decimal 和 Numeric。这种数据所占的存储空间根据该数据的位数后的位数来确定。<br>　　在SQL Server 中，近似小数数据的数据类型是 Float 和 Real。例如，三分之一这个分数记作。3333333，当使用近似数据类型时能准确表示。因此，从系统中检索到的数据可能与存储在该列中数据不完全一样。 </p>
-<p>（6）货币数据表示正的或者负的货币数量 。 </p>
-<p>　　在 Microsoft SQL Server 中，货币数据的数据类型是Money 和 Smallmoney<br>　　Money数据类型要求 8 个存储字节，Smallmoney 数据类型要求 4 个存储字节。 </p>
-<p>（7）特殊数据类型 </p>
-<p>　　特殊数据类型包括前面没有提过的数据类型。特殊的数据类型有3种，即 　　 Timestamp、Bit 和 Uniqueidentifier。<br>　　Timestamp 用于表示SQL Server 活动的先后顺序，以二进投影的格式表示。Timestamp 数据与插入数据或者日期和时间没有关系。<br>　　Bit 由 1 或者 0 组成。当表示真或者假、ON 或者 OFF 时，使用 Bit 数据类型。例如，询问是否是每一次访问的客户机请求可以存储在这种数据类型的列中。<br>　　Uniqueidentifier 由 16 字节的十六进制数字组成，表示一个全局唯一的。当表的记录行要求唯一时，GUID是非常有用。例如，在客户标识号列使用这种数据类型可以区别不同的客户。 </p>
-<p>2.用户定义的数据类型 </p>
-<p>　　用户定义的数据类型基于在 Microsoft SQL Server 中提供的数据类型。当几个表中必须存储同一种数据类型时，并且为保证这些列有相同的数据类型、长度和可空性时，可以使用用户定义的数据类型。例如，可定义一种称为 　　postal_code 的数据类型，它基于 Char 数据类型。<br>　　当创建用户定义的数据类型时，必须提供三个数：数据类型的名称、所基于的系统数据类型和数据类型的可空性。 </p>
-<p>（1）创建用户定义的数据类型 </p>
-<p>　　创建用户定义的数据类型可以使用 Transact-SQL 语句。系统存储过程 sp_addtype 可以来创建用户定义的数据类型。其语法形式如下：<br>　　sp_addtype {type},[,system_data_bype][,&#39;null_type&#39;]<br>　　其中，type 是用户定义的数据类型的名称。system_data_type 是系统提供的数据类型，例如 Decimal、Int、Char 　　等等。 null_type 表示该数据类型是如何处理空值的，必须使用单引号引起来，例如&#39;NULL&#39;、&#39;NOT NULL&#39;或者&#39;NONULL&#39;。<br>　　例子：<br>　　Use cust<br>　　Exec sp_addtype ssn,&#39;Varchar(11)&#39;,&quot;Not Null&#39;<br>　　创建一个用户定义的数据类型 ssn，其基于的系统数据类型是变长为11 的字符，不允许空。<br>　　例子：<br>　　Use cust<br>　　Exec sp_addtype birthday,datetime,&#39;Null&#39;<br>　　创建一个用户定义的数据类型 birthday，其基于的系统数据类型是 DateTime，允许空。<br>　　例子：<br>　　Use master<br>　　Exec sp_addtype telephone,&#39;varchar(24),&#39;Not Null&#39;<br>　　Eexc sp_addtype fax,&#39;varchar(24)&#39;,&#39;Null&#39;<br>　　创建两个数据类型，即 telephone 和 fax </p>
-<p>（2）删除用户定义的数据类型 </p>
-<p>　　当用户定义的数据类型不需要时，可删除。删除用户定义的数据类型的命令是 sp_droptype {&#39;type&#39;}。<br>　　例子：<br>　　Use master<br>　　Exec sp_droptype &#39;ssn&#39;<br>　　注意：当表中的列还正在使用用户定义的数据类型时，或者在其上面还绑定有默认或者规则时，这种用户定义的数据类型不能删除。 </p>
-<p>SQL SERVER的字段类型说明 </p>
-<p>　　以下为SQL SERVER7.0以上版本的字段类型说明。SQL SERVER6.5的字段类型说明请参考SQL SERVER提供的说明。</p>
-<p>字段类型 描述<br>bit &nbsp; 0或1的整型数字<br>int &nbsp; 从-2^31(-2,147,483,648)到2^31(2,147,483,647)的整型数字<br>smallint &nbsp; 从-2^15(-32,768)到2^15(32,767)的整型数字<br>tinyint &nbsp; 从0到255的整型数字<br> &nbsp; &nbsp;<br>decimal &nbsp; 从-10^38到10^38-1的定精度与有效位数的数字<br>numeric &nbsp; decimal的同义词<br> &nbsp; &nbsp;<br>money &nbsp; 从-2^63(-922,337,203,685,477.5808)到2^63-1(922,337,203,685,477.5807)的货币数据，最小货币单位千分之十<br>smallmoney &nbsp; 从-214,748.3648到214,748.3647的货币数据，最小货币单位千分之十<br> &nbsp; &nbsp;<br>float &nbsp; 从-1.79E+308到1.79E+308可变精度的数字<br>real &nbsp; 从-3.04E+38到3.04E+38可变精度的数字<br> &nbsp; &nbsp;<br>datetime &nbsp; 从1753年1月1日到9999年12日31的日期和时间数据，最小时间单位为百分之三秒或3.33毫秒<br>smalldatetime &nbsp; 从1900年1月1日到2079年6月6日的日期和时间数据，最小时间单位为分钟<br> &nbsp; &nbsp;<br>timestamp &nbsp; 时间戳，一个数据库宽度的唯一数字<br>uniqueidentifier &nbsp; 全球唯一标识符GUID<br> &nbsp; &nbsp;<br>char &nbsp; 定长非Unicode的字符型数据，最大长度为8000<br>varchar &nbsp; 变长非Unicode的字符型数据，最大长度为8000<br>text &nbsp; 变长非Unicode的字符型数据，最大长度为2^31-1(2G)<br> &nbsp; &nbsp;<br>nchar &nbsp; 定长Unicode的字符型数据，最大长度为8000<br>nvarchar &nbsp; 变长Unicode的字符型数据，最大长度为8000<br>ntext &nbsp; 变长Unicode的字符型数据，最大长度为2^31-1(2G)<br> &nbsp; &nbsp;<br>binary &nbsp; 定长二进制数据，最大长度为8000<br>varbinary &nbsp; 变长二进制数据，最大长度为8000<br>image &nbsp; 变长二进制数据，最大长度为2^31-1(2G) </p>
-<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>Bit<br> &nbsp; &nbsp; 1位，值为0或1<br> &nbsp; &nbsp; Int<br> &nbsp; &nbsp; Integer<br> &nbsp; &nbsp; 4字节，值为-2^31~2^31-1<br> &nbsp; &nbsp; Smallint<br> &nbsp; &nbsp; 2字节，值为-2^15~2^15-1<br> &nbsp; &nbsp; Tinyint<br> &nbsp; &nbsp; 1字节，值为0~255<br> &nbsp; &nbsp; Decimal (p,s)<br> &nbsp; &nbsp; 数字数据，固定精度为P，宽度为S<br> &nbsp; &nbsp; Numeric<br> &nbsp; &nbsp; Money<br> &nbsp; &nbsp; 8字节，存放货币类型，值为-2^63~2^63-1<br> &nbsp; &nbsp; Small money<br> &nbsp; &nbsp; 4字节，存放货币类型，值为-214748.3648~+214748.3647近似数值数据类型<br> &nbsp; &nbsp; Float (n)<br> &nbsp; &nbsp; N在1~24之间，4字节，7位精度<br> &nbsp; &nbsp; N=1~7为real<br> &nbsp; &nbsp; N在25~53之间，8字节，15位精度<br> &nbsp; &nbsp; =8~15为float<br>Datetime<br> &nbsp; &nbsp; 8字节，描述某天的日期和时刻，值的精确度为1/300秒<br> &nbsp; &nbsp; Smalldatetime<br> &nbsp; &nbsp; 4字节，描述某天的日期和时刻，精度为分钟<br> &nbsp; &nbsp; Cursor &nbsp;<br> &nbsp; &nbsp; 对游标的引用<br> &nbsp; &nbsp; Timestamp<br> &nbsp; &nbsp; 8字节，存放在数据库内唯一的数据<br> &nbsp; &nbsp; Uniqueidentifier<br> &nbsp; &nbsp; 16字节，存放全局唯一标识（GUID）<br> &nbsp; &nbsp; Char (n)<br> &nbsp; &nbsp; 非unicode字符串的固定长度，n=1~8000<br> &nbsp; &nbsp; Character (n)<br>Varchar (n)<br> &nbsp; &nbsp; 可变长度，非unicode字符串n=1~8000<br> &nbsp; &nbsp; Char varying(n)<br>Text<br> &nbsp; &nbsp; 服务器代码页中可变长度非unicode数据。最大长度为231-1个字符<br> &nbsp; &nbsp; Nchar<br> &nbsp; &nbsp; 固定长度unicode字符串n=1~4000<br> &nbsp; &nbsp; National character (n),<br> &nbsp; &nbsp; National char(n)<br>Nvarchar<br> &nbsp; &nbsp; 固定长度unicode字符串n=1~4000<br> &nbsp; &nbsp; National character varying(n)<br>Ntext<br> &nbsp; &nbsp; 可变长度unicode数据，最大长度为230-1个字符<br> &nbsp; &nbsp; National text<br>Binary (n)<br> &nbsp; &nbsp; 固定长度二进制数据，n在1~8000之间，存储空间为n+4字节<br> &nbsp; &nbsp; Varbinary (n)<br> &nbsp; &nbsp; 可变长度二进制数据，n=1~8000<br> &nbsp; &nbsp; Binary varying (n)<br>Tmage<br> &nbsp; &nbsp; 可变长度二进制数据，大小为0~231-1<br> &nbsp; &nbsp; 注意：<br> &nbsp; &nbsp; 1） 对于数值型数据类型，宽度（scale）是指存储在小数点后的数字位数，而精度（precision）是指能存储的包含小数点在内的所有数字位数。<br> &nbsp; &nbsp; 2） money和small money的存储宽度为4。<br> &nbsp; &nbsp; 3） 时间戳列值在每一行更新时系统自动更新，时间戳列不能是关键字或关键字的一部分。<br> &nbsp; &nbsp; 4） 唯一标识数据类型不能使用算术操作符（如+、-等），这种数据类型只能使用相等比较操作。Unicode是所有字符集的一致存储数据的标准。它要使用两倍于非Unicode数据存储的存储空间。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/258.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp-net-e4-bd-bf-e7-94-a8response-writefile-e6-96-b9-e6-b3-95-e4-b8-8b-e8-bd-bd-e6-96-87-e4-bb-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/257.html">ASP.NET 使用Response.WriteFile方法下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/257.html" class="archive-article-date">
-  	<time datetime="2013-08-12T07:59:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在IIS中，直接在浏览器中输入文件的路径可实现文件的下载，但是这个方法不方便控制用户的权限，所以小猪使用了下列方法来输出文件流。取代了直接下载文件。</p>
-<p>这样就可以在下载文件之前验证用户的信息等等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">string path = Server.MapPath(&quot;~/小猪测试.doc&quot;);//文件的路径</span><br><span class="line"></span><br><span class="line">System.IO.FileInfo file = new System.IO.FileInfo(path);</span><br><span class="line"></span><br><span class="line">Response.Clear\(\);</span><br><span class="line"></span><br><span class="line">Response.Charset = &quot;utf-8&quot;;//设置输出的编码</span><br><span class="line"></span><br><span class="line">Response.ContentEncoding = System.Text.Encoding.UTF8;</span><br><span class="line"></span><br><span class="line">// 添加头信息，为&quot;文件下载/另存为&quot;对话框指定默认文件名   </span><br><span class="line"></span><br><span class="line">Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + Server.UrlEncode(file.Name));</span><br><span class="line"></span><br><span class="line">// 添加头信息，指定文件大小，让浏览器能够显示下载进度   </span><br><span class="line"></span><br><span class="line">Response.AddHeader(&quot;Content-Length&quot;, file.Length.ToString\(\));</span><br><span class="line"></span><br><span class="line">// 指定返回的是一个不能被客户端读取的流，必须被下载   </span><br><span class="line"></span><br><span class="line">Response.ContentType = &quot;application/msword&quot;;</span><br><span class="line"></span><br><span class="line">// 把文件流发送到客户端   </span><br><span class="line"></span><br><span class="line">Response.WriteFile(file.FullName);</span><br><span class="line"></span><br><span class="line">Response.End\(\);</span><br></pre></td></tr></table></figure>
-<p>重要说明：当您在 ASP.NET 应用程序的 Web.config 文件中将编译元素的 debug 属性值设置为 false 时，必须针对要下载的文件大小将 server.scripttimeout 属性设置为适当的值。默认情况下，server.scripttimeout 值被设置为 90 秒。但是，当 debug 属性被设置为 true 时，server.scripttimeout 值将被设置为一个非常大的值（30,000,000 秒）</p>
-<p>本篇向大家介绍的主要是WebForm下面的文件下载，在ASP.NET MVC 项目下则可以更加方便的方法使用相同的功能。</p>
-<p>具体请参考：<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="noopener">ASP.NET MVC FileResult介绍</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/257.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-b0-8f-e7-8c-aa-e7-9a-84-e5-8e-8b-e5-8a-9b" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/255.html">小猪的压力</a>
-    </h1>
-  
-
-        
-        <a href="/255.html" class="archive-article-date">
-  	<time datetime="2013-08-10T07:33:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>其实小猪也有很多压力。</p>
-<p>灰常大的压力</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/255.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-b7-a5-e4-bd-9c-e6-95-88-e7-8e-87" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/253.html">工作效率</a>
-    </h1>
-  
-
-        
-        <a href="/253.html" class="archive-article-date">
-  	<time datetime="2013-08-08T05:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪的工作时间算起来也差不多一年了</p>
-<p>去年6月的时候开始进入核心科技，真正做事的差不多是从9月的那次变动。那段时间由于刚开始接触真正的项目，所以每天的时间巴不得扳两半来花，很多东西因为没人交流的缘故可能只需要1个小时的东西我要琢磨两天才能搞定。</p>
-<p>过程中逐渐的发现工作的效率是多么重要。</p>
-<p>每天工作时间就是8个小时，8 个小时里面真正能够投入工作的差不多只有5个小时，中间总是会点开QQ看看群里在说什么。看看论坛里有什么新帖，等等。也就是现在很少能静下浮躁的心来学习“一段”时间了。</p>
-<p>小猪在想怎么来通过时间措施来提高自己的工作效率：</p>
-<p>1：撸代码时不开QQ。</p>
-<p>2：工作时间尽量少逛论坛。</p>
-<p>3：早上来杯咖啡精神一上午，午间爬上半小时活力多</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/253.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-e4-bd-bf-e7-94-a8sharpziplib-e7-bc-96-e8-be-91zip-e5-8c-85-e4-b8-ad-e5-86-85-e5-ae-b9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/246.html">C#使用SharpZipLib编辑zip包中内容</a>
-    </h1>
-  
-
-        
-        <a href="/246.html" class="archive-article-date">
-  	<time datetime="2013-08-07T05:53:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪最近在使用SharpZipLib进行zip包的操作，编写了下列测试代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;---------------------Zip包中的文件并解压测试-------------------------&quot;);</span><br><span class="line">    string content;</span><br><span class="line"></span><br><span class="line">    string filename = @&quot;E:wamp.zip&quot;;//需要测试的zip包地址</span><br><span class="line">    string searchname = @&quot;Web.config&quot;;</span><br><span class="line">    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))</span><br><span class="line">    using (ZipFile zf = new ZipFile(fs))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;开始查找：&quot; + searchname + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        Console.WriteLine(&quot;Zip包大小:&quot; + fs.Length);</span><br><span class="line">        var ze = zf.GetEntry(searchname);</span><br><span class="line">        if (ze == null)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;文件长度：&quot; + ze.Size);</span><br><span class="line">            Console.WriteLine(&quot;开始修改：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">            using (Stream s = zf.GetInputStream(ze))</span><br><span class="line">            &#123;</span><br><span class="line">                StreamReader inputReader = new StreamReader(s);</span><br><span class="line">                content = inputReader.ReadToEnd\(\);</span><br><span class="line">                content += &quot;nthis is SmallerPig Test 测试下中文&quot;;//在原流中增加字符串</span><br><span class="line">            &#125;</span><br><span class="line">            zf.BeginUpdate\(\);</span><br><span class="line">            zf.Add(new StateDataSource(content), searchname);</span><br><span class="line">            zf.CommitUpdate\(\);</span><br><span class="line">            Console.WriteLine(&quot;结束：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StateDataSource:IStaticDataSource//自定义实现IStaticDataSource接口的类</span><br><span class="line">&#123;</span><br><span class="line">    string source;</span><br><span class="line"></span><br><span class="line">    public StateDataSource(string source)</span><br><span class="line">    &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Stream GetSource\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        byte[] array = Encoding.ASCII.GetBytes(source);</span><br><span class="line">        MemoryStream stream = new MemoryStream(array);</span><br><span class="line">        return stream;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>由测试结果知道：编辑一个zip中文件所需时间主要是由zip的大小来决定的，整个提交过程需要重新打包。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/246.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-e5-ad-97-e7-ac-a6-e4-b8-b2-e7-bc-96-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/241.html">C#字符串编码</a>
-    </h1>
-  
-
-        
-        <a href="/241.html" class="archive-article-date">
-  	<time datetime="2013-08-06T04:04:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在之前的使用习惯中，我们需要对URL Encode的时候通常只是调用系统的静态方法进行Encode下就可以了。今天大强问了个问题把我楞住了：你的Encode是使用什么编码？</p>
-<p>所以小猪有了下面的测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        string a = &quot;Glory is fleeting, but obscurity is forever&quot;;</span><br><span class="line">        string b = UrlEncode(a);</span><br><span class="line">        Console.WriteLine(b);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static string UrlEncode(string str)</span><br><span class="line">    &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder\(\);</span><br><span class="line">        byte[] byStr = System.Text.Encoding.Unicode.GetBytes(str); //默认是System.Text.Encoding.Default.GetBytes(str)</span><br><span class="line">        for (int i = 0; i &amp;lt; byStr.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sb.Append(@&quot;%&quot; + Convert.ToString(byStr[i], 16));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return (sb.ToString\(\));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/241.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-9c-a8asp-net-e4-b8-ad-e5-90-af-e5-8a-a8sql-server-e7-bc-93-e5-ad-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/235.html">在ASP.NET中启动SQL SERVER缓存</a>
-    </h1>
-  
-
-        
-        <a href="/235.html" class="archive-article-date">
-  	<time datetime="2013-07-31T08:25:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在小猪的一次面试中，面试官问过这样的问题，在我们打开网站的时候我们需要向数据库取数据，大家是每次都去取呢还是通过什么方法呢？</p>
-<p>当时小猪虽然知道可以通过缓存来减少不必要的数据库访问次数，但是却并不知道怎么来完成这样的功能。这样一段时间之内一直纠结于怎么搞他呢？</p>
-<p>这段时间小猪比较清闲，有了很多时间思考之前没时间思考的东西，所以好好的把数据库缓存这块的知识整理整理。</p>
-<p>好吧，下面进入正题。要想使用SQL SERVER 自带的缓存功能需要以下步骤：</p>
-<p>1. sqlserver中使用语句启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
-<p>如果启用失败或者很长时间一直在执行请执行以下语句，然后秒了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET NEW_BROKER WITH ROLLBACK IMMEDIATE;</span><br><span class="line"></span><br><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
-<p>2. 检查数据库是否启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT is_broker_enabled FROM sys.databases WHERE name = &apos;TestDB&apos;</span><br></pre></td></tr></table></figure></p>
-<p>(1为已启用,0为未启用)</p>
-<p>3. 配置WebConfig</p>
-<p>配置<connectionstrings><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;connectionStrings&gt;</span><br><span class="line">&lt;add name=&quot;conStr&quot; connectionString=&quot;Data Source=.;Initial Catalog=TestDB;Persist Security Info=True;User ID=sa;Password=sa&quot; providerName=&quot;System.Data.SqlClient&quot;/&gt;</span><br><span class="line">&lt;/connectionStrings&gt;</span><br></pre></td></tr></table></figure></connectionstrings></p>
-<p>&lt;system.web&gt; &nbsp; 节点下配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;caching&gt;</span><br><span class="line">    &lt;sqlCacheDependency enabled=&quot;true&quot; pollTime=&quot;1000&quot;&gt;</span><br><span class="line">        &lt;databases&gt;&lt;add name=&quot;TestDB&quot; connectionStringName=&quot;conStr&quot;/&gt;</span><br><span class="line">        &lt;/databases&gt;</span><br><span class="line">    &lt;/sqlCacheDependency&gt;</span><br><span class="line">&lt;/caching&gt;</span><br></pre></td></tr></table></figure></p>
-<p>ps:Ok，下面上示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">//定义连接字符串</span><br><span class="line">string conStr = System.Configuration.ConfigurationManager.ConnectionStrings[&quot;conStr&quot;].ConnectionString;</span><br><span class="line"></span><br><span class="line">protected void Page_Load(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    if (!IsPostBack)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        SqlDependency.Start(conStr);//启动监听服务，ps：只需启动一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableNotifications(conStr);//设置通知的数据库连接，ps：只需设置一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableTableForNotifications(constr, &quot;dbo.TableA&quot;);//设置通知的数据库连接和表，ps：只需设置一次</span><br><span class="line">        string sql = &quot;select Name from dbo.TableA&quot;;</span><br><span class="line">        SqlConnection con = new SqlConnection(conStr);</span><br><span class="line">        SqlCommand cmd = new SqlCommand(sql, con);</span><br><span class="line">        SqlDataAdapter adapter = new SqlDataAdapter(cmd);</span><br><span class="line"></span><br><span class="line">        DataSet ds = new DataSet\(\);</span><br><span class="line">        adapter.Fill(ds, &quot;cache&quot;);</span><br><span class="line"></span><br><span class="line">        System.Web.Caching.SqlCacheDependency cd = new System.Web.Caching.SqlCacheDependency(&quot;TestDB&quot;, &quot;dbo.TableA&quot;);//建立关联</span><br><span class="line">        Cache.Insert(&quot;cache&quot;, ds, cd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样初始化后，更新数据库TestDB中表dbo.TableA后，缓存Cache[&quot;cache&quot;]会失效。</p>
-<p>另外，在其他地方我们可以这样用，一个字：方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;Role&gt; list = this.Cache[&quot;data&quot;] as List&lt;Role&gt;;</span><br><span class="line">if (list != null) &#123; return list; &#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    list = GetList\(\);//此方法是从数据库读取数据，代码就不予展示了</span><br><span class="line">    System.Web.Caching.SqlCacheDependency scd = new SqlCacheDependency(&quot;flag&quot;, &quot;T_ERP_Role&quot;);//创建数据库依赖 第一个参数是web.config配置文件中databases节点下的Name值，第二个参数数据库中被建立依赖的表的表名称</span><br><span class="line">    this.Cache.Insert(&quot;data&quot;, list, scd, System.Web.Caching.Cache.NoAbsoluteExpiration, System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.High, CallBack);</span><br><span class="line">    //第三个参数scd 为文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。</span><br><span class="line">    //最后一个参数CallBack： 在从缓存中移除对象时将调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</span><br><span class="line"></span><br><span class="line">    return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>另外，在ASP.NET中不仅仅可以缓存SQL ，系统自带了Cache类来实现缓存</p>
-<p>这样可以方便的自定义自己需要缓存的东西，可以参照下列文章。</p>
-<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html</a></p>
-<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html</a><br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html</a> </p>
-<p>下面小猪需要封装单独的数据库缓存类。<br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"> </a></p>
-
-      
-
       
     </div>
     <div class="article-info article-info-index">
@@ -1064,15 +300,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
@@ -1084,23 +312,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/SQL/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -1108,20 +320,105 @@ var _hmt = _hmt || [];
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/235.html">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/rubbish-recover-of-jvm.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
       <!-- giscus 配置开始 -->
+      
+      <script src="https://giscus.app/client.js"
+      data-repo="smallerpig/smallerpig.github.io"
+      data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+      data-category="Announcements"
+      data-category-id="DIC_kwDOBj3OIc4CWi56"
+      data-mapping="url"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="preferred_color_scheme"
+      data-lang="zh-CN"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+      </script>
       
       <!-- giscus 配置结束 -->
     </div>
  
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/class-loader-of-jvm.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JVM-类加载机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/model-of-jvm.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM-内存模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -1136,17 +433,32 @@ var _hmt = _hmt || [];
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    该文章无目录结构
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
 
 
+  
+  
+  
 
   
+
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
-    </nav>
+
   
 
 
@@ -1169,8 +481,8 @@ var _hmt = _hmt || [];
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

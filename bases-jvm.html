@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>JVM-垃圾回收 | 朱启的个人博客</title>
+  <title>JVM-基础知识 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
-<meta name="keywords" content="JVM">
+  <meta name="description" content="jvm基础知识">
+<meta name="keywords" content="jvm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM-垃圾回收">
-<meta property="og:url" content="http://blog.smallerpig.com/rubbish-recover-in-jvm.html">
+<meta property="og:title" content="JVM-基础知识">
+<meta property="og:url" content="http://blog.smallerpig.com/bases-jvm.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
+<meta property="og:description" content="jvm基础知识">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-26T05:21:45.169Z">
+<meta property="og:updated_time" content="2023-05-26T09:47:32.619Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM-垃圾回收">
-<meta name="twitter:description" content="本文整理常见的JVM垃圾回收算法和JVM参数">
+<meta name="twitter:title" content="JVM-基础知识">
+<meta name="twitter:description" content="jvm基础知识">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -161,111 +161,27 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-JVM-垃圾回收" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-JVM-基础知识" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      JVM-垃圾回收
+      JVM-基础知识
     </h1>
   
 
         
-        <a href="/rubbish-recover-in-jvm.html" class="archive-article-date">
-  	<time datetime="2021-05-26T02:10:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-26</time>
+        <a href="/bases-jvm.html" class="archive-article-date">
+  	<time datetime="2021-05-26T02:11:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文整理常见的JVM垃圾回收算法和JVM参数</p>
-<a id="more"></a>
-<p><strong>垃圾回收算法</strong> :</p>
-<ul>
-<li>引用计数法: 会有循环引用的问题，古老的方法；</li>
-<li>Mark-Sweep: 标记清除。根可达判断，最大的问题是空间碎片(清除垃圾之后剩下不连续的内存空间)；</li>
-<li>Copying: 复制算法。对于短命对象来说有用，否则需要复制大量的对象，效率低。<strong>如Java的新生代堆空间中就是使用了它(survivor空间的from和to区)；</strong></li>
-<li>Mark-Compact: 标记整理。对于老年对象来说有用，无需复制，不会产生内存碎片</li>
-</ul>
-<p><strong>GC考虑的指标</strong></p>
-<ul>
-<li>吞吐量: 应用耗时和实际耗时的比值；</li>
-<li>停顿时间: 垃圾回收的时候，由于Stop the World，应用程序的所有线程会挂起，造成应用停顿。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">吞吐量和停顿时间是互斥的。</span><br><span class="line">对于后端服务(比如后台计算任务)，吞吐量优先考虑(并行垃圾回收)；</span><br><span class="line">对于前端应用，RT响应时间优先考虑，减少垃圾收集时的停顿时间，适用场景是Web系统(并发垃圾回收)</span><br></pre></td></tr></table></figure>
-<p><strong>回收器的JVM参数</strong></p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-XX:+UseSerialGC</td>
-<td>串行垃圾回收，现在基本很少使用。</td>
-</tr>
-<tr>
-<td>-XX:+UseParNewGC</td>
-<td>新生代使用并行，老年代使用串行；</td>
-</tr>
-<tr>
-<td>-XX:+UseConcMarkSweepGC</td>
-<td>新生代使用并行，老年代使用CMS(一般都是使用这种方式)，CMS是Concurrent Mark Sweep的缩写，并发标记清除，一看就是老年代的算法，所以，它可以作为老年代的垃圾回收器。CMS不是独占式的，它关注停顿时间</td>
-</tr>
-<tr>
-<td>-XX:ParallelGCThreads</td>
-<td>指定并行的垃圾回收线程的数量，最好等于CPU数量</td>
-</tr>
-<tr>
-<td>-XX:+DisableExplicitGC</td>
-<td>禁用System.gc()，因为它会触发Full GC，这是很浪费性能的，JVM会在需要GC的时候自己触发GC。</td>
-</tr>
-<tr>
-<td>-XX:CMSFullGCsBeforeCompaction</td>
-<td>在多少次GC后进行内存压缩，这个是因为并行收集器不对内存空间进行压缩的，所以运行一段时间后会产生很多碎片，使得运行效率降低。</td>
-</tr>
-<tr>
-<td>-XX:+CMSParallelRemarkEnabled</td>
-<td>降低标记停顿</td>
-</tr>
-<tr>
-<td>-XX:+UseCMSCompactAtFullCollection</td>
-<td>在每一次Full GC时对老年代区域碎片整理，因为CMS是不会移动内存的，因此会非常容易出现碎片导致内存不够用的</td>
-</tr>
-<tr>
-<td>-XX:+UseCmsInitiatingOccupancyOnly</td>
-<td>使用手动触发或者自定义触发cms 收集，同时也会禁止hostspot 自行触发CMS GC</td>
-</tr>
-<tr>
-<td>-XX:CMSInitiatingOccupancyFraction</td>
-<td>使用CMS作为垃圾回收，使用70%后开始CMS收集</td>
-</tr>
-<tr>
-<td>-XX:+CMSIncrementalMode</td>
-<td>设置为增量模式</td>
-</tr>
-<tr>
-<td>-XX:+CmsClassUnloadingEnabled</td>
-<td>CMS是不会默认对永久代进行垃圾回收的，设置此参数则是开启</td>
-</tr>
-<tr>
-<td>-XX:+PrintGCDetails</td>
-<td>开启详细GC日志模式，日志的格式是和所使用的算法有关</td>
-</tr>
-<tr>
-<td>-XX:+PrintGCDateStamps</td>
-<td>将时间和日期也加入到GC日志中</td>
-</tr>
-<tr>
-<td></td>
-</tr>
-</tbody>
-</table>
+        <p>jvm基础知识</p>
 
       
 
@@ -300,13 +216,24 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -356,7 +283,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/rubbish-recover-in-jvm.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/bases-jvm.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -401,8 +328,8 @@ var _hmt = _hmt || [];
     </a>
   
   
-    <a href="/optimize-jvm-while-startup.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JVM-调优参数</div>
+    <a href="/class-loader-of-jvm.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM-类加载机制</div>
       <i class="icon-circle-right"></i>
     </a>
   

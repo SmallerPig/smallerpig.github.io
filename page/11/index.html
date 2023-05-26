@@ -161,6 +161,419 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-e5-9c-a8asp-net-mvc-e9-a1-b9-e7-9b-ae-e4-b8-ad-e4-bd-bf-e7-94-a8-e6-9e-81-e9-aa-8c-e9-aa-8c-e8-af-81geetest" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/979.html">在ASP.NET MVC项目中使用极验验证(geetest)</a>
+    </h1>
+  
+
+        
+        <a href="/979.html" class="archive-article-date">
+  	<time datetime="2016-03-02T10:22:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们一般在做项目时为了保证提交的数据是真实用户数据而非机器人提交一般都会添加验证码操作来让用户在提交表单的同时填上服务端生成的验证码，这样在一定程度上能够防止暴力提交或者暴力破解。但是却在一定程度上增加了开发的成本。</p>
+<p>现在的互联网上各种产品都能够独立开发使用，今天小猪就为大家介绍<a href="http://www.geetest.com/" target="_blank" rel="noopener">极验验证</a>这个工具。<br>目前网络中已经可以发现大量使用该产品的应用，用户只需简单的滑动滑块来进行验证(<a href="http://www.geetest.com/exp_normal" target="_blank" rel="noopener">体验地址</a>)，一定程度上提高了用户体验。</p>
+<p>极验官方提供了C#版本的服务端<a href="http://www.geetest.com/install/sections/idx-server-sdk.html#csharp" target="_blank" rel="noopener">SDK</a>。并且提供了一个简单的<a href="https://github.com/GeeTeam/gt-csharp-sdk" target="_blank" rel="noopener">DEMO</a>。可惜该DEMO是Web Form版本的。而目前大家使用的比较多的是ASP.NET MVC项目，所以今天小猪就在其官方DEMO的基础上改成了ASP.NET MVC项目。</p>
+<ul>
+<li>新建ASP.NET MVC项目，并在项目中引用C#版本的SDK。</li>
+<li>申请极验账号并添加验证。如图：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1io9e7f96j20qz0ivwj0.jpg" alt="极验后台添加验证"><br>成功添加后我们可以看到对应的ID和KEY。<p></p></li>
+<li><p>新建测试控制器 AccountController</p>
+</li>
+<li><p>在控制器中随意添加一个Action，例如Login</p>
+</li>
+<li>在对应的View里添加代码（例如Login.cshtml）：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;geetest-container&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;http://static.geetest.com/static/tools/gt.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    window.addEventListener(&apos;load&apos;,processGeeTest);</span><br><span class="line"></span><br><span class="line">    function processGeeTest\(\) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            // 获取id，challenge，success（是否启用failback）</span><br><span class="line">            url: &quot;/Account/GeekTest&quot;,</span><br><span class="line">            type: &quot;get&quot;,</span><br><span class="line">            dataType: &quot;json&quot;, // 使用jsonp格式</span><br><span class="line">            success: function (data) &#123;</span><br><span class="line">                // 使用initGeetest接口</span><br><span class="line">                // 参数1：配置参数，与创建Geetest实例时接受的参数一致</span><br><span class="line">                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</span><br><span class="line">                initGeetest(&#123;</span><br><span class="line">                    gt: data.gt,</span><br><span class="line">                    challenge: data.challenge,</span><br><span class="line">                    product: &quot;float&quot;, // 产品形式</span><br><span class="line">                    offline: !data.success</span><br><span class="line">                &#125;, handler);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var handler = function (captchaObj) &#123;</span><br><span class="line">        // 将验证码加到id为captcha的元素里</span><br><span class="line">        captchaObj.appendTo(&quot;#geetest-container&quot;);</span><br><span class="line"></span><br><span class="line">        captchaObj.onSuccess = function(e) &#123;</span><br><span class="line">            console.log(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上述代码中使用了JQuery库，需要同时引用。<br>其中我们使用Ajax来动态请求后台AccountController的GeeTest方法，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GeekTest\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        string result = getCaptcha\(\);</span><br><span class="line"></span><br><span class="line">        return Content(result, &quot;application/json&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String getCaptcha\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">        Byte gtServerStatus = geetest.preProcess\(\);</span><br><span class="line">        Session[GeetestLib.gtServerStatusSessionKey] = gtServerStatus;</span><br><span class="line">        return geetest.getResponseStr\(\);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中的<code>geetest_publicKey</code>和<code>geetest_privateKey</code>分别对应极验后台申请到的ID和KEY。</p>
+<p>这样我们就可以运行程序看到效果。接下来的工作就是确认用户在提交对应的表单的时候有没有通过极验的验证了。</p>
+<p>在接受表单提交的POST地址里面输入代码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> //</span><br><span class="line">// POST: /Account/Login</span><br><span class="line">[HttpPost]</span><br><span class="line">[AllowAnonymous]</span><br><span class="line">[ValidateAntiForgeryToken]</span><br><span class="line">public async Task&lt;ActionResult&gt; Login(LoginViewModel model, string returnUrl)</span><br><span class="line">&#123;</span><br><span class="line">    if (!CheckGeeTestResult\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        ModelState.AddModelError(&quot;&quot;, &quot;请先完成验证操作。&quot;);</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line">    if (!ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //其他验证逻辑</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool CheckGeeTestResult\(\)</span><br><span class="line">&#123;</span><br><span class="line">    GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">    Byte gt_server_status_code = (Byte)Session[GeetestLib.gtServerStatusSessionKey];</span><br><span class="line">    String userID = (String)Session[&quot;userID&quot;];</span><br><span class="line"></span><br><span class="line">    int result = 0;</span><br><span class="line">    String challenge = Request.Form.Get(GeetestLib.fnGeetestChallenge);</span><br><span class="line">    String validate = Request.Form.Get(GeetestLib.fnGeetestValidate);</span><br><span class="line">    String seccode = Request.Form.Get(GeetestLib.fnGeetestSeccode);</span><br><span class="line">    if (gt_server_status_code == 1) result = geetest.enhencedValidateRequest(challenge, validate, seccode, userID);</span><br><span class="line">    else result = geetest.failbackValidateRequest(challenge, validate, seccode);</span><br><span class="line">    if (result != 1) return false;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中大部分引用了极验官方DEMO的代码。<br>这样我们在前台view中可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationSummary(true, &quot;&quot;, new &#123; @class = &quot;text-danger&quot; &#125;)</span><br></pre></td></tr></table></figure>
+<p>来提示用户首先需要通过滑块验证才能继续操作。</p>
+<p>这样我们就完成了将极验验证集成到我们的ASP.NET MVC项目中。并且可以在极验的后台中查看具体的数据报表：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1ioqpc0pnj2154090t9v.jpg" alt="极验后台报表"></p>
+<p>整个产品的使用我们并没有编写太多的代码，而且将复杂的验证过程交给了第三方，而我们自己只需要关心自己的业务逻辑。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">极验</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/979.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-使用EntityFrameworkWithHierarchyId" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/972.html">使用EntityFrameworkWithHierarchyId</a>
+    </h1>
+  
+
+        
+        <a href="/972.html" class="archive-article-date">
+  	<time datetime="2016-01-27T10:13:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SQL SERVER2008以后提供了<a href="https://msdn.microsoft.com/zh-cn/ch/library/bb677290.aspx" target="_blank" rel="noopener">HierarchyId的数据类型</a>.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等.</p>
+<p>SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用EF的HierarchyId类型就需要使用<code>EntityFrameworkWithHierarchyId</code>替换原来的EntityFramework了.<br>安装方法”<br>可以使用Nugget管理器搜索安装<br>或者在程序包管理器里输入下列代码</p>
+<pre><code>install-package EntityFrameworkWithHierarchyId
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
+<p> public class Category<br>    {<br>        public int Id { get; set; }</p>
+<pre><code>    public string Title { get; set; }
+
+    public HierarchyId Path { get; set; }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后我们就可以愉快的使用HierarchyId类啦.</span><br><span class="line">实例化一个HierarchyId类:</span><br></pre></td></tr></table></figure>
+<p> HierarchyId model = new HierarchyId(“/2/6/8”);</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在具体的dbcontext中使用:</span><br></pre></td></tr></table></figure>
+<p> [HttpPost]<br>    [ValidateAntiForgeryToken]<br>    public ActionResult Add(Category model)<br>    {<br>        model.CreateTime = DateTime.Now;<br>        model.Path = new HierarchyId(Request.Form[“path”]);<br>        db.Categories.Add(model);<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
+<ul>
+<li>GetLevel()方法获取对象当前所在层级</li>
+<li>GetAncestor()取得某一个级别的祖先</li>
+<li>GetDescendant()取得某一个级别的子代</li>
+<li>IsDescendantOf()判断某个节点是否为某个节点的子代</li>
+<li>GetRoot()取得根</li>
+<li>GetReparentedValue()可以用来移动节点（或者子树）<br>在linq查询中该类可以直接转换成对应的sql语句.</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/972.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-优化你的ASP.NET MVC代码--使用策略模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/965.html">优化你的ASP.NET MVC代码--使用策略模式</a>
+    </h1>
+  
+
+        
+        <a href="/965.html" class="archive-article-date">
+  	<time datetime="2016-01-22T03:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。</p>
+<p>具体代码表示策略模式:</p>
+<pre><code>/// &amp;lt;summary&amp;gt;
+/// 抽象策略
+/// &amp;lt;/summary&amp;gt;
+interface IStrategy
+{
+    /// &amp;lt;summary&amp;gt;
+    /// 策略方法
+    /// &amp;lt;/summary&amp;gt;
+    void DoSomething\(\);
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 具体策略类A
+/// &amp;lt;/summary&amp;gt;
+class StrategyA : IStrategy
+{
+    public void DoSomething\(\)
+    {
+        Console.WriteLine(&quot;A do something&quot;);
+    }
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 具体策略类B
+/// &amp;lt;/summary&amp;gt;
+class StrategyB : IStrategy
+{
+    public void DoSomething\(\)
+    {
+        Console.WriteLine(&quot;B do something&quot;);
+    }
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 调用者
+/// &amp;lt;/summary&amp;gt;
+class Client
+{
+    private IStrategy strategy;
+    public Client(IStrategy s)
+    {
+        this.strategy = s;
+    }
+
+    public void SomeThing\(\)
+    {
+        strategy.DoSomething\(\);
+    }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口`IStrategy`,其中有一个方法是`DoSomething\(\)`.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的`SomeThing\(\)`方法,调用策略接口的`DoSomeThing`方法.</span><br></pre></td></tr></table></figure>
+<p> static void Main(string[] args)<br>    {<br>        Client c1 = new Client(new StrategyA());<br>        c1.SomeThing();//A do something<br>        Client c2 = new Client(new StrategyB());<br>        c2.SomeThing();//B do something<br>        Console.ReadLine();<br>    }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行上述代码我们可得到运行结果.</span><br><span class="line">以上为策略模式的基本概念.</span><br><span class="line"></span><br><span class="line">### 在ASP.NET MVC中使用策略模式</span><br><span class="line"></span><br><span class="line">试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:</span><br></pre></td></tr></table></figure>
+<p> public class PostController : Controller<br>    {<br>        private PostServer server = new PostServer();<br>        // GET: Post<br>        public ActionResult Index()<br>        {<br>            var models = server.GetList();<br>            return View(models);<br>        }<br>    }</p>
+<pre><code>public class PostServer
+{
+    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
+    {
+        throw new NotImplementedException\(\);
+    }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟`PostServer`类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该`PostServer`无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对`PostServer`抽象出接口`IPostServer`,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用`IPostServer`的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量`IPostServer`进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原`PostServer`实例化`IPostServer`接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
+<p> public class PostController : Controller<br>    {<br>        private IPostServer server;</p>
+<pre><code>    public PostController\(\)
+    {
+        server = new PostServer\(\);
+    }
+
+    public PostController(IPostServer postServer)
+    {
+        this.server = postServer;
+    }
+
+    // GET: Post
+    public ActionResult Index\(\)
+    {
+        var models = server.GetList\(\);
+        return View(models);
+    }
+}
+
+public interface IPostServer
+{
+        IEnumerable&amp;lt;Article&amp;gt; GetList\(\);
+}
+
+public class PostServer : IPostServer
+{
+    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
+    {
+        throw new NotImplementedException\(\);
+    }
+}
+</code></pre><p>上述代码中我们获取数据的策略在控制器中是不管的.也不强依赖于具体的类,只依赖了一个<code>IPostServer</code>的接口,只要有实现了<code>IPostServer</code>接口的类就可以使用该控制器.</p>
+<p>这样我们在编写单元测试的时候就可以很方便的使用Mock工具来模拟实现<code>IPostServer</code>接口而不用具体真实的去访问数据库或者网络从而真正的做到单元测试只测试<strong>单元</strong>.</p>
+<h3 id="重新回顾认识策略模式"><a href="#重新回顾认识策略模式" class="headerlink" title="重新回顾认识策略模式"></a>重新回顾认识策略模式</h3><h4 id="策略模式的重心"><a href="#策略模式的重心" class="headerlink" title="策略模式的重心"></a>策略模式的重心</h4><p>　　策略模式的重心不是如何实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活，具有更好的维护性和扩展性。</p>
+<h4 id="算法的平等性"><a href="#算法的平等性" class="headerlink" title="算法的平等性"></a>算法的平等性</h4><p>　　策略模式一个很大的特点就是各个策略算法的平等性。对于一系列具体的策略算法，大家的地位是完全一样的，正因为这个平等性，才能实现算法之间可以相互替换。所有的策略算法在实现上也是相互独立的，相互之间是没有依赖的。</p>
+<p>　　所以可以这样描述这一系列策略算法：策略算法是相同行为的不同实现。</p>
+<h4 id="运行时策略的唯一性"><a href="#运行时策略的唯一性" class="headerlink" title="运行时策略的唯一性"></a>运行时策略的唯一性</h4><p>　　运行期间，策略模式在每一个时刻只能使用一个具体的策略实现对象，虽然可以动态地在不同的策略实现中切换，但是同时只能使用一个。</p>
+<h4 id="公有的行为"><a href="#公有的行为" class="headerlink" title="公有的行为"></a>公有的行为</h4><p>　　经常见到的是，所有的具体策略类都有一些公有的行为。这时候，就应当把这些公有的行为放到共同的抽象策略角色Strategy类里面。当然这时候抽象策略角色必须要用抽象类实现，而不能使用接口。</p>
+<p>　　这其实也是典型的将代码向继承等级结构的上方集中的标准做法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/965.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-e5-88-a9-e7-94-a8entity-framework-e4-bf-ae-e6-94-b9-e6-8c-87-e5-ae-9a-e5-ad-97-e6-ae-b5-e4-b8-ad-e7-9a-84-e5-80-bc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1373,287 +1786,6 @@ class Picture(models.Model):
       
         <p class="article-more-link">
           <a class="article-more-a" href="/939.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-90-90-e6-a7-bdtx-e7-9a-84-e5-bc-80-e6-94-be-e5-b9-b3-e5-8f-b0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/937.html">吐槽TX的开放平台</a>
-    </h1>
-  
-
-        
-        <a href="/937.html" class="archive-article-date">
-  	<time datetime="2015-11-18T12:40:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这两天实在是被这TX这个傻X给逼疯了。</p>
-<p>不能理解腾讯的开放平台为啥要搞这么多。<br>1. 微信和QQ的登录竟然不是同一个用户，这感觉像是同父异母啊！<br>2. 同样的QQ登录，非要搞一个平台应用，一个移动应用，结果这两个还不好统一，得到的openId还不一样<br>3. 已经有QQ号了非要再搞出一个OpenId,结果每一个不同应用对应的相同用户的OpenId不一样，这样怎么才能做到多平台的用户统一？<br>4. 微信的开放平台还要认证，认证也要300块，认证完了才让你网站应用和移动应用多平台用户统一，不然和QQ一样的只得到OpenId得不到UninId。<br>这整的一套一套的真是让开发者好蛋疼，考虑的是为啥不能直接得到用户的QQ号和微信号，微博，豆瓣不都是可以直接拿到用户的唯一标示的么？<br>唯一值得相信的理由是QQ号和微信号存在一定的隐私性，可能存在某些人不希望公开自己的QQ和微信。哎，如果不是这个原因而是其他他们认为很牛逼的原因只能是太傻逼了。</p>
-<p>APP先上线，在原来基础上要开发一个网站，要求用户是跨平台的。但是QQ的应用却不是跨平台，新申请的移动应用可以调用原来的QQ互联的东西，但是以前申请的应用怎么绑定已有的QQ互联信息呢？这个在他的管理后台里就是找不到，练习在线客户也是石投大海。<br>微信端因为一开始使用了<code>OpenId</code>而非<code>unionId</code>，结果直接是从机制上面不可以跨平台了。这感觉尼玛的就是个个坑啊！！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">腾讯</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开放平台</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/937.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e8-ae-be-e7-bd-aemssql-2012-e8-87-aa-e5-8a-a8-e5-a4-87-e4-bb-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/933.html">设置MSSQL 2012自动备份</a>
-    </h1>
-  
-
-        
-        <a href="/933.html" class="archive-article-date">
-  	<time datetime="2015-11-11T06:10:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>保证数据的完整性是很有必要的，万一服务器出现故障的时候及时的恢复数据到最新的备份数据能让损失将到最小。所以说：数据无价。一旦我们有意或者无意的将数据库的数据弄没的时候就能切身的体会到数据备份的重要性。<br>而如果每次都需要手动备份的话那工作量还是不小的，最关键的是很难保证没有哪天我们会忘记去做这件事。<br>所以很有必要设置让数据库自动备份。<br>下面介绍在以SQL SERVER2012为例设置为自动备份。<br>设置步骤包括：<br>1. 打开MS SQL 代理服务，右击任务栏打开任务管理器切换到服务栏，启动SQLSERVERAGENT<br>2. 使用SQL SERVER Management Studio连接到SQL SERVER服务器<br>3. 点开管理菜单，右击“维护计划”选择维护计划向导。<br>4. 打开维护计划向导之后进行相关设置，通常需要的设置包括：</p>
-<ul>
-<li>频率设置</li>
-<li>时间点设置</li>
-<li>保存方式设置</li>
-<li>备份文件设置</li>
-<li>备份日志设置等</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/933.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-this-query-requires-pytz-but-it-isnt-installed" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/931.html">This query requires pytz, but it isn&#39;t installed.</a>
-    </h1>
-  
-
-        
-        <a href="/931.html" class="archive-article-date">
-  	<time datetime="2015-11-10T09:34:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用的是Django 1.8，按照官方的教程上面敲代码。为了体验下Django并没有使用mysql数据库而是使用的sqlite3.在使用后台的时候报错标题的错误。<br>解决方案有两个<br>1. 使用pip安装Pytz <code>$ pip install pytz</code> 并重启服务<br>2. 在设置中将<code>USE_TZ= False</code></p>
-<p>具体关于该值的解释请参考<a href="https://docs.djangoproject.com/en/1.8/ref/settings/#time-zone" target="_blank" rel="noopener">Time_Zone</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/931.html">展开全文 >></a>
         </p>
       
 
