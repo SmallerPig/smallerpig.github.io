@@ -161,6 +161,121 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-小猪学设计模式——工厂模式之简单工厂(静态工厂)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/303.html">小猪学设计模式——工厂模式之简单工厂(静态工厂)</a>
+    </h1>
+  
+
+        
+        <a href="/303.html" class="archive-article-date">
+  	<time datetime="2013-09-12T02:31:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>在我们写代码过程中，经常使用类似这样的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">ClassA a = new ClassA\(\);</span><br></pre></td></tr></table></figure></p>
+<p>严格意义上来讲这段代码已经依赖具体的实现了。当使用&quot;new&quot;关键字创建一个对象时，此时该类就依赖与这个对象，也就是他们之间的耦合度高，当需求变化时，我们就不得不去修改此类的源码。这违反了编程的原则里的“依赖抽象”“开放—关闭”等等一系列原则。</p>
+<p><strong>简单工厂</strong></p>
+<p>此时我们可以运用面向对象（OO）的很重要的原则去解决这一的问题，该原则就是——封装改变。</p>
+<p>针对接口编程，可以隔离掉以后系统可能发生的一大堆改变。入股代码是针对接口而写，那么可以通过多态，它可以与任何新类实现该接口。但是，当代码使用一大堆的具体类时，等于是自找麻烦，因为一旦加入新的具体类，就必须要改变代码。在这里我们希望能够调用一个简单的方法，我传递一个参数过去，就可以返回给我一个相应的具体对象。</p>
+<p><strong>定义</strong></p>
+<p>简单工厂模式又称之为静态工厂方法，属于创建型模式。在简单工厂模式中，可以根据传递的参数不同，返回不同类的实例。简单工厂模式定义了一个类，这个类专门用于创建其他类的实例，这些被创建的类都有一个共同的父类。</p>
+<p><strong>分析分析</strong></p>
+<p> &nbsp; &nbsp; &nbsp; &nbsp;Factory：工厂角色。专门用于创建实例类的工厂，提供一个方法，该方法根据传递的参数不同返回不同类的具体实例。<br> &nbsp; &nbsp; &nbsp; &nbsp;Product：抽象产品角色。为所有产品的父类。<br> &nbsp; &nbsp; &nbsp; &nbsp;ConcreteProduct：具体的产品角色。</p>
+<p><span style="color:#002060;">简单工厂模式将对象的创建和对象本身业务处理分离了，可以降低系统的耦合度，使得两者修改起来都相对容易些。当以后实现改变时，只需要修改工厂类即可。</span></p>
+<p><span style="color:#002060;"></span></p>
+<p>下面以计算器的例子来说明简单工厂方法</p>
+<p>基类：操作符(product)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public class Operation</span><br><span class="line">&#123;</span><br><span class="line">    private double _numberA = 0;</span><br><span class="line">    private double _numberB = 0;</span><br><span class="line"></span><br><span class="line">    /// &amp;lt;summary&amp;gt;</span><br><span class="line">    /// 数字A</span><br><span class="line">    /// &amp;lt;/summary&amp;gt;</span><br><span class="line">    public double NumberA</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _numberA;</span><br><span class="line">        &#125;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            _numberA = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &amp;lt;summary&amp;gt;</span><br><span class="line">    /// 数字B</span><br><span class="line">    /// &amp;lt;/summary&amp;gt;</span><br><span class="line">    public double NumberB</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _numberB;</span><br><span class="line">        &#125;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            _numberB = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &amp;lt;summary&amp;gt;</span><br><span class="line">    /// 得到运算结果</span><br><span class="line">    /// &amp;lt;/summary&amp;gt;</span><br><span class="line">    /// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span><br><span class="line">    public virtual double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result = 0;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &amp;lt;summary&amp;gt;</span><br><span class="line">    /// 检查输入的字符串是否准确</span><br><span class="line">    /// &amp;lt;/summary&amp;gt;</span><br><span class="line">    /// &amp;lt;param name=&quot;currentNumber&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">    /// &amp;lt;param name=&quot;inputString&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">    /// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span><br><span class="line">    public static string checkNumberInput(string currentNumber, string inputString)</span><br><span class="line">    &#123;</span><br><span class="line">        string result = &quot;&quot;;</span><br><span class="line">        if (inputString == &quot;.&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            if (currentNumber.IndexOf(&quot;.&quot;) &amp;lt; 0)</span><br><span class="line">            &#123;</span><br><span class="line">                if (currentNumber.Length == 0)</span><br><span class="line">                    result = &quot;0&quot; + inputString;</span><br><span class="line">                else</span><br><span class="line">                    result = currentNumber + inputString;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else if (currentNumber == &quot;0&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            result = inputString;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            result = currentNumber + inputString;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体操作(加减乘除)类:(ConcreteProduct)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 加法类</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">class OperationAdd : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result = 0;</span><br><span class="line">        result = NumberA + NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 减法类</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">class OperationSub : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result = 0;</span><br><span class="line">        result = NumberA - NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 乘法类</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">class OperationMul : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result = 0;</span><br><span class="line">        result = NumberA * NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 除法类</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">class OperationDiv : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result = 0;</span><br><span class="line">        if (NumberB == 0)</span><br><span class="line">            throw new Exception(&quot;除数不能为0。&quot;);</span><br><span class="line">        result = NumberA / NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运算工厂类：(Factory)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    /// &amp;lt;summary&amp;gt;</span><br><span class="line">    /// 运算类工厂</span><br><span class="line">    /// &amp;lt;/summary&amp;gt;</span><br><span class="line">public class OperationFactory</span><br><span class="line">&#123;</span><br><span class="line">    public static Operation createOperate(string operate)</span><br><span class="line">    &#123;</span><br><span class="line">        Operation oper = null;</span><br><span class="line">        switch (operate)</span><br><span class="line">        &#123;</span><br><span class="line">            case &quot;+&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper = new OperationAdd\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;-&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper = new OperationSub\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;*&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper = new OperationMul\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;/&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper = new OperationDiv\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就创建了简单工厂里面的三个角色、</p>
+<p>然后在客户端需要具体操作时使用下列代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        Console.Write(&quot;请输入数字A：&quot;);</span><br><span class="line">        string strNumberA = Console.ReadLine\(\);</span><br><span class="line">        Console.Write(&quot;请选择运算符号(+、-、*、/)：&quot;);</span><br><span class="line">        string strOperate = Console.ReadLine\(\);</span><br><span class="line">        Console.Write(&quot;请输入数字B：&quot;);</span><br><span class="line">        string strNumberB = Console.ReadLine\(\);</span><br><span class="line">        string strResult = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        Operation oper;</span><br><span class="line">        oper = OperationFactory.createOperate(strOperate);</span><br><span class="line">        oper.NumberA = Convert.ToDouble(strNumberA);</span><br><span class="line">        oper.NumberB = Convert.ToDouble(strNumberB);</span><br><span class="line">        strResult = oper.GetResult\(\).ToString\(\);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(&quot;结果是：&quot; + strResult);</span><br><span class="line"></span><br><span class="line">        Console.ReadLine\(\);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;您的输入有错：&quot; + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><span style="color:#002060;"></span></p>
+<p><span style="color:#ff0000;">优点</span><br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、简单工厂模式实现了对责任的分割，提供了专门的工厂类用于创建对象。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、客户端无须知道所创建的具体产品类的类名，只需要知道具体产品类所对应的参数即可，对于一些复杂的类名，通过简单工厂模式可以减少使用者的记忆量。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3、通过引入配置文件，可以在不修改任何客户端代码的情况下更换和增加新的具体产品类，在一定程度上提高了系统的灵活性。</p>
+<p><span style="color:#ff0000;">缺点</span><br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、由于工厂类集中了所有产品创建逻辑，一旦不能正常工作，整个系统都要受到影响。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、使用简单工厂模式将会增加系统中类的个数，在一定程序上增加了系统的复杂度和理解难度。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3、系统扩展困难，一旦添加新产品就不得不修改工厂逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和维护。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;4、简单工厂模式由于使用了静态工厂方法，造成工厂角色无法形成基于继承的等级结构。<br><strong>五、简单工厂模式的使用场景 </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、 &nbsp;工厂类负责创建的对象比较少。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、 &nbsp;客户端只知道传入工厂类的参数，对于如何创建对象不关心。</p>
+<p><strong>六、总结 </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp; 1、 &nbsp;简单工厂模式的要点就在于当你需要什么，只需要传入一个正确的参数，就可以获取你所需要的对象，而无须知道其创建细节。<br> &nbsp; &nbsp; &nbsp; &nbsp; 2、 &nbsp;简单工厂模式最大的优点在于实现对象的创建和对象的使用分离，但是如果产品过多时，会导致工厂代码非常复杂。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/303.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-html5-server-sent-events-asp-net-e5-90-91web-e5-ae-a2-e6-88-b7-e7-ab-af-e6-8e-a8-e9-80-81-e4-bf-a1-e6-81-af" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -778,7 +893,7 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-e5-b0-8f-e7-8c-aa-e7-9a-84-e7-94-9f-e6-97-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-小猪的生日" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -1041,138 +1156,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/286.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-https-e5-8d-8f-e8-ae-ae-e5-9f-ba-e7-a1-80" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/285.html">HTTPS协议基础</a>
-    </h1>
-  
-
-        
-        <a href="/285.html" class="archive-article-date">
-  	<time datetime="2013-08-19T03:20:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>“HTTPS协议的工作原理是什么？”这是我在数天前工作项目中需要解决的问题。作为一名Web开发者，我当然知道 HTTPS 协议是保障用户敏感数据的好办法，但并不知道这种协议的内在工作机制。它怎么保护数据？有人监听线路的情况下，服务器与客户端之间如何建立安全的连接？安全证书又是什么，为什么还要花钱买呢？</p>
-<p><strong>一系列通道</strong></p>
-<p>在深入讲解原理细节之前，让我们首先简单了解下HTTPS所防范的的问题，以及安全连接为何如此重要吧。在你访问自己喜欢的站点时，从你的电脑发送的请求会在各个不同的网络之间传递——这些网络很有可能是用来偷听，甚至篡改你的信息。</p>
-<p>局域网中，信息从你的电脑传输到其他电脑，传输到接入点，到ISP的路由器、交换机，最后到达骨干网线路。这样的一个过程中，有许多不同的组织在传送着你的请求。这时，如果不怀好意的用户侵入这条线路之中的任何一个系统中时，他们将很有可能看到线路中传送的内容。而一般情况下，Web请求和相应都经由普通的HTTP协议明文传送。HTTP协议默认不使用加密协议，都是由于这些原因：</p>
-<ul>
-<li>加密消耗了很多计算资源。</li>
-<li>加密占用了更多的传输带宽。</li>
-<li>加密后缓存机制会失效。<br>不过，Web开发者会时不时遇到在连接中传送密码、信用卡号等敏感信息的情况。所以，有必要为这些页面做好防嗅探的准备措施。</li>
-</ul>
-<p><strong>传输层安全协议（TLS）</strong></p>
-<p>虽然下面讲解的内容和密码学有关，但是这里只是一个简单的介绍，不熟悉相关知识也应该看得懂。在实践中，是密码学算法确保了通信过程的安全，同时也抵御了潜在的信息黑手——干扰通信和监听的人。</p>
-<p>SSL协议的继任者——TLS协议，常被用来实现安全HTTP连接（HTTPS）协议。在OSI网络模型中，TLS协议比HTTP协议的工作更加底层。确切来说，就是TLS的那部分连接发生在HTTP的连接之前。TLS是一种混合的加密机制。它具有多种范式，接下来所看到的是对于这两种范式（用于共享秘密信息和身份认证（确保声称的身份和实际身份一致）的公钥算法和用于加密请求与回应机密信息的对称式算法）的说明：</p>
-<p><strong>公钥加密机制</strong></p>
-<p>使用公钥加密机制，双方各自拥有一份公钥和一份私钥，公钥和私钥通过数学演算联系在一起。公钥用于将明文转化为密文（变成了一堆乱码），私钥用来解密这一堆乱码般的信息。一旦信息被公钥加密，它将只能由相应的私钥解密。两者缺一不可，而且也不能反过来使用。公钥可以自由传播，无需担心系统安全性降低；但私钥应妥善保管，不可将其泄露给未经授权解密的信息的用户，这就是公钥和私钥这两个名称的由来。公钥机制相当酷的地方在于，通信双方可以在最初不安全的通道上建立起安全可靠的通信连接。客户端和服务器都可以使用各自的私钥，只要共享了一部分公开信息，也就是共用了同一个公钥的情况下，就可以建立起相应的会话。这意味着即使有人坐在客户端或者服务器前查看连接过程，他们也不会知道客户端或者服务的的私钥，也不会知道会话所共享的密码。</p>
-<p>这得靠什么实现？靠数学！</p>
-<p><strong>Diffie-Hellman</strong></p>
-<p>这种密钥交换最常使用是Diffie-Hellman的密钥交换法。这项过程允许服务器和客户端双方商定共同的保密信息，而不需要在传输过程中交换这个信息。这样一来，即使嗅探者查看每个数据包，也不能确定连接上传输的共享密码是什么。</p>
-<p>在最初的DH式密钥交换发生之后所生成的共享信息，可以在会话接下来的通信中使用更简洁的对称式加密法，我们之后就会看到对称式加密法的说明。</p>
-<p><strong>一点点数学</strong></p>
-<p>公钥算法的特点就是很容易由算子计算出结果，而基本上不可能作逆向运算。这也就是使用了两个质数的所要达到的目的。</p>
-<p>现在假设Alice和Bob分别是参与DH式密钥交换过程的两方，他们一开始会商议确定一个小质数（一般是2,3,5这样的小数字）和一个大质数（有300位以上）作为加密的原始信息。小质数和大质数都可以直接传输，不必担心交换过程中的不安全。需要明白的是，Alice和Bob各自都持有着自己的私钥（100多位的数），而且也永远不应该共享自己的私钥。不光是两人之间，也包括其他不相关的人都不应该拥有这两组私钥。网络中传输的是他们的私钥、小质数和大质数混合运算得到的结果。更确切来说，就是：</p>
-<ul>
-<li>Alice的结果 = （小质数<sup>Alice的密码</sup>）% 大质数</li>
-<li>Bob的结果 = （小质数<sup>Bob的密码</sup>）% 大质数</li>
-<li>（“%” 符号表示取模运算，即取得除法运算的余数）<br>所以Alice使用大质数和小质数加上自己的私钥运算，就会得出结果，而Bob做同样的计算，也能得到相同的结果。当他们接收到对方的运算结果时，他们可以由数学计算导出会话中所要传输的信息，也就是说：</li>
-</ul>
-<p>Alice计算的是</p>
-<ul>
-<li>（Bob的结果<sup>Alice的密码</sup>）% 大质数</li>
-</ul>
-<p>而Bob则计算</p>
-<ul>
-<li>（Alice的结果<sup>Bob的密码</sup>）% 大质数<br>Alice和Bob得出来的数字相同，这个数字也就是会话中所要共享的密码。请注意，双方都没有向对方传输各自的私钥，而连接过程中也没有明文传递保密信息。这一点真是太棒了！对数学不好的人而言，维基百科上有一张混合颜料的图可以用来说明情况：</li>
-</ul>
-<p>请注意图中一开始的颜色（黄色）最后都会有Alice和Bob的颜色参与计算。这就是双方会得到同样结果的原因。对于观看中间过程的人来说，唯一在连接中发送的半合成信息是毫无意义的。</p>
-<p><strong>对称式加密机制</strong></p>
-<p>每次会话中只需要产生一次公钥交换的过程。在接受了同一个共享保密信息以后，服务器和客户端之间会使用更为高效的对称式加密机制进行通信，省去了来回交换的额外花销。在接受了之前的共享保密信息之后，还会使用一套密码机制（一般是一组加密算法），使用共享的密码安全地通信，加密解密各自的信息。而窃听者只会看到一堆乱码在传来传去。</p>
-<p><strong>身份认证</strong></p>
-<p>DH式密钥交换允许双方创建私有的，共有的密码，但通信双方怎么确保是真正想要对话的人呢？这里就涉及到了身份认证的问题。假设我拿起电话，跟我的朋友进行DH式密钥交换，在电话已经被干扰的情况，实际上是在跟其他人交换信息。在使用共享密码了以后，我仍然可以安全地与“朋友”交换信息，没有人可以解密我们的通信信息，但是“朋友”并不真的是我的朋友，这可是十分不安全的！要解决身份认证问题，需要有配套的公钥基本设施，来核实用户的真实身份。这些设施用来创建，管理，发布，收回数字证书。而数字证书正是你需要为站点使用HTTPS协议付费的恼人事项。但是，什么是数字证书，数字证书又是如何保证信息更加安全的呢？</p>
-<p><strong>证书</strong></p>
-<p>从更高的层次来讲，数字证书是将机器上的公钥和身份信息绑在一起的数字签名。数字签名担保某份公钥属于某个特定的组织和机构。证书将域名（身份信息）和特定公钥关联起来。这就避免了窃听者将自己的服务器伪装成用户将要连接的服务器，并进行攻击的行为。在上面打电话的例子中，攻击者可以尝试展示自己的公钥，装作是你的“朋友”，但是证书上面的签名信息便显示出：这份证书不是来自我信任的人的。要受到一般浏览器的信任，证书本身还应当受到CA的信任。CA公司对认证会进行人工核查，确定申请主体满足以下两个条件：</p>
-<ol>
-<li>在公共记录中存在着这个人/这家公司。</li>
-<li>需要签名的证书上标明的域名的确由申请主体实际控制。<br>当CA查证，得出申请人属实，并且的确拥有这个域名的结果，CA便会为证书颁发签证，盖上“已核准”的戳记，表明网站的公钥属于这个网站，而且可以信任。你的浏览器中会内置一系列受信任的CA列表。如果服务器返回的是未经过受信任CA签证的证书，浏览器会弹出大大的警告，这就在系统中多了一层安全措施，如果不然，任何人都可以四处签售伪造的证书。</li>
-</ol>
-<p>这样一来，即使攻击者将自己的公钥拿出来，生成这份密钥，声称自己的伪造服务器就是“facebook.com”，浏览器也会因为检查到“未经受信任CA签名的证书”而弹出提示。</p>
-<p><strong>一些关于证书的其他事项</strong></p>
-<p><strong>增强式认证</strong></p>
-<p>在常规的X.509 证书之外，增强式认证证书提供了更强力的认证。要授予增强式认证证书，CA会对域名持有着做更加深入的查验（通常需要提供护照和水电费账单等信息）。这种类型的证书，浏览器中大锁图标的显示位置背景也会变成绿色。</p>
-<p><strong>在同一台服务器上运行的多个网站</strong></p>
-<p>在HTTP协议连接开始之前进行的TLS协议握手流程，很有可能存在着多个网站存放在同一个服务器，使用相同IP地址的情况。虚拟主机的Web路由是由Web服务器分发，但是TCP握手的过程，却是发生在连接之前。整个系统的单张证书会被发送到服务器的所有请求之中，这种流程会在共享主机的环境中发生问题。如果你正在使用Web主机上提供的服务，他们会在你使用HTTPS协议之前要求使用独立的IP地址。不然主体提供商就需要每次在服务器上有新站点的时候，取得新证书（并且向CA重新申请认证）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/285.html">展开全文 >></a>
         </p>
       
 
@@ -1636,6 +1619,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

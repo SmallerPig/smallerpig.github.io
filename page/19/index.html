@@ -161,6 +161,93 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-防止用户按浏览器后退按钮回到登陆页面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/400.html">防止用户按浏览器后退按钮回到登陆页面</a>
+    </h1>
+  
+
+        
+        <a href="/400.html" class="archive-article-date">
+  	<time datetime="2014-01-15T12:54:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个在注册或者登陆的时候是一个普遍的问题，登陆之后，跳转到另外一个页面，如果这时候用户不小心点了后退按钮如果处理不当的话就会重新回到登陆页面，但事实是用户已经登录了，所有页面的状态都应该是已登录的，不管什么情况下都不应该让用户在看到这个页面。用户的点击操作会引发上面的问题，而程序 <code>history.go(-1) ;history.back()</code> 也会有一样的bug。  </p>
+<p>这样的问题处理方案比较简单，ajax 拿到 success 的状态码时立刻做跳转，但是这里不能用 <code>window.location.href</code>，这样浏览器还是会记录这个登录历史，应该使用 <code>window.location.replace</code>，替换当前历史记录。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/400.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-wordpress-e4-b8-ad-e7-a6-81-e6-ad-a2-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -575,7 +662,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">前言：</span><br><span class="line"></span><br><span class="line">	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的，</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 前言：</span><br><span class="line"></span><br><span class="line">	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的，</span><br></pre></td></tr></table></figure>
 <p>## </p>
 <p>微信后台生成的网页</p>
 <pre><code>那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。
@@ -593,23 +680,7 @@ var _hmt = _hmt || [];
 经过小猪的测试，截至目前为止(2014-01-10)wp8版本的微信（5.0.1）上述代码无效，可能是wp版本的微信浏览器未内置&amp;nbsp;`WeixinJSBridge`&amp;nbsp;对象！
 
 Android版本、Ios版本微信5.0版本通过测试。
-</code></pre><p><code>`</code></p>
-<p>## </p>
-<p>后记：</p>
-<pre><code>试想一下如果上述的js代码可以自由的由开发者调用的话会发生些什么呢？会不会用只要一点进去网页就被强制的关注某些公众账号？强制的进入到分享到朋友圈界面？看到很多资料微信之前的很多版本确实是这样的。但是目前只能够通过微信内部的按钮来调用 `WeiXinJsBridge `对象了！
-
-&amp;nbsp;
-
-&amp;nbsp;
-
-参考：
-
-[http://blog.wpjam.com/m/custom-weixinjsbridge/](http://blog.wpjam.com/m/custom-weixinjsbridge/)
-
-[http://www.oschina.net/question/913845_122337](http://www.oschina.net/question/913845_122337)
-
-同样方法可自定义分享到微博、好友内容
-</code></pre>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">后记：</span><br><span class="line"></span><br><span class="line">	试想一下如果上述的js代码可以自由的由开发者调用的话会发生些什么呢？会不会用只要一点进去网页就被强制的关注某些公众账号？强制的进入到分享到朋友圈界面？看到很多资料微信之前的很多版本确实是这样的。但是目前只能够通过微信内部的按钮来调用 `WeiXinJsBridge `对象了！</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	参考：</span><br><span class="line"></span><br><span class="line">	[http://blog.wpjam.com/m/custom-weixinjsbridge/](http://blog.wpjam.com/m/custom-weixinjsbridge/)</span><br><span class="line"></span><br><span class="line">	[http://www.oschina.net/question/913845_122337](http://www.oschina.net/question/913845_122337)</span><br><span class="line"></span><br><span class="line">	同样方法可自定义分享到微博、好友内容</span><br></pre></td></tr></table></figure>
       
 
       
@@ -666,7 +737,7 @@ Android版本、Ios版本微信5.0版本通过测试。
 
 
   
-    <article id="post-e5-be-ae-e4-bf-a1-e6-b5-8f-e8-a7-88-e5-99-a8-user-agent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-微信浏览器——User Agent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -751,7 +822,7 @@ Android版本、Ios版本微信5.0版本通过测试。
 
 
   
-    <article id="post-e6-a0-b9-e6-8d-ae-e5-bd-93-e5-89-8d-e7-b3-bb-e7-bb-9f-e6-97-b6-e9-92-9f-e6-88-96-e7-ad-be-e5-90-8d-e6-96-87-e4-bb-b6-e7-9a-84-e6-97-b6-e9-97-b4-e6-88-b3-e8-ae-b0-e6-a0-b8-e5-af-b9-e6-97-b6-ef-bc-8c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-根据当前系统时钟或签名文件的时间戳记核对时，所需要的凭证不在有效期内" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -861,7 +932,7 @@ Android版本、Ios版本微信5.0版本通过测试。
 
 
   
-    <article id="post-e8-87-aa-e5-ae-9a-e4-b9-89-e7-94-9f-e6-88-90-e4-ba-8c-e7-bb-b4-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-自定义生成二维码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -1102,113 +1173,6 @@ Mask 过后的二维码就成最终的图了。
       
         <p class="article-more-link">
           <a class="article-more-a" href="/379.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-e5-9c-a8asp-net-mvc-e4-b8-ad-e4-bd-bf-e7-94-a8area" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/378.html">在ASP.NET MVC中使用Area</a>
-    </h1>
-  
-
-        
-        <a href="/378.html" class="archive-article-date">
-  	<time datetime="2013-12-30T06:47:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">前言：</span><br><span class="line"></span><br><span class="line">	这段时间小猪花了不少功夫在研究ASP.NET MVC的源码上面，可谓思想是了解了不少，用的上用不上却是另外一回事了。！</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>应用场景：</p>
-<pre><code>ASP.NET MVC中,是依靠某些文件夹以及类的固定命名规则去组织model实体层，views视图层和控制层的。如果是大规模的应用程序，经常会由不同功能的模块组成，而每个功能模块都由MVC中的三层所构成，因此，随着应用程序规模的增大，如何组织这些不同功能模块中的MVC三层的目录结构，有时对开发者来说显得是种负担。
-
-另一个问题就是Controller不允許有相同命名的存在，偏偏模块中常有父子关系，有时子模块命名相同就会造成错误。
-
-幸运的是，ASP.NET MVC允许开发者将应用划分为&amp;ldquo;区域&amp;rdquo;(Area)的概念。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Area(区域)简介：</span><br><span class="line"></span><br><span class="line">	每个区域都是按照asp.net mvc的规定对文件目录结构和类的命名规则进行命名。添加方法也很简单，右击项目，点击添加区域，在弹出框里写上Area的名称点击确定即可。</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1、新建&amp;nbsp;Area：右键&amp;nbsp;-&amp;gt;&amp;nbsp;Add&amp;nbsp;-&amp;gt;&amp;nbsp;Area...</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2、继承&amp;nbsp;AreaRegistration，配置对应此&amp;nbsp;Area&amp;nbsp;的路由</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3、在&amp;nbsp;Global&amp;nbsp;中通过&amp;nbsp;AreaRegistration.RegisterAllAreas\(\);&amp;nbsp;注册此&amp;nbsp;Area</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4、有了&amp;nbsp;Area，就一定要配置路由的命名空间</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>Area的路由</p>
-<pre><code>在添加好了区域之后，vs会自动帮我们注册Area的路由信息：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public class AdminAreaRegistration : AreaRegistration</span><br><span class="line">&#123;</span><br><span class="line">    public override string AreaName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return &amp;quot;Admin&amp;quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void RegisterArea(AreaRegistrationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        context.MapRoute(</span><br><span class="line">            &amp;quot;Admin_default&amp;quot;,</span><br><span class="line">            &amp;quot;Admin/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">            new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">问题</span><br><span class="line"></span><br><span class="line">	试想如果这时候有这样的情形：</span><br><span class="line"></span><br><span class="line">	如果有一个Area叫Database，在它的下面有一个Controller名字叫做Browse。</span><br><span class="line"></span><br><span class="line">	另外我在顶层也有一个Controller，名字也叫Browse。</span><br><span class="line"></span><br><span class="line">	那么我们在&lt;span style=&quot;font-size: 13px; line-height: 1.6em;&quot;&gt;输入http://localhost/Browse，我们得到的将是一个异常:&amp;nbsp;Multiple types were found that match the controller named &amp;#39;Browse&amp;#39;.&amp;nbsp;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	而输入http://localhost/Database/Browse，我们却能够正常地访问到 MvcApplication.Areas.Database.Controllers.BrowseController。</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
-<p>## </p>
-<p>原来：</p>
-<pre><code>在注册Area的路由时，如果没有填写命名空间的话，则会默认使用Area所在的命名空间。如此一来，使用Area的路由在寻找Controller时，只会在Area所在的空间下寻找相应的Controller，那就不存在与顶层Controller的冲突问题了，可是顶层的同名Controller问题如何解决呢，这个好办，在顶层路由映射的时候主动加上命名空间吧，这样子就皆大欢喜，你用你的Browse，我用我的Browse，互不相干。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">     routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">     routes.MapRoute(</span><br><span class="line">        &amp;quot;Default&amp;quot;, // Route name</span><br><span class="line">        &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;, // URL with parameters</span><br><span class="line">        new &#123; controller = &amp;quot;Home&amp;quot;, action = &amp;quot;Index&amp;quot;, id = UrlParameter.Optional &#125;,// Parameter defaults</span><br><span class="line">        new[] &#123; &amp;quot;Web.Controllers&amp;quot; &#125;// Namespaces 引入默认的命名空间</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">让起始页为某Area的页面：</span><br><span class="line"></span><br><span class="line">	修改RoutConfig代码：</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">    routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: &amp;quot;Default&amp;quot;,</span><br><span class="line">        url: &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">        defaults: new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">    ).DataTokens.Add(&amp;quot;area&amp;quot;,&amp;quot;Admin&amp;quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>注意后面的DataTokens.Add方法！
-
-Done！
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/378.html">展开全文 >></a>
         </p>
       
 
@@ -1672,6 +1636,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>
