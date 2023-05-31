@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="本文整理jvm基础知识">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-31T08:38:36.106Z">
+<meta property="og:updated_time" content="2023-05-31T11:20:28.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM-基础知识">
 <meta name="twitter:description" content="本文整理jvm基础知识">
@@ -182,6 +182,26 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>本文整理jvm基础知识</p>
+<a id="more"></a>
+<h2 id="多语言编译为字节码在JVM运行"><a href="#多语言编译为字节码在JVM运行" class="headerlink" title="多语言编译为字节码在JVM运行"></a>多语言编译为字节码在JVM运行</h2><p>计算机是不能直接运行java代码的，必须要先运行java虚拟机，再由java虚拟机运行编译后的java代码。这个编译后的java代码，就是本文要介绍的java字节码。</p>
+<p>为什么jvm不能直接运行java代码呢，这是因为在cpu层面看来计算机中所有的操作都是一个个指令的运行汇集而成的，java是高级语言，只有人类才能理解其逻辑，计算机是无法识别的，所以java代码必须要先编译成字节码文件，jvm才能正确识别代码转换后的指令并将其运行。</p>
+<ul>
+<li>Java代码间接翻译成字节码，储存字节码的文件再交由运行于不同平台上的JVM虚拟机去读取执行，从而实现一次编写，到处运行的目的。</li>
+<li>JVM也不再只支持Java，由此衍生出了许多基于JVM的编程语言，如Groovy, Scala, Koltin等等。</li>
+</ul>
+<h2 id="Java字节码文件"><a href="#Java字节码文件" class="headerlink" title="Java字节码文件"></a>Java字节码文件</h2><p>class文件本质上是一个以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在class文件中。jvm根据其特定的规则解析该二进制数据，从而得到相关信息。</p>
+<p>Class文件采用一种伪结构来存储数据，它有两种类型：无符号数和表。这里暂不详细的讲。</p>
+<p>本文将通过简单的java例子编译后的文件来理解。</p>
+<h3 id="Class文件的结构属性"><a href="#Class文件的结构属性" class="headerlink" title="# Class文件的结构属性"></a><a href="#class文件的结构属性">#</a> Class文件的结构属性</h3><p>在理解之前先从整体看下java字节码文件包含了哪些类型的数据：</p>
+<ul>
+<li>魔数与class文件版本</li>
+<li>常量池</li>
+<li>访问标志</li>
+<li>类索引、父类索引、接口索引</li>
+<li>字段表属性</li>
+<li>方法表属性</li>
+<li>属性表属性</li>
+</ul>
 
       
 
@@ -356,7 +376,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    该文章无目录结构
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#多语言编译为字节码在JVM运行"><span class="toc-number">1.</span> <span class="toc-text">多语言编译为字节码在JVM运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java字节码文件"><span class="toc-number">2.</span> <span class="toc-text">Java字节码文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class文件的结构属性"><span class="toc-number">2.1.</span> <span class="toc-text"># Class文件的结构属性</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
