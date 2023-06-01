@@ -161,6 +161,123 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-html-e4-b8-ad-meta-e7-9a-84-e4-bd-9c-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/390.html">HTML 中 META的作用</a>
+    </h1>
+  
+
+        
+        <a href="/390.html" class="archive-article-date">
+  	<time datetime="2014-01-14T02:22:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">	meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签用于网页的&lt;head&gt;与&lt;/head&gt;中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类（目前几乎所有的搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点在搜索引擎上的描述）和keywords（分类关键词），所以应该给每页加一个meta值。比较常用的有以下几个：</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>name 属性</p>
+<pre><code>1、&lt;meta name=&quot;Generator&quot; contect=&quot;&quot;&gt;用以说明生成工具（如Microsoft FrontPage 4.0）等；
+
+2、&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词；
+
+3、&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容；
+
+4、&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者；
+
+5、&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt;
+
+其中的属性说明如下：
+</code></pre><ul>
+<li>设定为all：文件将被检索，且页面上的链接可以被查询；</li>
+<li>设定为none：文件将不被检索，且页面上的链接不可以被查询；</li>
+<li>设定为index：文件将被检索；</li>
+<li>设定为follow：页面上的链接可以被查询；</li>
+<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询；</li>
+<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">http-equiv属性</span><br><span class="line"></span><br><span class="line">	1、&lt;meta http-equiv=&quot;Content-Type&quot; contect=&quot;text/html&quot;;charset=gb_2312-80&quot;&gt;</span><br><span class="line"></span><br><span class="line">	和 &lt;meta http-equiv=&quot;Content-Language&quot; contect=&quot;zh-CN&quot;&gt;用以说明主页制作所使用的文字以及语言；</span><br><span class="line"></span><br><span class="line">	又如英文是ISO-8859-1字符集，还有BIG5、utf-8、shift-Jis、Euc、Koi8-2等字符集；</span><br><span class="line"></span><br><span class="line">	2、&lt;meta http-equiv=&quot;Refresh&quot; contect=&quot;n;url=http://yourlink&quot;&gt;定时让网页在指定的时间n内，跳转到页面http://yourlink；</span><br><span class="line"></span><br><span class="line">	3、&lt;meta http-equiv=&quot;Expires&quot; contect=&quot;Mon,12 May 2001 00:20:00 GMT&quot;&gt;可以用于设定网页的到期时间，一旦过期则必须到服务器上重新调用。需要注意的是必须使用GMT时间格式；</span><br><span class="line"></span><br><span class="line">	4、&lt;meta http-equiv=&quot;Pragma&quot; contect=&quot;no-cache&quot;&gt;是用于设定禁止浏览器从本地机的缓存中调阅页面内容，设定后一旦离开网页就无法从Cache中再调出；</span><br><span class="line"></span><br><span class="line">	5、&lt;meta http-equiv=&quot;set-cookie&quot; contect=&quot;Mon,12 May 2001 00:20:00 GMT&quot;&gt;cookie设定，如果网页过期，存盘的cookie将被删除。需要注意的也是必须使用GMT时间格式；</span><br><span class="line"></span><br><span class="line">	6、&lt;meta http-equiv=&quot;Pics-label&quot; contect=&quot;&quot;&gt;网页等级评定，在IE的internet选项中有一项内容设置，可以防止浏览一些受限制的网站，而网站的限制级别就是通过meta属性来设置的；</span><br><span class="line"></span><br><span class="line">	7、&lt;meta http-equiv=&quot;windows-Target&quot; contect=&quot;_top&quot;&gt;强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；</span><br><span class="line"></span><br><span class="line">	8、&lt;meta http-equiv=&quot;Page-Enter&quot; contect=&quot;revealTrans(duration=10,transtion= 50)&quot;&gt;和&lt;meta http-equiv=&quot;Page-Exit&quot; contect=&quot;revealTrans(duration=20，transtion=6)&quot;&gt;设定进入和离开页面时的特殊效果，这个功能即FrontPage中的&apos;格式/网页过渡&apos;;，不过所加的页面不能够是一个frame页面。</span><br><span class="line"></span><br><span class="line">	以上是常用的几个meta属性，有个人主页的朋友不妨在你的主页中加上它，效果可是不一样的哦：）。</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>什么是Viewport</p>
+<pre><code>手机浏览器是把页面放在一个虚拟的&apos;窗口&apos;;（viewport）中，通常这个虚拟的&apos;窗口&apos;;（viewport）比屏幕宽，这样就不用把每个网页挤到很小的窗口中（这样会破坏没有针对手机浏览器优化的网页的布局），用户可以通过平移和缩放来看网页的不同部分。移动版的 Safari 浏览器最新引进了 viewport 这个 meta tag，让网页开发者来控制 viewport 的大小和缩放，其他手机浏览器也基本支持。
+</code></pre><p><code>`</code></p>
+<p>## </p>
+<p>Viewport 基础</p>
+<pre><code>一个常用的针对移动网页优化过的页面的 viewport meta 标签大致如下：
+
+&lt;meta name=&apos;;viewport&apos;; content=&apos;;width=device-width, initial-scale=1, maximum-scale=1&amp;Prime;&gt;
+</code></pre><ul>
+<li><span style="font-size: 13px; line-height: 1.6em;">width：控制 viewport 的大小，可以指定的一个值，如果 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。</span></li>
+<li><span style="font-size: 13px; line-height: 1.6em;">height：和 width 相对应，指定高度。</span></li>
+<li>initial-scale：初始缩放比例，也即是当页面第一次 load 的时候缩放比例。</li>
+<li>maximum-scale：允许用户缩放到的最大比例。</li>
+<li>minimum-scale：允许用户缩放到的最小比例。</li>
+<li>user-scalable：用户是否可以手动缩放</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/390.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1132,155 +1249,6 @@ Done！
 
 
   
-    <article id="post-和小猪一起搞微信公众号开发—创建自定义菜单" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/367.html">和小猪一起搞微信公众号开发—创建自定义菜单</a>
-    </h1>
-  
-
-        
-        <a href="/367.html" class="archive-article-date">
-  	<time datetime="2013-12-07T05:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><pre><code>前段时间，微信开放了一个非常牛逼的接口，那就是服务号可以创建自定义菜单了。有了这个接口之后，使用微信与公众号交流倒更像是一个与微信内部的一个app交流，大大的强化了公众号的灵活性。
-
-在编辑模式下，公众号管理者可以直接编辑自定义菜单并设定用户点击菜单之后的回复内容或者跳转的指定链接。本文主要介绍使用开发者模式来自定义菜单完成每个用户的个性化内容回复。
-</code></pre><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><pre><code>自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能。开启自定义菜单后，公众号界面如图所示：
-
-![](http://mp.weixin.qq.com/wiki/images/thumb/0/0a/%E8%8F%9C%E5%8D%95.jpg/600px-%E8%8F%9C%E5%8D%95.jpg)
-
-目前自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以&amp;ldquo;...&amp;rdquo;代替。请注意，创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。建议测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。
-
-目前自定义菜单接口可实现两种类型按钮，如下：
-</code></pre><ol>
-<li>click： 用户点击click类型按钮后，微信服务器会通过消息接口推送消息类型为event 的结构给开发者，并且带上按钮中开发者填写的key值，开发者可以通过自定义的key值与用户进行交互；</li>
-<li><p>view： 用户点击view类型按钮后，微信客户端将会打开开发者在按钮中填写的url值 （即网页链接），达到打开网页的目的，建议与网页授权获取用户基本信息接口结合，获得用户的登入个人信息。</p>
-<p>由第一点的click类型按钮可以延伸出很多的拓展功能，例如目前比较火的微信公众号：招商银行信用卡中心！利用用户点击的这个事件自定义生成一个链接，该链接加上用户的微信信息参数(例如openid)。用户点击链接进去之后可以进行相关的绑定信用卡的操作。这个操作过程如果不使用用户先进行操作而直接绑定是无法实现的。</p>
-<p>而第二个view按钮则跟编辑模式类似，点击过后微信会使用其自带的浏览器打开一个链接。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">实现</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>第一步：获取access_token</p>
-<pre><code>具体请参照&amp;nbsp;[&lt;span style=&quot;color:#000000;&quot;&gt;和小猪一起搞微信公众号开发&amp;mdash;获取Access_token&lt;/span&gt;](http://www.smallerpig.com/archives/366 &quot;链向和小猪一起搞微信公众号开发—获取Access_token的固定链接&quot;)
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">第二步：设计好您的菜单列表并写出对应的json数据</span><br><span class="line"></span><br><span class="line">	小猪弄了个示例json数据</span><br></pre></td></tr></table></figure></p>
-<p>Postdata = &quot;{&#39;button&#39;:[{&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;只有一级C&#39;,&#39;key&#39;:&#39;V1001_TODAY_MUSIC&#39;},&quot;</p>
-<pre><code>+ &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;只有一级V&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;www.ruiyuedigi.com&amp;#39;},&amp;quot;
-+ &amp;quot;{ &amp;#39;name&amp;#39;:&amp;#39;二菜单&amp;#39;,&amp;#39;sub_button&amp;#39;:[{&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://www.soso.com/&amp;#39;},&amp;quot;
-+ &amp;quot; {&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://v.qq.com/&amp;#39;},&amp;quot;
-+ &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级Click&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_111111&amp;#39;},&amp;quot;
-+ &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;菜单最多7个字&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_22222&amp;#39;},&amp;quot;
-+ &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;最多5个菜单&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_444444&amp;#39;}]}]&amp;quot;
-+ &amp;quot;}&amp;quot;,
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	**参数说明**</span><br><span class="line"></span><br><span class="line">	​</span><br><span class="line"></span><br><span class="line">&lt;table align=&quot;center&quot; border=&quot;1&quot; cellpadding=&quot;4&quot; cellspacing=&quot;0&quot; style=&quot;font-family: &apos;Microsoft Yahei&apos;, 宋体, Tahoma, Arial; font-size: 14px; line-height: 24px;&quot; width=&quot;640px&quot;&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;th style=&quot;width: 120px;&quot;&gt;</span><br><span class="line">				参数</span><br><span class="line">			&lt;/th&gt;</span><br><span class="line">			&lt;th style=&quot;width: 120px;&quot;&gt;</span><br><span class="line">				是否必须</span><br><span class="line">			&lt;/th&gt;</span><br><span class="line">			&lt;th&gt;</span><br><span class="line">				说明</span><br><span class="line">			&lt;/th&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				button</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				是</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				一级菜单数组，个数应为1~3个</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				sub_button</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				否</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				二级菜单数组，个数应为1~5个</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				type</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				是</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				菜单的响应动作类型，目前有click、view两种类型</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				name</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				是</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				菜单标题，不超过16个字节，子菜单不超过40个字节</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				key</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				click类型必须</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				菜单KEY值，用于消息接口推送，不超过128字节</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				url</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				view类型必须</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				网页链接，用户点击菜单可打开链接，不超过256字节</span><br><span class="line"></span><br><span class="line">				&amp;nbsp;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">	&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>第三步：创建http请求微信接口</p>
-<pre><code>同样，小猪把示例代码帖出来
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#region https 请求</span><br><span class="line">HttpHelper http = new HttpHelper\(\);</span><br><span class="line">HttpItem item = new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">    URL = &amp;quot;https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ruiyue.zhuqi.test&amp;quot;,//URL     必需项    </span><br><span class="line">    Method = &amp;quot;post&amp;quot;,//URL     可选项 默认为Get   </span><br><span class="line">    Postdata = &amp;quot;&#123;&amp;#39;button&amp;#39;:[&#123;&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;只有一级C&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_TODAY_MUSIC&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot;&#123;&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;只有一级V&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;www.ruiyuedigi.com&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot;&#123; &amp;#39;name&amp;#39;:&amp;#39;二菜单&amp;#39;,&amp;#39;sub_button&amp;#39;:[&#123;&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://www.soso.com/&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot; &#123;&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://v.qq.com/&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot;&#123;&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级Click&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_111111&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot;&#123;&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;菜单最多7个字&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_22222&amp;#39;&#125;,&amp;quot;</span><br><span class="line">     + &amp;quot;&#123;&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;最多5个菜单&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_444444&amp;#39;&#125;]&#125;]&amp;quot;</span><br><span class="line">     + &amp;quot;&#125;&amp;quot;,//Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout = 100000,//连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000</span><br><span class="line">    ContentType = &amp;quot;*&amp;quot;,//返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect = false,//是否根据301跳转</span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result = http.GetHtml(item);</span><br><span class="line">string html = result.Html;</span><br></pre></td></tr></table></figure>
-<pre><code>这时候如果您接收到的html字符串为
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;&amp;quot;errcode&amp;quot;:0,&amp;quot;errmsg&amp;quot;:&amp;quot;ok&amp;quot;&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>那么恭喜你，你的自定义菜单创建成功了，
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">第四步：关注微信账号查看效果</span><br><span class="line"></span><br><span class="line">	[![wp_ss_20131207_0002](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131207_0002-180x300.png)](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131207_0002.png)</span><br><span class="line"></span><br><span class="line"># </span><br><span class="line">	附上完整的Controller=》Action代码</span><br></pre></td></tr></table></figure></p>
-<pre><code>public ActionResult CreateMenu\(\)
-{
-
-    #region https 请求
-    HttpHelper http = new HttpHelper\(\);
-    HttpItem item = new HttpItem\(\)
-    {
-        URL = &amp;quot;https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ruiyue.zhuqi.test&amp;quot;,//URL     必需项    
-        Method = &amp;quot;post&amp;quot;,//URL     可选项 默认为Get   
-        IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
-        Cookie = &amp;quot;&amp;quot;,//字符串Cookie     可选项   
-        Referer = &amp;quot;&amp;quot;,//来源URL     可选项   
-        Postdata = &amp;quot;{&amp;#39;button&amp;#39;:[{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;只有一级C&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_TODAY_MUSIC&amp;#39;},&amp;quot;
-         + &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;只有一级V&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;www.ruiyuedigi.com&amp;#39;},&amp;quot;
-         + &amp;quot;{ &amp;#39;name&amp;#39;:&amp;#39;二菜单&amp;#39;,&amp;#39;sub_button&amp;#39;:[{&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://www.soso.com/&amp;#39;},&amp;quot;
-         + &amp;quot; {&amp;#39;type&amp;#39;:&amp;#39;view&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级view&amp;#39;,&amp;#39;url&amp;#39;:&amp;#39;http://v.qq.com/&amp;#39;},&amp;quot;
-         + &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;二级Click&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_111111&amp;#39;},&amp;quot;
-         + &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;菜单最多7个字&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_22222&amp;#39;},&amp;quot;
-         + &amp;quot;{&amp;#39;type&amp;#39;:&amp;#39;click&amp;#39;,&amp;#39;name&amp;#39;:&amp;#39;最多5个菜单&amp;#39;,&amp;#39;key&amp;#39;:&amp;#39;V1001_444444&amp;#39;}]}]&amp;quot;
-         + &amp;quot;}&amp;quot;,//Post数据     可选项GET时不需要写   
-        Timeout = 100000,//连接超时时间     可选项默认为100000    
-        ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000  
-        ContentType = &amp;quot;*&amp;quot;,//返回类型    可选项有默认值   
-        Allowautoredirect = false,//是否根据301跳转
-    };
-    HttpResult result = http.GetHtml(item);
-    string html = result.Html;
-    string cookie = result.Cookie;
-
-    #endregion
-
-    return Content(html);
-}
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;nbsp;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/367.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/21/">Next &raquo;</a>
@@ -1378,11 +1346,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1446,10 +1414,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1474,11 +1438,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1486,7 +1454,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1495,10 +1463,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1511,6 +1475,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1530,18 +1498,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
@@ -1554,6 +1510,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1562,7 +1530,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1570,11 +1542,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1590,15 +1558,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1611,10 +1583,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1642,11 +1610,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1666,6 +1634,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1678,19 +1650,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">

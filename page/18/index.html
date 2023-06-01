@@ -161,6 +161,98 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dispatcher-invoke-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/441.html">Dispatcher.Invoke方法</a>
+    </h1>
+  
+
+        
+        <a href="/441.html" class="archive-article-date">
+  	<time datetime="2014-03-20T08:46:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-03-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一篇小猪分享过<a href="http://www.smallerpig.com/archives/433" target="_blank" rel="noopener">在WPF中简单的使用BackgroundWorker完成多线程操作</a>！在那篇中小猪利用了BackgroundWorker组件对耗时比较多的操作放在了单独的BackgroundWorker里来完成，例如说：网络请求的登录操作，说到网络请求当然还有另外一种请求：网络下载。</p>
+<p>当客户端需要进行网络下载操作时如果只是简单的用多线程这么一个操作而不给用户知道当前的下载进度的话那么用户将不知道已经下载了多少，甚至有可能直接关闭了主应用程序。那就杯具了。</p>
+<p>这时候就涉及到在另外的线程中来更新UI，但是WPF却明确的规定：UI元素只能由其主线程来操作，其他任何线程都不可以直接操作UI。而实时的下载进度又不能通过调用某个回调函数来完成更新UI。<br> WPF中的UI控件，如果我们探究本质，他们都是从DispatcherObject继承，所以都必须由UI线程进行调度和使用，如果我们在其他的后台线程中操作界面相关的元素时，就会出现如下的异常信息：调用线程无法访问此对象，因为另一个线程拥有该对象。</p>
+<p>这时候就是Dispatcher.Invoke方法上场的时间了<br>在 WPF 中，只有创建 DispatcherObject 的线程才能访问该对象。 例如，一个从主 UI 线程派生的后台线程不能更新在该 UI 线程上创建的 Button 的内容。 为了使该后台线程能够访问 Button 的 Content 属性，该后台线程必须将此工作委托给与该 UI 线程关联的 Dispatcher。使用 Invoke 或 BeginInvoke 来完成此操作。 Invoke 是同步操作，而 BeginInvoke 是异步操作。 该操作将按指定的 DispatcherPriority 添加到 Dispatcher 的事件队列中。 </p>
+<p>下面代码实现了我们想要的功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">private delegate void SetTipsValue_dg(long solength, long stlength);</span><br><span class="line">private void SetTipsValue(long solength, long stlength)</span><br><span class="line">&#123;</span><br><span class="line">    block_Tips.Text = &quot;下载中....&quot; + solength + &quot;/&quot; + stlength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool DownloadFile(string URL, string filename)</span><br><span class="line">&#123;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        System.Net.HttpWebRequest Myrq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(URL);</span><br><span class="line">        System.Net.HttpWebResponse myrp = (System.Net.HttpWebResponse)Myrq.GetResponse\(\);</span><br><span class="line">        System.IO.Stream st = myrp.GetResponseStream\(\);</span><br><span class="line">        long stll = myrp.ContentLength;</span><br><span class="line">        System.IO.Stream so = new System.IO.FileStream(filename, System.IO.FileMode.Create);</span><br><span class="line">        byte[] by = new byte[1024];</span><br><span class="line">        int osize = st.Read(by, 0, (int)by.Length);</span><br><span class="line">        while (osize &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            long sol = so.Length;</span><br><span class="line">            long stl = stll;</span><br><span class="line">            this.block_Tips.Dispatcher.Invoke(new SetTipsValue_dg(SetTipsValue), sol, stl);</span><br><span class="line">            so.Write(by, 0, osize);</span><br><span class="line">            osize = st.Read(by, 0, (int)by.Length);</span><br><span class="line">        &#125;</span><br><span class="line">        so.Close\(\);</span><br><span class="line">        st.Close\(\);</span><br><span class="line">        myrp.Close\(\);</span><br><span class="line">        Myrq.Abort\(\);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    catch (System.Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码首先定义了一个委托：该委托接受两个参数分别代表当前下载量和总下载量，然后定义了一个具体的实现该委托的方法，该方法调用UI来显示数据。</p>
+<p>在下载数据的主函数DownloadFile中调用了this.block_Tips.Dispatcher.Invoke方法并将实现了委托的方法SetTipsValue方法和当前下载量及总下载量的数值传进去我们就完成了整个操作。这样我们在下载数据的时候用另外的线程开启了DownloadFile方法就可以实时的显当前的下载进度了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/Windows-Phone-8//" class="article-tag-list-link color1">Windows Phone 8</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/Windows-Phone-8/WPF//" class="article-tag-list-link color4">WPF</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/441.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ienumerable-e6-8e-a5-e5-8f-a3-e7-9a-84aggregate-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -989,99 +1081,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-闭包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/409.html">闭包</a>
-    </h1>
-  
-
-        
-        <a href="/409.html" class="archive-article-date">
-  	<time datetime="2014-01-22T08:06:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Javascript的闭包"><a href="#Javascript的闭包" class="headerlink" title="Javascript的闭包"></a>Javascript的闭包</h2><p>下面代码中，generateClosure() 函数中有一个局部变量count，初值为0。还有一个叫做 get 的函数，get 将其父作用域，也就是 generateClosure() 函数中的 count 变量增加1，并返回 count 的值。generateClosure() 的返回值是 get 函数。在外部我们通过 counter 变量调用了 generateClosure() 函数并获取了它的返回值，也就是 get 函数，接下来反复调用几次counter()，我们发现每次返回的值都递增了1。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">var</span> generateClosure = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    <span class="keyword">var</span> count = <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="keyword">get</span> = function() &#123; </span><br><span class="line">        count ++; </span><br><span class="line">        <span class="keyword">return</span> count; </span><br><span class="line">    &#125;; </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">get</span>; </span><br><span class="line">&#125;; </span><br><span class="line">var counter = generateClosure(); </span><br><span class="line">console.log(counter()); // 输出1 </span><br><span class="line">console.log(counter()); // 输出2 </span><br><span class="line">console.log(counter()); // 输出3</span><br></pre></td></tr></table></figure></p>
-<p>让我们看看上面的例子有什么特点，按照通常命令式编程思维的理解，count 是generateClosure 函数内部的变量，它的生命周期就是generateClosure 被调用的时期，当 generateClosure 从调用栈中返回时，count 变量申请的空间也就被释放。问题是，在 generateClosure() 调用结束后，counter() 却引用了“已经释放了的” count 变量，而且非但没有出错，反而每次调用 counter() 时还修改并返回了count。这是怎么回事呢？</p>
-<p>这正是所谓闭包的特性。当一个函数返回它内部定义的一个函数时，就产生了一个闭包，闭包不但包括被返回的函数，还包括这个函数的定义环境。上面例子中，当函数generateClosure() 的内部函数get 被一个外部变量counter 引用时，counter 和generateClosure() 的局部变量就是一个闭包。</p>
-<h2 id="C-中也存在闭包"><a href="#C-中也存在闭包" class="headerlink" title="C#中也存在闭包"></a>C#中也存在闭包</h2><p>在C#里面，变量作用域有三种，一种是属于类的，我们常称之为field；第二种则属于函数的，我们通常称之为局部变量；还有一种，其实也是属于函数的，不过它的作用范围更小，它只属于函数局部的代码片段，这种同样称之为局部变量。这三种变量的生命周期基本都可以用一句话来说明，每个变量都属于它所寄存的对象，即变量随着其寄存对象生而生和消亡。对应三种作用域我们可以这样说，类里面的变量是随着类的实例化而生，同时伴随着类对象的资源回收而消亡(当然这里不包括非实例化的static和const对象)。而函数(或代码片段)的变量也随着函数(或代码片段)调用开始而生，伴随函数(或代码片段)调用结束而自动由GC释放，它内部变量生命周期满足先进后出的特性。</p>
-<p>我们知道，C#, Java和JavaScript, Ruby, Python这些语言不同，在C#和Java的世界里面，原子对象就是类(当然还有struct和基本变量)，而不是很多动态语言中的函数，我们可以实例化一个类，实例化一个变量，但不可以直接new 一个函数。也就是表面上看，我们是没办法像js那样将函数进行实例化和传递的。这也是为什么直到Java 7闭包才被姗姗来迟的加入Java特性中。但对C#来说这些只是表象，我刚学C#的时候，看到最多的解释委托的话就是：委托啊，就相当于C++里面的函数指针啦。这句话虽然笼统，但确实有一定道理，通过委托特别是匿名委托这层对象的包装，我们就可以突破无法将函数当做对象传递的限制了。</p>
-<p>好像这里还是没讲到闭包和委托的关系，好吧，我太啰嗦了，下面从概念开始讲。</p>
-<p>闭包其实就是使用的变量已经脱离其作用域，却由于和作用域存在上下文关系，从而可以在当前环境中继续使用其上文环境中所定义的一种函数对象。</p>
-<p>下面小猪把上面的js代码翻译成对应的C#代码：<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TCloser</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Func&amp;lt;<span class="keyword">int</span>&amp;gt; T1()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> n =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> () =&gt;;</span><br><span class="line">        &#123;</span><br><span class="line">            n++</span><br><span class="line">            Console.WriteLine(n);</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="keyword">new</span> TCloser();</span><br><span class="line">        <span class="keyword">var</span> b = a.T1();</span><br><span class="line">        Console.WriteLine(b());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从上面的代码我们不难看到，变量n实际上是属于函数T1的局部变量，它本来生命周期应该是伴随着函数T1的调用结束而被释放掉的，但这里我们却在返回的委托b中仍然能调用它，这里正是闭包所展示出来的威力。因为T1调用返回的匿名委托的代码片段中我们用到了n，而在编译器看来，这些都是合法的，因为返回的委托b和函数T1存在上下文关系，也就是说匿名委托b是允许使用它所在的函数或者类里面的局部变量的，于是编译器通过一系列动作(具体动作我们后面再说)使b中调用的函数T1的局部变量自动闭合，从而使该局部变量满足新的作用范围。</p>
-<p>因此，如果你看到.NET中的闭包，你就可以像js中那样理解它，由于返回的匿名函数对象是在函数T1中生成的，因此相当于它是属于T1的一个属性。如果你把T1的对象级别往上提升一个层次就很好理解了，这里就相当于T1是一个类，而返回的匿名对象则是T1的一个属性，对属性而言，它可以调用它所寄存的对象T1的任何其他属性或者方法，包括T1寄存的对象TCloser内部的其他属性。如果这个匿名函数会被返回给其他对象调用，那么编译器会自动将匿名函数所用到的方法T1中的局部变量的生命周转期自动提升，并与匿名函数的生命周期相同，这样就称之为闭合。</p>
-<p>参考:<a href="http://kb.cnblogs.com/page/111231/" title="http://kb.cnblogs.com/page/111231/" target="_blank" rel="noopener">http://kb.cnblogs.com/page/111231/</a></p>
-<p>《Node.js》开发指南</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/409.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1179,11 +1178,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hive</a>
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1247,10 +1246,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1275,11 +1270,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1287,7 +1286,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1296,10 +1295,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1312,6 +1307,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1331,18 +1330,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
@@ -1355,6 +1342,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1363,7 +1362,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1371,11 +1374,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1391,15 +1390,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1412,10 +1415,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1443,11 +1442,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1467,6 +1466,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1479,19 +1482,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
