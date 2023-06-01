@@ -161,6 +161,210 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-event-srcelement-e5-9c-a8-e7-81-ab-e7-8b-90firefox-e4-b8-8b-e7-9a-84-e5-85-bc-e5-ae-b9-e9-97-ae-e9-a2-98-e3-80-82-e6-90-9c-e7-b4-a2-e6-a1-86-e8-8e-b7-e5-be-97-e7-84-a6-e7-82-b9-e6-97-b6-e9-bb-98" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/344.html">event.srcElement在火狐(FireFox)下的兼容问题。搜索框获得焦点时默认文字变化</a>
+    </h1>
+  
+
+        
+        <a href="/344.html" class="archive-article-date">
+  	<time datetime="2013-11-13T00:44:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">前言：</span><br><span class="line"></span><br><span class="line">	项目中用到了一个功能，搜索框里有默认的文字，当搜索框获得焦点时里面的默认文字消失，如果失去焦点时搜索框内容为空则让里面的内容回复默认!,.</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>实现：</p>
+<pre><code>很轻松的在网上找到了类似代码
+</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#search_text"</span>).focus(<span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">with</span> (event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为默认值，则清空 </span></span><br><span class="line">        <span class="keyword">if</span> (value == defaultValue) value = <span class="string">""</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#search_text"</span>).blur(<span class="function"><span class="keyword">function</span> <span class="title">res</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//捕获触发事件的对象，并设置为以下语句的默认对象 </span></span><br><span class="line">    <span class="keyword">with</span> (event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为空，则重置为默认值 </span></span><br><span class="line">        <span class="keyword">if</span> (value == <span class="string">""</span>) &#123;</span><br><span class="line">            value = defaultValue;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code>该代码很牛逼，用到了js里面的with语法(虽然书上说因为性能原因不建议使用with)，而且完全支持IE6。
+
+但是问题来了，连IE都支持的这段代码竟然在火狐上面出现了兼容的问题。
+
+查了资料原来是
+
+event.srcElement 意思是当前事件的源，我们可以调用它的各种属性，就像 document.getElementById(id) 一样。
+
+IE下，event对象有 srcElement 属性，没有target属性；firefox下，event对象有 target属性，但是没有 srcElement 属性。他们的作用是一样的。
+</code></pre><h2 id="版本二："><a href="#版本二：" class="headerlink" title="版本二："></a>版本二：</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#search_text"</span>).focus(<span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">with</span> (event.target || event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为默认值，则清空 </span></span><br><span class="line">        <span class="keyword">if</span> (value == defaultValue) value = <span class="string">""</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#search_text"</span>).blur(<span class="function"><span class="keyword">function</span> <span class="title">res</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//捕获触发事件的对象，并设置为以下语句的默认对象 </span></span><br><span class="line">    <span class="keyword">with</span> (event.target || event.srcElement)</span><br><span class="line">        <span class="comment">//如果当前值为空，则重置为默认值 </span></span><br><span class="line">        <span class="keyword">if</span> (value == <span class="string">""</span>) &#123;</span><br><span class="line">            value = defaultValue;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code>好了，可以让你的代码在项目中运行起来了
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/344.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp-net-mvc-e4-b8-8a-e4-bc-a0-e5-a4-a7-e6-96-87-e4-bb-b6-e6-97-b6404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/343.html">ASP.NET MVC 上传大文件时404</a>
+    </h1>
+  
+
+        
+        <a href="/343.html" class="archive-article-date">
+  	<time datetime="2013-11-12T00:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。</p>
+<p>后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。</p>
+<p>反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题;</p>
+<p>但小于30M又是一切OK，难道是上传的文件大小有所限制？</p>
+<p>检查web.config的httpRuntime ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;httpRuntime maxRequestLength=&quot;2097151&quot; executionTimeout=&quot;50000&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>已经是很大值了。</p>
+<p>因为无法正确得到详细的错误信息，就用一个普通的FORM提交一个FileUpload测试，原来真是web.config的设置问题：</p>
+<h1 id="报错信息："><a href="#报错信息：" class="headerlink" title="报错信息："></a>报错信息：</h1><p>最可能的原因: Web 服务器上的请求筛选被配置为拒绝该请求，因为内容长度超过配置的值。 可尝试的操作: 确认 applicationhost.config 或 web.config 文件中的 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。 </p>
+<p>链接和更多信息<br>这是一项安全功能。请不要更改此功能，除非您完全清楚更改的影响范围。您可以配置 IIS 7.0 服务器以拒绝内容长度大于指定值的请求。如果请求的内容长度大于所配置的长度，便会返回此错误。如果需要增加内容长度，请修改 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>原来IIS7的上传文件大小，即便是在经典模式下，也一定要在system.webServer里设置，加上去就OK了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;security&gt;</span><br><span class="line"></span><br><span class="line">    &lt;requestFiltering &gt;</span><br><span class="line"></span><br><span class="line">      &lt;requestLimits maxAllowedContentLength=&quot;1073741824&quot; &gt;&lt;/requestLimits&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/requestFiltering&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/security&gt;</span><br><span class="line"></span><br><span class="line">&lt;/system.webServer&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/343.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-css-e5-8e-bb-e9-99-a4-e5-88-97-e8-a1-a8-e9-a1-b9li-e5-89-8d-e9-9d-a2-e7-9a-84-e5-b0-8f-e5-9c-86-e7-82-b9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -990,200 +1194,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-关于博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/316.html">关于博客</a>
-    </h1>
-  
-
-        
-        <a href="/316.html" class="archive-article-date">
-  	<time datetime="2013-09-21T09:26:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现我的博客基本上除了自己很少有其他人访问！</p>
-<p>罢了，其实我写一些博客也不是为了谋取多大的利益，而是光光为了记录一些生活中的感想，技术的一点积累，仅此而已，至于访问量什么的，随他去吧，放上广告也是光为了自己买东西的时候能够返点利而已。</p>
-<p>曾经还会幼稚的认为我写的博客会不会被一些老师看到不好，会不会被一些其他人看到引起不必要的麻烦。</p>
-<p>现在想想完全是多虑了，看着统计中的访问量。~~呵呵呵~</p>
-<p>所以、、、肆无忌惮的发泄吧骚年。</p>
-<p>&nbsp;</p>
-<p>下面引用的是一片文章：</p>
-<p>&nbsp;</p>
-<p><strong>即便没有读者，你也要写博客</strong></p>
-<p>写博客已经改变我阅读其他文章的方式。</p>
-<p>在努力寻找一种正确的方式来构思和呈现文章时，我更关注是什么造就了出色观点和糟糕观点，我更善于发现他人推理中的漏洞。</p>
-<p>同时，当我在阅读文章时，我不大可能陷入那些有弱反诉（weak counterclaims）文章的抹黑陷阱。在大多数文章中 ，很可能有基于特殊案例（exceptional cases）的反诉。互联网评论家喜欢把这些指出来。然而，特殊案例并不是文章的主要推动力，理解文章观点背后的隐喻背景，我又从阅读中获取良多。</p>
-<p>&nbsp;</p>
-<p>写作让你变得更聪明</p>
-<p>写作可以揭示你思维中的漏洞。在你回顾之前写下的想法时，你会发现不少东西缺乏说服力。通过推翻之前的观点，写作会迫使你的想法更加成熟。</p>
-<p>写作也能帮助你把想法组织得连贯。一旦有话题时，这也就让你更加健谈了。正因我先把想法酝酿成熟后，我与人交谈更加深入了，这样的讨论次数之多，我已记不清了。</p>
-<p><strong>其他阅读:</strong></p>
-<p><a href="http://www.smallerpig.com/508.html" title="我的建站之路" target="_blank" rel="noopener">我的建站之路</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/316.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-关于借钱" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/314.html">关于借钱</a>
-    </h1>
-  
-
-        
-        <a href="/314.html" class="archive-article-date">
-  	<time datetime="2013-09-17T09:40:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>小猪在去年过年前向一好哥们借了三千块钱，当时想着放身上以备不测。后来这个钱到现在都没有还上，还好这哥们是小猪从小玩到大的基友，不会跟小猪为了这三千块钱急~我跟他说这事也是很厚脸皮的说：哥现在没钱……，实则小猪非常想把这钱给垫上，这钱确实让小猪有点喘不过气。</p>
-<p><strong>故事</strong></p>
-<p>现在一大学同学打电话来跟小猪说今天出了点急事，急需用钱，而他的钱都被别人借去要过段时间才能还，问我能否借其点钱，我问多少，他说一万。本来和他还算要好，如果说几百几十的小猪也就顺利支持了，虽然现在每个月都等着那点工资来救济自己，合着人家难得开一次口。但是一开口要一万、确实是让小猪为难，昨天刚发的点工资，还要准备中秋、国庆、月底房租等等等等。没办法，我只能和其说：我帮你看看我身边朋友同学有没有。</p>
-<p>这时故事中的同学j和同学c就出现了。</p>
-<p>j、c都是舍友关系，小猪与j之间关系比较要好，大学毕业之后经常打电话互相调情，久而久之感情还算说的过去，毕竟在一个房间一个床上睡过的。而且j与这位同学关系也甚好，上段时间还以某借口出去腐败了一下。当我电话过去的时候其分析了这位同学的近况然后建议小猪少拿点出来并且最好不要指望着能把钱收回来，而他能出多少得先挂电话等中午休息的时候再说。与c的交流是通过qq进行的，他的说法很简单，钱不多，只有小几千，借也可以，但是得有他自己来借，并且得知道他到底发生了什么事。</p>
-<p><strong>讨论</strong></p>
-<p>小猪一开始就没搞明白为什么就给了我一个人打电话，而与其关系甚密的J和C他为何不向他们开口？带着这样的疑问把事实跟J、C说了之后，小猪原本是想以他的名义向J、C借，一来可以动之以情晓之以理，二来以后即使还不上罪也不完全在于我身上，可事实却不是如此了。其实这时候小猪就在想，如果没有了今天这同学打电话给我，而是我直接向J、C借的话反而可能让J和C掏钱出来，或者他不通过我而向J、C借也有可能。但多了这一层的关系反而使这件事难办了。整个过程谁都没有做错。</p>
-<p><strong>结果</strong></p>
-<p>结果就是小猪从生活费里拿出2000借给了他。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/314.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/21/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/23/">Next &raquo;</a>
@@ -1281,15 +1291,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1306,6 +1312,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1333,6 +1343,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1345,7 +1359,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1381,15 +1395,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1401,6 +1411,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
@@ -1409,15 +1423,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1433,19 +1443,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1457,6 +1463,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1465,23 +1475,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1489,7 +1483,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1505,10 +1519,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">手机</a>
               </li>
              
@@ -1517,15 +1527,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1549,10 +1563,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">游戏</a>
               </li>
              
@@ -1569,10 +1579,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1585,15 +1591,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1629,11 +1639,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

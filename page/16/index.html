@@ -161,6 +161,211 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp-net-mvc-e6-ba-90-e7-a0-81-e8-a7-a3-e6-9e-90jsonresult" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/745.html">[ASP.NET MVC]源码解析:JsonResult</a>
+    </h1>
+  
+
+        
+        <a href="/745.html" class="archive-article-date">
+  	<time datetime="2015-06-05T03:21:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JsonResult类主要用来向调用者返回json格式的数据,其响应头的ContentType值默认为application/json.</p>
+<p>JsonResult其本身实现了抽象类ActionResult,定义为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">namespace System.Web.Mvc</span><br><span class="line">&#123;</span><br><span class="line">    public abstract class ActionResult</span><br><span class="line">    &#123;</span><br><span class="line">        public abstract void ExecuteResult(ControllerContext context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其只有一个抽象方法:ExecuteResult(context)!用来向浏览器输出!</p>
+<p>JsonResult的完整代码为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">namespace System.Web.Mvc</span><br><span class="line">&#123;</span><br><span class="line">    public class JsonResult : ActionResult</span><br><span class="line">    &#123;</span><br><span class="line">        public JsonResult\(\)</span><br><span class="line">        &#123;</span><br><span class="line">            JsonRequestBehavior = JsonRequestBehavior.DenyGet;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Encoding ContentEncoding &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public string ContentType &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public object Data &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public JsonRequestBehavior JsonRequestBehavior &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        /// </span><br><span class="line">        /// When set MaxJsonLength passed to the JavaScriptSerializer.</span><br><span class="line">        /// </span><br><span class="line">        public int? MaxJsonLength &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        /// </span><br><span class="line">        /// When set RecursionLimit passed to the JavaScriptSerializer.</span><br><span class="line">        /// </span><br><span class="line">        public int? RecursionLimit &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public override void ExecuteResult(ControllerContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            if (context == null)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new ArgumentNullException(&quot;context&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            if (JsonRequestBehavior == JsonRequestBehavior.DenyGet &amp;amp;&amp;amp;</span><br><span class="line">                String.Equals(context.HttpContext.Request.HttpMethod, &quot;GET&quot;, StringComparison.OrdinalIgnoreCase))</span><br><span class="line">            &#123;</span><br><span class="line">                throw new InvalidOperationException(MvcResources.JsonRequest_GetNotAllowed);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            HttpResponseBase response = context.HttpContext.Response;</span><br><span class="line"></span><br><span class="line">            if (!String.IsNullOrEmpty(ContentType))</span><br><span class="line">            &#123;</span><br><span class="line">                response.ContentType = ContentType;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                response.ContentType = &quot;application/json&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            if (ContentEncoding != null)</span><br><span class="line">            &#123;</span><br><span class="line">                response.ContentEncoding = ContentEncoding;</span><br><span class="line">            &#125;</span><br><span class="line">            if (Data != null)</span><br><span class="line">            &#123;</span><br><span class="line">                JavaScriptSerializer serializer = new JavaScriptSerializer\(\);</span><br><span class="line">                if (MaxJsonLength.HasValue)</span><br><span class="line">                &#123;</span><br><span class="line">                    serializer.MaxJsonLength = MaxJsonLength.Value;</span><br><span class="line">                &#125;</span><br><span class="line">                if (RecursionLimit.HasValue)</span><br><span class="line">                &#123;</span><br><span class="line">                    serializer.RecursionLimit = RecursionLimit.Value;</span><br><span class="line">                &#125;</span><br><span class="line">                response.Write(serializer.Serialize(Data));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重点为response.Write部分代码.其调用了一个JavaScriptSerializer对象的Serialize方法对Data数据进行序列化!</p>
+<p>类内部本身又用到了枚举类型JsonRequestBehavior:以用来标示请求是否允许get的方式来请求Json.默认值为DenyGet,也就是说当在get请求中返回JsonResult结果系统将直接报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">namespace System.Web.Mvc</span><br><span class="line">&#123;</span><br><span class="line">    public enum JsonRequestBehavior</span><br><span class="line">    &#123;</span><br><span class="line">        AllowGet,</span><br><span class="line">        DenyGet,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可见JsonResult类提供了如下的属性供我们来设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public object                 Data &#123; get; set; &#125;  </span><br><span class="line"> public Encoding               ContentEncoding &#123; get; set; &#125;</span><br><span class="line"> public string                 ContentType &#123; get; set; &#125;    </span><br><span class="line"> public JsonRequestBehavior    JsonRequestBehavior &#123; get; set; &#125;    </span><br><span class="line"> public int?                   MaxJsonLength &#123; get; set; &#125;</span><br><span class="line"> public int?                   RecursionLimit &#123; get; set; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中</p>
+<ul>
+<li>object为返回内容,</li>
+<li>ContentEncoding为返回请求头的ContentEncoding值,</li>
+<li>ContentType为返回请求头的ContentType值 ,默认值为application/json.</li>
+<li>JsonRequestBehavior枚举标示是否允许get请求. 默认为不允许get请求</li>
+<li>RecursionLimit为递归限制值.限制json数据的层数(如果有值的话) ,默认为100</li>
+<li>MaxJsonLength为Json数据的最大长度(如果有值的话),默认值位为2097152（0x200000，等同于 4 MB 的 Unicode 字符串数据）<br>在Controller类中,其为我们提供了一个简化的Json()方法.该方法提供了6个重载方法根据指定的数据对象、编码方式为我们简化实例化JsonResult的过程:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">protected internal JsonResult Json(object data)</span><br><span class="line">        &#123;</span><br><span class="line">            return Json(data, null /* contentType */, null /* contentEncoding */, JsonRequestBehavior.DenyGet);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected internal JsonResult Json(object data, string contentType)</span><br><span class="line">        &#123;</span><br><span class="line">            return Json(data, contentType, null /* contentEncoding */, JsonRequestBehavior.DenyGet);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected internal virtual JsonResult Json(object data, string contentType, Encoding contentEncoding)</span><br><span class="line">        &#123;</span><br><span class="line">            return Json(data, contentType, contentEncoding, JsonRequestBehavior.DenyGet);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected internal JsonResult Json(object data, JsonRequestBehavior behavior)</span><br><span class="line">        &#123;</span><br><span class="line">            return Json(data, null /* contentType */, null /* contentEncoding */, behavior);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected internal JsonResult Json(object data, string contentType, JsonRequestBehavior behavior)</span><br><span class="line">        &#123;</span><br><span class="line">            return Json(data, contentType, null /* contentEncoding */, behavior);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected internal virtual JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)</span><br><span class="line">        &#123;</span><br><span class="line">            return new JsonResult</span><br><span class="line">            &#123;</span><br><span class="line">                Data = data,</span><br><span class="line">                ContentType = contentType,</span><br><span class="line">                ContentEncoding = contentEncoding,</span><br><span class="line">                JsonRequestBehavior = behavior</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>重点看最后一个重载的实现,其就是根据调用的参数来实例化一个JsonResult类的实例,但其默认是不适用JsonResult类的MaxJsonLength属性和RecursionLimit属性的.</p>
+<p>如果我们想利用起来这两个参数的话就需要我们手动创建JsonResult类的实例了,如下面代码所示:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line">&#123;</span><br><span class="line">    var data = new</span><br><span class="line">    &#123;</span><br><span class="line">        Recursion1 = new</span><br><span class="line">        &#123;</span><br><span class="line">            Recursion2 = new</span><br><span class="line">            &#123;</span><br><span class="line">                Recursion3 = new</span><br><span class="line">                &#123;</span><br><span class="line">                    Recursion4 = new</span><br><span class="line">                    &#123;</span><br><span class="line">                        Recursion5 = 5</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;//5级数据</span><br><span class="line"></span><br><span class="line">    JsonResult result = new JsonResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        Data = data,</span><br><span class="line">        JsonRequestBehavior = JsonRequestBehavior.AllowGet,</span><br><span class="line">        RecursionLimit = 3,//递归内容层级只允许三级!</span><br><span class="line">        //其他参数省略</span><br><span class="line">    &#125;;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们启动程序看看结果:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/06/image1.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/06/image_thumb1.png" alt="image" title="image"></a></p>
+<p>可见我们的RecursionLimit值产生了效果.</p>
+<p>转载请注明出处:<a href="http://www.smallerpig.com/745.html" title="[ASP.NET MVC]源码解析:JsonResult" target="_blank" rel="noopener">小猪博客</a></p>
+<p>官方参考文档:<a href="https://msdn.microsoft.com/zh-cn/dd470569.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-cn/dd470569.aspx</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/745.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp-net-mvc-e5-9c-a8return-view-e4-b9-8b-e5-89-8d-e5-90-91-e8-be-93-e5-87-ba-e6-b5-81-e5-86-99-e5-85-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/737.html">[ASP.NET MVC]在return View\(\)之前向输出流写入</a>
+    </h1>
+  
+
+        
+        <a href="/737.html" class="archive-article-date">
+  	<time datetime="2015-06-02T08:27:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>直接上代码:</p>
+<p>控制器部分代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Response.Write(&quot;hello world&quot;);</span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>视图部分代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&lt;head&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/head&gt;</span><br><span class="line">    </span><br><span class="line">&lt;body&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;h2&gt;index of pc&lt;/h2&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在调用上述代码之后看返回给浏览器的最终代码:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/06/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/06/image_thumb.png" alt="image" title="image"></a></p>
+<p>可见,hello world输出流在整个view之前呈现了.</p>
+<p>由此我们可以推断加证明,<code>return View\(\)</code>方式只是将cshtml文件以字符的形式输出出来.,当然<code>ViewResult\(\)</code>本身加载的视图引擎要复杂的多.!</p>
+<p>那么如果我们在return View()之前把Respon给End()之后会怎么样呢?再来试验一下!</p>
+<p>controller代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    Response.Write(&quot;hello world&quot;);</span><br><span class="line">    </span><br><span class="line">    Response.End\(\);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>View的代码不变,我们运行程序看看生成的代码:<br><code>hello world</code><br>可见,在Response.End()之后,再向输出流输出内容就输出不了了.</p>
+<p>参考<a href="http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/737.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信:不允许跨号支付" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -940,197 +1145,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-每天的下午四五点都是效率极低的时候" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/663.html">每天的下午四五点都是效率极低的时候</a>
-    </h1>
-  
-
-        
-        <a href="/663.html" class="archive-article-date">
-  	<time datetime="2015-05-05T09:24:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>每天的下午四五点都是效率极低的时候!</p>
-<p>上午的时候头脑很清醒,想什么问题都会感觉思维活跃注意力集中.</p>
-<p>到了下午以后,随着时间一个小时一个小时的推进,小猪的大脑也开始进入混沌模式,特别到了16:00到17:30这段时间,想集中自己的注意力确实比较困难.</p>
-<p>所以就到网上找各种短文章,小技巧,励志文来读!</p>
-<p>想想适当的时候来一杯咖啡还是挺不错的,可是这段时间一直不能喝.</p>
-<p>然后到了晚上就又进入到亢奋模式,感觉什么都想做,什么都想玩.最终睡觉前都觉得时间真TM不够用啊!于是干脆点开桌面上的dota2图标来一局吧!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/663.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ci-e4-b8-ad-e4-bd-bf-e7-94-a8layout-e6-96-87-e4-bb-b6-e7-b1-bb-e4-bc-bc-e6-a8-a1-e6-9d-bf-e6-95-88-e6-9e-9c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/653.html">CI中使用layout文件(类似模板效果)</a>
-    </h1>
-  
-
-        
-        <a href="/653.html" class="archive-article-date">
-  	<time datetime="2015-05-04T12:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CI框架本身不提供类似模板的功能,所以官方文档中并没有相关的介绍!</p>
-<p>虽然在视图的文档中给出了这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class Page extends CI_Controller &#123;</span><br><span class="line"></span><br><span class="line">   function index\(\)</span><br><span class="line">   &#123;</span><br><span class="line">      $data[&apos;title&apos;] = &apos;Your title&apos;;</span><br><span class="line">      $data[&apos;message&apos;] = &apos;Your message&apos;;</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;header&apos;,$data);</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;content&apos;);</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;footer&apos;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>该段代码是利用了同一个控制器可以加载多个视图的特性.将html文档的头部,内容部分以及页脚部分分别放三个不同的文件中,这样在一定程度上能够满足我们的需求.但还是不够友好,</p>
-<p>小猪今天分享的是一个类库,利用该类库可以实现类似模板的功能.在application项目文件夹的libraries文件夹中新建Layout.php文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Layout</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    var $CI;</span><br><span class="line">    var $layout;</span><br><span class="line"></span><br><span class="line">    function Layout($layout = &quot;_layout&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;CI =&amp;amp; get_instance\(\);</span><br><span class="line">        $this-&gt;layout = &apos;share/&apos; . $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function setLayout($layout)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;layout = $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function view($view, $data=null, $return=false)</span><br><span class="line">    &#123;</span><br><span class="line">        $data[&apos;content_for_layout&apos;] = $this-&gt;CI-&gt;load-&gt;view($view,$data,true);</span><br><span class="line"></span><br><span class="line">        if($return)</span><br><span class="line">        &#123;</span><br><span class="line">            $output = $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, true);</span><br><span class="line">            return $output;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在application项目文件夹的view文件夹下新建share文件夹,然后新建_layout.php文件!如果有需求可以新建多个视图文件:</p>
-<p>输入文件内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php echo $content_for_layout  ?&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>代码中使用了php变量content_for_layout.而这个变量的值是在我们新建的Layout类库的view方法里赋值的,其值为$this-&gt;CI-&gt;load-&gt;view($view,$data,true).</p>
-<p>意思就是将加载了数据的视图文件赋值给变量$content_for_layout,然后再一次的加载我们的模板页,也就是layout.php文件!</p>
-<p>所以,我们在控制器里写入这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function test\(\)&#123;</span><br><span class="line">    $data[&quot;content&quot;] = &quot;hi smallerpig! this is the content from controller!&quot;;</span><br><span class="line">    $this-&gt;load-&gt;library(&apos;layout&apos;);</span><br><span class="line">    $this-&gt;layout-&gt;view(&quot;test&quot;,$data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中用到了一个视图文件test.php:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;-- &lt;?php echo $content ?&gt; -- &lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<p>这样最终我们页面输出的html文档将会是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;-- hi smallerpig! this is the content from controller! -- &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>最终我们完成了将整个页面相同的html代码先提取到了layout(share/_layout.php)文件中,然后将会变的内容放到单独的视图(test.php)文件!而且类库还兼容了原来的类库写法,即view方法的第三个参数类型为bool类型,如果传入为true,则将返回视图结果字符串!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/653.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/15/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/17/">Next &raquo;</a>
@@ -1228,15 +1242,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hive</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1253,6 +1263,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1280,6 +1294,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1292,7 +1310,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1328,15 +1346,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1348,6 +1362,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
@@ -1356,15 +1374,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1380,19 +1394,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1404,6 +1414,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1412,23 +1426,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1436,7 +1434,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1452,10 +1470,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">手机</a>
               </li>
              
@@ -1464,15 +1478,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1496,10 +1514,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">游戏</a>
               </li>
              
@@ -1516,10 +1530,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1532,15 +1542,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1576,11 +1590,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>
