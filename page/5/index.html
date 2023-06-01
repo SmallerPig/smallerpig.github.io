@@ -161,6 +161,506 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-think-in-shiro-part-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/thinking-in-shiro-part2.html">在SpringCloud中使用shiro - par2</a>
+    </h1>
+  
+
+        
+        <a href="/thinking-in-shiro-part2.html" class="archive-article-date">
+  	<time datetime="2018-09-04T07:33:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上面一篇文章简单的罗列的几个常见的问题，对于实际遇到的问题还没有给出能够运行级别的代码。</p>
+<p>在开始这篇之前先来了解下shiro的执行顺序</p>
+        
+          <a class="article-more-a" href="/thinking-in-shiro-part2.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shiro</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/springboot//" class="article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/springboot/springcloud//" class="article-tag-list-link color2">springcloud</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/thinking-in-shiro-part2.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-think-in-shiro-part-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/thinking-in-shiro-part1.html">在SpringCloud中使用shiro - par1 思考</a>
+    </h1>
+  
+
+        
+        <a href="/thinking-in-shiro-part1.html" class="archive-article-date">
+  	<time datetime="2018-09-04T03:40:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在传统的架构中直接使用shiro还是比较方便的，虽然shiro是使用各种接口来调用，但是都默认提供了实现：<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultWebSecurityManager=&gt;DefaultSecurityManager=&gt;SecurityManager=&gt;SessionManager</span><br></pre></td></tr></table></figure></p>
+<p>所以我们甚至都不需要太了解shiro的内部结构，直接简单复制网上的几个配置就可以拿来使用了。正所谓开箱即用。</p>
+<p>但是在遇到复杂的应用场景的时候就黔驴技穷了，需要自己深入的研究下shiro的实现方式。</p>
+<p>能够百度到的文章千篇一律，最有价值的还是要数 老前辈2014的《跟我学shiro系列》文章了：<a href="http://jinnianshilongnian.iteye.com/blog/2018398。" target="_blank" rel="noopener">http://jinnianshilongnian.iteye.com/blog/2018398。</a></p>
+<p>建议如果需要深入学习shiro的话可以学习下作者的文章。</p>
+<p>但毕竟是2014年的博客了，对于最近几年的更新换代，尤其是SpringCloud等微服务系列的出现，文章中并没有给出实践，这里就来写写我在SpringCloud中使用shiro的思考。</p>
+        
+          <a class="article-more-a" href="/thinking-in-shiro-part1.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shiro</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/springboot//" class="article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/springboot/springcloud//" class="article-tag-list-link color2">springcloud</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/thinking-in-shiro-part1.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-docker-swarm-or-kubernetes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/docker-swarm-or-kubernetes.html">docker swarm vs kubernetes</a>
+    </h1>
+  
+
+        
+        <a href="/docker-swarm-or-kubernetes.html" class="archive-article-date">
+  	<time datetime="2018-08-10T08:24:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在把程序打包成镜像之后，需要将镜像跑起来，形成个容器(container)。</p>
+<p>多个相同镜像的容器一起跑可以组成服务(service)。</p>
+<p>多个服务跑起来可以组成一个应用(app)</p>
+<p>那么怎么管理应用呢？</p>
+<p>官方提供了<code>docker swarm</code>,谷歌提供了<code>kubernetes</code></p>
+<p>那这两者之间孰优孰劣呢？</p>
+        
+          <a class="article-more-a" href="/docker-swarm-or-kubernetes.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/docker//" class="article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/docker-swarm-or-kubernetes.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-config-spring-boot-application-with-docker-env-var" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/config-spring-boot-application-with-docker-env-var.html">通过docker启动命令的环境变量来配置spring-boot程序</a>
+    </h1>
+  
+
+        
+        <a href="/config-spring-boot-application-with-docker-env-var.html" class="archive-article-date">
+  	<time datetime="2018-08-02T08:09:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>配置Spring-boot程序的方式有很多种。官方文档里有详细的介绍<br>简单列举的话有</p>
+<ul>
+<li>通过<code>application.properties</code>文件配置</li>
+<li>通过<code>bootstrap.properties</code>文件配置</li>
+<li>通过启动命令方式配置，例如 <code>java -jar app.jar --spring.profiles.active=test</code>方式</li>
+<li>启动环境的变量方式配置</li>
+</ul>
+<p>如果我们已经把spring-boot程序打包成了Docker镜像文件，那我们需要怎么设置程序呢？</p>
+        
+          <a class="article-more-a" href="/config-spring-boot-application-with-docker-env-var.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/web开发//" class="article-tag-list-link color1">web开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/config-spring-boot-application-with-docker-env-var.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-What-is-the-difference-between-Docker-Service-and-Docker-Container" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/difference-between-Docker-Service-and-Docker-Container.html">Docker的容器和服务之间的区别是啥？</a>
+    </h1>
+  
+
+        
+        <a href="/difference-between-Docker-Service-and-Docker-Container.html" class="archive-article-date">
+  	<time datetime="2018-08-01T09:07:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近准备在组内施行持续集成，自然花了较多时间学习Docker的相关知识。</p>
+<p>接下来几篇文章会重点放在Docker相关的经验方面。</p>
+<p>我们在使用Docker过程中最经常使用的就是利用Docker来跑几个镜像，这样就不需要在机器上安装特定的服务了。</p>
+<p>例如跑个nginx、跑个redis、mysql啥的。最大的好处是我们可以与实体机器或者虚拟机隔离的跑任意版本，且机器上不需要安装具体服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --name my-redis -p 6379:6379 -d redis</span><br><span class="line"></span><br><span class="line">docker run --name my-mysql -p 3306:3306 -d mysql:5.6</span><br></pre></td></tr></table></figure>
+<p>上面的<code>docker run</code> 命令是利用特定的镜像启动一个容器，来提供服务。</p>
+<p>还有一种方式是使用服务的方式:<code>docker service create ...</code></p>
+<p>那这两种方式有什么区别呢？</p>
+        
+          <a class="article-more-a" href="/difference-between-Docker-Service-and-Docker-Container.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Docker//" class="article-tag-list-link color2">Docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/difference-between-Docker-Service-and-Docker-Container.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-difference-docker-compose-and-docker-stack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -637,463 +1137,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-体验使用hexo写blog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/writting-blog-with-hexo.html">体验使用hexo写blog</a>
-    </h1>
-  
-
-        
-        <a href="/writting-blog-with-hexo.html" class="archive-article-date">
-  	<time datetime="2017-09-27T03:01:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网络上关于怎么使用hexo来配合github来写blog的文章已经特别多了，一搜一大把，所以小猪这里只是简单的介绍hexo和小猪觉得有问题的地方。</p>
-        
-          <a class="article-more-a" href="/writting-blog-with-hexo.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/writting-blog-with-hexo.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-两种产品经理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1225.html">两种产品经理</a>
-    </h1>
-  
-
-        
-        <a href="/1225.html" class="archive-article-date">
-  	<time datetime="2017-09-21T13:36:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一种体验"><a href="#一种体验" class="headerlink" title="一种体验"></a>一种体验</h2><p>今天听到旁边的戴老板在吐槽：邮储的app真是太TM的烂啦，根本就用不了，登陆进去之后让我修改密码，可是没有任何一种机制是能够把这个修改密码的页面给跳转过去的；即使我修改了密码回到这个页面也不自动跳转出去，而这个页面本身也没有关闭或者返回按钮，真是太2了。。<br>然后打电话给邮储号码进行投诉：你们这个APP的产品经理是谁呀？可以直接拖出去打死了……</p>
-<p>虽然是吐槽，但不得不说我是支持他的。</p>
-        
-          <a class="article-more-a" href="/1225.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1225.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-temporary-failure-in-name-resolution" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1221.html">Temporary failure in name resolution</a>
-    </h1>
-  
-
-        
-        <a href="/1221.html" class="archive-article-date">
-  	<time datetime="2017-09-11T02:45:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Temporary failure in name resolution</p>
-<p>在谷歌中搜索标题内容可以搜到大把到内容，大概到意思就是dns配置错误，域名解析不了等等等等。</p>
-<p>但是能把问题直接定位到这个简单到标题到人才是真正能解决问题到人。</p>
-<p>小猪前些天就对着这些报错不知所措：</p>
-        
-          <a class="article-more-a" href="/1221.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1221.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-错误 Please install the package Microsoft.VisualStudio.Web.CodeGeneration.Design" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1219.html">错误 Please install the package Microsoft.VisualStudio.Web.CodeGeneration.Design</a>
-    </h1>
-  
-
-        
-        <a href="/1219.html" class="archive-article-date">
-  	<time datetime="2017-08-19T16:05:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪今天在使用Visual Studio 2017 Community的编写ASP.NET Core 2.0程序，新建控制器的时候使用vs提供的基础功能：<br>1.  在控制器文件夹右键“新建”=》“控制器”<br>2. 填入控制器名称之后确定</p>
-        
-          <a class="article-more-a" href="/1219.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">visual studio</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE//" class="article-tag-list-link color4">IDE</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1219.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-致敬从未掉链子的身体各部分" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1217.html">致敬从未掉链子的身体各部分</a>
-    </h1>
-  
-
-        
-        <a href="/1217.html" class="archive-article-date">
-  	<time datetime="2017-08-18T01:16:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近小猪牙髓炎了，在医生的建议下开始了根管治疗。</p>
-<p>在经过两次去医院的经历之后渐渐的发现就这么一个脆弱的牙齿，怎么会给人带来这么大的折磨！每次到口腔医院都可以看到茫茫多的在人在排队等待治疗。</p>
-        
-          <a class="article-more-a" href="/1217.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1217.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1192,10 +1238,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1244,14 +1286,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1265,146 +1299,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1428,7 +1322,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1436,7 +1338,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1468,7 +1370,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1480,7 +1450,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1521,10 +1587,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

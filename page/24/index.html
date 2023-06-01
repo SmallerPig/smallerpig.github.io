@@ -161,6 +161,476 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-visual-studio-e8-a7-a3-e5-86-b3windows-web-e6-9c-8d-e5-8a-a1-e6-a1-86-e6-9e-b6-e4-b8-ad-e5-87-ba-e7-8e-b0-e4-ba-86-e6-97-a0-e6-b3-95-e8-af-86-e5-88-ab-e7-9a-84-e9-94-99-e8-af-af" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/291.html">Visual Studio 解决Windows Web服务框架中出现了无法识别的错误</a>
+    </h1>
+  
+
+        
+        <a href="/291.html" class="archive-article-date">
+  	<time datetime="2013-08-23T09:16:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用的是Visual Studio2012 ULT 控制台项目按ctrl+F5可以运行，不可以直接按F5调试，出现“尝试运行项目时出错(项目地址)Windows Web服务框架中出现了无法识别的错误”。可是调试ASP.NET程序却没有问题。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/1771377249614.png" alt title="QQ截图20130823171351.png"></p>
+<p>小猪遇到这个问题很是郁闷，不知道是什么地方出现了问题，百度了好久都没有个正式的解决方案，例如</p>
+<p><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="noopener"></a><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="noopener">http://bbs.csdn.net/topics/390511663</a></p>
+<p>只好谷歌了一下。</p>
+<p><a href="http://connect.microsoft.com/VisualStudio/feedback/details/781459/visual-studio-versucht-eine-remoteverbindung-herzustellen-wenn-32-bit-bevorzugen-deaktiviert-ist" target="_blank" rel="noopener">http://connect.microsoft.com/VisualStudio/feedback/details/781459/visual-studio-versucht-eine-remoteverbindung-herzustellen-wenn-32-bit-bevorzugen-deaktiviert-ist</a></p>
+<p>看看人家的问题、人家微软的回家。让国内的一些XXX情何以堪呐！！ </p>
+<p>发现了某位大大这么回答。</p>
+<p>This is happening because Visual Studio is a 32-bit application. &nbsp;Only 64-bit applications are able to debug other 64-bit applications, so Visual Studio creates a fake remote connection to a 64-bit debugger when debugging 64-bit apps. &nbsp;If you select the prefer 32-bit option, then this is unnecessary.</p>
+<p>虽然小猪英文不太好，但是看到32-bit、64-bit也就大差不差的了解人家在说什么了。小猪这才恍然大悟，可能是系统装的是64位系统，某些指令集支持的不够好。</p>
+<p> 按照这个提示，把需要调试的程序改成X86。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/39891377249614.jpg" alt title="QQ图片20130823171439.jpg"></p>
+<p>再点调试，……完美运行……</p>
+<p>另外有些同志说需要把类似防火墙的东东关掉，这个我就不太清楚了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/291.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-visual-studio2012-e4-bd-bf-e7-94-a8-e6-8a-80-e5-b7-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1126.html">Visual Studio2012使用技巧</a>
+    </h1>
+  
+
+        
+        <a href="/1126.html" class="archive-article-date">
+  	<time datetime="2013-08-23T03:01:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div id="cnblogs_post_body"><br><br>        工欲善其事，必先利其器。虽然说Vim和Emacs是神器，但是对于使用Visual Studio的程序员来说，我们也可以通过一些快捷键和潜在的一些功能实现脱离鼠标写代码，提高工作效率，像使用Vim一样使用Visual Studio。<br><br>        当然，如果想真正像使用Vim一样使用Visual Studio可以安装这个插件：<a href="http://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/" target="_blank" rel="noopener">VsVim</a>，只支持VS2010+。<br><br>        <span style="font-size:14px;line-height:1.5;">下面我会总结一些我觉得大家平时可能不怎么知道的但是又很好用的一些VS的快捷键和使用技巧。如果您是大牛那不需要看了，哈哈。个人知识有限如果大家还有什么比较实用的快捷键，欢迎分享。因为不像Vim有Normal，Insert两种模式，所以VS快捷键的特点就是需要很多Ctrl, Shift, Alt的参与。这个缺点就是很可能会跟你电脑上某一些程序的快捷键冲突了。而且不知道为什么Visual Studio在不同电脑上的某一些快捷键有可能是不一样的，所以可能文中会有一些快捷键在你的电脑上无法使用，Google it。我目前用的办法就是将我熟悉的配置同步到所有我使用的Visual Studio中来保证我自己用的各个版本之间的快捷键是一样的。</span><br><br>        这些快捷键咋一看挺难记的，但是我的方法是先将觉得有用的记下来，然后下次要使用到这个功能的时候克制住不要用鼠标，去查一下使用快捷键。这么几次以后你就记住了。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**一、主题**</span><br><span class="line"></span><br><span class="line">		你可能会很奇怪为什么第一个居然是这么一个东西。当然是这个啦！我们要整天对着VS写代码，debug，面对VS默认的配色你看久了很无聊有木有？眼睛很难受有木有？选择一个合适自己的主题，既可以保护视力，又可以让自己的心情愉悦，心情好了顺便连工作效率也一起提高了不是很好么！</span><br><span class="line"></span><br><span class="line">		如果你还在用默认的主题，赶紧换掉吧。下面推荐一个提供VS配色方案的一个网站：StudioStyles，域名和网站同名：[http://studiostyl.es/](http://studiostyl.es/)。下面是[我使用的主题](http://studiostyl.es/schemes/humane-studio)，我觉得看着很舒服，很和谐。</span><br><span class="line"></span><br><span class="line">		![My Visual Studio Theme](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/91461377227869.jpg)</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>二、更有效得使用编辑器</strong><br><br>        这里指的编辑器就是也就是大家写代码的地方。<br><br>        <span style="text-decoration:underline;">更有效的剪切板</span><br><br>        1. 循环剪切板: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd> 。在VS中多次复制，其实VS都会保存下来，只需要调用这个快捷键就可以把之前多次的复制记录都粘贴出来。<br><br>        2. 整行剪切：<kbd>Ctrl</kbd> + <kbd>X</kbd>。光标不要选中任何文字，然后按这个快捷键就可以把整行剪切下来。 <kbd>Ctrl</kbd> + <kbd>L</kbd> 同样可以实现整行剪切，使用方法也是一样，区别在于使用Ctrl + X后光标会落于下一行的行尾，二使用<kbd>Ctrl</kbd> + <kbd>L</kbd>光标则会停在下一行的行首。<br><br>        3. 整行复制：<kbd>Ctrl</kbd> + <kbd>C</kbd>。这个和<kbd>Ctrl</kbd> + <kbd>X</kbd>的使用方法一样。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的选择：</span><br><br>        1. 基本选择：<kbd>Shift</kbd> + 光标（<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>） &nbsp;。基于光标所在的地点，按住<kbd>Shift</kbd>然后使用上下左右光标可以自由选择。<br><br>        2. 基于单词选择：<kbd>Shift</kbd> + <kbd>Ctrl</kbd>+（<kbd>&rarr;</kbd><kbd>&larr;</kbd>）。使用这个可以跳跃单词的选，也可配合<kbd>Home</kbd>/<kbd>End</kbd>选择整行<br><br>        3. 基于&ldquo;方块&rdquo;选择：<kbd>Shift</kbd> + <kbd>Alt</kbd> + (<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>) 或者<kbd>Alt</kbd> + 鼠标。<br><br>        4. 选择一个整个单词：<kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>W</kbd>。把光标放在某个单词中的时候按快捷键即可。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的编辑：</span><br><br>        1. 整行删除：<kbd>Shift</kbd> + <kbd>Delete</kbd>。<br><br>        2. 删除下一个单词：<kbd>Ctrl</kbd> + <kbd>Delete</kbd>。<br><br>        3. 删除上一个单词：<kbd>Ctrl</kbd> + 退格（<kbd>Backspace</kbd>）<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的位置跳转：</span><br><br>        1. 基于单词的跳转：<kbd>Ctrl</kbd> + (<kbd>&larr;</kbd><kbd>&rarr;</kbd>)。此快捷键可以让光标以单词为单位左右进行跳转。<br><br>        2. 跳到上一个本单词： &nbsp; <kbd>Shift</kbd> + <kbd>Ctrl</kbd> +（<kbd>&darr;</kbd><kbd>&uarr;</kbd>） &nbsp;。这个功能比较有用，可以将光标移动到光标所在的那个单词上次或者下次在文中出现的地方。<br><br>        3. 跳到上一个光标停留的地方： &nbsp; <kbd>Ctrl</kbd> + <kbd>-</kbd>（往前）；<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> &nbsp;（往后）<br><br>        4. 快速跳转到某一行： <kbd>Ctrl</kbd> + <kbd>G</kbd><br><br>        5. 快速跳到文件头尾：<kbd>Ctrl</kbd> + <kbd>Home</kbd>/<kbd>End</kbd><br><br>        6. 快速跳转到本行第一个非空格开头：<kbd>Home</kbd>。如果要到本行最开头则按两下<kbd>Home</kbd>即可。<br><br>        7. 快速跳转到本行结尾：<kbd>End</kbd><br><br>        8. 匹配括号移动：<kbd>Ctrl</kbd> + <kbd>]</kbd>，适用于 <kbd>(</kbd><kbd>)</kbd>, <kbd>{</kbd><kbd>}</kbd>, <kbd>[</kbd><kbd>]</kbd>, <kbd>&ldquo;</kbd><kbd>&rdquo;</kbd> 。将光标放在需要匹配的括号然后按这个快捷键，光标会跳转到其相对于那个的括号上去。这个功能比较有用，但是我还有一个建议。Visual Studio本来就会将相对应的括号给特别标识出来，只是一般默认的那个颜色和背景颜色比较类似看不出来，建议将其在Font And Colors中设置成醒目的颜色。那个括号匹配设置如图，中文不知道是什么，大家找一下应该就可以找到了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33521377227869.jpg" alt="Color Setting"><br><br>        设置好以后效果如下，是不是很醒目了？这样就可以在括号群中迅速找到和它对应的那一个了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/74281377227869.jpg" alt="Brace"><br><br>        &nbsp;<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**三、继续更有效率的编辑器**</span><br><span class="line"></span><br><span class="line">		3.1 更有效的编辑（补充）</span><br><span class="line"></span><br><span class="line">		a. 注释代码：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;C&lt;/kbd&gt;(Comment)， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt;（Comment）。打开文件类型不同行为可能不同，在cs文件类型中会将选中行的代码注释，cpp中会将选中的内容进行注释。</span><br><span class="line"></span><br><span class="line">		&amp;nbsp; 反注释代码：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;U&lt;/kbd&gt;(Uncomment)， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;U&lt;/kbd&gt;(Uncomment)</span><br><span class="line"></span><br><span class="line">		b. 调整格式选中代码格式：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;F&lt;/kbd&gt;(Format)。&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 13px;&quot;&gt;Ctrl + K +F&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">		c. 调整整个文档代码格式：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;D&lt;/kbd&gt;(Document Format)。 &lt;span style=&quot;color:#FF0000;&quot;&gt;Ctrl+K +D&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">		3.2 更有效率的搜索：</span><br><span class="line"></span><br><span class="line">		a. Incremental Search（增量搜索，不知道翻译得恰不恰当）：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;(Incremental) (移动到下一个匹配按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;, 移动到上一个&lt;kbd&gt;Shift&lt;/kbd&gt; + &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;)。按住快捷键然后输入要查询的字符串，VS会马上定位到而不需要想&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;那种确认的过程，可以通过我截的图中看到效果。我一般如果只是想在当前文档进行简单搜索的话一般会使用这个搜索，遇到是一些比较复杂的搜索条件才去动用弹框搜索。</span><br><span class="line"></span><br><span class="line">		![Incremental Search](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/70001377227869.gif &quot;Incremental Search&quot;)</span><br><span class="line"></span><br><span class="line">		b. &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;(Find)：在Visual Studio 2012中其实这个功能已经和Increment Search很相似了，你会发现在VS2012+里使用&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;和上面的效果是一样的，都是输入即可看到搜索结果。不过与Increment Search不同的是，这个搜索可以指定更多的条件，如是否匹配大小写、是否整词搜索、是否用正则表达式以及搜索的范围。</span><br><span class="line"></span><br><span class="line">		c. 在文件中查找：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Shift&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;，这个可以实现的搜索功能与&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt; 一模一样，唯一不同就是这个可以将你搜索的结果输出到查找结果窗口中，而不是一个一个显示出来。这个比较合适搜一些比较多匹配的东西，然后在输出的结果窗口中在肉眼筛选。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>四、更有效的导航：</strong><br><br>        1. 快速打开Solution Explorer：<kbd>Ctrl</kbd> + <kbd>W</kbd>(Windows)+ <kbd>S</kbd>(Solution)、<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>。当你在写代码想打开工程中另一个文件时就可以用这个快速打开解决方案窗口选择文件。<br><br>        2. 打开当前打开文件列表：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd>。这个很好用，但是这个快捷键在很多电脑上都会翻转屏幕，囧。如果实在要用这个功能，可以通过自定义快捷键来实现。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/2961377227869.png" alt="File List"><br><br>        3. 快速将焦点移到类列表(这个名词纯属YY，见图便知我指的是啥)：<kbd>Ctrl</kbd> +<kbd>F2</kbd>。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/44921377227869.png" alt="Class list"><br><br>        4. 内部文件切换：<kbd>Ctrl</kbd> + <kbd>Tab</kbd>。这个不仅在VS中，很多软件中都是这个功能。<br><br>        5. 全屏：<kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Enter</kbd>。可以让你进入全屏无干扰模式，本人很喜欢这个功能。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**五、更有效的智能感知**</span><br><span class="line"></span><br><span class="line">		智能感知本来就很智能，但是很多时候我们想强制的调出一些提示来看一下的时候这些功能就爽。很多功能语言描述可能比较累，而且由于我语文不好很可能你还看不懂，所以我会附图。</span><br><span class="line"></span><br><span class="line">		1\. 列出成员。&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;L&lt;/kbd&gt;（List Member）， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;J&lt;/kbd&gt;。我们知道当我们需要访问对象方法的时候按.VS会自动提示出有哪些方法，但是有时候我们需要在.操作符已经存在的情况下再查看。以前我会把点删掉然后再点一次，我承认我当时很傻，后来知道这个快捷键以后就好多了。</span><br><span class="line"></span><br><span class="line">		![List Member](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/76911377227869.gif)</span><br><span class="line"></span><br><span class="line">		2\. 列出选项（表述不明确，具体看后面描述）。&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;.&lt;/kbd&gt; 或者&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Shift&lt;/kbd&gt; +&lt;kbd&gt;F10&lt;/kbd&gt;。当我们用到一些类型在我们工程引用的程序集里但是没有在当前当前文件引用的命名空间内时，或者我们写了一个不存在的函数时，那行代码会有错误提示，并且在左下角有一个小符号。如图：![UnknowType](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/87461377227869.png)。我们鼠标移到符号附近会出现一些帮助，可以自动帮助我们添加引用或者生成函数。这个快捷键就是在不移动鼠标的情况下让其出现这个提示。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>六、其他</strong><br><br>        1. 任务列表（Task List），可以通过View-&gt;Task List打开这个窗口。很多人可能不知道这个功能，我觉得挺有用。写代码的时候我往往会遇到这种情况，某一些代码我现在不确定需求或者觉得可能会有问题将来需要改善，我会加上注释：//TODO：reason。相信很多人会有同样的习惯，这个任务列表的功能就是让我们可以看到我们当前工程中有多少个TODO项。当然不局限于TODO这个词，可以自定义词汇。我一般会在commit之前看一下这个列表看看还有没有需要改的地方。这个还可以直接添加一些任务，具体使用自己用一下就知道了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33351377227869.jpg" alt="Task List"><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	七、插件</span><br><span class="line"></span><br><span class="line">		这里在推荐两个插件：C# outline 和Smart Paster。</span><br><span class="line"></span><br><span class="line">		1\. [C# Outline](http://visualstudiogallery.msdn.microsoft.com/bc07ec7e-abfa-425f-bb65-2411a260b926)</span><br><span class="line"></span><br><span class="line">		Visual Studio默认的outline是只有在函数级别的，但是很多时候有一些循环条件很长也需要缩起来看比较方便。于是就有了这个插件。效果如下：</span><br><span class="line"></span><br><span class="line">		Before outline-&amp;gt;![Before outline](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/26341377227870.jpg)</span><br><span class="line"></span><br><span class="line">		After outline-&amp;gt; ![After outline](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/78081377227870.jpg)</span><br><span class="line"></span><br><span class="line">		2\. [Smart Paster](http://smartpaster2010.codeplex.com/)</span><br><span class="line"></span><br><span class="line">		这个插件可以将文字粘帖为注释、和string字符串和StringBuilder。特别是对于粘贴多行的文字的时候很有用。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    八、推荐资料<br><br>        1. <a href="http://stackoverflow.com/questions/98606/favorite-visual-studio-keyboard-shortcuts" target="_blank" rel="noopener">Favorite Visual Studio keyboard shortcuts</a>：Stackoverflow 上一群人在讨论自己最喜欢的快捷键，可以去里面看看或许你会看到一些你意想不到的快捷键。<br><br>        2. <a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">Visual Studio</a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener"> </a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">程序员箴言</a>：这本书介绍了很多关于VS方面的知识。<br><br>        3. 可以多看看VS菜单栏上那些没用过东西，或许你会发现一些对你很有用的东西。<br><br>        &nbsp;<br><br><code>`</code><br>##<br><br>    使用注释生成XML注释文档<br><br>        实际上该方法适合于所有版本的Visual studio，方法很简单，设置一下Visual studio的项目属性和工具选项即可。<br><br>        1.在菜单栏的&ldquo;Project&rdquo;中选择当前项目的&ldquo;<strong>* Properties&rdquo;，然后在&ldquo;Build&rdquo;标签页中找到&ldquo;Output&rdquo;一栏，在&ldquo;XML documentation files&rdquo;复选框中打上勾勾，在自定义输出的XML文档的文件名即可。<br><br>        2.检查菜单栏上的&ldquo;Tools&rdquo;中选择&ldquo;Options&rdquo;菜单项，然后在&ldquo;Text Editor&rdquo;支点中找到&ldquo;C#&rdquo;，在其子项中找到&ldquo;Advanced&rdquo;，然后在&ldquo;XML Documentation Comments&nbsp;&rdquo;下的&ldquo;Generate Xml documentation comments for///&rdquo;复选框是否已被选中，如果没被选中就选上它。<br><br>        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一切工作完成之后就可以生成相应的注释XML文档了。Build一下自己的工程，看看生成的文件吧^^<br><br>        &nbsp;<br><br>        &nbsp;
+
+        </strong>总结<strong><br><br>        这些只是对我来说最有用的一些技巧，强烈推荐大家可以去看看我推荐的那些资料去探索一些更加适合你的习惯的一些功能。因为当你不知道有这个功能的存在的情况下你根本就想不到要去找这么一个功能。<br><br>        如果你需要找一个你不知道的快捷键，可以通过在菜单栏上去看，一般常用的都会将快捷键放在菜单边上。或者你可以去MSDN上去查一下：<a href="http://msdn.microsoft.com/en-us/library/vstudio/dd576362.aspx" target="_blank" rel="noopener">http://msdn.microsoft.com/en-us/library/vstudio/dd576362.aspx</a> 。我觉得非常有必要去看一些类似于高效使用VS的资料，因为很多时候如果你不知道某一些功能的存在，你根本就不会想到去用更别说去搜这个功能。<br><br>        <em>编辑器中还有很多其他的技巧，先写一部分吧，这只是很小的一部分，还有很多其他的技巧以后慢慢道来</em>。以后可能还会总结一些关于搜索、编辑、调试、导航、Intellisense等等的内容。<br><br>        没想到上一篇文章有这么多人喜欢，多谢大家支持。继续～<br><br>        很多比较通用的快捷键的默认设置其实是有一些缩写在里面的，这个估计也是MS帮助我们记忆。比如说注释代码的快捷键是<kbd>Ctrl</kbd> + <kbd>E</kbd> + <kbd>C</kbd>，我们如果知道它是 <kbd>Ctrl</kbd> + Edit + Comment Code 的缩写不是更好记么？我也会尽量YY把快捷键和功能联系起来来帮助我自己记忆。另外很多功能在VS中有多个快捷键可以实现，我猜是为了防止一些快捷键冲突所设计的吧，我一般只会去记好记的，冲突了再说。<br><br>        &nbsp;<br><br>        容我再罗嗦几句。我们绝对没有必要去死记硬背很多很多快捷键然后装逼，因为并非所有的快捷键所有人都需要。很大程度上一些功能的使用是取决于你的工作习惯，同时我也不推荐你去记一些你觉得你都不会用到的快捷键，没意义，浪费时间。这也就是为什么我只列出一些对我工作效率有切身帮助的一些快捷键，而不是把Visual Studio中所有的快捷键都列出来，因为那样子的话就没意义了！
+
+        </strong>所以我强烈建议你们只去记你觉得有用的那些东西。*<em>
+
+</em> <em> </em><br><br>        原文地址：<a href="http://www.cnblogs.com/imjustice/p/3139147.html" target="_blank" rel="noopener">http://www.cnblogs.com/imjustice/p/3139147.html</a><br><br>        &nbsp;<br><br></div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1126.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小猪的生日" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/289.html">小猪的生日</a>
+    </h1>
+  
+
+        
+        <a href="/289.html" class="archive-article-date">
+  	<time datetime="2013-08-21T04:36:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要不是中午接到家里来的电话，小猪还真的忘记了今天是自己的生日。</p>
+<p>自从高中毕业了以后，映像中小猪的生日再也没有回家过过。这么些年都在外面“打拼”了。</p>
+<p>也许以后也不会有多少机会和家里父母过自己的生日。想以前父母虽然不会在这天买蛋糕，但老妈总是会在今天做上比平时要多的几个菜来为我庆生，接到电话的时候家里刚吃完饭，电话里的声音包括了一大家子所有人，问我是否吃过呢.我正在和大强讨论事情午饭还没热好。说着说着我就想现在家里桌上摆着的是哪些菜呢？</p>
+<p>时光荏苒呐！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生日</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/289.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-css-e4-b8-80-e5-9b-be-e5-a4-9a-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/288.html">CSS一图多用</a>
+    </h1>
+  
+
+        
+        <a href="/288.html" class="archive-article-date">
+  	<time datetime="2013-08-20T08:32:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在很多时间做web开发都需要使用图标，网页中各种丰富的内容很多都是由图标完成的。</p>
+<p>这些图标有些都是一个图标对应一个图片文件，虽然这可以实现其功能，但是深究的话并不是好的解决方案，毫无意义的增加了访问服务器的次数。</p>
+<p>今天小猪就来分享如何“一图多用”。即把很多图标放在一张图片上面，而利用css来实现不同的地方显示图片的不同位置实现了类似单个图标的功能</p>
+<p><strong>最重要的一点是</strong><br>你要了解背景图片在控制项中显示的起始位置，控制项的高度，宽度。<br>以下是简要分析，你还要实践一下才能掌握真谛：<br>对一个宽度40，高度30的div设定一个背景，而背景图片是一张很多小图片的组合。<br>这里隐含了一个条件，就是小图片的宽度和高度和小图片的间隙要大于等于div的设置，原因：<br>当你设定背景图片的起始位置时，如果小图片相对div太小，则会显示多个小图片，相反如果小图片在一张整图过大或布局不够友好(比如间隙[上，下，左，右]),那么也是不算符合要求而导致显示不完整或不合你的格。<br>讲了上面这么多，有一个重要的地方，就是如何设置背景图片的起始位置：<br>答案就在background-position里面了，当然background也可以设置。<br>你找找别人的案例就会发现他们的position都设置为负数，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background-position:-5px -4px</span><br></pre></td></tr></table></figure></p>
+<p>这个就是背景图片显示的起始位置。那这个数字怎么设定呢？<br>哈哈，我是不是在卖关子？<br>呵呵，不卖关子，你咋能记得住。<br>还有这可是我经验的积累，过程，分享。<br>说正题，图片在背景的显示坐标(我们就当他是坐标)，为从图片的左上角算起为原点(0,0),<br>向右则为负(跟一般的横坐标相反),向下也为负(跟纵坐标一样),那么单位(px，当然也可以是其他的)则为刻度，好了，图片定位完成。<br>接下来就是你想要显示这个背景图片的哪个小图标，请按坐标标记下小图片的起始位置，那么<br>这就是你想要的background-position的结果了，至于怎么只显示这个小图片，就回到上面的讲的，需要对背景图片布局了，以及实际需求(比如div的高度宽度也觉得使用小图片的大小),<br>当然你会想，为什么不直接通过background来设置高度和宽度呢？我告诉你，是不行的。<br>所以你要对控制项div来设置高度和宽度，让小图片刚好显示出来，说了这么多，请看以下样式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div.myDiv &#123;width:40px;height:30px&#125;</span><br><span class="line">div.myDiv&#123;background-image:url(test.jpg);&#125;</span><br><span class="line">div.normal&#123;background-position:-5px -10px;&#125;</span><br><span class="line">div.over&#123;&#123;background-position:-20px -30px;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是html:<br>普通情况如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;div class=&quot;myDiv normal&quot; &amp;gt;&amp;lt;/div&amp;gt;</span><br></pre></td></tr></table></figure>
+<p>当发生onmouseover事件的时候(当然是你自己添加的事件,不过标签是&lt;a&gt;的话就用样式A:over设置了),修改div的样式变成如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;div class=&quot;myDiv over&quot; &amp;gt;&amp;lt;/div&amp;gt;</span><br></pre></td></tr></table></figure>
+<p>那么实际情况我只是对position的位置做了调整，也就是相当于修改了背景图片的显示区域。<br>而这个显示区域的变化就是2张小图片的位置罢了~<br>好了，讲是讲完了，该你实践了~<br>实践才是进步的唯一稳步~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/288.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-e5-92-8cjs-e7-9a-84-e6-97-a5-e6-9c-9f-e6-a0-bc-e5-bc-8f-e8-bd-ac-e6-8d-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/286.html">C#和JS的日期格式转换</a>
+    </h1>
+  
+
+        
+        <a href="/286.html" class="archive-article-date">
+  	<time datetime="2013-08-19T06:04:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>C#和JS的日期格式互相转换遇到了问题，我们从.NET服务器端序列化一个DateTime对象的结果是一个字符串格式，如 <span style="color:#FF0000;">&#39;/Date(1335258540000)/&#39;</span> 这样的字符串。</p>
+<p>整数1335258540000实际上是一个<span style="color:#FF0000;">1970 年1月1日00:00:00</span>至这个DateTime中间间隔的毫秒数。通过javascript用eval函数可以把这个日期字符串转换为一个带有时区的Date对象，如下</p>
+<p>用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var date = eval(&apos;new &apos; + eval(&apos;/Date(1335258540000)/&apos;).source)</span><br></pre></td></tr></table></figure></p>
+<p>这样即可得到一个JS对象</p>
+<p>通过alert(date)查看比较清楚。</p>
+<p><span style="color:#FF0000;">Tue Apr 24 17:09:00 UTC+0800 2012 </span></p>
+<p>然后通过js的时间函数可对其进行格式化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var myDate = new Date\(\);</span><br><span class="line">myDate.getYear\(\);        //获取当前年份(2位)</span><br><span class="line">myDate.getFullYear\(\);    //获取完整的年份(4位,1970-????)</span><br><span class="line">myDate.getMonth\(\);       //获取当前月份(0-11,0代表1月)</span><br><span class="line">myDate.getDate\(\);        //获取当前日(1-31)</span><br><span class="line">myDate.getDay\(\);         //获取当前星期X(0-6,0代表星期天)</span><br><span class="line">myDate.getTime\(\);        //获取当前时间(从1970.1.1开始的毫秒数)</span><br><span class="line">myDate.getHours\(\);       //获取当前小时数(0-23)</span><br><span class="line">myDate.getMinutes\(\);     //获取当前分钟数(0-59)</span><br><span class="line">myDate.getSeconds\(\);     //获取当前秒数(0-59)</span><br><span class="line">myDate.getMilliseconds\(\);    //获取当前毫秒数(0-999)</span><br><span class="line">myDate.toLocaleDateString\(\);     //获取当前日期</span><br><span class="line">var mytime=myDate.toLocaleTimeString\(\);     //获取当前时间 上午12:00:00</span><br><span class="line">myDate.toLocaleString&amp;#40; &amp;#41;;        //获取日期与时间 2012年12月12日 上午12:00:00</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/286.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-https-e5-8d-8f-e8-ae-ae-e5-9f-ba-e7-a1-80" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -711,442 +1181,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-asp-net-e4-bd-bf-e7-94-a8response-writefile-e6-96-b9-e6-b3-95-e4-b8-8b-e8-bd-bd-e6-96-87-e4-bb-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/257.html">ASP.NET 使用Response.WriteFile方法下载文件</a>
-    </h1>
-  
-
-        
-        <a href="/257.html" class="archive-article-date">
-  	<time datetime="2013-08-12T07:59:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在IIS中，直接在浏览器中输入文件的路径可实现文件的下载，但是这个方法不方便控制用户的权限，所以小猪使用了下列方法来输出文件流。取代了直接下载文件。</p>
-<p>这样就可以在下载文件之前验证用户的信息等等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">string path = Server.MapPath(&quot;~/小猪测试.doc&quot;);//文件的路径</span><br><span class="line"></span><br><span class="line">System.IO.FileInfo file = new System.IO.FileInfo(path);</span><br><span class="line"></span><br><span class="line">Response.Clear\(\);</span><br><span class="line"></span><br><span class="line">Response.Charset = &quot;utf-8&quot;;//设置输出的编码</span><br><span class="line"></span><br><span class="line">Response.ContentEncoding = System.Text.Encoding.UTF8;</span><br><span class="line"></span><br><span class="line">// 添加头信息，为&quot;文件下载/另存为&quot;对话框指定默认文件名   </span><br><span class="line"></span><br><span class="line">Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + Server.UrlEncode(file.Name));</span><br><span class="line"></span><br><span class="line">// 添加头信息，指定文件大小，让浏览器能够显示下载进度   </span><br><span class="line"></span><br><span class="line">Response.AddHeader(&quot;Content-Length&quot;, file.Length.ToString\(\));</span><br><span class="line"></span><br><span class="line">// 指定返回的是一个不能被客户端读取的流，必须被下载   </span><br><span class="line"></span><br><span class="line">Response.ContentType = &quot;application/msword&quot;;</span><br><span class="line"></span><br><span class="line">// 把文件流发送到客户端   </span><br><span class="line"></span><br><span class="line">Response.WriteFile(file.FullName);</span><br><span class="line"></span><br><span class="line">Response.End\(\);</span><br></pre></td></tr></table></figure>
-<p>重要说明：当您在 ASP.NET 应用程序的 Web.config 文件中将编译元素的 debug 属性值设置为 false 时，必须针对要下载的文件大小将 server.scripttimeout 属性设置为适当的值。默认情况下，server.scripttimeout 值被设置为 90 秒。但是，当 debug 属性被设置为 true 时，server.scripttimeout 值将被设置为一个非常大的值（30,000,000 秒）</p>
-<p>本篇向大家介绍的主要是WebForm下面的文件下载，在ASP.NET MVC 项目下则可以更加方便的方法使用相同的功能。</p>
-<p>具体请参考：<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="noopener">ASP.NET MVC FileResult介绍</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/257.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪的压力" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/255.html">小猪的压力</a>
-    </h1>
-  
-
-        
-        <a href="/255.html" class="archive-article-date">
-  	<time datetime="2013-08-10T07:33:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>其实小猪也有很多压力。</p>
-<p>灰常大的压力</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/255.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-工作效率" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/253.html">工作效率</a>
-    </h1>
-  
-
-        
-        <a href="/253.html" class="archive-article-date">
-  	<time datetime="2013-08-08T05:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪的工作时间算起来也差不多一年了</p>
-<p>去年6月的时候开始进入核心科技，真正做事的差不多是从9月的那次变动。那段时间由于刚开始接触真正的项目，所以每天的时间巴不得扳两半来花，很多东西因为没人交流的缘故可能只需要1个小时的东西我要琢磨两天才能搞定。</p>
-<p>过程中逐渐的发现工作的效率是多么重要。</p>
-<p>每天工作时间就是8个小时，8 个小时里面真正能够投入工作的差不多只有5个小时，中间总是会点开QQ看看群里在说什么。看看论坛里有什么新帖，等等。也就是现在很少能静下浮躁的心来学习“一段”时间了。</p>
-<p>小猪在想怎么来通过时间措施来提高自己的工作效率：</p>
-<p>1：撸代码时不开QQ。</p>
-<p>2：工作时间尽量少逛论坛。</p>
-<p>3：早上来杯咖啡精神一上午，午间爬上半小时活力多</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/253.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-e4-bd-bf-e7-94-a8sharpziplib-e7-bc-96-e8-be-91zip-e5-8c-85-e4-b8-ad-e5-86-85-e5-ae-b9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/246.html">C#使用SharpZipLib编辑zip包中内容</a>
-    </h1>
-  
-
-        
-        <a href="/246.html" class="archive-article-date">
-  	<time datetime="2013-08-07T05:53:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪最近在使用SharpZipLib进行zip包的操作，编写了下列测试代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;---------------------Zip包中的文件并解压测试-------------------------&quot;);</span><br><span class="line">    string content;</span><br><span class="line"></span><br><span class="line">    string filename = @&quot;E:wamp.zip&quot;;//需要测试的zip包地址</span><br><span class="line">    string searchname = @&quot;Web.config&quot;;</span><br><span class="line">    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))</span><br><span class="line">    using (ZipFile zf = new ZipFile(fs))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;开始查找：&quot; + searchname + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        Console.WriteLine(&quot;Zip包大小:&quot; + fs.Length);</span><br><span class="line">        var ze = zf.GetEntry(searchname);</span><br><span class="line">        if (ze == null)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;文件长度：&quot; + ze.Size);</span><br><span class="line">            Console.WriteLine(&quot;开始修改：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">            using (Stream s = zf.GetInputStream(ze))</span><br><span class="line">            &#123;</span><br><span class="line">                StreamReader inputReader = new StreamReader(s);</span><br><span class="line">                content = inputReader.ReadToEnd\(\);</span><br><span class="line">                content += &quot;nthis is SmallerPig Test 测试下中文&quot;;//在原流中增加字符串</span><br><span class="line">            &#125;</span><br><span class="line">            zf.BeginUpdate\(\);</span><br><span class="line">            zf.Add(new StateDataSource(content), searchname);</span><br><span class="line">            zf.CommitUpdate\(\);</span><br><span class="line">            Console.WriteLine(&quot;结束：&quot; + System.DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss:fff&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StateDataSource:IStaticDataSource//自定义实现IStaticDataSource接口的类</span><br><span class="line">&#123;</span><br><span class="line">    string source;</span><br><span class="line"></span><br><span class="line">    public StateDataSource(string source)</span><br><span class="line">    &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Stream GetSource\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        byte[] array = Encoding.ASCII.GetBytes(source);</span><br><span class="line">        MemoryStream stream = new MemoryStream(array);</span><br><span class="line">        return stream;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>由测试结果知道：编辑一个zip中文件所需时间主要是由zip的大小来决定的，整个提交过程需要重新打包。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/246.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-c-e5-ad-97-e7-ac-a6-e4-b8-b2-e7-bc-96-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/241.html">C#字符串编码</a>
-    </h1>
-  
-
-        
-        <a href="/241.html" class="archive-article-date">
-  	<time datetime="2013-08-06T04:04:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在之前的使用习惯中，我们需要对URL Encode的时候通常只是调用系统的静态方法进行Encode下就可以了。今天大强问了个问题把我楞住了：你的Encode是使用什么编码？</p>
-<p>所以小猪有了下面的测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        string a = &quot;Glory is fleeting, but obscurity is forever&quot;;</span><br><span class="line">        string b = UrlEncode(a);</span><br><span class="line">        Console.WriteLine(b);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static string UrlEncode(string str)</span><br><span class="line">    &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder\(\);</span><br><span class="line">        byte[] byStr = System.Text.Encoding.Unicode.GetBytes(str); //默认是System.Text.Encoding.Default.GetBytes(str)</span><br><span class="line">        for (int i = 0; i &amp;lt; byStr.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sb.Append(@&quot;%&quot; + Convert.ToString(byStr[i], 16));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return (sb.ToString\(\));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/241.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
     </nav>
   
 
@@ -1245,10 +1282,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1297,14 +1330,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1318,146 +1343,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1481,7 +1366,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1489,7 +1382,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1521,7 +1414,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1533,7 +1494,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1574,10 +1631,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

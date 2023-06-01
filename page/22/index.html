@@ -161,6 +161,539 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-javascript-e5-9f-ba-e6-9c-ac-e7-b1-bb-e5-9e-8b-e5-80-bc-e4-b8-8e-e5-bc-95-e7-94-a8-e7-b1-bb-e5-9e-8b-e5-80-bc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/328.html">JavaScript基本类型值与引用类型值</a>
+    </h1>
+  
+
+        
+        <a href="/328.html" class="archive-article-date">
+  	<time datetime="2013-10-15T03:07:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>JS变量可以用来保存两种类型的值：基本类型值和引用类型值。基本类型的值源自一下5种基本数据类型：Underfined、Null、Boolean、Number和String。</p>
+<p><strong>基本类型值和引用类型值具有以下特点：</strong></p>
+<ul>
+<li><p>基本类型值在内存中占据固定大小的空间，因此被保存在栈内存中；</p>
+</li>
+<li><p>从一个变量向另一个变量复制基本类型的值，会创建这个值的一个副本；</p>
+</li>
+<li><p>引用类型的值是对象，保存在堆内存中；</p>
+</li>
+<li><p>包含引用类型值的变量实际上包含的并不是对象本身，而是一个指向该对象的指针；</p>
+</li>
+<li><p>从一个变量向另一个变量复制引用类型的值，复制的其实是指针，因此两个变量最终都指向同一个对象；</p>
+</li>
+<li><p>确定一个值是哪种基本类型可以使用Typeof操作符，而确定一个值是哪种引用类型可以使用instanceof操作符。</p>
+</li>
+</ul>
+<p>所有变量（包括基本类型和引用类型）都存在于一个执行环境(也称为作用域)当中，这个执行环境决定了变量的生命周期，以及那一部分代码可以访问其中的变量。</p>
+<p><strong>一下是关于执行环境的几点总结：</strong></p>
+<ul>
+<li><p>执行环境有全局执行环境（也称为全局环境）和函数执行环境之分；</p>
+</li>
+<li><p>每次进入一个新执行环境，都会创建一个用于搜索变量和函数的作用域链；</p>
+</li>
+<li><p>函数的局部黄金不仅有权访问函数作用域中的变量，而且有权访问其包含（父）环境，乃至全局环境；</p>
+</li>
+<li><p>全局环境只能访问在全局环境中定义的变量和函数，而不能直接访问局部环境中的任何数据；</p>
+</li>
+<li><p>变量的执行环境有助于确定应该合适释放内存。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/328.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-在Html中使用JavaScript的几点小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/326.html">在Html中使用JavaScript的几点小结</a>
+    </h1>
+  
+
+        
+        <a href="/326.html" class="archive-article-date">
+  	<time datetime="2013-10-14T09:02:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>越发的意识到JS这门作为前端语言的重要性。所以下定决心这段时间在项目允许的情况下花大量时间在学习JS上。争取让自己的前端功底深厚一点。</p>
+<p><strong>小结</strong></p>
+<ul>
+<li><p>在包含外部js文件时，必须将src属性设置为指向相应文件的URL。而这个文件既可以是包含它的页面位于同一个服务器上的文件，也可以是其他任何域中的文件。</p>
+</li>
+<li><p>所有&lt;script&gt;元素都会按照他们在页面中出现的先后顺序依次呗解析。在不适用defer和async属性的情况下，只有解析完前面&lt;script&gt;元素中的代码之后，才会开始解析后面的&lt;script&gt;元素中的代码。</p>
+</li>
+<li><p>由于浏览器会先解析完不适用defer属性的&lt;script&gt;元素中的代码，然后再解析后面的内容，所以一般把&lt;script&gt;元素放在页面最后，即主要内容后面，&lt;/body&gt;标签前面。</p>
+</li>
+<li><p>适用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定他们的顺序执行。</p>
+</li>
+<li><p>适用async属性可以是表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照它们在页面中出现的顺序执行。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/326.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小猪的情绪" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/325.html">小猪的情绪</a>
+    </h1>
+  
+
+        
+        <a href="/325.html" class="archive-article-date">
+  	<time datetime="2013-10-13T15:07:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>回校后看到同学们的生活井然有序，而自己的生活则是两个字：紧凑中带着迷茫！</p>
+<p>得知亲爱的老师让我下一届的一学弟开始编写程序，而且这学期的课基本上是由他来上的，心里有点小不是滋味。</p>
+<p>让我想起来大学的某堂课需要每个同学分别讲书中的一章，轮到小猪时，小猪花了大量的时间在准备上，所以到现在小猪对那堂课依然记忆犹新。而到了读研的时候自己最感兴趣的一门课自己多么希望也有这么个机会，不是为了证明自己而是给自己更大的动力。可惜呀可惜~~~</p>
+<p>小猪想是不是这样他甚至就会有机会留下来继续工作了呢？</p>
+<p>大约吧~</p>
+<p>今天早上还安慰昨天来锡面试的高中同学，找工作是需要靠运气的……看来真的是这样。谁说不是呢！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的思想/小猪的感悟/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/325.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小猪学设计模式之——装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
+    </h1>
+  
+
+        
+        <a href="/323.html" class="archive-article-date">
+  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰者模式</strong></p>
+<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
+<p><strong>装饰者模式的工作原理：</strong></p>
+<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
+<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
+<p><strong>装饰者模式UML图</strong></p>
+<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
+<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
+<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>装饰者模式的应用场景：</strong></p>
+<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
+<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
+<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
+<p><strong>装饰者模式的优点：</strong></p>
+<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
+<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
+<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
+<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
+<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
+<p><strong>装饰者模式的缺点：</strong></p>
+<p>1、  装饰链不能过长，否则会影响效率。</p>
+<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
+<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/323.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小猪学设计模式之—装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
+    </h1>
+  
+
+        
+        <a href="/323.html" class="archive-article-date">
+  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>装饰者模式</strong></p>
+<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
+<p><strong>装饰者模式的工作原理：</strong></p>
+<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
+<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
+<p><strong>装饰者模式UML图</strong></p>
+<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
+<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
+<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>装饰者模式的应用场景：</strong></p>
+<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
+<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
+<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
+<p><strong>装饰者模式的优点：</strong></p>
+<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
+<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
+<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
+<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
+<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
+<p><strong>装饰者模式的缺点：</strong></p>
+<p>1、  装饰链不能过长，否则会影响效率。</p>
+<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
+<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/323.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-设计原则—依赖倒转原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -656,576 +1189,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-c-e6-8a-bd-e8-b1-a1-e7-b1-bb-e3-80-81-e6-8a-bd-e8-b1-a1-e6-96-b9-e6-b3-95-e3-80-81-e6-8a-bd-e8-b1-a1-e5-b1-9e-e6-80-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/311.html">C#抽象类、抽象方法、抽象属性</a>
-    </h1>
-  
-
-        
-        <a href="/311.html" class="archive-article-date">
-  	<time datetime="2013-09-13T08:41:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>定义</strong></p>
-<p>在C#中使用关键字 abstract 来定义抽象类和抽象方法。</p>
-<p>不能初始化的类被叫做抽象类，它们只提供部分实现，但是另一个类可以继承它并且能创建它们<br>的实例。<br>&quot;一个包含一个或多个纯虚函数的类叫抽象类，抽象类不能被实例化，进一步<br>一个抽象类只能通过接口和作为其它类的基类使用.&quot;- C++ Programming Language by Stroustrup Chapter13.2</p>
-<p>抽象类能够被用于类，方法，属性，索引器和事件，使用abstract 在一个类声明中表示该类倾向要作为其它类的基类<br>成员被标示成abstract，或被包含进一个抽象类，必须被其派生类实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">abstract class ShapesClass</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        abstract public int Area\(\);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class Square : ShapesClass</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        int x, y;</span><br><span class="line"></span><br><span class="line">        // Not providing an Area method results</span><br><span class="line"></span><br><span class="line">        // in a compile-time error.</span><br><span class="line"></span><br><span class="line">        public override int Area\(\)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            return x * y;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>备注</strong><br><strong>抽象类具有以下特性：</strong><br>1、抽象类不能实例化。<br>2、抽象类可以包含抽象方法和抽象访问器。<br>3、不能用 sealed（C# 参考）修饰符修改抽象类，这意味着抽象类不能被继承。<br>4、从抽象类派生的非抽象类必须包括继承的所有抽象方法和抽象访问器的实实现。<br>5、抽象类可以是抽象方法和实例方法。<br>在方法或属性声明中使用 abstract 修饰符以指示方法或属性不包含实现。<br><strong>抽象方法具有以下特性：</strong><br>1、抽象方法是隐式的虚方法。<br>2、只允许在抽象类中使用抽象方法声明。<br>3、因为抽象方法声明不提供实际的实现，所以没有方法体；方法声明只是以一个分号结束，并且在签名后没有大括号 ({ })。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public abstract void MyMethod\(\);</span><br></pre></td></tr></table></figure>
-<p>4、实现由一个重写方法提供，此重写方法是非抽象类的成员。<br>5、在抽象方法声明中使用 static 或 virtual 修饰符是错误的。</p>
-<p><strong>除了在声明和调用语法上不同外，抽象属性的行为与抽象方法一样。</strong><br>1、在静态属性上使用 abstract 修饰符是错误的。<br>2、在派生类中，通过包括使用 override 修饰符的属性声明，可以重写抽象的继承属性。<br>抽象类必须为所有接口成员提供实现。<br>实现接口的抽象类可以将接口方法映射到抽象方法上。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">interface I</span><br><span class="line">&#123;</span><br><span class="line">    void M\(\);</span><br><span class="line">&#125;</span><br><span class="line">abstract class C: I</span><br><span class="line">&#123;</span><br><span class="line">    public abstract void M\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>示例</strong><br>在本例中，DerivedClass 类是从抽象类 BaseClass 派生的。抽象类包含一个抽象方法 AbstractMethod 和两个抽象属性 X 和 Y。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// abstract_keyword.cs</span><br><span class="line">// Abstract Classes</span><br><span class="line">using System;</span><br><span class="line">abstract class BaseClass   // Abstract class</span><br><span class="line">&#123;</span><br><span class="line">    protected int _x = 100;</span><br><span class="line">    protected int _y = 150;</span><br><span class="line">    public abstract void AbstractMethod\(\);   // Abstract method</span><br><span class="line">    public abstract int X    &#123; get; &#125;</span><br><span class="line">    public abstract int Y    &#123; get; &#125;</span><br><span class="line">&#125;</span><br><span class="line">class DerivedClass : BaseClass</span><br><span class="line">&#123;</span><br><span class="line">    public override void AbstractMethod\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        _x++;</span><br><span class="line">        _y++;</span><br><span class="line">    &#125;</span><br><span class="line">    public override int X   // overriding property</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _x + 10;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public override int Y   // overriding property</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _y + 10;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    static void Main\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        DerivedClass o = new DerivedClass\(\);</span><br><span class="line">        o.AbstractMethod\(\);</span><br><span class="line">        Console.WriteLine(&quot;x = &#123;0&#125;, y = &#123;1&#125;&quot;, o.X, o.Y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出<br>x = 111, y = 161<br>注释<br>在上面的示例中，如果试图通过使用下面的语句将抽象类实例化：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">BaseClass bc = new BaseClass\(\); // Error</span><br></pre></td></tr></table></figure>
-<p>将出现错误，指出编译器无法创建抽象类“BaseClass”的实例。</p>
-<p>在定义类的前面加上关键字abstract，那么这个类就是抽象类了，抽象类本身无法产生实例对象，而且抽象类包含了一个以上的抽象方法，这些方法只是提供函数名称，并没有定义如何具体实现，由继承的派生类实现，派生类同时必须实现所有抽象类的方法，否则其本身将成为另外一个抽象类。需要我们注意的一点是，当派生类重写抽象类的方法时，要使用override关键字来重写抽象类所定义的方法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/311.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪学设计模式之——门面模式(外观模式)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/308.html">小猪学设计模式——门面模式(外观模式)</a>
-    </h1>
-  
-
-        
-        <a href="/308.html" class="archive-article-date">
-  	<time datetime="2013-09-13T05:36:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>在学习这个模式的时候小猪有这样的感觉：我们很多时候会把设计模式想的多么高深，多么的深不可测，新手完全看不懂之类的话，其实只要我们把面向对象基础打好，在写代码的时候会不自不觉的用到一些设计模式，只是我们不知道它叫什么名字而已。</p>
-<p><strong>模式定义</strong></p>
-<p>外观模式(Facade),为子系统中的一组接口提供了一个一致的界面，此模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<p><strong>实现代码</strong></p>
-<p>代码清单一：子系统的类<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">SubSystemOne</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodOne</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法一"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemTwo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodTwo</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法二"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemThree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodThree</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法三"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">SubSystemFour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodFour</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 子系统方法四"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码清单二：外观类<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Facade</span></span><br><span class="line">&#123;</span><br><span class="line">    SubSystemOne one;</span><br><span class="line">    SubSystemTwo two;</span><br><span class="line">    SubSystemThree three;</span><br><span class="line">    SubSystemFour four;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Facade</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        one = <span class="keyword">new</span> SubSystemOne();</span><br><span class="line">        two = <span class="keyword">new</span> SubSystemTwo();</span><br><span class="line">        three = <span class="keyword">new</span> SubSystemThree();</span><br><span class="line">        four = <span class="keyword">new</span> SubSystemFour();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodA</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"n方法组A() ---- "</span>);</span><br><span class="line">        one.MethodOne();</span><br><span class="line">        two.MethodTwo();</span><br><span class="line">        four.MethodFour();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MethodB</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"n方法组B() ---- "</span>);</span><br><span class="line">        two.MethodTwo();</span><br><span class="line">        three.MethodThree();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码清单三：客户端调用<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Facade facade = <span class="keyword">new</span> Facade();</span><br><span class="line"></span><br><span class="line">        facade.MethodA();</span><br><span class="line">        facade.MethodB();</span><br><span class="line"></span><br><span class="line">        Console.Read();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>对于面向对象有一定基础的同学，即使没有听说过门面(外观)模式，也完全由可能在很多时候使用它，因为它完美体现了依赖倒转原则和迪米特法则的思想，所以是非常常用的模式之一。</p>
-<p>举个例子：很多人喜欢炒股票，但凡是个有心眼的人都知道：股市有风险、入股需谨慎。自己直接买股票就是客户端直接与大量股票打交道，这在写程序时叫做：耦合度太高。但是这个时候我们发现有一个叫做“基金”的东西。我们只需要来买基金，这个基金来买什么股票我们不关心也不需要了解，客户端买基金之后就可以回家睡觉打麻将了，而买股票这种专业的东西让卖基金的人去搞，这样我们就去除了客户端与股票的耦合。这就是门面(外观)模式的思想。</p>
-<p>再具一个例子：添加事件标准浏览器使用addEventListener，旧版本IE使用attachEvent，可能自己需要封装一个addEvent函数，这个addEvent函数就是一个门面。</p>
-<p>代码清单四：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">addEvent</span>(<span class="params">el, type, fn</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (el.addEventListener) &#123;</span><br><span class="line">        el.addEventListener(type, fn, <span class="literal">false</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (el.attachEvent) &#123;</span><br><span class="line">        el.attachEvent(<span class="string">'on'</span> + type, fn)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        el[<span class="string">'on'</span> + type] = fn</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样我们再给对象添加事件的时候就不需要考虑客户端到底是什么浏览器而直接使用addEvent方法了。</p>
-<p><strong>适用场合</strong><br>对于那些反复同时出现的代码，如函数a和b多次同时出现在代码中，应考虑将a，b组合起来放到一个新函数中。</p>
-<p><strong>优点</strong><br>简化了一些复杂接口（如$.ajax, $.event.add），清除不再需要的大对象以及提供一种更加单一，便利的方式展现接口功能。编写一次组合代码，就可以反复使用它，节省了代码量，时间和精力。它还提供了较高层的功能，抽象，降低客户端代码对底层接口的耦合。如$.getJSON，通过$.ajax方法也可以得到相同的效果。但每次都需要配置相同的参数，如果获取JSON的需求很频繁，页面中的相同的代码就需要写很多次。而封装一次$.getJSON，之后就少写很多代码，且该方法更直观。</p>
-<p><strong>缺点</strong></p>
-<p>外观模式并非必不可少，同样的功能不使用它也能完成功能。如不使用$.getJSON，通过$.ajax方法也可以得到相同的效果。此外由于增加了一层闭包，性能会有一定降低。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/308.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪学设计模式之——模板方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/307.html">小猪学设计模式——模板方法模式</a>
-    </h1>
-  
-
-        
-        <a href="/307.html" class="archive-article-date">
-  	<time datetime="2013-09-12T12:42:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>在小猪之前写的代码中有这样的功能：在需要验证的页面中加入逻辑的验证<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">page_load</span><span class="params">(obeject sender, event e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(Session[<span class="string">"admin"</span>]==<span class="keyword">null</span>||Session[<span class="string">"admin"</span>]==<span class="string">""</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//跳转到登陆页</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//继续操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而在每个页面中都需要加入这样的逻辑判断来验证用户是否登陆。</p>
-<p>同样在ASP.NET MVC里面需要在每个Action里面加入这样的判断。</p>
-<p>而后来小猪写了多了就发现不应该在每个页面里面都写上这样同样的代码，可以写在一个基类里面然后需要验证的时候（页面）继承自这个类就实现了同样的效果，而且是一劳永逸。其实这就类似于模板方法模式的思想了，只是当时小猪并没有意识到而已。</p>
-<p><strong>模式定义</strong> </p>
-<p>所谓模板方法模式就是在一个方法中定义一个算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类可以在不改变算法结构的情况下，重新定义算法中的某些步骤。<br>模板方法模式是基于继承的代码复用技术的。在模板方法模式中，我们可以将相同部分的代码放在父类中，而将不同的代码放入不同的子类中。也就是说我们需要声明一个抽象的父类，将部分逻辑以具体方法以及具体构造函数的形式实现，然后声明一些抽象方法让子类来实现剩余的逻辑，不同的子类可以以不同的方式来实现这些逻辑。<br>其实所谓模板就是一个方法，这个方法将算法的实现定义成了一组步骤，其中任何步骤都是可以抽象的，交由子类来负责实现。这样就可以保证算法的结构保持不变，同时由子类提供部分实现。<br>模板是一个方法，那么他与普通的方法存在什么不同呢？模板方法是定义在抽象类中，把基本操作方法组合在一起形成一个总算法或者一组步骤的方法。而普通的方法是实现各个步骤的方法，我们可以认为普通方法是模板方法的一个组成部分。</p>
-<p>模板方法模式就两个角色：<br>AbstractClass: 抽象类<br>ConcreteClass: 具体子类<br>其中抽象类提供一组算法和部分逻辑的实现(例如：实现了验证是否登陆)，具体子类实现剩余逻辑。</p>
-<p><strong>代码实现</strong></p>
-<p>下面的代码模拟演示了两个相同的学生做相同的题目的过程。其中代码一是最简单也是没有采用任何模式的写法，代码二则使用了比较好的模板方法模式。无疑，代码一中在两个类中复制了大量的相同代码，不仅不好看而且增加了程序的维护难度。 </p>
-<p>代码清单一：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Program</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span><span class="params">(string[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"学生甲抄的试卷："</span>);</span><br><span class="line">        TestPaperA studentA = <span class="keyword">new</span> TestPaperA();</span><br><span class="line">        studentA.TestQuestion1();</span><br><span class="line">        studentA.TestQuestion2();</span><br><span class="line">        studentA.TestQuestion3();</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">"学生乙抄的试卷："</span>);</span><br><span class="line">        TestPaperB studentB = <span class="keyword">new</span> TestPaperB();</span><br><span class="line">        studentB.TestQuestion1();</span><br><span class="line">        studentB.TestQuestion2();</span><br><span class="line">        studentB.TestQuestion3();</span><br><span class="line"></span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//学生甲抄的试卷</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestPaperA</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//试题1</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过得到，后来给了郭靖，炼成倚天剑、屠龙刀的玄铁可能是[ ] a.球磨铸铁 b.马口铁 c.高速合金钢 d.碳素纤维 "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//试题2</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过、程英、陆无双铲除了情花，造成[ ] a.使这种植物不再害人 b.使一种珍稀物种灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化  "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：a"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//试题3</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 蓝凤凰的致使华山师徒、桃谷六仙呕吐不止,如果你是大夫,会给他们开什么药[ ] a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量的生牛奶 e.以上全不对   "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：c"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//学生乙抄的试卷</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestPaperB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//试题1</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过得到，后来给了郭靖，炼成倚天剑、屠龙刀的玄铁可能是[ ] a.球磨铸铁 b.马口铁 c.高速合金钢 d.碳素纤维 "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：d"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//试题2</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过、程英、陆无双铲除了情花，造成[ ] a.使这种植物不再害人 b.使一种珍稀物种灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化  "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//试题3</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 蓝凤凰的致使华山师徒、桃谷六仙呕吐不止,如果你是大夫,会给他们开什么药[ ] a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量的生牛奶 e.以上全不对   "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案：a"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码清单二：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Program</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span><span class="params">(string[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"学生甲抄的试卷："</span>);</span><br><span class="line">        TestPaper studentA = <span class="keyword">new</span> TestPaperA();</span><br><span class="line">        studentA.TestQuestion1();</span><br><span class="line">        studentA.TestQuestion2();</span><br><span class="line">        studentA.TestQuestion3();</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(<span class="string">"学生乙抄的试卷："</span>);</span><br><span class="line">        TestPaper studentB = <span class="keyword">new</span> TestPaperB();</span><br><span class="line">        studentB.TestQuestion1();</span><br><span class="line">        studentB.TestQuestion2();</span><br><span class="line">        studentB.TestQuestion3();</span><br><span class="line"></span><br><span class="line">        Console.Read();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestPaper</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过得到，后来给了郭靖，炼成倚天剑、屠龙刀的玄铁可能是[ ] a.球磨铸铁 b.马口铁 c.高速合金钢 d.碳素纤维 "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案："</span> + Answer1());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 杨过、程英、陆无双铲除了情花，造成[ ] a.使这种植物不再害人 b.使一种珍稀物种灭绝 c.破坏了那个生物圈的生态平衡 d.造成该地区沙漠化  "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案："</span> + Answer2());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestQuestion3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Console.WriteLine(<span class="string">" 蓝凤凰的致使华山师徒、桃谷六仙呕吐不止,如果你是大夫,会给他们开什么药[ ] a.阿司匹林 b.牛黄解毒片 c.氟哌酸 d.让他们喝大量的生牛奶 e.以上全不对   "</span>);</span><br><span class="line">        Console.WriteLine(<span class="string">"答案："</span> + Answer3());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> virtual string <span class="title">Answer1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> virtual string <span class="title">Answer2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> virtual string <span class="title">Answer3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//学生甲抄的试卷</span></span><br><span class="line">class TestPaperA : TestPaper</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"b"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"c"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"a"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//学生乙抄的试卷</span></span><br><span class="line">class TestPaperB : TestPaper</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"c"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"a"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> override string <span class="title">Answer3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"a"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>模式优缺点</strong><br> 优点<br>  1、模板方法模式在定义了一组算法，将具体的实现交由子类负责。<br>  2、模板方法模式是一种代码复用的基本技术。<br>  3、模板方法模式导致一种反向的控制结构，通过一个父类调用其子类的操作，通过对子类的扩展增加新的行为，符合“开闭原则”。<br> 缺点<br>  每一个不同的实现都需要一个子类来实现，导致类的个数增加，是的系统更加庞大。</p>
-<p><strong>使用场景</strong><br>  1、 一次性实现一个算法的不变的部分，并将可变的行为留给子类来实现。<br>  2、 各子类中公共的行为应被提取出来并集中到一个公共父类中以避免代码重复。<br>  3、控制子类的扩展。</p>
-<p><strong>模式总结</strong><br>  1、 模板方法模式定义了算法的步骤，将这些步骤的实现延迟到了子类。<br>  2、 模板方法模式为我们提供了一种代码复用的重要技巧。<br>  3、 模板方法模式的抽象类可以定义抽象方法、具体方法和钩子。<br>  4、 为了防止子类改变算法的实现步骤，我们可以将模板方法声明为final。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/307.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪学设计模式——工厂模式之抽象工厂" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/305.html">小猪学设计模式——工厂模式之抽象工厂</a>
-    </h1>
-  
-
-        
-        <a href="/305.html" class="archive-article-date">
-  	<time datetime="2013-09-12T02:36:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇是工厂模式系列的最后一篇</p>
-<p>在上一篇的工厂方法模式中，我们使用了汽车的例子来说明。其中我们为不同的品牌车新建了各自的类来实现创建车的过程。<br>工厂方法模式代码：</p>
-<pre><code>interface IFactory {  
-    ICar createCar\(\);  
-}  
-class AudiFactory implements IFactory {  
-    public ICar createCar\(\) {  
-        Engine engine = new Engine\(\);  
-        Underpan underpan = new Underpan\(\);  
-        Wheel wheel = new Wheel\(\);  
-        ICar car = new Car(underpan, wheel, engine);  
-        return car;  
-    }  
-}  
-public class Client {  
-    public static void main(String[] args) {  
-        IFactory factory = new AudiFactory\(\);  
-        ICar car = factory.createCar\(\);  
-        car.show\(\);  
-    }  
-}  
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    随着程序的演进，功能要求变的更加复杂，我们本来只是要创建车就可以了。但是现在我们需要根据车的类型不同来生成不同的车，例如SUV车系、运动车系、商务车系等。而不同的汽车厂商都会根据自己车的定位和品牌价值来生产这些车系。这时候如果我们使用工厂方法模式的话就需要为不同的车系、不同的厂商分别新建工厂类。这显然是不太合理的。</span><br><span class="line">    这个场景就需要抽象工厂模式了。</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 抽象工厂模式</span><br><span class="line"></span><br><span class="line">    &gt; 提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。</span><br><span class="line"></span><br><span class="line">    根据上面关于车的描述，我们可以对车的概念进行一个概括：将车根据类型和厂商进行划分，也就是说如果我们知道了车的类型以及厂商，我们就能够确定车的型号。</span><br><span class="line"></span><br><span class="line">    我们将原来工厂方法模式的接口进行升级。</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> interface IFactory &#123;  </span><br><span class="line">        ICar createSUVCar\(\);</span><br><span class="line"></span><br><span class="line">        ICar CreateSportsCar\(\);</span><br><span class="line"></span><br><span class="line">        ICar CreateBussinessCar\(\);        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>而我们的奥拓工厂就实现了这个接口。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AoTuoFactory implements IFactory&#123;</span><br><span class="line">       public ICar createSUVCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       public ICar CreateSportsCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       public ICar CreateBussinessCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>在客户端，我们就可以这样来调用了：
-</code></pre><p><code>`</code>  </p>
-<p> public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new AoTuoFactory();<br>            ICar car = factory.createSUVCar();<br>            car.show();<br>        }  </p>
-<p>这样，我们创建car的时候，并不需要理会factory到底是哪个工厂。</p>
-<h2 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h2><p>产品族与产品等级<br>所谓产品族，是指位于不同产品等级结构中，功能相关联的产品组成的家族，例如车的厂商。<br>而产品等级就可以理解成车的车系了。</p>
-<p>显然，每一个产品族中含有产品的数目，与产品等级结构的数目是相等的。产品的等级结构与产品族将产品按照不同方向划分，形成一个二维的坐标系。只要指明一个产品所处的产品族以及它所属的等级结构，就可以唯一的确定这个产品。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
-<li>一个系统要独立于它的产品的创建、组合和表示时。</li>
-<li>一个系统要由多个产品系列中的一个来配置时。</li>
-<li>当你要强调一系列相关的产品对象的设计以便进行联合使用时。</li>
-<li>当你提供一个产品类库，而只想显示他们的接口而不是具体实现时。</li>
-</ul>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>前面的例子当中，如果我们需要新增一个车系时，变动将会很大。也就是说产品等级一旦发生变化，那抽象工厂模式的使用会给程序代码的改动带来很大的影响。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/305.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪学设计模式——工厂模式之工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/304.html">小猪学设计模式——工厂模式之工厂方法模式</a>
-    </h1>
-  
-
-        
-        <a href="/304.html" class="archive-article-date">
-  	<time datetime="2013-09-12T02:35:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>还记得上一篇的简单工厂模式吗？<br>我们举了个例子，使用加减乘除的方法来解释简单工厂，而如果我们有一天需要做科学计算器，那两个数之间的运算关系可不止加减乘除了，这时候如果我们的工厂类需要在不同的运算符之间做判断然后再给出具体的运算规则的话，那这些代码将非常的丑陋。</p>
-<p>如果出现这种情况，就需要我们的工厂方法模式了：</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>工厂方法模式代码：</p>
-<pre><code>interface IProduct {  
-    public void productMethod\(\);  
-}  
-
-class Product implements IProduct {  
-    public void productMethod\(\) {  
-        System.out.println(&quot;产品&quot;);  
-    }  
-}  
-
-interface IFactory {  
-    public IProduct createProduct\(\);  
-}  
-
-class Factory implements IFactory {  
-    public IProduct createProduct\(\) {  
-        return new Product\(\);  
-    }  
-}  
-
-public class Client {  
-    public static void main(String[] args) {  
-        IFactory factory = new Factory\(\);  
-        IProduct prodect = factory.createProduct\(\);  
-        prodect.productMethod\(\);  
-    }  
-}  
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    从上述代码中我们可以看出，实现工厂方法模式需要4个元素</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 四个要素</span><br><span class="line"></span><br><span class="line">    **工厂接口**。工厂接口是工厂方法模式的核心，与调用者直接交互用来提供产品。在实际编程中，有时候也会使用一个抽象类来作为与调用者交互的接口，其本质上是一样的。</span><br><span class="line">    **工厂实现**。在编程中，工厂实现决定如何实例化产品，是实现扩展的途径，需要有多少种产品，就需要有多少个具体的工厂实现。</span><br><span class="line">    **产品接口**。产品接口的主要目的是定义产品的规范，所有的产品实现都必须遵循产品接口定义的规范。产品接口是调用者最为关心的，产品接口定义的优劣直接决定了调用者代码的稳定性。同样，产品接口也可以用抽象类来代替，但要注意最好不要违反里氏替换原则。</span><br><span class="line">    **产品实现**。实现产品接口的具体类，决定了产品在客户端中的具体行为。</span><br><span class="line">    上一篇提到的简单工厂模式跟工厂方法模式极为相似，区别是：简单工厂只有三个要素，他没有工厂接口，并且得到产品的方法一般是静态的。因为没有工厂接口，所以在工厂实现的扩展性方面稍弱，可以算所工厂方法模式的简化版，关于简单工厂模式，可参考上一篇:[小猪学设计模式——工厂模式之简单工厂(静态工厂)](http://www.smallerpig.com/303.html)。</span><br><span class="line"></span><br><span class="line">    回到一开始提出的问题上来，我们需要在原来的简单工厂上面抽象出来一个抽象工厂的类：</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> public class OperationFactory</span><br><span class="line">    &#123;</span><br><span class="line">        public static Operation createOperate(string operate)</span><br><span class="line">        &#123;</span><br><span class="line">            Operation oper = null;</span><br><span class="line">            switch (operate)</span><br><span class="line">            &#123;</span><br><span class="line">                case &quot;+&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationAdd\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;-&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationSub\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;*&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationMul\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;/&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper = new OperationDiv\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return oper;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>抽象出来的类为：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface IOperationFactory&#123;</span><br><span class="line">       IOperation createOperation\(\);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //具体实现的工厂类</span><br><span class="line">   public class AddOperationFactory  implements IOperationFactory&#123;</span><br><span class="line">       @Override</span><br><span class="line">       public IOperation createOperation\(\) &#123;</span><br><span class="line">           return new AddOperation\(\);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<pre><code>然后每一个操作符都新建一个实现了IOperationFactory接口的类。
-看上述代码修改的好像并没有太大的意义，那是因为我们的适用场景。
-
-想象下如果我们不是加减乘除，而是生产汽车的过程。一开始我们需要各种零件：轮胎，发动机，方向盘等等，我们使用了简单工厂模式直接给到调用者这些零件。这时候简单工厂模式是能够满足我们的需求的。
-但是我们的汽车品牌变了(之前可是只有零件可能发生变化的)，我们之前开的奥拓不满足需求了，我们需要奥迪宝马奔驰了，也就是工厂变了，这个时候就需要将原来的工厂进行抽象。调用者直接使用抽象工厂类来进行调用车，而将零件的具体组装过程放到不同的工厂类里面。客户端拿到的就是一辆实实在在的车，且客户端并不关心具体工厂内部是怎么组件车的，客户端只是希望能实现我开车的目的就可以了。
-</code></pre><p><code>`</code>  </p>
-<p> interface IFactory {<br>        public ICar createCar();<br>    }<br>    class Factory implements IFactory {<br>        public ICar createCar() {<br>            Engine engine = new Engine();<br>            Underpan underpan = new Underpan();<br>            Wheel wheel = new Wheel();<br>            ICar car = new Car(underpan, wheel, engine);<br>            return car;<br>        }<br>    }<br>    public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new Factory();<br>            ICar car = factory.createCar();<br>            car.show();<br>        }<br>    }  </p>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单工厂模式一般用在产品变化多而工厂变化少的情况。<br>工厂方法模式一般用在工厂也可能出现过多的变动的情况。这个时候我们就需要为每一个产品都创建一个工厂。而将具体需要实例化哪一个产品交给客户端来处理。也就是用官方的话来讲：<strong>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使用一个类的实例化延迟到其子类。</strong>。而这个也将导致另外一个问题。选择判断的问题还是存在的，也就是说，工厂方法把简单工厂的内部逻辑判断一到了客户端代码来进行。在新增功能的时候，本来是改工厂类，现在是修改客户端了。<br>当然，这只是个人拙见。可能随着个人代码量的增加，对工厂方法的认识也会逐渐的改变。</p>
-<hr>
-<p>更新于2016年9月16日</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/304.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/21/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/23/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/21/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/23/">Next &raquo;</a>
     </nav>
   
 
@@ -1324,10 +1290,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1376,14 +1338,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1397,146 +1351,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1560,7 +1374,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1568,7 +1390,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1600,7 +1422,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1612,7 +1502,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1653,10 +1639,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

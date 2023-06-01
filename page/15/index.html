@@ -161,6 +161,474 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-django-e4-bb-a5-e4-b8-80-e7-a7-8d-e8-ae-bf-e9-97-ae-e6-9d-83-e9-99-90-e4-b8-8d-e5-85-81-e8-ae-b8-e7-9a-84-e6-96-b9-e5-bc-8f-e5-81-9a-e4-ba-86-e4-b8-80-e4-b8-aa-e8-ae-bf-e9-97-ae-e5-a5-97-e6-8e-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/802.html">Django 以一种访问权限不允许的方式做了一个访问套接字的尝试。</a>
+    </h1>
+  
+
+        
+        <a href="/802.html" class="archive-article-date">
+  	<time datetime="2015-07-07T14:37:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用默认的命令启动Django 自带的测试服务器时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure></p>
+<p>在启动的时候如果出现标题中的错误一般都是默认的端口号(8000)已经被其他程序给占用.</p>
+<p>所以换个端口重新启动:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver 8080</span><br></pre></td></tr></table></figure></p>
+<p>直到能够成功启动!</p>
+<p>关于启动监听的端口号以及ip的具体文档请参考官方文档:<a href="https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-runserver" title="https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-runserver" target="_blank" rel="noopener">传送门</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/802.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-django-no-module-named-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/797.html">Django no module named mysql</a>
+    </h1>
+  
+
+        
+        <a href="/797.html" class="archive-article-date">
+  	<time datetime="2015-07-06T16:05:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用最新版本的Django(1.8)编写好数据库信息后报上述错误!</p>
+<p>修改setting:</p>
+<p>‘ENGINE’: ‘mysql’</p>
+<p>改为</p>
+<p>‘ENGINE’: ‘django.db.backends.mysql’</p>
+<p>后正常!</p>
+<p>继续执行代码后报错</p>
+<p>django.db.utils.OperationalError: (1044, “Access denied for user ‘‘@’localhost’ to database ‘book’”)</p>
+<p>可是我明明在setting中使用的是root账户呀!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;book&apos;,</span><br><span class="line">        &apos;DATABASE_USER&apos;: &apos;root&apos;,</span><br><span class="line">        &apos;DATABASE_PASSWORD&apos;: &apos;&apos;,</span><br><span class="line">        &apos;DATABASE_HOST&apos;: &apos;localhost&apos;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查看官方文档之后发现上述代码不再适用于Django1.8.使用下面代码后一切正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;book&apos;,</span><br><span class="line">        &apos;USER&apos;: &apos;root&apos;,</span><br><span class="line">        &apos;PASSWORD&apos;: &apos;&apos;,</span><br><span class="line">        &apos;HOST&apos;: &apos;localhost&apos;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/797.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-windows-e4-b8-8b-e5-ae-89-e8-a3-85mysqlclient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/795.html">Windows下安装mysqlclient</a>
+    </h1>
+  
+
+        
+        <a href="/795.html" class="archive-article-date">
+  	<time datetime="2015-07-06T15:37:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于使用Python3下的Django. 原来的MySQLdb驱动已经不支持.</p>
+<p>引用Django官网上一段话:At the time of writing, the latest release of MySQLdb (1.2.5) doesn’t support Python 3. In order to use MySQLdb under Python 3, you’ll have to install <tt>mysqlclient</tt> instead.</p>
+<p>所以得安装mysqlclient了!</p>
+<p>这里我们使用pip来安装!</p>
+<p>先在命令行里输入pip看看是否成功安装pip.如果Windows提示未找到命令，可以重新运行安装程序添加<code>pip</code>。</p>
+<p>正在安装过程中:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/image_thumb.png" alt="image" title="image"></a></p>
+<p>经过漫长的等待之后终于安装成功.,期间视网络情况可能会出现多次下载失败的情况!</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/image1.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/image_thumb1.png" alt="image" title="image"></a></p>
+<p>如果多次下载失败后我们手动到官网上下载whl文件</p>
+<p>mysqlclient官网下载地址:<a href="http://dev.mysql.com/downloads/connector/python/" title="http://dev.mysql.com/downloads/connector/python/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/connector/python/</a></p>
+<p>然后在命令行工具中先安装wheel工具:</p>
+<p>pip install wheel</p>
+<p>通常这里会很快安装好wheel,然后找到你要安装的whl文件，在命令行下执行 wheel install XXXXX-none-any.whl(这里的文件名可能不同)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/795.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-一年一次的生病!来的比啥都准时准点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/786.html">一年一次的生病!来的比啥都准时准点</a>
+    </h1>
+  
+
+        
+        <a href="/786.html" class="archive-article-date">
+  	<time datetime="2015-06-25T07:39:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间心里还嘚瑟,好像好长时间没有生病了,结果这个星期就开始牙疼,发热了.</p>
+<p>映像中的我每年都会至少有那么一次,还记得大学那会每次回家都会挂点滴,妈妈安慰我道:是在外面时间长了,回家水土不服了吧.可小猪心里明白明明就是我体质差,稍微收点凉就要发热!尤其是讨厌的牙,每次它都会和扁桃体争着来证明自己比对方更脆弱!</p>
+<p>工作了之后愈发的发现,在生病的时候工作效率提不上来确实对自己心里上也是一定的负担.整天坐那啥事都不想做已经不能让一个生病的借口给搪塞过去了,所以一再的催促自己赶紧好起来,不然去挂水好快点吧.</p>
+<p>好在周一的时候丈母娘过来,家里有个人打理,不然真得去医院,.然后昨天中午吃了颗布洛芬到现在还在冒汗!温度貌似在今天早上的时候已经退了,但是牙龈还是在隐隐的作痛!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/786.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-web-e5-9f-9f-e5-90-8d-e5-90-8e-e9-9d-a2-e5-8a-a0-e4-b8-aa-e7-82-b9-e4-bc-9a-e5-8f-91-e7-94-9f-e4-bb-80-e4-b9-88" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/784.html">[Web]域名后面加个点.会发生什么?</a>
+    </h1>
+  
+
+        
+        <a href="/784.html" class="archive-article-date">
+  	<time datetime="2015-06-25T07:11:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看到v站上的讨论贴,特来记录该过程:<a href="http://v2ex.com/t/200832" target="_blank" rel="noopener">http://v2ex.com/t/200832</a></p>
+<p>例如:我们在浏览器中输入</p>
+<ol>
+<li><a href="http://www.smallerpig.com" target="_blank" rel="noopener">www.smallerpig.com</a></li>
+<li><a href="http://www.smallerpig.com" target="_blank" rel="noopener">www.smallerpig.com</a>.(注意这个后面有个点) </li>
+</ol>
+<p>我们会发现在浏览器上面显示的内容是一样的(不同浏览器,服务器结果可能不同),也就是解析到了同一个网站上,但是cookie却是不公用的.</p>
+<p>这个多出来的点叫做:trailing dot</p>
+<p>很有意思的一个小知识,你知道这个吗?</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/784.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp-net-mvc-e8-8e-b7-e5-8f-96-e9-bb-98-e8-ae-a4-e8-b7-af-e7-94-b1-e6-a0-bc-e5-bc-8f-e7-9a-84id-e5-80-bc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -664,495 +1132,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-entityfunctions-diff-e7-b3-bb-e5-88-97-e7-9a-84-e5-9d-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/724.html">EntityFunctions.Diff系列的坑</a>
-    </h1>
-  
-
-        
-        <a href="/724.html" class="archive-article-date">
-  	<time datetime="2015-05-30T12:33:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用<code>EntityFramwork</code>时,当我们需要对数据库中的时间字段进行计算的时候我就需要用到<code>EntityFuncitons</code>而不能直接写成类似下面的代码了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(item=&amp;gt;(item.CreateTime-DateTime.Now).Minutes&amp;gt;2)</span><br></pre></td></tr></table></figure></p>
-<p>仔细翻阅<code>EntityFunctions.DiffMinutes</code>的文档发现其留下了这么一句话:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">// 摘要: </span><br><span class="line">//     调用 DiffMinutes 规范函数。有关 DiffMinutes 规范函数的信息，请参见Date and Time Canonical Functions</span><br><span class="line">//     (Entity SQL)。</span><br><span class="line">//</span><br><span class="line">// 参数: </span><br><span class="line">//   timeValue1:</span><br><span class="line">//     有效日期。</span><br><span class="line">//</span><br><span class="line">//   timeValue2:</span><br><span class="line">//     有效日期。</span><br><span class="line">//</span><br><span class="line">// 返回结果: </span><br><span class="line">//     timeValue1 和 timeValue2 之间的分钟数。</span><br><span class="line">[EdmFunction(&quot;Edm&quot;, &quot;DiffMinutes&quot;)]</span><br><span class="line">public static int? DiffMinutes(DateTime? timeValue1, DateTime? timeValue2);</span><br></pre></td></tr></table></figure></p>
-<p>其上面明明写着返回结果是timeValue1和timeValue2之间的分钟数.类似的方法还有<code>DiffMonths\(\)</code>,<code>DiffSeconds\(\)</code>,<code>DiffYears\(\)</code>..</p>
-<p>当我们信誓旦旦的写上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item =&amp;gt; item.Status == 0 &amp;amp;&amp;amp; EntityFunctions.DiffMinutes(DateTime.Now, item.CreateTime)&amp;gt;= 15)</span><br></pre></td></tr></table></figure></p>
-<p>却怎么也得不到想要的结果..</p>
-<p>通过sql监视发现其生成的SQL语句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DATEDIFF (minute, SysDateTime\(\), SysDateTime\(\))&amp;gt;=15</span><br></pre></td></tr></table></figure></p>
-<p>单独执行才发现,这两个参数的顺序反了.简直是我勒个擦了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item =&amp;gt;item.Status == 0 &amp;amp;&amp;amp; EntityFunctions.DiffMinutes(item.CreateTime, DateTime.Now)&amp;gt;= 15)</span><br></pre></td></tr></table></figure></p>
-<p>也就是说:EntityFunctions.Diff系列函数的调用,第一个参数得比第二个参数小,才能返回正数结果.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/724.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微信支付官方SDK v3 .NET版的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/720.html">微信支付官方SDK v3 .NET版的坑</a>
-    </h1>
-  
-
-        
-        <a href="/720.html" class="archive-article-date">
-  	<time datetime="2015-05-28T03:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我觉得玩微信支付最大的难点和瓶颈并不是微信支付本身,而是能够拿到微信支付的权限.首先微信支付所面向的开发对象不是个人,所以个人开发者不会有这样的权限,另外一方面公司的微信号又不会随便给个人进行开发,这样就陷入了一个比较尴尬的循环!</p>
-<p>在好不容易搞到权限后,发现官方的sdk里面竟然有.NET版本,这让小猪欣喜如狂,赶紧下下来研究一番.这也就有了本文.</p>
-<p>在设置好开发环境,测试白名单,,回调…确定微信后台设置已经没有问题之后.</p>
-<p>接下来看.NET版本中的坑</p>
-<p>默认Default.aspx中的链接竟然都是链接到<a href="http://paysdk.weixin.qq.com/example/ProductPage.aspx" title="http://paysdk.weixin.qq.com/example/ProductPage.aspx" target="_blank" rel="noopener">http://paysdk.weixin.qq.com/example/ProductPage.aspx</a>…这个不注意的真的会郁闷好久.将其改成我们自己的服务器测试地址.</p>
-<p>默认他给你开启了代理服务器,你不知道的话也会坑你好久<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//=======【代理服务器设置】===================================</span><br><span class="line">/* 默认IP和端口号分别为0.0.0.0和0，此时不开启代理（如有需要才设置）</span><br><span class="line">*/</span><br><span class="line">public const string PROXY_URL = &quot;http://10.152.18.220:8080&quot;;</span><br></pre></td></tr></table></figure></p>
-<p>如果这边不填的话,又报错,无效的 URI: 此 URI 为空。</p>
-<p>如果填成0.0.0.0:0,报错,无效的 URI: URI 方案无效。</p>
-<p>心都碎了.只好找到他使用代理的地方手动注释掉:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image5.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb5.png" alt="image" title="image"></a></p>
-<p>终于可以看到支付页面了</p>
-<p>我们不需要使用公用地址的功能,所以在后台注释掉相关代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//获取收货地址js函数入口参数</span><br><span class="line">//wxEditAddrParam = jsApiPay.GetEditAddressParameters\(\);</span><br></pre></td></tr></table></figure></p>
-<p>把前台aspx页面的使用地址的代码也删掉.</p>
-<p>,可是点一下支付按钮..</p>
-<p><a href="http://www.smallerpig.om/wp-content/uploads/2015/05/Screenshot_2015-05-28-10-03-53.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/Screenshot_2015-05-28-10-03-53_thumb.png" alt="Screenshot_2015-05-28-10-03-53" title="Screenshot_2015-05-28-10-03-53"></a></p>
-<p>仔细一看,这里又特么跳转到他们自己的测试服务器上面去啦.!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">protected void Button1_Click(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">    string total_fee = &quot;1&quot;;</span><br><span class="line">    if(ViewState[&quot;openid&quot;] != null)</span><br><span class="line">    &#123;</span><br><span class="line">        string openid = ViewState[&quot;openid&quot;].ToString\(\);</span><br><span class="line">        string url = &quot;http://paysdk.weixin.qq.com/example/JsApiPayPage.aspx?openid=&quot; + openid + &quot;&amp;amp;total_fee=&quot; + total_fee;</span><br><span class="line">        Response.Redirect(url);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        Response.Write(&quot;页面缺少参数，请返回重试&quot; + &quot;&quot;);</span><br><span class="line">        Button1.Visible = false;</span><br><span class="line">        Button2.Visible = false;</span><br><span class="line">        Label1.Visible = false;</span><br><span class="line">        Label2.Visible = false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>改成我们自己的服务器地址后又是下单失败,只好找到代码出错的地方把try catch注释掉看看哪出错了!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image6.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb6.png" alt="image" title="image"></a></p>
-<p>发现还是无效的 URI: 尼玛还有地方请求设置了代理,找到注释掉:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image7.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb7.png" alt="image" title="image"></a></p>
-<p>这时候再打开终于见到可以看到预支付的界面了:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image8.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb8.png" alt="image" title="image"></a></p>
-<p>点击支付按钮也可以成功支付:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image9.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb9.png" alt="image" title="image"></a></p>
-<p>但是支付成功后却不能正确的执行支付结果js回调函数.看看其页面的点击事件是放在asp:Button上面的.我们知道在asp.net webform中,按钮的点击是有页面回调后台的.也就是其实点击了之后页面是有刷新的,所以这边要是想用官方的js回调的话就不能使用asp.net的服务器控件了!将点击支付的按钮改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button style=&quot;width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;&quot; type=&quot;button&quot; onclick=&quot;callpay\(\)&quot; &gt;立即支付&lt;/button&gt;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;</p>
-<p>这样,我们不管在支付成功和失败后都会执行我们在界面里定义好的回调函数!</p>
-<p>总结:不知道大TX的ASP.NET工程师是怎么想的,能够打包成sdk供用户参考必然是好的,但是却挖了这么多坑在这,想必如果没有一点基础的话对付这玩意还真挺吃力的.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/720.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-作为程序员还是要多看人家的文档的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/706.html">作为程序员还是要多看人家的文档的</a>
-    </h1>
-  
-
-        
-        <a href="/706.html" class="archive-article-date">
-  	<time datetime="2015-05-25T14:09:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>题目就是今天小猪的感受:</p>
-<p>来源于今天的一个事情,之前在项目中的富文本编辑器一直都是使用Ckeditor,最近因为一些原因开始使用Ueditor,由于对ue不是很熟配置起来看似没问题了,但是到实际运行环境下还是发现了上传图片用不了,于是转到ue的官网上看看文档.</p>
-<p>就在看到asp.net的文档时发现一个细节图如下:<br><img src="http://fex.baidu.com/ueditor/doc/images/net-publish-2.png" alt="转换为应用程序"> </p>
-<p>之前小猪一直没有注意这个按钮,也就自然不会意识到在一个网站下面可以存在多个”应用程序”!之前一直以为一个IIS网站只能对应一个bin文件夹.所以所有项目相关的或者不相关的dll文件只有放在项目跟文件夹下Bin下才会被正确的读取.!看到这个图之后发现完全不是这样,我们可以自定义任意个文件夹,在任意个文件夹下放置bin文件.</p>
-<p>只怪小猪入行浅,还是得经过时间的打磨啊!</p>
-<p>回到主题,小猪仔细想想的认真看一些官方文档时的好处</p>
-<ul>
-<li>能够从别人的文章中观察别人的思想.从文档中看使用方法,能够大体上猜到其实现方式!</li>
-<li>学习新的技术.</li>
-<li>对自己的编写文档能力提升也有一定的帮助.</li>
-<li>对别人提供的类库或者工具的使用也是很有帮助.</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工作</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/706.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp-net-mvc-e5-9c-a8-e6-8e-a7-e5-88-b6-e5-99-a8-e4-b8-8b-e8-b0-83-e7-94-a8-e5-85-b6-e4-bb-96-e6-96-87-e4-bb-b6-e5-a4-b9-e7-9a-84-e8-a7-86-e5-9b-be" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/696.html">ASP.NET MVC 在控制器下调用其他文件夹的视图</a>
-    </h1>
-  
-
-        
-        <a href="/696.html" class="archive-article-date">
-  	<time datetime="2015-05-18T09:29:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通常我们在控制器里面返回视图页面时都是用View方法.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    return View\(\);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上述方法返回对应控制器名文件夹下的相同action名的视图:</p>
-<p>如果返回该控制器名下不同action名的视图文件适用下列方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    return View(&quot;index&quot;);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果调用不同控制器下的视图文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    return View(&quot;../console/error&quot;);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可见在这里可以使用相对路径来访问不同视图文件夹下的文件,</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/696.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-正式入手樱桃(CHERRY MX-BOARD 3.0 3850)机械键盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/693.html">正式入手樱桃(CHERRY MX-BOARD 3.0 3850)机械键盘</a>
-    </h1>
-  
-
-        
-        <a href="/693.html" class="archive-article-date">
-  	<time datetime="2015-05-15T11:23:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>昨天,小猪正式入手了机械键盘.590RMB,想想小猪好长时间没有为自己奢侈这么一会了.</p>
-<p>其实也算不上发烧友的小猪也体验了下高手感的机械键盘</p>
-<p>外形上来看毫无特色.但是红轴的手感确实是不错的.</p>
-<p>不考虑黑轴的主要原因是怕在长时间的输入之后会对手指产生一定的疲劳感.</p>
-<p>这次下了狠心买了整个系列最贵的红轴.也主要是看到了知乎上面的回答:只买红轴,买其他轴的最后还是会回去,.其他轴的只适合尝试一定的新鲜感,新鲜感之后还是得回到日常的输入码子过程中,所以从长远来看还是红轴是最合适的.虽然红轴也是最贵的.</p>
-<p>接下来就是小猪使用它来养活自己和家人了.</p>
-<p>最后附上一张配置牧马人鼠标的实体照:</p>
-<p>&nbsp;</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/QQ20150515192113.jpg" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/QQ20150515192113_thumb.jpg" alt="QQ20150515192113" title="QQ20150515192113"></a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/693.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
     </nav>
   
 
@@ -1251,10 +1233,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1303,14 +1281,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1324,146 +1294,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1487,7 +1317,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1495,7 +1333,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1527,7 +1365,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1539,7 +1445,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1580,10 +1582,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

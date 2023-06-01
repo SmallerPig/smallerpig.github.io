@@ -161,6 +161,577 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-在已有数据库上创建Django项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1080.html">在已有数据库上创建Django项目</a>
+    </h1>
+  
+
+        
+        <a href="/1080.html" class="archive-article-date">
+  	<time datetime="2016-08-22T08:17:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><hr>
+<p>其实官方文档中已经给出了具体的步骤，本文只是对官方文档的一个简单的翻译，一切以最新<a href="https://docs.djangoproject.com/en/1.10/howto/legacy-databases/" target="_blank" rel="noopener">官方文档</a>为准。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><hr>
+<p>虽然一般使用Django开发程序时我们通常是新建项目，但也非常有可能是基于已经存在的数据库集成的。Django提供了这种机制来实现这种可能。</p>
+<h2 id="设置数据库参数"><a href="#设置数据库参数" class="headerlink" title="设置数据库参数"></a>设置数据库参数</h2><hr>
+<p>你需要告诉Django你已经存在的数据库配置参数，具体的我们来设置”Default”值</p>
+<ul>
+<li>Name</li>
+<li>ENGINE</li>
+<li>USER</li>
+<li>PASSWORD</li>
+<li>HOST</li>
+<li>PORT</li>
+</ul>
+<h2 id="自动生成模型文件"><a href="#自动生成模型文件" class="headerlink" title="自动生成模型文件"></a>自动生成模型文件</h2><p>Django提供了<code>inspectdb</code>命令来检测已经存在的数据库，并自动生成模型文件，我们可通过下列命令来在命令行中进行查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python manage.py inspectdb</span><br></pre></td></tr></table></figure></p>
+<p>当然我们可以通过标准的Unix风格输出(重定向)到指定文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ python manage.py inspectdb &amp;gt; models.py</span><br></pre></td></tr></table></figure>
+<p>适当编辑模型文件之后，把我们的app添加到配置项的<code>INSTALLED_APPS</code>中。<br>默认的，<code>inspectdb</code>命令创建了一个<code>Meta</code>类属性中<code>managed = Falsed</code>的模型。该模型不可通过Django的自带后台管理系统来管理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Person(models.Model):</span><br><span class="line">    id = models.IntegerField(primary_key=True)</span><br><span class="line">    first_name = models.CharField(max_length=70)</span><br><span class="line">    class Meta:</span><br><span class="line">        managed = False</span><br><span class="line">        db_table = &apos;CENSUS_PERSONS&apos;</span><br></pre></td></tr></table></figure>
+<p>当然，如果我们需要使用Django的后台来管理的话，将<code>managed = Falsed</code>删除或者将值设置成<code>True</code>即可。</p>
+<h2 id="安装Django的核心表"><a href="#安装Django的核心表" class="headerlink" title="安装Django的核心表"></a>安装Django的核心表</h2><hr>
+<p>接下来，使用<code>migrate</code>命令来安装Django额外需要的表，例如管理员权限和内容类型等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python manage.py migrate</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><hr>
+<p>然后就是对程序进行开发和测试了<br>done..</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1080.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-mysql-e8-a1-a8-e5-88-86-e5-8c-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1062.html">MySQL 分表存储</a>
+    </h1>
+  
+
+        
+        <a href="/1062.html" class="archive-article-date">
+  	<time datetime="2016-08-16T08:35:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般我们项目中如果数据量特别大的话通常会考虑将某一表数据进行分表处理，例如：我们的用户访问日志。如果将该数据始终保存在一张表的话那么久而久之这张表的数据量会特别大，导致查询效率降低。这个时候就需要考虑将该数据分别存储到多张表中。<br>而日志数据具有典型的如下特点：<br>1. 数据量大。<br>2. 每天每月都稳定输出。<br>3. 对数据的操作在插入之后大部分只有查询，很少有编辑或者删除操作。</p>
+<p>MySQL数据库提供了数据分表的方式。</p>
+<hr>
+<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t1&apos;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t2&apos;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE=MERGE UNION=(t1,t2) INSERT_METHOD=LAST;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
+<p>我们可以在total表中使用哦SELECT,DELETE,UPDATE和INSERT操作，不过必须要拥有各分表的SELECT,DELETE 和UPDATE权限。</p>
+<p>在创建MERGE表时，使用参数<code>UNION</code>对表进行整合，例如上面代码的<code>UNION=(t1, t2)</code>。也可以使用<code>INSERT_METHOD</code>参数来申明如果在MERGE表中插入数据，是将数据插入到第一张表还是最后一张表中，如果<code>INSERT_METHOD=NO</code>，那么MEGRE表中将不允许插入数据，只允许插入在各分表当中。</p>
+<p>不过另外一个值得注意的地方是上述代码中我们在分区表中并没有定义索引，但是在total表中我们定义了<code>INDEX(a)</code>并且没有定义<code>PRIMARY KEY</code>。这是因为在总表中的数据并不能保证也不检查数据的唯一性，也就是在各分表中是允许存在完全相同的数据的。</p>
+<hr>
+<h2 id="编辑映射"><a href="#编辑映射" class="headerlink" title="编辑映射"></a>编辑映射</h2><p>如果我们在使用过程中新建了需要加入总表的分表，这时候通常有两种方式：</p>
+<ol>
+<li>删掉总表重新创建</li>
+<li>使用<code>ALTER TABLE tbl_name UNION=(……)</code>来重新标记需要映射的分表。</li>
+</ol>
+<blockquote>
+<p>如果我们不小心写成<code>UNION=\(\)</code>（括号中为空），会发现这张表将为空，并且插入不进去数据，因为实际上本身总表不存储数据，这样插入数据时MYSQL也就不知道讲数据插入到哪了。</p>
+</blockquote>
+<hr>
+<h2 id="一些规则"><a href="#一些规则" class="headerlink" title="一些规则"></a>一些规则</h2><p>总表和分表的定义以及索引需要保证大部分的一致。MySQL不会在创建总表的时候去检查分表的设置有没有错误，只有在打开查询的时候才会进行判断有没有存在错误。这也导致我们有可能在创建分表的时候不存在错误，然后某天编辑了分表，从而导致主表无法使用的情况。所以我们的总表和分表必须满足下列规则</p>
+<ul>
+<li>总表和分表的列数必须相同。</li>
+<li>总表和分表的列顺序需要一致。</li>
+<li><p>另外，总表和分表的列规则必须满足以下规则</p>
+</li>
+<li><p>列类型必须相同</p>
+</li>
+<li>列的长度必须相同</li>
+<li>列的内容可以为NULL</li>
+<li>分表的索引数量必须大于等于总表的索引数量。分表的索引数量可以大于总表，但不可以少于总表。</li>
+</ul>
+<p>表索引的相关规则:</p>
+<ul>
+<li>总表和分表的索引类型必须一致</li>
+<li>总表和分表的符合索引部分必须一致</li>
+<li>针对索引部分(index part)的额外检查</li>
+<li>索引部分长度必须一致</li>
+<li>索引部分类型必须一致</li>
+<li>索引部分的语言设置必须一致</li>
+<li>可以为空</li>
+</ul>
+<p>如果我们的总表在使用过程中无法打开了或者无法使用，我们亦可以使用命令：<code>CHECK TABLE</code>来显示到底是哪一个分表出现了问题。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1062.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-删除了文章列表的评论数项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1060.html">删除了文章列表的评论数项</a>
+    </h1>
+  
+
+        
+        <a href="/1060.html" class="archive-article-date">
+  	<time datetime="2016-08-12T09:41:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg" alt="都是评论数为0的文章"></p>
+<p>所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。</p>
+<p>所以决定自己动手丰衣足食了。</p>
+<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list = get_the_category_list(&apos;,&apos;,&apos;&apos;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list = get_the_tag_list(&apos;&apos;, &apos;,&apos; );</span><br><span class="line"></span><br><span class="line">$advent_author= ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( &apos;ID&apos; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments = wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date = sprintf(&apos;发表于 :&lt;time datetime=&quot;%1$s&quot;&gt;%2$s&lt;/time&gt;&apos;, esc_attr(get_the_date(&apos;c&apos;)), esc_html(get_the_date(&apos;y,m,d&apos;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment = comments_number(__(&apos;No Comments&apos;, &apos;advent&apos;), __(&apos;1 Comment&apos;, &apos;advent&apos;), __(&apos;% Comments&apos;, &apos;advent&apos;)); ?&gt;&lt;/li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到上面代码是在获取并展示了文章的元数据，我们将想要删除的数据删除。也就是获取评论数的代码：</p>
+<p><code>`</code>  </p>
+<p>function advent_entry_meta() {</p>
+<p>$advent_categories_list = get_the_category_list(‘,’,’’);</p>
+<p>$advent_tag_list = get_the_tag_list(‘’, ‘,’ );</p>
+<p>$advent_author= ucfirst(get_the_author());</p>
+<p>$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( ‘ID’ ) ) );</p>
+<p>$advent_date = sprintf(‘发表于 :<time datetime="%1$s">%2$s</time>‘, esc_attr(get_the_date(‘c’)), esc_html(get_the_date(‘y,m,d’)));<br>?&gt;  </p>
+<pre><code>&lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;
+
+&lt;?php if(!empty($advent_categories_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;
+
+&lt;?php if(!empty($advent_tag_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;        
+</code></pre><p>&lt;?php<br>}</p>
+<p>更新文件之后再看看我们的文章列表页是不是感觉不那么不自然了呢。？<br>不进文章具体内容页谁知道咱们的文章热度到底怎么样啊。啊哈哈哈哈<br>等到不知道哪天小猪的blog人气很高的时候，也就是每篇文章都有人评论的时候咱们再把这块遮羞布拿掉呗~2333333~~~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1060.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java-e6-b3-9b-e5-9e-8b" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1058.html">Java 泛型</a>
+    </h1>
+  
+
+        
+        <a href="/1058.html" class="archive-article-date">
+  	<time datetime="2016-08-12T09:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果我们每次编写一个类时都只能为某一个特定的环境所服务，那是多么可惜的事情.</p>
+<h2 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h2><h3 id="代码1"><a href="#代码1" class="headerlink" title="代码1"></a>代码1</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getItem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(Person item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkClass</span><span class="params">(Person item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Person item;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中定义了一个Demo类，其拥有一个类型为Person的item变量。这个类可以很好的工作。</p>
+<h3 id="代码2"><a href="#代码2" class="headerlink" title="代码2"></a>代码2</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getItem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T item;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>拥有代码2之后我们可以使用Demo类来操作拥有任何一个类型的变量的类的（代码1只能为Person），只不过在声明的时候需要传递一个你希望使用的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//代码1的使用方式</span></span><br><span class="line">Demo demo = <span class="keyword">new</span> Demo();</span><br><span class="line"><span class="comment">//代码2的使用方式</span></span><br><span class="line">Demo&lt;Person&gt; demo = <span class="keyword">new</span> Demo();</span><br></pre></td></tr></table></figure>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>泛型又被称为参数化类型，是含有一个或多个类型参数的类或接口类型。<br>为啥在某些时候需要使用泛型？小猪的理解就是</p>
+<ol>
+<li>方便我们在编译的时候检查错误（配合边界强类型检查），</li>
+<li>还有就是可以调用特定于泛型变量引用对象的方法或属性。<br>什么意思？当我们定义好了泛型变量的边界时，如下代码：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Parent</span>&gt;</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们就可以在该类的内部使用T。而且任何类型为T的变量都可以使用Parent中的方法。<br>如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSth1</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSth2</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Parent</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">        item.doSth1();</span><br><span class="line">        item.doSth2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    T item;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的Demo类中，我们可以自由的使用类型为T的变量的soSth1方法和doSth2方法，因为我们已经告诉编译器T类型必须是Parent类型的子类。<br>这就是利用了所谓的泛型类型参数的边界。</p>
+<p>上面的代码1和代码2只定义了为类的情况，当然我们也可以使用泛型接口。</p>
+<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>通常我们定义接口是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IEatable</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而使用泛型接口的定义我们可以将接口定义成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IEatable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">eating</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以像下面这样使用该接口:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meat</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">IEatable</span>&lt;<span class="title">Meat</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Meat <span class="title">eating</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们定义了一个可以吃肉的人类。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相比于.NET的泛型，个人觉得java的还是要比.NET的难用一点。但是概念上都是差不多的。<br>在前期的学习过程中，其实我们很少用到泛型，只有在有了一定代码量的积累之后才会渐渐的意识到这个概念设计者的良苦用心。而初学者只会把他当成单纯的当做难懂的概念。<br>还有就是，当我们学习某一个知识点的时候，尤其是编程语言的。我们一定要把运行环境打开，亲自把代码敲进去看看能不能通过编译、能不能正确输出。这很重要，不然我们总是会发现概念我们都懂，只是在真正写的时候还是不会写。<br>敲代码的过程是一个非常重要的思考的过程。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/程序语言//" class="article-tag-list-link color5">程序语言</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1058.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-从内部类中访问本地变量; 需要被声明为final类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1049.html">从内部类中访问本地变量; 需要被声明为final类型</a>
+    </h1>
+  
+
+        
+        <a href="/1049.html" class="archive-article-date">
+  	<time datetime="2016-07-26T07:18:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用java编写程序时，经常使用接口。当我们想使用接口时通常是直接实例化某一个接口。如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(String parm)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    asyncClient.setCallback(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">messageArrived</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"parm"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码在接受到parm参数时调用asyncClient的设置回调方法，最关键看实现的内部使用了parm这个属于外部的变量。<br>如果我们尝试编译程序，在java 7环境下会报错：</p>
+<blockquote>
+<p>从内部类中访问本地变量parm; 需要被声明为<code>final</code>类型</p>
+</blockquote>
+<p>在java8环境下可以正常编译通过。<br>最终的解决方法是在方法中将该参数定义为final类型，即如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(<span class="keyword">final</span> String parm)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    asyncClient.setCallback(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">messageArrived</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"parm"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样之后调用者也不需要知道具体细节，直接传递指定参数即可。<br>具体为什么java语言是这样，在谷歌随便搜索了一下就会出现很多结果：<br>参考1：<a href="http://stackoverflow.com/questions/1299837/cannot-refer-to-a-non-final-variable-inside-an-inner-class-defined-in-a-differen" target="_blank" rel="noopener">Cannot refer to a non-final variable inside an inner class defined in a different method</a><br>参考2：<a href="http://cuipengfei.me/blog/2013/06/22/why-does-it-have-to-be-final/" target="_blank" rel="noopener">为什么必须是final的呢？</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/程序语言//" class="article-tag-list-link color5">程序语言</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1049.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-方鸿渐与唐晓芙" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -736,540 +1307,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-当下的程序员" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1010.html">当下的程序员</a>
-    </h1>
-  
-
-        
-        <a href="/1010.html" class="archive-article-date">
-  	<time datetime="2016-05-11T15:08:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现一个现象：现在论坛上的程序员，包括我自己，都在玩一种积木游戏。就是将别人家已经做好的零部件然后经过各种组装后完成自己的产品。<br>经常听到小伙伴们这样高度概括了我们技术开发所做的事情：现在的开发就是拼凑各种SDK，把人家做好的东西拿过来组装。<br>细细想想还真是这样，现在各种产品功能细化，每一个你能想到的功能都能到网上找到对应的组件，我们所需要的就是了解这些组件的使用方法之后把人家的东西搬到我们的东西中。<br>你是Android程序员？那你不是用的人家谷歌给你弄好的sdk么？你是IOS程序员？那你不是用苹果给你的SDK么？服务器开发那第三方的库就更多了。想想还真是！<br>从某种意义上来讲这不就是我们小时候玩的七巧板么？或者是每个学期都不会正式上课却会发给我们一袋各种部件让我们自己组装成一个类似机器人的东西。<br>我想这难道就是我们这一代的程序员应该做的事情吗？或者是国内程序员应该做的事情吗？<br>我有点不甘心，真的，我想改变，但却不知道如何改变！就像对着公司提过很多次咱们需要测试人员，专业的测试人员，却始终得不到落实。项目都是经过客户来测试，然后客户反馈各种本应该是我们自己团队发现的问题。这种硬不起来的感觉真是非常糟糕，却很无奈！<br>回到主题上来，可能某种程度上来讲也不是我们这些“屁民”能改变的吧。我们这些屁民能做的事情就是把手上的事情做好，然后睁着布满血丝的眼睛，盯着那个虚无的目标，时不时用自己的拇指跟死命揉揉双眼让自己保持注意力，在机会出现时抓住它。<br>它会出现吗？它是真实的吗？</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1010.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jetpack-e4-bd-bf-e7-94-a8markdown-e4-bb-a3-e7-a0-81-e9-ab-98-e4-ba-ae-e5-a4-9a-e4-b8-80-e8-a1-8c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1005.html">Jetpack使用markdown代码高亮多一行</a>
-    </h1>
-  
-
-        
-        <a href="/1005.html" class="archive-article-date">
-  	<time datetime="2016-05-05T14:16:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪的博客站点是使用wordpress搭建的。<br>为了使用markdown语法发布文章，小猪安装了Jetpack 插件，结合Crayon Syntax Highlighter代码高亮插件，可以让我很方便的使用markdown来编写文章。这两个插件的使用方法这里就不介绍了，今天分享解决使用这两个插件导致生成代码段多出最后一行的解决方法。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>结合上面所说的插件之后，我们发现会出现如下的问题，<br><img src="http://ww2.sinaimg.cn/mw690/88e12591gw1f3kmztfzc4j20ht0lhn1q.jpg" alt="使用脚本前"><br>由上图可以看到每次使用类似markdown语法<code>`</code>生成代码块时，jetpack插件在md语法转换成html过程中会自动多转义一行。<br>小猪在Google上面也没找到对应的解决办法，只好自己动手写个脚本来在页面每次加载的时候手动删除了。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>思路非常简单，就是利用js找到每个代码块的最后一行将其删除，我们分析Crayon Syntax Highlighter生成的html代码发现其固定的规律是每一个代码块都会有固定的样式，找到对应的node之后判断最后一行是不是只有一个子元素，如果是的话就将其删除。如果我们设置了Crayon Syntax Highlighter自动显示行好的话再找到对应行好将其删除就OK了，完整的js代码如下:</p>
-<pre><code>var nodes = document.querySelectorAll(&apos;.crayon-pre&apos;);
-
-if (nodes.length&amp;gt;1) {
-    for (var i = nodes.length - 1; i &amp;gt;= 0; i--) {
-        var lastnode = nodes[i].lastChild;
-        if (lastnode.childNodes.length==1) {
-            nodes[i].removeChild(lastnode)
-
-            var parent = nodes[i].parentNode.parentNode.parentNode.firstChild.childNodes[1].childNodes[1];
-            var parentLastNode = parent.lastChild;
-            parent.removeChild(parentLastNode);
-        };
-    };    
-};
-</code></pre><p>然后将这段js代码放到我们的页面中，通常我们使用的主题都会提供footer文件，例如小猪使用的自带的advent主题就提供了类似的文件:</p>
-<p><img src="http://ww4.sinaimg.cn/large/88e12591gw1f3kmzscc7xj20vg0eitdt.jpg" alt="插入脚本"></p>
-<p>插入之后清除下缓存看下效果吧!</p>
-<p><img src="http://ww3.sinaimg.cn/large/88e12591gw1f3kmzt43msj20op0hh0wn.jpg" alt="插入脚本后"><br>同样的文章，效果感觉好多了有么有。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这只是小猪临时的解决办法，如果Crayon Syntax Highlighter插件更新之后的解析html代码发生了变化的话那么这段脚本就会失效，或者如果你没有开启Crayon Syntax Highlighter插件的现实代码行数功能，小猪也不保证代码的可运行。所以如果你有更好的方法欢迎您在下面的评论区给出来哦。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1005.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-在Django中使用Q()对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1000.html">在Django中使用Q\(\)对象</a>
-    </h1>
-  
-
-        
-        <a href="/1000.html" class="archive-article-date">
-  	<time datetime="2016-04-22T08:10:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;gt;&amp;gt;&amp;gt; q1 = Entry.objects.filter(headline__startswith=&quot;What&quot;)</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q2 = q1.exclude(pub_date__gte=datetime.date.today\(\))</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q3 = q1.filter(pub_date__gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure></p>
-<p>或者将其组合起来，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;gt;&amp;gt;&amp;gt;q1 = Entry.objects.filter(headline_startswith=&quot;What&quot;).exclude(pub_date_gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure>
-<p>随着我们的程序越来越复杂，查询的条件也跟着复杂起来，这样简单的通过一个filter()来进行查询的条件将导致我们的查询越来越长。</p>
-<h2 id="Q-对象就是为了将这些条件组合起来。"><a href="#Q-对象就是为了将这些条件组合起来。" class="headerlink" title="Q()对象就是为了将这些条件组合起来。"></a>Q()对象就是为了将这些条件组合起来。</h2><p>当我们在查询的条件中需要组合条件时(例如两个条件“且”或者“或”)时。我们可以使用Q()查询对象。<br>例如下面的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models imports Q</span><br><span class="line">q=Q(question_startswith=&quot;What&quot;)</span><br></pre></td></tr></table></figure>
-<p>这样就生成了一个Q()对象，我们可以使用符号&amp;或者|将多个Q()对象组合起来传递给filter()，exclude()，get()等函数。当多个Q()对象组合起来时，Django会自动生成一个新的Q()。<br>例如下面代码就将两个条件组合成了一个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | Q(question__startswith=&apos;What&apos;)</span><br></pre></td></tr></table></figure>
-<p>使用上述代码可以使用SQL语句这么理解:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question LIKE &apos;Who%&apos; OR question LIKE &apos;What%&apos;</span><br></pre></td></tr></table></figure>
-<p>我们可以在Q()对象的前面使用字符“~”来代表意义“非”，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | ~Q(pub_date__year=2005)</span><br></pre></td></tr></table></figure>
-<p>对应SQL语句可以理解为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question like &quot;Who%&quot; OR year(pub_date) !=2005</span><br></pre></td></tr></table></figure>
-<p>这样我们可以使用 “&amp;”或者“|”还有括号来对条件进行分组从而组合成更加复杂的查询逻辑。</p>
-<p>也可以传递多个Q()对象给查询函数，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">News.objects,get(</span><br><span class="line">    Q(question__startswith=&apos;Who&apos;),</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>多个Q()对象之间的关系Django会自动理解成“且(and)”关系。如上面代码使用SQL语句理解将会是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT * from news WHERE question LIKE &apos;Who%&apos;  AND (pub_date = &apos;2005-05-02&apos; OR pub_date = &apos;2005-05-06&apos;)</span><br></pre></td></tr></table></figure>
-<p>Q()对象可以结合关键字参数一起传递给查询函数，不过需要注意的是要将Q()对象放在关键字参数的前面，看下面代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#正确的做法</span><br><span class="line">News.objects.get(</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),</span><br><span class="line">    question__startswith=&apos;Who&apos;)</span><br><span class="line"></span><br><span class="line">#错误的做法，代码将关键字参数放在了Q\(\)对象的前面。</span><br><span class="line">News.objects.get(</span><br><span class="line">    question__startswith=&apos;Who&apos;,</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1000.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-在Django中使用F()对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/992.html">在Django中使用F\(\)对象</a>
-    </h1>
-  
-
-        
-        <a href="/992.html" class="archive-article-date">
-  	<time datetime="2016-04-21T09:48:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>F()允许Django在未实际链接数据的情况下具有对数据库字段的值的引用。通常情况下我们在更新数据时需要先从数据库里将原数据取出后放在内存里，然后编辑某些属性，最后提交。例如这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Tintin filed a news story!</span><br><span class="line">reporter = Reporters.objects.get(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.stories_filed += 1</span><br><span class="line">reporter.save\(\)</span><br></pre></td></tr></table></figure></p>
-<p>上述代码中我们先将reporter.stories_filed的值从数据库中取出放到内存中然后利用python的语法操作计算出新的值之后调用save()方法保存回数据库<br>最终生成是SQL语句有可能是类似</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">update reporter set stores_filed = 20 where name = &apos;smp&apos;; --20可能是经过计算之后得到的值。</span><br></pre></td></tr></table></figure>
-<p>而我们知道其实我们的需求其实可以理解成SQL：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">update reporter set stores_filed = stores_filed+1 where name = &apos;smp&apos;</span><br></pre></td></tr></table></figure>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>而F()函数的作用就是直接生成SQL语句来描述类似的需求，看下面代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models import F</span><br><span class="line"></span><br><span class="line">reporter = Reporters.objects.get(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.stories_filed = F(&apos;stories_filed&apos;) + 1</span><br><span class="line">reporter.save\(\)</span><br></pre></td></tr></table></figure>
-<p>虽然代码<code>reporter.stories_filed = F(&#39;stories_filed&#39;) + 1</code>有点类似python风格的代码，但实际上却能生成SQL语句直接描述对数据库的操作。</p>
-<p>当Django程序中出现F()时，Django会使用SQL语句的方式取代标准的Python操作。<br>上述代码中不管<code>reporter.stories_filed</code>的值是什么，Python都不曾获取过其值，python做的唯一的事情就是通过Django的F()函数创建了一条SQL语句然后执行而已。</p>
-<p>需要注意的是在使用上述方法更新过数据之后需要重新加载数据来使数据库中的值与程序中的值对应：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter = Reporters.objects.get(pk=reporter.pk)</span><br></pre></td></tr></table></figure>
-<p>或者使用更加简单的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter.refresh_from_db\(\)</span><br></pre></td></tr></table></figure>
-<h2 id="更新多条数据"><a href="#更新多条数据" class="headerlink" title="更新多条数据"></a>更新多条数据</h2><p>与上面的在一个对象中操作的例子相似，F()函数同样可以使用在查询集中，配合update()方法。这样我们同样可以将更新的两步合并成一步：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter = Reporters.objects.filter(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.update(stories_filed=F(&apos;stories_filed&apos;) + 1)</span><br></pre></td></tr></table></figure>
-<p>我们同样可以使用<code>update\(\)</code>方法增加或者更改字段的值，这样做的效率比将其取到内存中后再一个个计算值再更新数据库的效率会提高非常多。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Reporter.objects.all\(\).update(stories_filed=F(&apos;stories_filed&apos;) + 1)</span><br></pre></td></tr></table></figure>
-<h2 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h2><p>F()函数可以在创建模型时根据已知的N个字段组合出另外的字段数据，看下面的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">company = Company.objects.annotate(</span><br><span class="line">    chairs_needed=F(&apos;num_employees&apos;) - F(&apos;num_chairs&apos;))</span><br></pre></td></tr></table></figure>
-<p>但是如果组合的两个字段拥有不同的数据类型，那么咱们需要手动告诉Django新生成的数据类似是什么，看下面的列子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models import DateTimeField, ExpressionWrapper, F</span><br><span class="line"></span><br><span class="line">Ticket.objects.annotate(</span><br><span class="line">    expires=ExpressionWrapper(</span><br><span class="line">        F(&apos;active_at&apos;) + F(&apos;duration&apos;), output_field=DateTimeField\(\)))</span><br></pre></td></tr></table></figure>
-<p>上述代码描述了个过期时间的概念，数据库中保存的是激活时间和持续时间，并且通过参数<code>output_field</code>告诉<code>expires</code>的类型为<code>DateTimeField</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/992.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-enumerable-all-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/986.html">Enumerable.All方法</a>
-    </h1>
-  
-
-        
-        <a href="/986.html" class="archive-article-date">
-  	<time datetime="2016-04-10T08:15:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="定义为"><a href="#定义为" class="headerlink" title="定义为:"></a>定义为:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static bool All&amp;lt;TSource&amp;gt;(    this IEnumerable&amp;lt;TSource&amp;gt; source,   Func&amp;lt;TSource, bool&amp;gt; predicate);</span><br></pre></td></tr></table></figure>
-<p>如果源序列中的每个元素都通过指定谓词中的测试，或者序列为空，则为 true；否则为 false。</p>
-<h3 id="用法举例"><a href="#用法举例" class="headerlink" title="用法举例:"></a>用法举例:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx\(\) </span><br><span class="line">&#123; </span><br><span class="line">    // 创建pet数组</span><br><span class="line">    Pet[] pets = &#123; new Pet &#123; Name=&quot;Barley&quot;, Age=10 &#125;, </span><br><span class="line">                    new Pet &#123; Name=&quot;Boots&quot;, Age=4 &#125;, </span><br><span class="line">                    new Pet &#123; Name=&quot;Whiskers&quot;, Age=6 &#125; &#125;; </span><br><span class="line"></span><br><span class="line">    // 判断是否所有pet的名字都以字符“B”开头 </span><br><span class="line">    bool allStartWithB = pets.All(pet =&amp;gt; </span><br><span class="line">                                        pet.Name.StartsWith(&quot;B&quot;)); </span><br><span class="line"></span><br><span class="line">    Console.WriteLine( </span><br><span class="line">        &quot;&#123;0&#125; pet names start with &apos;B&apos;.&quot;, </span><br><span class="line">        allStartWithB ? &quot;All&quot; : &quot;Not all&quot;); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">// 上述代码将输出Not all ，并不是所有pet名字都已字符B开头</span><br></pre></td></tr></table></figure>
-<p>该方法也可用于linq查询的where子句中，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line">class Person </span><br><span class="line">&#123; </span><br><span class="line">    public string LastName &#123; get; set; &#125; </span><br><span class="line">    public Pet[] Pets &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx2\(\) </span><br><span class="line">&#123; </span><br><span class="line">    List&amp;lt;Person&amp;gt; people = new List&amp;lt;Person&amp;gt; </span><br><span class="line">        &#123; new Person &#123; LastName = &quot;Haas&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name=&quot;Barley&quot;, Age=10 &#125;, </span><br><span class="line">                                            new Pet &#123; Name=&quot;Boots&quot;, Age=14 &#125;, </span><br><span class="line">                                            new Pet &#123; Name=&quot;Whiskers&quot;, Age=6 &#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Fakhouri&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Snowball&quot;, Age = 1&#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Antebi&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Belle&quot;, Age = 8&#125; &#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Philips&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Sweetie&quot;, Age = 2&#125;, </span><br><span class="line">                                            new Pet &#123; Name = &quot;Rover&quot;, Age = 13&#125;&#125; &#125; </span><br><span class="line">        &#125;; </span><br><span class="line"></span><br><span class="line">    // 输出哪些用户的pet的Age都大于5</span><br><span class="line">    IEnumerable&amp;lt;string&amp;gt; names = from person in people </span><br><span class="line">                                where person.Pets.All(pet =&amp;gt; pet.Age &amp;gt; 5) </span><br><span class="line">                                select person.LastName; </span><br><span class="line"></span><br><span class="line">    foreach (string name in names) </span><br><span class="line">    &#123; </span><br><span class="line">        Console.WriteLine(name); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    /* 上述代码将输出</span><br><span class="line">        *  </span><br><span class="line">        * Haas </span><br><span class="line">        * Antebi </span><br><span class="line">        */ </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要特别注意的是如果集合为空，那么不管传入的predicate是什么都将返回true</p>
-<h3 id="与any函数的比较"><a href="#与any函数的比较" class="headerlink" title="与any函数的比较"></a>与any函数的比较</h3><p>同样的上述查询中，如果想要使用Any()方法查询出同样的结果，则需要使用下述代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IEnumerable&amp;lt;string&amp;gt; names = from person in people </span><br><span class="line">                            where !person.Pets.Any(pet =&amp;gt; pet.Age &amp;lt;= 5) </span><br><span class="line">                            select person.LastName; </span><br><span class="line"></span><br><span class="line">foreach (string name in names) </span><br><span class="line">&#123; </span><br><span class="line">    Console.WriteLine(name); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可见Any()方法主要用于判断某集合里<strong>是否有</strong>满足条件的元素。<br>而All()方法用户判断某集合里<strong>是否都</strong>满足条件。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/986.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
     </nav>
   
 
@@ -1368,10 +1408,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1420,14 +1456,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1441,146 +1469,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1604,7 +1492,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1612,7 +1508,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1644,7 +1540,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1656,7 +1620,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1697,10 +1757,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>

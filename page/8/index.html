@@ -161,6 +161,579 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jetpack-e7-9a-84markdown-e6-8f-92-e4-bb-b6-e6-94-af-e6-8c-81-e5-93-aa-e4-ba-9b-e6-a0-87-e7-ad-be" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1161.html">Jetpack的MarkDown插件支持哪些标签</a>
+    </h1>
+  
+
+        
+        <a href="/1161.html" class="archive-article-date">
+  	<time datetime="2017-03-03T02:06:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目录：<br>[TOC]</p>
+<p>markdown在程序员这个职业里面是越来越流行了。其官方网站为：<a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">http://daringfireball.net/projects/markdown/</a></p>
+<p>得益于jetpack插件，小猪的wordpress博客站点的很多功能都轻而易举的实现了，包括了对小猪喜欢用的Markdown的支持。所以小猪的博客网站在很早之前就开始使用markdown来编写文章。</p>
+<p>但是原生的markdown有很多语法，<br>在这里小猪另外推荐一个markdown编辑器，<a href="http://zrey.com/app/markeditor" target="_blank" rel="noopener">MarkEditor</a>，使用这个小众的软件来编写Markdown的文章真的是异常的舒爽，相比于一般的在线编辑，这个软件提供了单独的应用程序，好在程序是跨平台的。所以一般小猪是先在MarkEditor上面编辑好文章内容，然后直接到WordPress站点后台发布。<br>这也就是小猪今天写这篇博客的原因了，从MarkEditor的官网上小猪看到很多炫酷的markdown使用方法，还有类似有道云笔记等工具提供了时序图、甘特图等等语法，这些语法是不是jetpack插件都能很好的支持呢，或者说是在WordPress下能不能正常工作呢？包括数学公式，时序图等一系列复杂的玩法。今天小猪来验证一些。<br>小猪经常使用的标签包括：</p>
+<pre><code>*斜体标签*
+** 加粗标签**
+[链接标签](http://www.smallerpig.com)
+![图片标签](http://www.smallerpig.com/123.jpg)
+# 文章标题
+## 二级标题
+### 三级标题
+#### 四级标题
+- 列表项1
+- 列表项2
+&amp;gt; 引用的内容
+--- 
+分割符
+</code></pre><p>行内代码`<br>    \<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">\</span><br></pre></td></tr></table></figure></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    上面的代码的实际渲染效果如下：</span><br><span class="line">    _斜体标签_</span><br><span class="line">    ** 加粗标签**</span><br><span class="line">    [链接标签](http://www.smallerpig.com)</span><br><span class="line">    ![图片标签](http://www.smallerpig.com/favicon.ico)</span><br><span class="line"></span><br><span class="line">    # 文章标题</span><br><span class="line"></span><br><span class="line">    ## 二级标题</span><br><span class="line"></span><br><span class="line">    ### 三级标题</span><br><span class="line"></span><br><span class="line">    #### 四级标题</span><br><span class="line"></span><br><span class="line">*   列表项1</span><br><span class="line">*   列表项2</span><br><span class="line">    &gt; 引用的内容</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    分割符</span><br><span class="line">行内代码`</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> 代码块</span><br></pre></td></tr></table></figure>
+<pre><code>关于jetpack的markdown的说明更多详细信息可以参考：[官方网站](https://jetpack.com/support/markdown/)
+关于wordpress的markdown的说明更多详细信息可以参考：[官方网站](https://en.support.wordpress.com/markdown-quick-reference/)
+
+## 复杂的标签
+
+### 定义：
+
+&lt;dl&gt;
+&lt;dt&gt;WordPress&lt;/dt&gt;
+&lt;dd&gt;A semantic personal publishing platform&lt;/dd&gt;
+
+&lt;dt&gt;Markdown&lt;/dt&gt;
+&lt;dd&gt;Text-to-HTML conversion tool
+从上面的结果来看应该是支持定义标签的。&lt;/dd&gt;
+&lt;/dl&gt;
+
+### 表格
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+  &lt;th&gt;Function name&lt;/th&gt;
+  &lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+  &lt;td&gt;`help\(\)`&lt;/td&gt;
+  &lt;td&gt;Display the help window.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;`destroy\(\)`&lt;/td&gt;
+  &lt;td&gt;**Destroy your computer!**&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+### 流程图
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">st: 起始</span><br><span class="line">   register: 注册</span><br><span class="line">   condition: 好人?</span><br><span class="line">   check: 盘查一下</span><br><span class="line">   end: 终了</span><br><span class="line">   st &amp;gt; condition</span><br><span class="line">   condition(y) &amp;gt; register &amp;gt; end</span><br><span class="line">   condition(n) &amp;gt; check &amp;gt; register</span><br></pre></td></tr></table></figure>
+<pre><code>### Diagrams
+
+#### Flow charts
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">st=&amp;gt;start: Start</span><br><span class="line">   e=&amp;gt;end</span><br><span class="line">   op=&amp;gt;operation: My Operation</span><br><span class="line">   cond=&amp;gt;condition: Yes or No?</span><br><span class="line"></span><br><span class="line">   st-&amp;gt;op-&amp;gt;cond</span><br><span class="line">   cond(yes)-&amp;gt;e</span><br><span class="line">   cond(no)-&amp;gt;op</span><br></pre></td></tr></table></figure>
+<pre><code>#### Sequence diagrams
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Alice-&amp;gt;Bob: Hello Bob, how are you?</span><br><span class="line">   Note right of Bob: Bob thinks</span><br><span class="line">   Bob--&amp;gt;Alice: I am good thanks!</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">TB - top bottom（自上而下）</span><br><span class="line">   BT - bottom top（自下而上）</span><br><span class="line">   RL - right left（从右到左）</span><br><span class="line">   LR - left right（从左到右）</span><br></pre></td></tr></table></figure>
+<p><code>`</code>  </p>
+<p> graph TD<br>        A[Christmas] –&gt;B(Go Shopping)<br>        B –&gt;C{let me think}<br>        C –&gt;|One| D[labtop]<br>        C –&gt;|Two| E[Iphone]<br>        C –&gt;|Three| F[Car]</p>
+<h3 id="Checkbox"><a href="#Checkbox" class="headerlink" title="Checkbox"></a>Checkbox</h3><p>You can use <code>- [ ]</code> and <code>- [x]</code> to create checkboxes, for example:</p>
+<ul>
+<li style="list-style: none"><input type="checkbox"> Item1</li>
+<li style="list-style: none"><input type="checkbox"> Item2</li>
+<li style="list-style: none"><input type="checkbox"> Item3</li>
+</ul>
+<p>可见上述复杂的标签还是支持不够啊，好在平时这些简单的标签对于谢谢blog来说已经足够了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MarkDown</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1161.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-真是个撩人的小妖精！谈谈python的编码问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1158.html">真是个撩人的小妖精！谈谈python的编码问题</a>
+    </h1>
+  
+
+        
+        <a href="/1158.html" class="archive-article-date">
+  	<time datetime="2017-02-24T06:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上两天编写了个小工具程序，读取文件信息并输出适当数据到控制台。程序本身没什么难度，但是编码问题确实恶心到我了。同样的程序，在mac下跑没问题，在Windows下跑就有问题；在pycharm上面的终端上跑没问题，到系统自带的terminal上面跑又有问题。真是哔了狗了呀！</p>
+<p>简单搜索下就可以发现在python下面确实很多人遇到或者曾经遇到过python的这个编码问题。<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1fd0h8vsnoxj210s12edrw.jpg" alt><br><strong>作为程序员，你一定遇到过中文编码的问题。</strong></p>
+<h2 id="编码基础"><a href="#编码基础" class="headerlink" title="编码基础"></a>编码基础</h2><p>就像不同的国家使用不同的语言一样，小猪面对不会中文的同学时也是一脸懵逼。计算机也是一样，不同的地区使用不同的语言，而计算机只认识0和1。怎么让这些0和1显示成人能理解的字符呢？</p>
+<p>首先登场的是ASCII码。</p>
+<h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>ASCII码，每一个字符都会对应一个ASCII码，占一个字节，早期的电脑是美国人发明的，所以最开始的时候ASCII码是只有127个的。例如0123456789a-zA-Z。发展到中国的时候，原本的这些ASCII码显然已经不够用了，所以中国制定了GB2312码，占两个字节。</p>
+<p>可是这只解决了中文的问题，那韩文日文法文怎么办呢？每个国家都制定一个编码？那一个语言的输出到另外的国家的编码里显然会出现了所谓的乱码。所以，编码真是个让人头疼的问题啊。尤其是在编写python2程序的时候。</p>
+<p>为了解决上述问题，另外一个名词就出现了：Unicode，占用两字节，目前大多数操作系统都支持该编码。</p>
+<h3 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h3><p>Unicode（中文：万国码、国际码、统一码、单一码）是计算机科学领域里的一项业界标准。它对世界上大部分的文字系统进行了整理、编码，使得电脑可以用更为简单的方式来呈现和处理文字 –<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener">维基百科</a></p>
+<blockquote>
+<p>字母A用ASCII编码是二进制的<code>01000001</code>，十进制的65；<br>字符0用ASCII编码是二进制的<code>00110000</code>，十进制的48，注意字符’0’和整数0是不同的；<br>汉字中已经超出了ASCII编码的范围，用Unicode编码是十进制的20013，二进制的01001110 00101101。<br>你可以猜测，如果把ASCII编码的A用Unicode编码，只需要在前面补0就可以，因此，A的Unicode编码是00000000 01000001。</p>
+</blockquote>
+<p>所以，Unicode其实是包含了ASCII码的表示范围的，只是如果ASCII码在不够使用的情况下使用Unicode来表示。在使用Unicode码的时候，本身能够使用ASCII码的数据只需在前面补足一个字节的00000000就可以了。<br>可是在早期的计算机系统当中，存储数据的空间是非常昂贵的。虽然是满足了所有字符能够表示的问题，但是多出来毫无意义的一个字节也是要占用空间的。<br>这个时候又出现了我们经常提到用到的<code>UTF-8</code>编码.</p>
+<h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>他就是所谓的变长编码，当表示的字符能够用一个字节来表示是，他就占用一个字节，当当前字符需要使用两个字节的空间来表示时，他就占用两个字节，特殊情况下可能用到三个字节甚至四个字节。</p>
+<p>所以在计算机的内存中，是使用0和1的ASCII码，当存储到硬盘或者需要显示的时候，程序将其转换成对应的UTF-8码。</p>
+<h2 id="python的编码"><a href="#python的编码" class="headerlink" title="python的编码"></a>python的编码</h2><p>python可是在Unicode发布之前就已经出身了。所以他出身之后的事情在出身时当然是不知道的。<br>所以python2的默认编码为ascii，python3的默认编码为utf-8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; sys.getdefaultencoding\(\)</span><br><span class="line">&apos;ascii&apos;</span><br></pre></td></tr></table></figure></p>
+<p>python提供了内置函数来查看字符的ASCII码！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ord(&apos;Z&apos;)</span><br><span class="line">    90</span><br><span class="line">&gt;&gt;&gt; chr(90)</span><br><span class="line">    &apos;Z&apos;</span><br></pre></td></tr></table></figure>
+<p>在后来的版本中，python提供了对Unicode的支持，但是必须要在字符的前面加上字母u:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print(u&quot;小猪&quot;)</span><br><span class="line">小猪</span><br><span class="line">&gt;&gt;&gt; u&quot;小猪&quot;</span><br><span class="line">u&apos;\u5c0f\u732a&apos;</span><br><span class="line">&gt;&gt;&gt; &quot;小猪&quot;</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">&gt;&gt;&gt; u&quot;小猪&quot;.encode(&apos;utf-8&apos;)</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">u&apos;\u5c0f\u732a&apos;.encode(&apos;utf-8&apos;)</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;.decode(&apos;utf-8&apos;)</span><br><span class="line">u&apos;\u5c0f\u732a&apos;</span><br></pre></td></tr></table></figure>
+<p>所以，字符<code>u&#39;\u5c0f\u732a&#39;</code>和<code>u&quot;小猪&quot;</code>对python来说是一样的。但是对于只看输出结果的<strong>人</strong>来说就不一样了，所以才会出现文章一开始的时候提到的让小猪头疼的输出乱码问题。<br>上面代码的第三部分是把字符’小猪’当做utf-8来打印了。所以在使用utf-8来decode的时候能够解析出来<code>u&#39;\u5c0f\u732a&#39;</code></p>
+<p>一般我们需要在python文件的开头标识当前文件使用哪个编码格式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br></pre></td></tr></table></figure>
+<p>这样在打印中文的时候就不会报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">print(&quot;小猪&quot;)</span><br><span class="line"># SyntaxError: Non-ASCII character &apos;\xe5&apos; in file /Users/smallerpig/Desktop/demo.py on line 1, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details</span><br></pre></td></tr></table></figure>
+<p>可是在还有一些情况下，例如开头时说的，很多字符是从别的库里面引用进来的，这样我们并不能保证得到的每个字符串的编码都是一致的。这时候就要根据得到的字符的具体的编码来使用decode方法来进行解码然后来显示了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1158.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-最近很多危机啊" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1156.html">最近很多危机啊</a>
+    </h1>
+  
+
+        
+        <a href="/1156.html" class="archive-article-date">
+  	<time datetime="2017-02-23T06:01:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章起源于最近各种事情的集合。</p>
+<ul>
+<li>华为集中清理34岁以上的员工了</li>
+<li>小猪之前所在公司的大部分员工因为某些原因已经开始重新找工作了。</li>
+<li>这两天非常热的一篇文章：<a href="http://mp.weixin.qq.com/s/C5aDa0pzoUGk6_4q-qKCaQ" target="_blank" rel="noopener">就算老公一毛钱股份都没拿到，在我心里，他依然是最牛逼的创业者</a></li>
+<li>时长提醒自己已经31了。</li>
+<li>领导深夜分享文章：人无远虑，必有近忧！</li>
+</ul>
+<p>这些看了让人很是担忧的文章真是让人心神不宁，尤其是最近单位的咖啡豆没了的情况下感觉自己的工作状态一日不如一日、遇到事情总是一拖再拖、每天到下午的四五点的时候感觉头晕脑胀、想写点东西总是感觉没有干货、代码写的越来越少，找个练手的东西写写才发现自己的代码写的有多烂。</p>
+<p>这些总是让我在临睡前那一刻不得安宁。</p>
+<p>想着这些年身边的人和事，有优秀的、拼命的、富二代的、不知道干嘛的。对比自己发现自己什么特点都没有。硬要说自己技术有多牛？自己都觉得可笑。</p>
+<p>所以还是要历练自己，不能到了35岁了之后发现还是这样，毕竟用老婆的话来说：现在你是家里的顶梁柱。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1156.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-python-e7-9a-84sort-e4-b8-8esorted-e8-af-a6-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1154.html">python的sort\(\)与sorted\(\)详解</a>
+    </h1>
+  
+
+        
+        <a href="/1154.html" class="archive-article-date">
+  	<time datetime="2017-02-22T07:52:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两种方法默认都使用ASCII值使用冒泡算法来从小到大进行排序。</p>
+<h2 id="何为冒泡算法？"><a href="#何为冒泡算法？" class="headerlink" title="何为冒泡算法？"></a>何为冒泡算法？</h2><p>摘自百度百科：</p>
+<blockquote>
+<p>冒泡排序（Bubble Sort），是一种计算机科学领域的较简单的排序算法。<br>  它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。<br>  这个算法的名字由来是因为越大的元素会经由交换慢慢“浮”到数列的顶端，故名。</p>
+</blockquote>
+<p>sort是List的一个方法、sorted方法是python的内置函数（built-in）。</p>
+<p>sort将原列表重新排序、sorted方法返回新的经过排序的列表，原列表保持不变。</p>
+<p>sort示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; l=[2,1,3]</span><br><span class="line">&gt;&gt;&gt; l.sort\(\)</span><br><span class="line">&gt;&gt;&gt; l</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure></p>
+<p>sorted示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; l=[2,1,3]</span><br><span class="line">&gt;&gt;&gt; l</span><br><span class="line">[2, 1, 3]</span><br><span class="line">&gt;&gt;&gt; s = sorted(l)</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">[1, 2, 3]</span><br><span class="line">&gt;&gt;&gt; l</span><br><span class="line">[2, 1, 3]</span><br></pre></td></tr></table></figure>
+<h2 id="sorted方法高级用法。"><a href="#sorted方法高级用法。" class="headerlink" title="sorted方法高级用法。"></a>sorted方法高级用法。</h2><p>官方文档中对sorted的描述如下：</p>
+<blockquote>
+<p>sorted(iterable[, cmp[, key[, reverse]]])<br>Return a new sorted list from the items in iterable.</p>
+</blockquote>
+<p>可以看到该函数可以通过传递另外参数来自定义排序规则。</p>
+<h3 id="cmp"><a href="#cmp" class="headerlink" title="cmp"></a>cmp</h3><p>该参数需要传入一个比较函数，该函数需要传入两个参数(x1,x2)来进行比较，如果自定义的规则是x1&gt;x2,那么则返回正数，如果规则是x1&lt;x2则返回负数，规则是x1=x2的话则返回0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">def cmp(x, y):</span><br><span class="line">if x &gt; y:</span><br><span class="line">    return -1</span><br><span class="line">if x &amp;lt; y:</span><br><span class="line">    return 1</span><br><span class="line">return 0</span><br><span class="line"></span><br><span class="line">sorted([36, 5, 12, 9, 21], cmp)</span><br></pre></td></tr></table></figure>
+<p>上述例子中返回结果为：[36, 21, 12, 9, 5]</p>
+<p>使用匿名函数的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; l = [(&apos;b&apos;,2),(&apos;a&apos;,1),(&apos;c&apos;,3),(&apos;d&apos;,4)]</span><br><span class="line">&gt;&gt;&gt; sorted(l, cmp=lambda x,y:cmp(x[1],y[1]))</span><br><span class="line">[(&apos;a&apos;, 1), (&apos;b&apos;, 2), (&apos;c&apos;, 3), (&apos;d&apos;, 4)]</span><br></pre></td></tr></table></figure>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><p>可以传递key参数到sorted方法，来告诉sorted使用哪个键来进行排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; l = [(&apos;b&apos;,2),(&apos;a&apos;,1),(&apos;c&apos;,5),(&apos;d&apos;,4)]</span><br><span class="line">&gt;&gt;&gt; sorted(l, key=lambda x:x[1])</span><br><span class="line">[(&apos;a&apos;, 1), (&apos;b&apos;, 2), (&apos;d&apos;, 4), (&apos;c&apos;, 5)]</span><br></pre></td></tr></table></figure>
+<h3 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h3><p>用来定义倒序还是正序，默认为False,也就是从小到大排列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; sorted([5,2,3,1,4], reverse=True)</span><br><span class="line">[5, 4, 3, 2, 1]</span><br><span class="line">&gt;&gt;&gt; sorted([5,2,3,1,4], reverse=False)</span><br><span class="line">[1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1154.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小猪祝大家鸡年大吉" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1150.html">小猪祝大家鸡年大吉</a>
+    </h1>
+  
+
+        
+        <a href="/1150.html" class="archive-article-date">
+  	<time datetime="2017-01-27T02:49:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在此新春佳节来临之际，小猪祝各位访客阖家欢乐，幸福安康。<br>在鸡年蒸蒸日上……事业有成。<br>虽然知道没几个访客，不过还是衷心祝愿每一位能够看到的读者。<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1fc4zwa5n8bj20go0m3n39.jpg" alt="鸡年大吉"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1150.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-支付宝支付开发总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -646,510 +1219,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-mac-sierra-e8-8b-b1-e6-96-87-e4-bd-9c-e4-b8-ba-e7-b3-bb-e7-bb-9f-e8-af-ad-e8-a8-80-e8-be-93-e5-85-a5-e4-b8-ad-e6-96-87-e7-9a-84-e4-b8-80-e4-b8-aabug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1130.html">Mac sierra 英文作为系统语言输入中文的一个bug</a>
-    </h1>
-  
-
-        
-        <a href="/1130.html" class="archive-article-date">
-  	<time datetime="2016-11-29T05:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>本机环境：mac sierra 10.12.1 macbook pro 2015<br>语言环境：English（中文环境没有问题）<br>输入法：系统自带中文或者搜狗拼音输入法，其他中文输入法估计也有问题(未验证)。</p>
-<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在任何可输入地方输入汉字，汉字待选项总是两个，如下图：<br><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1fa8xlxrcq1j21kw0zkwpi.jpg" alt="出现两个带选项"><br>通过小猪不断的尝试发现最有可能出现bug的原因是因为与launch pad的配合出现了问题，如最上述图片选中之后到launch pad页面查看会发现如下图：<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1fa8xly8thej21kw0zk44o.jpg" alt="选择的中文出现最launch pad的搜索框里"><br>如上图可发现launch pad 的搜索框里出现了刚才我们输入的中文。</p>
-<p>这的确是在这个系统下的bug，无奈小猪只好把系统语言切会了中文。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">mac</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1130.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-在django的admin中使用二级联动(附源码)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1125.html">在django的admin中使用二级联动(附源码)</a>
-    </h1>
-  
-
-        
-        <a href="/1125.html" class="archive-article-date">
-  	<time datetime="2016-11-18T09:26:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直尝试寻找不用自定义的方法，例如看到mdoel的各个Field的属性里面有一个叫做<code>choices</code>的属性，眼前一亮。仔细看文档或者网上找了也不是这么个用法，看到有<code>limit_choices_to</code>这个属性心想这应该差不多了吧，结果使用起来也不是那么顺利。<br>仔细想想也不太可能提供好本身只能由ajax才能做的事情，这个确实是太为难人家Django了。</p>
-<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>首先要解决的就是二级联动到底是个什么样的过程，<br>一般在使用到的地方比较典型的是城市的选择：先选择省份、再根据身份选择市、再下面是县或者更详细的信息。<br>看看数据结构可能会发现我们最终想要的其实是一个省份+市+*的结果，也就是最终的地址。所以在数据库里面通常会有省份表(province)、市表(city)，再加上我们想要的address表。city表有一个外键是是province_id；address表有province表的外键，也有city表的外键。<br>小猪只是拿简单的数据结构来解释面临的问题，其实不仅仅是局限于省市的联动，我们的程序中有很多类似的场景。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>默认的django会自动根据我们定义的模型生成form给admin使用，使用到这个form的地方分别是change和add的时候。<br>最终生成的结果就是可以选择所有的省，也可以选择所有的市，你看到这篇文章就说明你也发现这并不合理，正确的应该是在选择某个省的时候在市的下拉列表里只有该省的城市。<br>恰好，django原生并不能做到这么智能。</p>
-<h2 id="用到的Django知识"><a href="#用到的Django知识" class="headerlink" title="用到的Django知识"></a>用到的Django知识</h2><h3 id="form表单"><a href="#form表单" class="headerlink" title="form表单"></a>form表单</h3><p>默认的django会自动根据我们定义的模型生成form提交给admin页面，我可以使用重载modeladmin的方法来更改这个表单。</p>
-<h3 id="自定义templates"><a href="#自定义templates" class="headerlink" title="自定义templates"></a>自定义templates</h3><p>我们可以在django的admin后台自定义显示的html。</p>
-<h3 id="view-amp-ajax"><a href="#view-amp-ajax" class="headerlink" title="view &amp; ajax"></a>view &amp; ajax</h3><p>当用户选择了一个省的时候需要通过ajax来请求该省下面有哪些城市，view的责任就是来选择有哪些城市。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>下面只是大概代码，具体的代码当然需要根据项目的实际数据结构来做想要的调整。<br>view部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def get_city(request, provience_id):</span><br><span class="line">    # 根据传递的省的id 查找数据库中该省的城市</span><br><span class="line">    citys = City.objects.filter(provience_id=provience_id)</span><br><span class="line">    result = []</span><br><span class="line">    for i in citys:</span><br><span class="line">        # 对应的id和城市名称组成一个字典</span><br><span class="line">        result.append(&#123;&apos;id&apos;:i.id, &apos;name&apos;:i.name&#125;)</span><br><span class="line">    # 返回json数据</span><br><span class="line">    return HttpResponse(json.dumps(result), content_type=&quot;application/json&quot;)</span><br></pre></td></tr></table></figure></p>
-<p>有了view部分代码之后需要之后我们需要能够调用到该view的ajax，所以在项目的templates文件夹下的下列目录中加入对应的<code>change_form.html</code>(只有change,没有add)文件</p>
-<blockquote>
-<p>/templates/admin/appname/address/change_form.html</p>
-</blockquote>
-<p>html代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">\&#123;\% extends &quot;admin/change_form.html&quot; \%\&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block extrahead %&#125;</span><br><span class="line">&#123;&#123; block.super &#125;&#125;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;&#123;% url &apos;admin:jsi18n&apos; %&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    django.jQuery(function\(\) &#123;</span><br><span class="line">        var select = django.jQuery(&quot;#id_provience&quot;);</span><br><span class="line">        select.change(function\(\)&#123;</span><br><span class="line">            console.log(&quot;value change&quot;+django.jQuery(this).val\(\))</span><br><span class="line">            var url = &quot;/appname/get_city/&quot;+django.jQuery(this).val\(\);//能够正确的访问到view的url</span><br><span class="line">            console.log(url);</span><br><span class="line">            django.jQuery.get(</span><br><span class="line">                url,</span><br><span class="line">                function(data)&#123;</span><br><span class="line">                    var target = django.jQuery(&quot;#id_city&quot;);</span><br><span class="line">                    target.empty\(\);//先要清空一下</span><br><span class="line">                    data.forEach(function(e)&#123;</span><br><span class="line">                        // 将从view得到的id和城市名称赋值给city的select</span><br><span class="line">                        target.append(&quot;&lt;option value=&apos;&quot;+e.id+&quot;&apos;&gt;&quot;+e.name+&quot;&lt;option&gt;&quot;);</span><br><span class="line">                        target.eq(0).attr(&apos;selected&apos;, &apos;true&apos;);</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
-<p>文件位置放的正确以后在添加address时django会加载该html文件取代默认的add_form.html文件。<br>好了，核心代码就是上面的两段。我们就可以实现了对应的二级联动，如果想要实现三级联动，思路都是一样的。<br>done!!</p>
-<p>项目源码：<a href="https://github.com/SmallerPig/django-demo" target="_blank" rel="noopener">https://github.com/SmallerPig/django-demo</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">二级联动</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1125.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-拔牙记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1121.html">拔牙记</a>
-    </h1>
-  
-
-        
-        <a href="/1121.html" class="archive-article-date">
-  	<time datetime="2016-10-24T12:50:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我记得我长智齿大越是在高中的时候，为了它我记得我特定请过假在家里休息，那时候也没想着去把他拔掉。<br>到了大学的时候时不时的会疼，那会才知道这叫做智齿。但是上网查了之后都说牙疼基本上都是牙周炎，也犹记得当时带着还是女朋友的现在老婆去学校附近的牙科诊室长大嘴巴给医生看了一下，说：牙周炎，等炎症消了之后来拔掉吧，小手术，也就几分钟的事情。我擦，我只是牙疼还要动手术？我就没有理睬他，直接拿了点药回去了。<br>期间几点每年都会给我出点情况，<a href="http://www.smallerpig.com/786.html" target="_blank" rel="noopener">之前的文章</a>也提到过类似情况。<br>到了读研的时候已经有这个意识，智齿长的不好是需要拔掉的，只是每次疼的时候决定这次要拔掉他，炎症消了之后就是：好了伤疤忘了痛。心想以后注意注意应该不会发炎或者疼了吧。<br>可是他每次都不会让我失望。<br>读研结束后某年国庆回家准备拔掉他，到响水的县医院，中医院都看了下。在中医院还拍了片子，这是第一次看到我里面的牙长什么样，当时就震惊了，最里面的牙斜着长，盯着倒数第二课牙，倒数第二颗明显在他的压力之下有点变形。我爸看了之后说：他也是这样，以前也老疼，现在倒数第二颗掉了之后基本上不疼了，还张开嘴巴给我看，我看确实是这样。在老爸的劝说下，我在那次没有拔掉他。老爸当时还说了这么一句：真是什么东西都遗传啊，连这东西都遗传。还向我演示以后怎么刷牙能够清洁这个牙齿。<br>可是他还是每次都不让我失望……每年都会来那么几次。<br>不过现在每次牙疼的时候我都会下决心要彻底除掉他。然后上网查资料。<br>上几周鲁门也去拔了，而且拔了四颗，还弄住院了，住了一个星期。给了我很大的勇气。<br>嘿嘿，就在上周，他还正好赶在这个时间点发做了，上周果断做决定周末拔了它。<br>虽然下着雨，虽然我一个人在无锡，虽然心里还是有点想：算了吧…… 可我还是在周日的上午7点钟起床去往无锡口腔医院。<br>到医院医生又让拍片，不过这次的明显要专业一点，设备围绕着头部转了一圈，图片出来牙齿感觉都是360度一颗一颗的。只是费用也不低。<br><img src="http://ww4.sinaimg.cn/mw690/88e12591gw1f93lz96s03j21kw23ukjl.jpg" alt="牙齿片子"><br>医生说，这牙一定得拔，会把前面的牙齿顶坏，我说:拔！怎么都得拔。<br>不过上面的这颗也有点不好，建议也拔掉，不过随你，不拔也可以。<br>我说：拔……一起拔。<br>然后就是乖乖躺下，两针麻药伺候，打麻药的时候有点疼。<br>医生这个时候拿了分大越是合同的东西让我签字，我去……都这个时候了我能不签吗？所以连内容我都没看清楚就直接给签上了我的大名。<br>等了大越10分钟后医生就开始了。<br>医生用布往我脸上一盖就这么开始了，能够感觉到他的电钻在嘴里磨啊磨，就是感觉不到疼……甚至鼻子能闻到一股石灰似得的味道。<br>但就是不疼。<br>电钻工作了十几分钟，医生一会让我张大点，一会让我张大点，我好无力。只能任凭他摆布，最后连锤子都用上了……<br>大概十几分钟吧，下面的牙终于出来了，医生说很顺利，创口也不是很大。下面拔上面的牙，这个就简单了。<br>结果拿了个工具到嘴里只用了不到10秒钟就下来，就是把牙套住然后用物理的力量将他拿下，我能明显感到牙齿从我的肉里出来，这时候这感觉不是疼，但是很奇怪。<br>我问医生我这牙拿下来之后可以带走么，医生说：绝对不行，可以拍个照留恋下：<br><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1f93htz60e5j20qo0zkdiz.jpg" alt="这就是折磨了我这么多年的牙了，他碎了。完整的是上面的牙"></p>
-<p>然后就是拿所谓的盐水冲洗一下，还缝了几针，医生说这是免拆除的，接下来几天会疼，甚至有点肿，都是正常的，如果情况特别严重就到医院来找他。开了点药，药上棉球就交钱拿药走人。整个费用大概900-1000吧。<br>回来之后一个人在家很惶恐，一只手拿着冰点敷在脸上，也不知道能干点啥，躺在沙发上左右为难。跟老婆视频也是不张嘴只用舌头说话。<br>心里做好思想准备过了麻药的效果之后会很疼。结果一直到下午了还没疼，也不知道为啥。心里就开始嘚瑟了。<br>期间中午都没吃饭。<br>到了下午四点多心想着要下楼吃点东西，到顺旺基买了碗粥痛苦的吃了起来，倒不是因为疼，主要是怕弄到伤口，所以吃的异常艰难。<br>吃完打包一份带回家想着睡觉前吃。<br>到家之后烧了热水冲了杯维C，结果可能是喝的时候比较烫。把伤口里面的淤血给化开来了<br>血流不止……<br>这可把我吓坏了，赶紧躺沙发上去。看着电影嘴里还是不停的冒，拿了包面纸放旁边过一分钟擦一下过一分钟擦一下，一直挺不下来。心想这可不行，这样流到明天我不得把身体掏空。关了电视坚持睡觉。睡觉的时候明显感到嘴里还是在流着呢，闭着嘴巴睡觉，随他去……<br>……<br>睡的不错，一觉睡到早上六七点。<br>可是嘴巴张不开，被凝固的血封住了吧。<br>用水洗过之后嘴巴里的牙齿把我吓住了，像是恐怖电影里的镜头，都是血，而且血是黑色的，从嘴唇里流出来的血淌到了脸上，血迹都干了。赶紧涂掉洗掉，这时候发现拔牙侧这半边跟嘴唇之间明显有一块东西，用舌头舔舔软软的，嘴唇肌肉运动几下把它吐出来：这时候明显是一块凝固了猪血似得物体从我嘴里掉了下来。第一反应是拿手机拍下来，结果滑的太快从下水道下去了……真是可惜。<br>真是担心今天血还是止不住啊。心想要是再严重得去医院了。<br>还好……今天到现在为止没出现什么控制不住的状况。也没有出现疼的受不了的情况。只是舌头能感到拔牙侧线头的存在，嘴巴也不好张的太大。也没有出现医生说的可能出现的肿的严重的情况。<br>但是药不能停……<br>中午继续吃的粥，晚上准备继续吃粥。<br>准备明天尝试吃点米饭吧。<br>这就是到现在为止的拔牙大概吧。<br>希望能够一切顺利……<br>大儿子最近也生病了，住在医院有一段时间了，好在医生里里外外检查了一通没发现啥大问题，只是炎症导致了一些症状，这些天也是辛苦了老婆和老妈。<br>而我自己只能一个人在这，也帮不上什么忙。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1121.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-严于律己，宽以待人" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1116.html">严于律己，宽以待人</a>
-    </h1>
-  
-
-        
-        <a href="/1116.html" class="archive-article-date">
-  	<time datetime="2016-10-11T06:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>弟子问：”师父您有时候打人、骂人；有时候对人又彬彬有礼，这里面有什么玄机吗？”<br>  师父说：对待上等人直指人心，可打可骂，以真面目待他；对待中等人最多隐喻他，要讲分寸，他受不起打骂；对待下等人要面带微笑，双手合十，他很脆弱、装不下太多指责和训斥，他只配用世俗的礼节</p>
-</blockquote>
-<p>我想说的不是谁是上等人，谁不是，而是受众不一样，说话的方法就会不一样，听的人的感觉也就不一样。<br>世事洞明皆学问，人情练达即文章。能够把意见说的让人接受是个技能，要不断练习，自己也多揣摩，这也是小猪亟需锻炼的技能。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1116.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-小猪学设计模式之——代理模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1111.html">小猪学设计模式之——代理模式</a>
-    </h1>
-  
-
-        
-        <a href="/1111.html" class="archive-article-date">
-  	<time datetime="2016-09-29T07:40:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>代理模式是对象的结构模式。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用。</p>
-</blockquote>
-<h2 id="参与的角色"><a href="#参与的角色" class="headerlink" title="参与的角色"></a>参与的角色</h2><p>　　●　　<strong>抽象对象角色</strong>：声明了目标对象和代理对象的共同接口，这样一来在任何可以使用目标对象的地方都可以使用代理对象。<br>　　●　　<strong>目标对象角色</strong>：定义了代理对象所代表的目标对象。<br>　　●　　<strong>代理对象角色</strong>：代理对象内部含有目标对象的引用，从而可以在任何时候操作目标对象；代理对象提供一个与目标对象相同的接口，以便可以在任何时候替代目标对象。代理对象通常在客户端调用传递给目标对象之前或之后，执行某个操作，而不是单纯地将调用传递给目标对象。</p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>抽象对象角色<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>目标对象角色</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealObject</span> <span class="keyword">extends</span> <span class="title">AbstractObject</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//具体做一些事情。</span></span><br><span class="line">        System.out.println(<span class="string">"一些操作"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代理对象角色</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyObject</span> <span class="keyword">extends</span> <span class="title">AbstractObject</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//内部含有目标对象的引用</span></span><br><span class="line">    RealObject realObject = <span class="keyword">new</span> RealObject();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//调用目标对象之前可以做相关操作</span></span><br><span class="line">        System.out.println(<span class="string">"do something before"</span>);        </span><br><span class="line">        realObject.operation();        </span><br><span class="line">        <span class="comment">//调用目标对象之后可以做相关操作</span></span><br><span class="line">        System.out.println(<span class="string">"do something after"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>客户端代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这里的真实对象就被代理对象给“代理”了，客户端并不知道真实对象的存在</span></span><br><span class="line">        AbstractObject obj = <span class="keyword">new</span> ProxyObject();</span><br><span class="line">        obj.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由例子可以看出被代理的对象在客户端代码中并没有实际出现，客户端也就不关心真正的执行是什么样子了，而且代理类可以在被代理类执行的前后执行一些额外的功能代码。被代理的对象一般可以概括为：<br>1. 远程对象<br>2. 创建开销大的对象<br>3. 需要安全控制的对象</p>
-<p>在《设计模式》一书中作者列举了这样一个例子：</p>
-<blockquote>
-<p>对一个对象进行访问控制的一个原因是为了只有在我们确实需要这个对象时才对它进行创建和初始化。我们考虑一个可以在文档中嵌入图像对象的文档编辑器。有些图像对象（如大型的光栅图像）的创建开销很大。但打开文档必须很迅速，因此我们在打开文档时应避免一次性的创建所有开销很大的对象。因为并非所有这些开销很大的对象在文档中都同时可见。所以并没有必要同时创建这些对象。<br>  这一限制条件意为着，对于每一个开销很大的对象，应该根据需要进行创建，当一个图像对象变成可见时会有这样的需要。但是在文档中我们用什么来代理这个图像呢？我们又如何才能隐藏根据需要创建图像这个事实，从而不会使得编辑器的实现复杂化呢？例如，这种优化不应该影响绘制和格式化的代码。<br>  问题的解决方法是使用另外一个对象，即图像Proxy，替代那个真实的图像，Proxy可以代替一个图像对象，并且在需要时负责实例化这个图像对象。只要当文档编辑器激活图像代理的Draw操作以显示这个图像的时候，图像Proxy才创建真正的图像。Proxy直接将随后的请求转发给这个图像对象。</p>
-</blockquote>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>又是一个对多态概念的具体实现的模式。<br>很多时候在面试时都会问被面的人，什么叫面向对象的多态，可惜的是很多同学都答不上来啊。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">代理模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1111.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 
@@ -1248,10 +1320,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
@@ -1300,14 +1368,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1321,146 +1381,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">极验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">手机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">梦</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">上海</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1484,7 +1404,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1492,7 +1420,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1524,7 +1452,75 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">极验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Hive</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1536,7 +1532,103 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">手机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">上海</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">王者荣耀</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">terminal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1577,10 +1669,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
             
             <div class="clearfix"></div>
