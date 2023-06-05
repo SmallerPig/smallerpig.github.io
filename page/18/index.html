@@ -161,6 +161,292 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-锋利的HtmlAgilityPack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/596.html">锋利的HtmlAgilityPack</a>
+    </h1>
+  
+
+        
+        <a href="/596.html" class="archive-article-date">
+  	<time datetime="2015-04-27T13:52:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开发过程中我们经常需要加载其他网站的内容,或者分析人家网站的数据结构,这时候如果使用原生的xmlReader来做的话会很累,而且效率还不一定高,今天我就来分享一个开源的html解析利器:C#的HtmlAgilityPack</p>
+<p>HtmlAgilityPack的官网是<a href="http://htmlagilitypack.codeplex.com/" target="_blank" rel="noopener">http://htmlagilitypack.codeplex.com/</a>.在官网上我们可以下载到最新的dll库.</p>
+<h2 id="先简单介绍XPath"><a href="#先简单介绍XPath" class="headerlink" title="先简单介绍XPath"></a>先简单介绍XPath</h2><p>XPath 使用路径表达式来选取 XML 文档中的节点或节点集。节点是通过沿着路径 (path) 或者步 (steps) 来选取的。<br>下面列出了最有用的路径表达式：<br>nodename:选取此节点的所有子节点。<br>/:从根节点选取。<br>//:从匹配选择的当前节点选择文档中的节点，而不考虑它们的位置。<br>.:选取当前节点。<br>..:选取当前节点的父节点。</p>
+<p>1、获取网页<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title：doc.DocumentNode.SelectSingleNode(&quot;//title&quot;).InnerText;</span><br></pre></td></tr></table></figure></p>
+<p>解释：XPath中“//title”表示所有title节点。SelectSingleNode用于获取满足条件的唯一的节点。</p>
+<p>2、获取所有的超链接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doc.DocumentNode.Descendants(&quot;a&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+<p>3、获取name为kw的input，也就是相当于<code>getElementsByName\(\)</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var kwBox = doc.DocumentNode.SelectSingleNode(&quot;//input[@name=&apos;kw&apos;]&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>解释：”//input[@name=’kw’]”也是XPath的语法，表示：name属性等于kw的input标签。</p>
+<p>关于XPath的完整内容可以参考:<a href="http://www.w3school.com.cn/xpath/" title="http://www.w3school.com.cn/xpath/" target="_blank" rel="noopener">http://www.w3school.com.cn/xpath/</a></p>
+<h2 id="HtmlAgilityPack-API简明介绍"><a href="#HtmlAgilityPack-API简明介绍" class="headerlink" title="HtmlAgilityPack API简明介绍"></a>HtmlAgilityPack API简明介绍</h2><p>&nbsp;</p>
+<p>在HtmlAgilityPack中常用到的类有<code>HtmlDocument</code>、<code>HtmlNodeCollection</code>、<code>HtmlNode</code>和<code>HtmlWeb</code>等。</p>
+<p>经常使用到的方法包括</p>
+<ul>
+<li><code>Load</code></li>
+<li><code>SelectNodes</code></li>
+<li><code>SelectNodeCollection</code></li>
+<li><code>SelectSingleNode</code><br>其流程一般是先获取HTML，这个可以通过HtmlDocument的Load()或LoadHtml()来加载静态内容，或者也可以<code>HtmlWeb</code>的Get()或Load()方法来加载网络上的URL对应的HTML。<br>得到了<code>HtmlDocument</code>的实例之后，就可以用<code>HtmlDocument</code>的<code>DocumentNode</code>属性，这是整个HTML文档的根节点，它本身也是一个<code>HtmlNode</code>，然后就可以利用<code>HtmlNode</code>的<code>SelectNodes\(\)</code>方法返回多个<code>HtmlNode</code>的集合对象<code>HtmlNodeCollection</code>，也可以利用<code>HtmlNode</code>的<code>SelectSingleNode</code>()方法返回单个<code>HtmlNode</code>。</li>
+</ul>
+<p>初始化HtmlDocument类的实例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HtmlAgilityPack.HtmlWeb hw = new HtmlAgilityPack.HtmlWeb\(\);</span><br></pre></td></tr></table></figure></p>
+<p>加载某一个url :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HtmlAgilityPack.HtmlDocument doccc = hw.Load(http://www.baidu.com/);</span><br></pre></td></tr></table></figure></p>
+<p>获取到某个节点:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HtmlAgilityPack.HtmlDocument doc= doccc.SelectSingleNode(&quot;XPath&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>获取节点内容可以使用<code>InnerHTML</code> 或者<code>InnerTEXT</code>方法;</p>
+<h2 id="编码问题"><a href="#编码问题" class="headerlink" title="编码问题"></a>编码问题</h2><p>如果你在获取中文内容的过程中发现了乱码,则需要检查页面的编码,其一般会在页面的<code>head</code>标签内:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后在加载该url之前更改HtmlWeb的编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hw.OverrideEncoding = Encoding.Default;//将加载文档的编码改为默认</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">HtmlAgilityPack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/596.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-收入多少才能满足自己?" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/584.html">收入多少才能满足自己?</a>
+    </h1>
+  
+
+        
+        <a href="/584.html" class="archive-article-date">
+  	<time datetime="2015-04-25T14:54:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天几个老同事聚会,发现自己的收入已经渐渐的被其他人拉开了差距,不得不警戒自己是否应该多做点什么?</p>
+<p>另外一方面却发现每个人都有每个人的忧虑,可能就是心理上的不满足或者是身体上的问题.</p>
+<p>仔细想想自己却应该在某个层面上满足,身体不算太差,最起码不会隔三差五的给我增加麻烦,有个可爱贤惠的老婆,不管怎样不会嫌弃我的收入.虽然房车都暂时没影,但却没有买了供不起养不起的忧虑.父母虽然年事已高,但身体还算健康!老妈上两个星期还自己去内蒙玩了一圈,我跟她开玩笑说最终还是赶在两个儿子之前体验了坐飞机.</p>
+<p>这样想想心理好多了.</p>
+<p>至于收入多少才能让自己满足呢?想起来老爸前些天发表在QQ空间里的一篇日志:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image8.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb7.png" alt="image" title="image"></a></p>
+<p>所以感觉还是应该调整自己的心态,做真实的自己.</p>
+<p>不说了,再说要成所谓的鸡汤文了.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/584.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-iequalitycomparert-e6-8e-a5-e5-8f-a3-e7-9a-84-e4-bd-bf-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/577.html">C# IEqualityComparer&lt;T&gt;接口的使用</a>
+    </h1>
+  
+
+        
+        <a href="/577.html" class="archive-article-date">
+  	<time datetime="2015-04-21T05:30:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct\(\)</code>方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct</code>的另一个重载了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable Distinct(this IEnumerable source, IEqualityComparer comparer);</span><br></pre></td></tr></table></figure></p>
+<p>该重载需要传递一个实现了<code>IEqualityComparer&amp;lt;T&amp;gt;</code>的类型来告诉<code>Distinct</code>要进行怎样的区别,今天我就来分享下如果使用该接口:</p>
+<p>该接口的定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    bool Equals(T x, T y);</span><br><span class="line"></span><br><span class="line">    int GetHashCode(T obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们为了使用该接口定义了下面的类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class EqualityComparer : IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line">    public bool Equals(DemoClass x, DemoClass y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(x, y)) return true;</span><br><span class="line"></span><br><span class="line">        if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))</span><br><span class="line">            return false;</span><br><span class="line"></span><br><span class="line">        return x.Id == y.Id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(DemoClass obj)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(obj, null)) return 0;</span><br><span class="line"></span><br><span class="line">        return obj.Id.GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoClass</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Action &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的比较器实现了对<code>DemoClass</code>的比较,只要两个类的ID相同,不管<code>action</code>值是否相同都认为他们是一样的,这样在<code>distanct</code>的时候只返回一条数据,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    IEnumerable demoClasses = new List</span><br><span class="line">    &#123;</span><br><span class="line">        new DemoClass\(\) &#123;Id = 1, Action = &quot;edit&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 2, Action = &quot;add&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 3, Action = &quot;insert&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 1, Action = &quot;2222&quot;&#125;,</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    demoClasses = demoClasses.Distinct(new EqualityComparer\(\)).ToArray\(\);</span><br><span class="line"></span><br><span class="line">    foreach (var demoClass in demoClasses)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(demoClass.Id + &quot; &quot; + demoClass.Action);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console.ReadLine\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码的最终输出为:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image7.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb6.png" alt="image" title="image"></a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/577.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用CodeIgniter的购物车类 二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -893,276 +1179,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Server.UrlEncode()方法 空格转换成了+而非%20" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/438.html">Server.UrlEncode()方法 空格转换成了+而非%20</a>
-    </h1>
-  
-
-        
-        <a href="/438.html" class="archive-article-date">
-  	<time datetime="2014-03-19T08:23:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-03-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在ASP.NET MVC 的Control类里提供了该方法。该方法可以很方便的对字符串进行url编码，但小猪今天却发现其将空格编码后变成了“+”而非JavaScript采用的<a href="http://www.w3schools.com/jsref/jsref_encodeURIComponent.asp" target="_blank" rel="noopener">encodeURIComponent()</a>编码之后的%20。也许这算一个bug也许也不算。仔细想想在我们的url中确实不会存在空格，但是文件系统的命名却是可以使用空格的(Program Files)，所以必须将空格转码。</p>
-<p>那为什么在.Net下回转换成+而在js中会是%20呢？关键问题是在encode成+之后再decode却不能转换成了空格了呀。这确实是个蛋疼的问题。引用了老外的一段描述：</p>
-<blockquote>
-<p>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="noopener">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) As far as I know, historically the “+” has been used in URL encoding as a special substitution for the space char ( ASCII 20 ). If an implementation does not take the space into consideration as a special character with the ‘+’ substitution, then it still has to escape it using its ASCII code ( hence ‘%20’ )<br>(<a href="http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt" target="_blank" rel="noopener">http://stackoverflow.com/questions/2516266/server-urlencodestring-s-doesnt</a>) Actually they’re both wrong! JavaScript escape() should never be used. As well as failing to encode the + character to %2B, it encodes all non-ASCII characters as a non-standard %uNNNN sequence.  Meanwhile Server.UrlEncode is not exactly URL-encoding as such, but encoding to application/x-www-form-urlencoded, which should only normally be used for query arameters. Using + to represent a space outside of a form name=value construct, such as in a path part, is wrong.  This is rather unfortunate. You might want to try doing a string replace of the + character with %20 after encoding with UrlEncode() when you are encoding into a path part rather than a parameter. In a parameter, + and %20 are equally good.</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/438.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-让窗体大小固定、任务栏不显示" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/434.html">让窗体大小固定、任务栏不显示</a>
-    </h1>
-  
-
-        
-        <a href="/434.html" class="archive-article-date">
-  	<time datetime="2014-03-05T02:04:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="窗体大小"><a href="#窗体大小" class="headerlink" title="窗体大小"></a>窗体大小</h2><p>调整Windows下的ResizeMode属性： ResizeMode = NoResize  </p>
-<p>Resize属性是控制Windows是否可以改变大小，怎样改变大小的属性。ResizeMode的所有枚举如下：   <table id="memberList" class="members" style="border-top: silver 1px solid; font-family: ; border-right: silver 1px solid; white-space: normal; border-collapse: collapse; border-bottom: silver 1px solid; text-transform: none; word-spacing: 0px; color: ; border-left: silver 1px solid; letter-spacing: normal; line-height: 19px; width: auto; text-indent: 0px; -webkit-text-stroke-width: 0px" cellpadding="2" frame="lhs"> <tbody style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <th class="iconColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="10" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></th> <th class="nameColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="134" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">成员名称</font></th> <th class="descriptionColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">说明</font></th></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">NoResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">无法调整窗口的大小。标题栏中不显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanMinimize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">只能最小化和还原窗口。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，但只有<strong>“最小化”</strong>按钮处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResizeWithGrip</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"> <p style="color: ; margin: 10px auto; line-height: 19px; text-indent: 0px"><font face="Verdana"></font><font color="#cccccc"><span><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。窗口的右下角显示一个大小调整手柄。</font></span></font><font style="font-size: 9.8pt">&nbsp;</font><br></p></td></tr></tbody></table> </p>
-<h2 id="任务栏"><a href="#任务栏" class="headerlink" title="任务栏"></a>任务栏</h2><p> </p><p></p>
-<p>调整Windows下的ShowInTaskbar属性可设置该窗口是否在任务栏上显示！可选值为true或者false</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WPF//" class="article-tag-list-link color4">WPF</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/434.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-设置正确的post数据格式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/432.html">设置正确的post数据格式</a>
-    </h1>
-  
-
-        
-        <a href="/432.html" class="archive-article-date">
-  	<time datetime="2014-02-26T01:55:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。</p>
-<p>首先：按照正常使用习惯来生成的代码是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HttpHelper http = new HttpHelper\(\);</span><br><span class="line">HttpItem item = new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">   URL = &quot;http://localhost:2250/api/login&quot;,//URL     必需项    </span><br><span class="line">    Method = &quot;post&quot;,//URL     可选项 默认为Get   </span><br><span class="line">    IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">    Cookie = &quot;&quot;,//字符串Cookie     可选项   </span><br><span class="line">    Referer =&quot;&quot;,//来源URL     可选项   </span><br><span class="line">    Postdata = &quot;username=1@1.com&amp;amp;password=123456&quot;,//Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout = 100000,//连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   </span><br><span class="line">    UserAgent = &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)&quot;,//用户的浏览器类型，版本，操作系统     可选项有默认值   </span><br><span class="line">    ContentType = &quot;text/html&quot;,//返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect = false,//是否根据301跳转     可选项   </span><br><span class="line">    //CerPath = &quot;d:123.cer&quot;,//证书绝对路径     可选项不需要证书时可以不写这个参数   </span><br><span class="line">    //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    </span><br><span class="line">    ProxyIp = &quot;&quot;,//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    </span><br><span class="line">    //ProxyPwd = &quot;123456&quot;,//代理服务器密码     可选项    </span><br><span class="line">    //ProxyUserName = &quot;administrator&quot;,//代理服务器账户名     可选项   </span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result = http.GetHtml(item);</span><br><span class="line">string html = result.Html;</span><br><span class="line">string cookie = result.Cookie;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>服务器来接受到请求，但是接受到的username 和password字段都是null。 小猪捣鼓了一个下午一直认为是post数据的问题。尝试将其改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=123&amp;amp;password=123&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>甚至是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=&apos;123&apos;&amp;amp;password=&apos;123&apos;&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>问题依旧啊！害得我昨天晚上一生气玩dota到12点~:-)</p>
-<p>期间自己编写html代码来测试数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;form action=&quot;http://localhost:2250/api/login&quot; method =&quot;Post&quot;&gt;</span><br><span class="line">    &lt;input type = &quot;text&quot; name = &quot;username&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;password&quot; name = &quot;password&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;submit&quot; &gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>这样测试是能够接受到数据的。各种百度、谷歌、官方论坛找到下列结果<a href="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" title="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" target="_blank" rel="noopener">http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5</a></p>
-<p>原来需要将请求的ContenType，这样HttpWebRequest类会将post数据当成表单数据来处理，这样在ASP.NET MVC后台就可以成功接受到数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContentType = &quot;application/x-www-form-urlencoded&quot;,</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/432.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
     </nav>
   
 
@@ -1265,6 +1284,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1278,10 +1301,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1301,15 +1320,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1325,6 +1340,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1333,7 +1352,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1342,10 +1369,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1365,7 +1388,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1374,10 +1397,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1425,11 +1444,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1445,11 +1464,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1457,15 +1476,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1478,6 +1493,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1525,11 +1548,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1613,11 +1636,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
             
             <div class="clearfix"></div>

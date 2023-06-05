@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="在做数仓建设的时候我们需要根据业务需求建各种表，国内因为阿里做的比较早，基本上就跟随着阿里的这套方法论走下去了，所以能查到的凡是跟维度建模相关的资料都是以阿里的这套为基础来的。 其实阿里的这套数据管理体系、数据建模体系是基于Kimball来的。 这篇文章来说说在数仓中常见的集中表类型。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-06-02T07:51:15.803Z">
+<meta property="og:updated_time" content="2023-06-05T11:16:24.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数仓-维度建模之数仓模型层级">
 <meta name="twitter:description" content="在做数仓建设的时候我们需要根据业务需求建各种表，国内因为阿里做的比较早，基本上就跟随着阿里的这套方法论走下去了，所以能查到的凡是跟维度建模相关的资料都是以阿里的这套为基础来的。 其实阿里的这套数据管理体系、数据建模体系是基于Kimball来的。 这篇文章来说说在数仓中常见的集中表类型。">
@@ -185,7 +185,7 @@ var _hmt = _hmt || [];
 <p>其实阿里的这套数据管理体系、数据建模体系是基于Kimball来的。</p>
 <p>这篇文章来说说在数仓中常见的集中表类型。</p>
 <a id="more"></a>
-<h2 id="维度表-DIM"><a href="#维度表-DIM" class="headerlink" title="维度表(DIM)"></a>维度表(DIM)</h2><p>维度是维度建模的基础和灵魂。在维度建模中，将度量称为”事实“，将环境描述为”维度“。维度表包含了事实表中指定属性的相关详细信息，常用的维度如日期维度、城市维度等。本文为您介绍如何创建维度表。</p>
+<h2 id="维度表-DIM"><a href="#维度表-DIM" class="headerlink" title="维度表(DIM)"></a>维度表(DIM)</h2><p>维度是维度建模的基础和灵魂。在维度建模中，将度量称为”事实“，将环境描述为”维度“。维度表包含了事实表中指定属性的相关详细信息，常用的维度如日期维度、城市维度等。</p>
 <p>结合业务的数据域的规划，提取出各业务数据域中进行数据分析时可能存在的维度，并将维度及其属性通过维度表的方式存储下来。例如，在进行电商业务数据分析时，可用的维度及其属性有：订单维度（属性包括订单ID、订单创建时间、买家ID、卖家ID等）、用户维度（性别、出生日期等）、商品维度（包括商品ID、商品名称、商品上架时间）等，此时您就可以将这些维度和属性创建为订单维度表、用户维度表、商品维度表等，将维度属性记录作为维度表的字段。后续您可将这些维度表部署到数仓中，通过ETL将实际维度数据按照维度表定义的方式进行存储，方便业务人员在后续的数据分析时进行取用。</p>
 <h2 id="明细表-DWD"><a href="#明细表-DWD" class="headerlink" title="明细表(DWD)"></a>明细表(DWD)</h2><p>明细表用于存储大量能够体现业务活动状况的实际数据或详细数值，是数据聚合后依据某个维度生成的结果表。例如，分析产品销售情况，您可以创建销售明细表，用来存储产品维度（作为外键）、时间维度（作为外键）以及销售总量。</p>
 <p>结合业务过程的规划，梳理分析各业务过程中可能产生的实际数据，将这些实际数据字段通过明细表的方式存储下来。例如下订单这一业务过程中，您可以创建下订单这一明细表，用于记录下单过程可能产生实际数据字段，例如订单ID、订单创建时间、商品ID、数量、金额等。后续您可将这些明细表部署到数仓中，通过ETL将真实的数据按照明细表的定义方式进行汇总存储，便于业务分析时取用。</p>
@@ -487,6 +487,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -500,10 +504,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,15 +523,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,6 +543,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -555,7 +555,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -564,10 +572,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -587,7 +591,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -596,10 +600,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -647,11 +647,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -667,11 +667,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -679,15 +679,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -700,6 +696,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -747,11 +751,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -835,11 +839,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
             
             <div class="clearfix"></div>

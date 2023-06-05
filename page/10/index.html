@@ -161,6 +161,307 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-在django的admin中使用二级联动(附源码)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1125.html">在django的admin中使用二级联动(附源码)</a>
+    </h1>
+  
+
+        
+        <a href="/1125.html" class="archive-article-date">
+  	<time datetime="2016-11-18T09:26:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直尝试寻找不用自定义的方法，例如看到mdoel的各个Field的属性里面有一个叫做<code>choices</code>的属性，眼前一亮。仔细看文档或者网上找了也不是这么个用法，看到有<code>limit_choices_to</code>这个属性心想这应该差不多了吧，结果使用起来也不是那么顺利。<br>仔细想想也不太可能提供好本身只能由ajax才能做的事情，这个确实是太为难人家Django了。</p>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>首先要解决的就是二级联动到底是个什么样的过程，<br>一般在使用到的地方比较典型的是城市的选择：先选择省份、再根据身份选择市、再下面是县或者更详细的信息。<br>看看数据结构可能会发现我们最终想要的其实是一个省份+市+*的结果，也就是最终的地址。所以在数据库里面通常会有省份表(province)、市表(city)，再加上我们想要的address表。city表有一个外键是是province_id；address表有province表的外键，也有city表的外键。<br>小猪只是拿简单的数据结构来解释面临的问题，其实不仅仅是局限于省市的联动，我们的程序中有很多类似的场景。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>默认的django会自动根据我们定义的模型生成form给admin使用，使用到这个form的地方分别是change和add的时候。<br>最终生成的结果就是可以选择所有的省，也可以选择所有的市，你看到这篇文章就说明你也发现这并不合理，正确的应该是在选择某个省的时候在市的下拉列表里只有该省的城市。<br>恰好，django原生并不能做到这么智能。</p>
+<h2 id="用到的Django知识"><a href="#用到的Django知识" class="headerlink" title="用到的Django知识"></a>用到的Django知识</h2><h3 id="form表单"><a href="#form表单" class="headerlink" title="form表单"></a>form表单</h3><p>默认的django会自动根据我们定义的模型生成form提交给admin页面，我可以使用重载modeladmin的方法来更改这个表单。</p>
+<h3 id="自定义templates"><a href="#自定义templates" class="headerlink" title="自定义templates"></a>自定义templates</h3><p>我们可以在django的admin后台自定义显示的html。</p>
+<h3 id="view-amp-ajax"><a href="#view-amp-ajax" class="headerlink" title="view &amp; ajax"></a>view &amp; ajax</h3><p>当用户选择了一个省的时候需要通过ajax来请求该省下面有哪些城市，view的责任就是来选择有哪些城市。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>下面只是大概代码，具体的代码当然需要根据项目的实际数据结构来做想要的调整。<br>view部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def get_city(request, provience_id):</span><br><span class="line">    # 根据传递的省的id 查找数据库中该省的城市</span><br><span class="line">    citys = City.objects.filter(provience_id=provience_id)</span><br><span class="line">    result = []</span><br><span class="line">    for i in citys:</span><br><span class="line">        # 对应的id和城市名称组成一个字典</span><br><span class="line">        result.append(&#123;&apos;id&apos;:i.id, &apos;name&apos;:i.name&#125;)</span><br><span class="line">    # 返回json数据</span><br><span class="line">    return HttpResponse(json.dumps(result), content_type=&quot;application/json&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>有了view部分代码之后需要之后我们需要能够调用到该view的ajax，所以在项目的templates文件夹下的下列目录中加入对应的<code>change_form.html</code>(只有change,没有add)文件</p>
+<blockquote>
+<p>/templates/admin/appname/address/change_form.html</p>
+</blockquote>
+<p>html代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">\&#123;\% extends &quot;admin/change_form.html&quot; \%\&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block extrahead %&#125;</span><br><span class="line">&#123;&#123; block.super &#125;&#125;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;&#123;% url &apos;admin:jsi18n&apos; %&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    django.jQuery(function\(\) &#123;</span><br><span class="line">        var select = django.jQuery(&quot;#id_provience&quot;);</span><br><span class="line">        select.change(function\(\)&#123;</span><br><span class="line">            console.log(&quot;value change&quot;+django.jQuery(this).val\(\))</span><br><span class="line">            var url = &quot;/appname/get_city/&quot;+django.jQuery(this).val\(\);//能够正确的访问到view的url</span><br><span class="line">            console.log(url);</span><br><span class="line">            django.jQuery.get(</span><br><span class="line">                url,</span><br><span class="line">                function(data)&#123;</span><br><span class="line">                    var target = django.jQuery(&quot;#id_city&quot;);</span><br><span class="line">                    target.empty\(\);//先要清空一下</span><br><span class="line">                    data.forEach(function(e)&#123;</span><br><span class="line">                        // 将从view得到的id和城市名称赋值给city的select</span><br><span class="line">                        target.append(&quot;&lt;option value=&apos;&quot;+e.id+&quot;&apos;&gt;&quot;+e.name+&quot;&lt;option&gt;&quot;);</span><br><span class="line">                        target.eq(0).attr(&apos;selected&apos;, &apos;true&apos;);</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+<p>文件位置放的正确以后在添加address时django会加载该html文件取代默认的add_form.html文件。<br>好了，核心代码就是上面的两段。我们就可以实现了对应的二级联动，如果想要实现三级联动，思路都是一样的。<br>done!!</p>
+<p>项目源码：<a href="https://github.com/SmallerPig/django-demo" target="_blank" rel="noopener">https://github.com/SmallerPig/django-demo</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">二级联动</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1125.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-拔牙记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1121.html">拔牙记</a>
+    </h1>
+  
+
+        
+        <a href="/1121.html" class="archive-article-date">
+  	<time datetime="2016-10-24T12:50:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我记得我长智齿大越是在高中的时候，为了它我记得我特定请过假在家里休息，那时候也没想着去把他拔掉。<br>到了大学的时候时不时的会疼，那会才知道这叫做智齿。但是上网查了之后都说牙疼基本上都是牙周炎，也犹记得当时带着还是女朋友的现在老婆去学校附近的牙科诊室长大嘴巴给医生看了一下，说：牙周炎，等炎症消了之后来拔掉吧，小手术，也就几分钟的事情。我擦，我只是牙疼还要动手术？我就没有理睬他，直接拿了点药回去了。<br>期间几点每年都会给我出点情况，<a href="http://www.smallerpig.com/786.html" target="_blank" rel="noopener">之前的文章</a>也提到过类似情况。<br>到了读研的时候已经有这个意识，智齿长的不好是需要拔掉的，只是每次疼的时候决定这次要拔掉他，炎症消了之后就是：好了伤疤忘了痛。心想以后注意注意应该不会发炎或者疼了吧。<br>可是他每次都不会让我失望。<br>读研结束后某年国庆回家准备拔掉他，到响水的县医院，中医院都看了下。在中医院还拍了片子，这是第一次看到我里面的牙长什么样，当时就震惊了，最里面的牙斜着长，盯着倒数第二课牙，倒数第二颗明显在他的压力之下有点变形。我爸看了之后说：他也是这样，以前也老疼，现在倒数第二颗掉了之后基本上不疼了，还张开嘴巴给我看，我看确实是这样。在老爸的劝说下，我在那次没有拔掉他。老爸当时还说了这么一句：真是什么东西都遗传啊，连这东西都遗传。还向我演示以后怎么刷牙能够清洁这个牙齿。<br>可是他还是每次都不让我失望……每年都会来那么几次。<br>不过现在每次牙疼的时候我都会下决心要彻底除掉他。然后上网查资料。<br>上几周鲁门也去拔了，而且拔了四颗，还弄住院了，住了一个星期。给了我很大的勇气。<br>嘿嘿，就在上周，他还正好赶在这个时间点发做了，上周果断做决定周末拔了它。<br>虽然下着雨，虽然我一个人在无锡，虽然心里还是有点想：算了吧…… 可我还是在周日的上午7点钟起床去往无锡口腔医院。<br>到医院医生又让拍片，不过这次的明显要专业一点，设备围绕着头部转了一圈，图片出来牙齿感觉都是360度一颗一颗的。只是费用也不低。<br><img src="http://ww4.sinaimg.cn/mw690/88e12591gw1f93lz96s03j21kw23ukjl.jpg" alt="牙齿片子"><br>医生说，这牙一定得拔，会把前面的牙齿顶坏，我说:拔！怎么都得拔。<br>不过上面的这颗也有点不好，建议也拔掉，不过随你，不拔也可以。<br>我说：拔……一起拔。<br>然后就是乖乖躺下，两针麻药伺候，打麻药的时候有点疼。<br>医生这个时候拿了分大越是合同的东西让我签字，我去……都这个时候了我能不签吗？所以连内容我都没看清楚就直接给签上了我的大名。<br>等了大越10分钟后医生就开始了。<br>医生用布往我脸上一盖就这么开始了，能够感觉到他的电钻在嘴里磨啊磨，就是感觉不到疼……甚至鼻子能闻到一股石灰似得的味道。<br>但就是不疼。<br>电钻工作了十几分钟，医生一会让我张大点，一会让我张大点，我好无力。只能任凭他摆布，最后连锤子都用上了……<br>大概十几分钟吧，下面的牙终于出来了，医生说很顺利，创口也不是很大。下面拔上面的牙，这个就简单了。<br>结果拿了个工具到嘴里只用了不到10秒钟就下来，就是把牙套住然后用物理的力量将他拿下，我能明显感到牙齿从我的肉里出来，这时候这感觉不是疼，但是很奇怪。<br>我问医生我这牙拿下来之后可以带走么，医生说：绝对不行，可以拍个照留恋下：<br><img src="http://ww3.sinaimg.cn/mw690/88e12591gw1f93htz60e5j20qo0zkdiz.jpg" alt="这就是折磨了我这么多年的牙了，他碎了。完整的是上面的牙"></p>
+<p>然后就是拿所谓的盐水冲洗一下，还缝了几针，医生说这是免拆除的，接下来几天会疼，甚至有点肿，都是正常的，如果情况特别严重就到医院来找他。开了点药，药上棉球就交钱拿药走人。整个费用大概900-1000吧。<br>回来之后一个人在家很惶恐，一只手拿着冰点敷在脸上，也不知道能干点啥，躺在沙发上左右为难。跟老婆视频也是不张嘴只用舌头说话。<br>心里做好思想准备过了麻药的效果之后会很疼。结果一直到下午了还没疼，也不知道为啥。心里就开始嘚瑟了。<br>期间中午都没吃饭。<br>到了下午四点多心想着要下楼吃点东西，到顺旺基买了碗粥痛苦的吃了起来，倒不是因为疼，主要是怕弄到伤口，所以吃的异常艰难。<br>吃完打包一份带回家想着睡觉前吃。<br>到家之后烧了热水冲了杯维C，结果可能是喝的时候比较烫。把伤口里面的淤血给化开来了<br>血流不止……<br>这可把我吓坏了，赶紧躺沙发上去。看着电影嘴里还是不停的冒，拿了包面纸放旁边过一分钟擦一下过一分钟擦一下，一直挺不下来。心想这可不行，这样流到明天我不得把身体掏空。关了电视坚持睡觉。睡觉的时候明显感到嘴里还是在流着呢，闭着嘴巴睡觉，随他去……<br>……<br>睡的不错，一觉睡到早上六七点。<br>可是嘴巴张不开，被凝固的血封住了吧。<br>用水洗过之后嘴巴里的牙齿把我吓住了，像是恐怖电影里的镜头，都是血，而且血是黑色的，从嘴唇里流出来的血淌到了脸上，血迹都干了。赶紧涂掉洗掉，这时候发现拔牙侧这半边跟嘴唇之间明显有一块东西，用舌头舔舔软软的，嘴唇肌肉运动几下把它吐出来：这时候明显是一块凝固了猪血似得物体从我嘴里掉了下来。第一反应是拿手机拍下来，结果滑的太快从下水道下去了……真是可惜。<br>真是担心今天血还是止不住啊。心想要是再严重得去医院了。<br>还好……今天到现在为止没出现什么控制不住的状况。也没有出现疼的受不了的情况。只是舌头能感到拔牙侧线头的存在，嘴巴也不好张的太大。也没有出现医生说的可能出现的肿的严重的情况。<br>但是药不能停……<br>中午继续吃的粥，晚上准备继续吃粥。<br>准备明天尝试吃点米饭吧。<br>这就是到现在为止的拔牙大概吧。<br>希望能够一切顺利……<br>大儿子最近也生病了，住在医院有一段时间了，好在医生里里外外检查了一通没发现啥大问题，只是炎症导致了一些症状，这些天也是辛苦了老婆和老妈。<br>而我自己只能一个人在这，也帮不上什么忙。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1121.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-严于律己，宽以待人" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1116.html">严于律己，宽以待人</a>
+    </h1>
+  
+
+        
+        <a href="/1116.html" class="archive-article-date">
+  	<time datetime="2016-10-11T06:23:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>弟子问：”师父您有时候打人、骂人；有时候对人又彬彬有礼，这里面有什么玄机吗？”<br>  师父说：对待上等人直指人心，可打可骂，以真面目待他；对待中等人最多隐喻他，要讲分寸，他受不起打骂；对待下等人要面带微笑，双手合十，他很脆弱、装不下太多指责和训斥，他只配用世俗的礼节</p>
+</blockquote>
+<p>我想说的不是谁是上等人，谁不是，而是受众不一样，说话的方法就会不一样，听的人的感觉也就不一样。<br>世事洞明皆学问，人情练达即文章。能够把意见说的让人接受是个技能，要不断练习，自己也多揣摩，这也是小猪亟需锻炼的技能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1116.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-小猪学设计模式之——代理模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -890,367 +1191,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-mysql-e8-a1-a8-e5-88-86-e5-8c-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1062.html">MySQL 分表存储</a>
-    </h1>
-  
-
-        
-        <a href="/1062.html" class="archive-article-date">
-  	<time datetime="2016-08-16T08:35:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一般我们项目中如果数据量特别大的话通常会考虑将某一表数据进行分表处理，例如：我们的用户访问日志。如果将该数据始终保存在一张表的话那么久而久之这张表的数据量会特别大，导致查询效率降低。这个时候就需要考虑将该数据分别存储到多张表中。<br>而日志数据具有典型的如下特点：<br>1. 数据量大。<br>2. 每天每月都稳定输出。<br>3. 对数据的操作在插入之后大部分只有查询，很少有编辑或者删除操作。</p>
-<p>MySQL数据库提供了数据分表的方式。</p>
-<hr>
-<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t1&apos;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t2&apos;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE=MERGE UNION=(t1,t2) INSERT_METHOD=LAST;</span><br></pre></td></tr></table></figure></p>
-<p>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
-<p>我们可以在total表中使用哦SELECT,DELETE,UPDATE和INSERT操作，不过必须要拥有各分表的SELECT,DELETE 和UPDATE权限。</p>
-<p>在创建MERGE表时，使用参数<code>UNION</code>对表进行整合，例如上面代码的<code>UNION=(t1, t2)</code>。也可以使用<code>INSERT_METHOD</code>参数来申明如果在MERGE表中插入数据，是将数据插入到第一张表还是最后一张表中，如果<code>INSERT_METHOD=NO</code>，那么MEGRE表中将不允许插入数据，只允许插入在各分表当中。</p>
-<p>不过另外一个值得注意的地方是上述代码中我们在分区表中并没有定义索引，但是在total表中我们定义了<code>INDEX(a)</code>并且没有定义<code>PRIMARY KEY</code>。这是因为在总表中的数据并不能保证也不检查数据的唯一性，也就是在各分表中是允许存在完全相同的数据的。</p>
-<hr>
-<h2 id="编辑映射"><a href="#编辑映射" class="headerlink" title="编辑映射"></a>编辑映射</h2><p>如果我们在使用过程中新建了需要加入总表的分表，这时候通常有两种方式：</p>
-<ol>
-<li>删掉总表重新创建</li>
-<li>使用<code>ALTER TABLE tbl_name UNION=(……)</code>来重新标记需要映射的分表。</li>
-</ol>
-<blockquote>
-<p>如果我们不小心写成<code>UNION=\(\)</code>（括号中为空），会发现这张表将为空，并且插入不进去数据，因为实际上本身总表不存储数据，这样插入数据时MYSQL也就不知道讲数据插入到哪了。</p>
-</blockquote>
-<hr>
-<h2 id="一些规则"><a href="#一些规则" class="headerlink" title="一些规则"></a>一些规则</h2><p>总表和分表的定义以及索引需要保证大部分的一致。MySQL不会在创建总表的时候去检查分表的设置有没有错误，只有在打开查询的时候才会进行判断有没有存在错误。这也导致我们有可能在创建分表的时候不存在错误，然后某天编辑了分表，从而导致主表无法使用的情况。所以我们的总表和分表必须满足下列规则</p>
-<ul>
-<li>总表和分表的列数必须相同。</li>
-<li>总表和分表的列顺序需要一致。</li>
-<li><p>另外，总表和分表的列规则必须满足以下规则</p>
-</li>
-<li><p>列类型必须相同</p>
-</li>
-<li>列的长度必须相同</li>
-<li>列的内容可以为NULL</li>
-<li>分表的索引数量必须大于等于总表的索引数量。分表的索引数量可以大于总表，但不可以少于总表。</li>
-</ul>
-<p>表索引的相关规则:</p>
-<ul>
-<li>总表和分表的索引类型必须一致</li>
-<li>总表和分表的符合索引部分必须一致</li>
-<li>针对索引部分(index part)的额外检查</li>
-<li>索引部分长度必须一致</li>
-<li>索引部分类型必须一致</li>
-<li>索引部分的语言设置必须一致</li>
-<li>可以为空</li>
-</ul>
-<p>如果我们的总表在使用过程中无法打开了或者无法使用，我们亦可以使用命令：<code>CHECK TABLE</code>来显示到底是哪一个分表出现了问题。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1062.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-删除了文章列表的评论数项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1060.html">删除了文章列表的评论数项</a>
-    </h1>
-  
-
-        
-        <a href="/1060.html" class="archive-article-date">
-  	<time datetime="2016-08-12T09:41:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg" alt="都是评论数为0的文章"></p>
-<p>所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。</p>
-<p>所以决定自己动手丰衣足食了。</p>
-<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list = get_the_category_list(&apos;,&apos;,&apos;&apos;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list = get_the_tag_list(&apos;&apos;, &apos;,&apos; );</span><br><span class="line"></span><br><span class="line">$advent_author= ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( &apos;ID&apos; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments = wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date = sprintf(&apos;发表于 :&lt;time datetime=&quot;%1$s&quot;&gt;%2$s&lt;/time&gt;&apos;, esc_attr(get_the_date(&apos;c&apos;)), esc_html(get_the_date(&apos;y,m,d&apos;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment = comments_number(__(&apos;No Comments&apos;, &apos;advent&apos;), __(&apos;1 Comment&apos;, &apos;advent&apos;), __(&apos;% Comments&apos;, &apos;advent&apos;)); ?&gt;&lt;/li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到上面代码是在获取并展示了文章的元数据，我们将想要删除的数据删除。也就是获取评论数的代码：</p>
-<p><code>`</code>  </p>
-<p>function advent_entry_meta() {</p>
-<p>$advent_categories_list = get_the_category_list(‘,’,’’);</p>
-<p>$advent_tag_list = get_the_tag_list(‘’, ‘,’ );</p>
-<p>$advent_author= ucfirst(get_the_author());</p>
-<p>$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( ‘ID’ ) ) );</p>
-<p>$advent_date = sprintf(‘发表于 :<time datetime="%1$s">%2$s</time>‘, esc_attr(get_the_date(‘c’)), esc_html(get_the_date(‘y,m,d’)));<br>?&gt;  </p>
-<pre><code>&lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;
-
-&lt;?php if(!empty($advent_categories_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;
-
-&lt;?php if(!empty($advent_tag_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;        
-</code></pre><p>&lt;?php<br>}</p>
-<p>更新文件之后再看看我们的文章列表页是不是感觉不那么不自然了呢。？<br>不进文章具体内容页谁知道咱们的文章热度到底怎么样啊。啊哈哈哈哈<br>等到不知道哪天小猪的blog人气很高的时候，也就是每篇文章都有人评论的时候咱们再把这块遮羞布拿掉呗~2333333~~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1060.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java-e6-b3-9b-e5-9e-8b" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1058.html">Java 泛型</a>
-    </h1>
-  
-
-        
-        <a href="/1058.html" class="archive-article-date">
-  	<time datetime="2016-08-12T09:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如果我们每次编写一个类时都只能为某一个特定的环境所服务，那是多么可惜的事情.</p>
-<h2 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h2><h3 id="代码1"><a href="#代码1" class="headerlink" title="代码1"></a>代码1</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getItem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(Person item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkClass</span><span class="params">(Person item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Person item;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码中定义了一个Demo类，其拥有一个类型为Person的item变量。这个类可以很好的工作。</p>
-<h3 id="代码2"><a href="#代码2" class="headerlink" title="代码2"></a>代码2</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getItem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T item;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>拥有代码2之后我们可以使用Demo类来操作拥有任何一个类型的变量的类的（代码1只能为Person），只不过在声明的时候需要传递一个你希望使用的类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//代码1的使用方式</span></span><br><span class="line">Demo demo = <span class="keyword">new</span> Demo();</span><br><span class="line"><span class="comment">//代码2的使用方式</span></span><br><span class="line">Demo&lt;Person&gt; demo = <span class="keyword">new</span> Demo();</span><br></pre></td></tr></table></figure>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>泛型又被称为参数化类型，是含有一个或多个类型参数的类或接口类型。<br>为啥在某些时候需要使用泛型？小猪的理解就是</p>
-<ol>
-<li>方便我们在编译的时候检查错误（配合边界强类型检查），</li>
-<li>还有就是可以调用特定于泛型变量引用对象的方法或属性。<br>什么意思？当我们定义好了泛型变量的边界时，如下代码：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Parent</span>&gt;</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>我们就可以在该类的内部使用T。而且任何类型为T的变量都可以使用Parent中的方法。<br>如下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSth1</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSth2</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Parent</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItem</span><span class="params">(T item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.item = item;</span><br><span class="line">        item.doSth1();</span><br><span class="line">        item.doSth2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    T item;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码的Demo类中，我们可以自由的使用类型为T的变量的soSth1方法和doSth2方法，因为我们已经告诉编译器T类型必须是Parent类型的子类。<br>这就是利用了所谓的泛型类型参数的边界。</p>
-<p>上面的代码1和代码2只定义了为类的情况，当然我们也可以使用泛型接口。</p>
-<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>通常我们定义接口是：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IEatable</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eating</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用泛型接口的定义我们可以将接口定义成：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IEatable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">eating</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样我们就可以像下面这样使用该接口:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meat</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">IEatable</span>&lt;<span class="title">Meat</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Meat <span class="title">eating</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们定义了一个可以吃肉的人类。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相比于.NET的泛型，个人觉得java的还是要比.NET的难用一点。但是概念上都是差不多的。<br>在前期的学习过程中，其实我们很少用到泛型，只有在有了一定代码量的积累之后才会渐渐的意识到这个概念设计者的良苦用心。而初学者只会把他当成单纯的当做难懂的概念。<br>还有就是，当我们学习某一个知识点的时候，尤其是编程语言的。我们一定要把运行环境打开，亲自把代码敲进去看看能不能通过编译、能不能正确输出。这很重要，不然我们总是会发现概念我们都懂，只是在真正写的时候还是不会写。<br>敲代码的过程是一个非常重要的思考的过程。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java/程序语言//" class="article-tag-list-link color5">程序语言</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1058.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
     </nav>
   
 
@@ -1353,6 +1296,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1366,10 +1313,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1389,15 +1332,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1413,6 +1352,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1421,7 +1364,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1430,10 +1381,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1453,7 +1400,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1462,10 +1409,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1513,11 +1456,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1533,11 +1476,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1545,15 +1488,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1566,6 +1505,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1613,11 +1560,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1701,11 +1648,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
             
             <div class="clearfix"></div>
