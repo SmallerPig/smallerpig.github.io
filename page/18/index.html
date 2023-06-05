@@ -161,6 +161,133 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用CodeIgniter的购物车类 二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/570.html">使用CodeIgniter的购物车类 二</a>
+    </h1>
+  
+
+        
+        <a href="/570.html" class="archive-article-date">
+  	<time datetime="2015-04-19T08:08:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前一篇博客中,小猪给大家分享了<a href="http://www.smallerpig.com/554.html" target="_blank" rel="noopener">如何在CI中使用购物车类</a>的一些基础.但是没有结合数据库中的具体数据来进行演示.今天我就来结合数据库中的数据来进一步演示CI的购物车类的一些高级用法.</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先在数据库表中新建我们的商品表.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> CREATE TABLE IF NOT EXISTS `products` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` varchar(255) NOT NULL,</span><br><span class="line">  `price` decimal(13,2) NOT NULL,</span><br><span class="line">  `image` varchar(255) NOT NULL,</span><br><span class="line">  `option_name` varchar(255) NOT NULL,</span><br><span class="line">  `option_values` varchar(255) NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;</span><br></pre></td></tr></table></figure></p>
+<p>其中,id作为上面的表示,name为商品的名称,price为商品的价格.image为商品的图片地址,option_name为商品的属性,例如颜色,尺码等.option_values为商品的属性值.</p>
+<p>作为演示,这边的商品属性只设置成一个.不能像淘宝那样为每一个商品动态的随意添加属性.</p>
+<p>然后插入三条演示数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> INSERT INTO `products` (`id`, `name`, `price`, `image`, `option_name`, `option_values`) VALUES</span><br><span class="line">(1, &apos;Rubber Ducky&apos;, &apos;2.99&apos;, &apos;ducky.jpg&apos;, &apos;&apos;, &apos;&apos;),</span><br><span class="line">(2, &apos;Horse&apos;, &apos;4500.00&apos;, &apos;horse.jpg&apos;, &apos;Color&apos;, &apos;white,black,brown&apos;),</span><br><span class="line">(3, &apos;T-Shirt&apos;, &apos;12.99&apos;, &apos;tshirt.jpg&apos;, &apos;Size&apos;, &apos;small,medium,large&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>其中第一条数据没有属性,第二条商品对应的属性为color,属性值为white,black,brown 三个值之间以因为逗号(,)隔开.第三条数据的属性值为尺码(size),分别对应值为大中小.同样以逗号隔开.为了提高用户体验,我们分别给每个商品配了一幅图片,放在网站根目录的images文件夹下.</p>
+<h2 id="编写controller代码"><a href="#编写controller代码" class="headerlink" title="编写controller代码"></a>编写controller代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function index\(\) &#123;</span><br><span class="line"></span><br><span class="line">	$this-&amp;gt;load-&amp;gt;model(&apos;Products_model&apos;);</span><br><span class="line"></span><br><span class="line">	$data[&apos;products&apos;] = $this-&amp;gt;Products_model-&amp;gt;get_all\(\);</span><br><span class="line"></span><br><span class="line">	$this-&amp;gt;load-&amp;gt;view(&apos;products&apos;, $data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中加载了Products_model模型,并调用了其get_all()方法.然后加载了视图products文件.</p>
+<p>所以在models文件夹中新建model类文件Products_model.php.编写方法get_all():</p>
+<h2 id="编写模型类"><a href="#编写模型类" class="headerlink" title="编写模型类"></a>编写模型类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;?php</span><br><span class="line">class Products_model extends CI_Model &#123;</span><br><span class="line"></span><br><span class="line">	function get_all\(\) &#123;</span><br><span class="line"></span><br><span class="line">		$results = $this-&amp;gt;db-&amp;gt;get(&apos;products&apos;)-&amp;gt;result\(\);</span><br><span class="line"></span><br><span class="line">		foreach ($results as &amp;amp;$result) &#123;</span><br><span class="line"></span><br><span class="line">			if ($result-&amp;gt;option_values) &#123;</span><br><span class="line">				$result-&amp;gt;option_values = explode(&apos;,&apos;,$result-&amp;gt;option_values);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return $results;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上述代码中,我们判断了商品是否包含option_valus属性,如果有的话,使用explode函数将其转化成一个数组,这样可以在前台页面直接使用数组的方式来访问商品的属性值.</p>
+<p>编写视图文件:在view文件夹中新建products.php视图文件用来展示页面:</p>
+<h2 id="编写视图文件"><a href="#编写视图文件" class="headerlink" title="编写视图文件"></a>编写视图文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;!DOCTYPE HTML&amp;gt;</span><br><span class="line">&amp;lt;html lang=&quot;en-US&quot;&amp;gt;</span><br><span class="line">&amp;lt;head&amp;gt;</span><br><span class="line">    &amp;lt;title&amp;gt;Shop&amp;lt;/title&amp;gt;</span><br><span class="line">    &amp;lt;meta charset=&quot;UTF-8&quot;&amp;gt;</span><br><span class="line">    &amp;lt;style type=&quot;text/css&quot;&amp;gt;</span><br><span class="line">        body &#123;</span><br><span class="line">            font: 13px Arial;</span><br><span class="line">        &#125;</span><br><span class="line">        #products &#123;</span><br><span class="line">            text-align: center; float: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #products ul &#123;</span><br><span class="line">            list-style-type: none; margin: 0px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products li &#123;</span><br><span class="line">            width: 150px; padding: 4px; margin: 8px;</span><br><span class="line">            border: 1px solid #ddd; background-color: #eee;</span><br><span class="line">            -moz-border-radius: 4px; -webkit-border-radius: 4px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .name &#123;</span><br><span class="line">            font-size: 15px; margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .price &#123;</span><br><span class="line">            margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .option &#123;</span><br><span class="line">            margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #cart &#123;</span><br><span class="line">            padding: 4px; margin: 8px; float: left;</span><br><span class="line">            border: 1px solid #ddd; background-color: #eee;</span><br><span class="line">            -moz-border-radius: 4px; -webkit-border-radius: 4px;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart table &#123;</span><br><span class="line">            width: 320px; border-collapse: collapse;</span><br><span class="line">            text-align: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart th &#123;</span><br><span class="line">            border-bottom: 1px solid #aaa;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart caption &#123;</span><br><span class="line">            font-size: 15px; height: 30px; text-align: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart .total &#123;</span><br><span class="line">            height: 40px;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart .remove a &#123;</span><br><span class="line">            color: red;</span><br><span class="line">        &#125;</span><br><span class="line">    &amp;lt;/style&amp;gt;</span><br><span class="line">&amp;lt;/head&amp;gt;</span><br><span class="line">&amp;lt;body&amp;gt;</span><br><span class="line">&amp;lt;div id=&quot;products&quot;&amp;gt;</span><br><span class="line">    &amp;lt;ul&amp;gt;</span><br><span class="line">        &amp;lt;?php foreach ($products as $product): ?&amp;gt;</span><br><span class="line">            &amp;lt;li&amp;gt;</span><br><span class="line">                &amp;lt;?php echo form_open(&apos;cart/add&apos;); ?&amp;gt;</span><br><span class="line">                &amp;lt;div class=&quot;name&quot;&amp;gt;&amp;lt;?php echo $product-&amp;gt;name; ?&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">                &amp;lt;div class=&quot;thumb&quot;&amp;gt;</span><br><span class="line">                    &amp;lt;?php echo img(array(</span><br><span class="line">                        &apos;src&apos; =&amp;gt; &apos;images/&apos; . $product-&amp;gt;image,</span><br><span class="line">                        &apos;class&apos; =&amp;gt; &apos;thumb&apos;,</span><br><span class="line">                        &apos;alt&apos; =&amp;gt; $product-&amp;gt;name</span><br><span class="line">                    )); ?&amp;gt;</span><br><span class="line">                &amp;lt;/div&amp;gt;</span><br><span class="line">                &amp;lt;div class=&quot;price&quot;&amp;gt;$&amp;lt;?php echo $product-&amp;gt;price; ?&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">                &amp;lt;div class=&quot;option&quot;&amp;gt;</span><br><span class="line">                    &amp;lt;?php if ($product-&amp;gt;option_name): ?&amp;gt;</span><br><span class="line">                        &amp;lt;?php echo form_label($product-&amp;gt;option_name, &apos;option_&apos;. $product-&amp;gt;id); ?&amp;gt;</span><br><span class="line">                        &amp;lt;?php echo form_dropdown(</span><br><span class="line">                            $product-&amp;gt;option_name,</span><br><span class="line">                            $product-&amp;gt;option_values,</span><br><span class="line">                            NULL,</span><br><span class="line">                            &apos;id=&quot;option_&apos;. $product-&amp;gt;id.&apos;&quot;&apos;</span><br><span class="line">                        ); ?&amp;gt;</span><br><span class="line">                    &amp;lt;?php endif; ?&amp;gt;</span><br><span class="line">                &amp;lt;/div&amp;gt;</span><br><span class="line"></span><br><span class="line">                &amp;lt;?php echo form_hidden(&apos;id&apos;, $product-&amp;gt;id); ?&amp;gt;</span><br><span class="line">                &amp;lt;?php echo form_submit(&apos;action&apos;, &apos;Add to Cart&apos;); ?&amp;gt;</span><br><span class="line">                &amp;lt;?php echo form_close\(\); ?&amp;gt;</span><br><span class="line">            &amp;lt;/li&amp;gt;</span><br><span class="line">        &amp;lt;?php endforeach; ?&amp;gt;</span><br><span class="line">    &amp;lt;/ul&amp;gt;</span><br><span class="line">&amp;lt;/div&amp;gt;</span><br><span class="line"></span><br><span class="line">&amp;lt;?php if ($cart = $this-&amp;gt;cart-&amp;gt;contents\(\)): ?&amp;gt;</span><br><span class="line">    &amp;lt;div id=&quot;cart&quot;&amp;gt;</span><br><span class="line">        &amp;lt;table&amp;gt;</span><br><span class="line">            &amp;lt;caption&amp;gt;Shopping Cart&amp;lt;/caption&amp;gt;</span><br><span class="line">            &amp;lt;thead&amp;gt;</span><br><span class="line">            &amp;lt;tr&amp;gt;</span><br><span class="line">                &amp;lt;th&amp;gt;Item Name&amp;lt;/th&amp;gt;</span><br><span class="line">                &amp;lt;th&amp;gt;Option&amp;lt;/th&amp;gt;</span><br><span class="line">                &amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt;</span><br><span class="line">                &amp;lt;th&amp;gt;&amp;lt;/th&amp;gt;</span><br><span class="line">            &amp;lt;/tr&amp;gt;</span><br><span class="line">            &amp;lt;/thead&amp;gt;</span><br><span class="line">            &amp;lt;?php foreach ($cart as $item): ?&amp;gt;</span><br><span class="line">                &amp;lt;tr&amp;gt;</span><br><span class="line">                    &amp;lt;td&amp;gt;&amp;lt;?php echo $item[&apos;name&apos;]; ?&amp;gt;&amp;lt;/td&amp;gt;</span><br><span class="line">                    &amp;lt;td&amp;gt;</span><br><span class="line">                        &amp;lt;?php if ($this-&amp;gt;cart-&amp;gt;has_options($item[&apos;rowid&apos;])) &#123;</span><br><span class="line">                            foreach ($this-&amp;gt;cart-&amp;gt;product_options($item[&apos;rowid&apos;]) as $option =&amp;gt; $value) &#123;</span><br><span class="line">                                echo $option . &quot;: &amp;lt;em&amp;gt;&quot; . $value . &quot;&amp;lt;/em&amp;gt;&quot;;</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                        &#125; ?&amp;gt;</span><br><span class="line">                    &amp;lt;/td&amp;gt;</span><br><span class="line">                    &amp;lt;td&amp;gt;$&amp;lt;?php echo $item[&apos;subtotal&apos;]; ?&amp;gt;&amp;lt;/td&amp;gt;</span><br><span class="line">                    &amp;lt;td class=&quot;remove&quot;&amp;gt;</span><br><span class="line">                        &amp;lt;?php echo anchor(&apos;cart/remove/&apos;.$item[&apos;rowid&apos;],&apos;X&apos;); ?&amp;gt;</span><br><span class="line">                    &amp;lt;/td&amp;gt;</span><br><span class="line">                &amp;lt;/tr&amp;gt;</span><br><span class="line">            &amp;lt;?php endforeach; ?&amp;gt;</span><br><span class="line">            &amp;lt;tr class=&quot;total&quot;&amp;gt;</span><br><span class="line">                &amp;lt;td colspan=&quot;2&quot;&amp;gt;&amp;lt;strong&amp;gt;Total&amp;lt;/strong&amp;gt;&amp;lt;/td&amp;gt;</span><br><span class="line">                &amp;lt;td&amp;gt;$&amp;lt;?php echo $this-&amp;gt;cart-&amp;gt;total\(\); ?&amp;gt;&amp;lt;/td&amp;gt;</span><br><span class="line">            &amp;lt;/tr&amp;gt;</span><br><span class="line">        &amp;lt;/table&amp;gt;</span><br><span class="line">    &amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;?php endif; ?&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br></pre></td></tr></table></figure>
+<p>注意上述视图文件中使用了部分表单辅助函数.</p>
+<p>打开浏览器访问index方法.我们可以看到页面效果:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image4.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb3.png" alt="image" title="image"></a></p>
+<p>其中第一个商品没有属性,第二个和第三个商品因为有属性,所以我们生成了一个下拉框来给用户选择,每一个商品都有一个对应的按钮将当前选择的商品以及属性加入到购物车.</p>
+<p>但是我们现在暂时还没有增加到购物车的代码.所以我们完善controller代码:增加一个添加到购物车的函数:</p>
+<h2 id="编写添加方法"><a href="#编写添加方法" class="headerlink" title="编写添加方法"></a>编写添加方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function add\(\) &#123;</span><br><span class="line"></span><br><span class="line">	$this-&amp;gt;load-&amp;gt;model(&apos;Products_model&apos;);</span><br><span class="line"></span><br><span class="line">	$product = $this-&amp;gt;Products_model-&amp;gt;get($this-&amp;gt;input-&amp;gt;post(&apos;id&apos;));</span><br><span class="line"></span><br><span class="line">	$insert = array(</span><br><span class="line">		&apos;id&apos; =&amp;gt; $this-&amp;gt;input-&amp;gt;post(&apos;id&apos;),</span><br><span class="line">		&apos;qty&apos; =&amp;gt; 1,</span><br><span class="line">		&apos;price&apos; =&amp;gt; $product-&amp;gt;price,</span><br><span class="line">		&apos;name&apos; =&amp;gt; $product-&amp;gt;name</span><br><span class="line">	);</span><br><span class="line">	if ($product-&amp;gt;option_name) &#123;</span><br><span class="line">		$insert[&apos;options&apos;] = array(</span><br><span class="line">			$product-&amp;gt;option_name =&amp;gt; $product-&amp;gt;option_values[$this-&amp;gt;input-&amp;gt;post($product-&amp;gt;option_name)]</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	$this-&amp;gt;cart-&amp;gt;insert($insert);</span><br><span class="line"></span><br><span class="line">	redirect(&apos;cart&apos;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中用到了模型类中的根据id来获取一条商品信息的方法:我们在model类中新增函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function get($id) &#123;</span><br><span class="line"></span><br><span class="line">	$results = $this-&amp;gt;db-&amp;gt;get_where(&apos;products&apos;, array(&apos;id&apos; =&amp;gt; $id))-&amp;gt;result\(\);</span><br><span class="line">	$result = $results[0];</span><br><span class="line"></span><br><span class="line">	if ($result-&amp;gt;option_values) &#123;</span><br><span class="line">		$result-&amp;gt;option_values = explode(&apos;,&apos;,$result-&amp;gt;option_values);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和上面一样的,我们判断了商品是否含有属性值,如果有将其转化成数组.并返回</p>
+<p>重新运行程序并尝试点击添加按钮!</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image5.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb4.png" alt="image" title="image"></a></p>
+<p>可以看到我们成功的将商品加入到了购物车类.</p>
+<p>如果要删除购物车中的某商品,我们需要将该条<span style="color: #ff0000;">购物车商品</span>的rowid的数量转成0即可,这里一定要注意的就是rowid而不是商品本身的id,这个我们在第一篇中已经有过具体的介绍.</p>
+<p>在控制器中添加方法remove</p>
+<h2 id="编写删除方法"><a href="#编写删除方法" class="headerlink" title="编写删除方法"></a>编写删除方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function remove($rowid) &#123;</span><br><span class="line"></span><br><span class="line">    $this-&amp;gt;cart-&amp;gt;update(array(</span><br><span class="line">        &apos;rowid&apos; =&amp;gt; $rowid,</span><br><span class="line">        &apos;qty&apos; =&amp;gt; 0</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    redirect(&apos;cart&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后点击某条数据的删除按钮:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image6.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb5.png" alt="image" title="image"></a></p>
+<p>可以看到我们的商品已经从购物车中删除.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>接下来的工作可能就是需要处理支付的场景了!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/570.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用CodeIgniter的购物车类  一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1033,90 +1160,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-使用Linq快速的操作XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/425.html">使用Linq快速的操作XML</a>
-    </h1>
-  
-
-        
-        <a href="/425.html" class="archive-article-date">
-  	<time datetime="2014-02-21T08:06:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="开始内容之前先分享一段话"><a href="#开始内容之前先分享一段话" class="headerlink" title="开始内容之前先分享一段话"></a>开始内容之前先分享一段话</h3><p>有时候，当你知道要做什么的时候就做的很快，比如你要实现个功能，码字的活儿不算很难，做个检索也不会有什么难倒你的。<br>但是，做着做着，你发现好像世界上的工作都在重复，于是你有种心要飞起来的感觉，但总觉得脚步速度太慢，你开始抱怨进度，公司也对你充满期待，于是会给你配备助手，一来二去，你成为了小领导，你不再自己编码了，而且要做什么也都告诉你的助手们了，这时，你陷入了沉思，我该干什么呢？<br>偶然的，你发现某些事情朝着错误的方向发展，用户开始抱怨了，你跳出来，指出助手们的错误，然后事情过去了，你却停不下来，你怕这样的事情再次发生，于是你开始更深的沉思，这次你学会了思考，我要做的就是保持优秀的团队力量，如何保持呢？古板不是个办法，因为古板会使你的团队成员走你的老路，他们会感到单一、重复、枯燥。。。<br>你不能再去写代码以逃避无休无止的思考，因为你写的那点代码也起不到作用，还冷不丁的出个意外需要你公关，你很想突破，突破思维的限制，你发现突破不仅是你的挑战，更是你唯一的出路。 </p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;Columns&gt;</span><br><span class="line">  &lt;column id=&quot;序号&quot;&gt;</span><br><span class="line">    &lt;name&gt;序号&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验项目&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验项目&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;单位&quot;&gt;</span><br><span class="line">    &lt;name&gt;单位&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;标准要求&quot;&gt;</span><br><span class="line">    &lt;name&gt;标准要求&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验结果&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验结果&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;结论&quot;&gt;</span><br><span class="line">    &lt;name&gt;结论&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">&lt;/Columns&gt;</span><br></pre></td></tr></table></figure>
-<p>以上就是一个Xml文件，我们知道，Xml文件是用来存储数据的，那么我们如何遍历这些数据呢？<br>其实最简单的方法，就是使用Linq：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iTestResultXml=new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;testResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">          iTestResultXml.Add(node.Value);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就可以获得&lt;column/&gt;标签里所有的数据了，并把他们存储到列表iTestResultXml中。<br>在testResult.xml文件中，我们看到，&lt;column/&gt;标签设置了本身的id,而此id并不是他的数据，而是他的一个属性，那么如果我们想获得他的属性而不是他标签里的内容该如何获得呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iXmlID = new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;....XmltestResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">            iXmlID.Add(node.Attribute(&quot;id&quot;).Value);   //获取指定属性的方法</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就获取了&lt;column/&gt;标签里id属性的列表iXmlID。</p>
-<p>参考地址：<a href="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" title="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" target="_blank" rel="noopener">http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN</a></p>
-<p><a href="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" title="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" target="_blank" rel="noopener">http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/425.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1258,11 +1301,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1278,14 +1325,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -1298,10 +1337,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
@@ -1310,11 +1345,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1326,7 +1365,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,6 +1374,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">chrome</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1362,6 +1405,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
@@ -1378,6 +1425,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
@@ -1386,7 +1437,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1394,15 +1445,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1414,15 +1457,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1446,15 +1493,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">生日</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">手机</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">梦</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">生日</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1478,11 +1525,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1522,15 +1569,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1550,18 +1605,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vps</a>
               </li>
              
@@ -1571,6 +1614,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
