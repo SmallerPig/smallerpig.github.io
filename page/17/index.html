@@ -161,6 +161,95 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-entityfunctions-diff-e7-b3-bb-e5-88-97-e7-9a-84-e5-9d-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/724.html">EntityFunctions.Diff系列的坑</a>
+    </h1>
+  
+
+        
+        <a href="/724.html" class="archive-article-date">
+  	<time datetime="2015-05-30T12:33:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用<code>EntityFramwork</code>时,当我们需要对数据库中的时间字段进行计算的时候我就需要用到<code>EntityFuncitons</code>而不能直接写成类似下面的代码了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(item=&amp;gt;(item.CreateTime-DateTime.Now).Minutes&amp;gt;2)</span><br></pre></td></tr></table></figure></p>
+<p>仔细翻阅<code>EntityFunctions.DiffMinutes</code>的文档发现其留下了这么一句话:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">// 摘要: </span><br><span class="line">//     调用 DiffMinutes 规范函数。有关 DiffMinutes 规范函数的信息，请参见Date and Time Canonical Functions</span><br><span class="line">//     (Entity SQL)。</span><br><span class="line">//</span><br><span class="line">// 参数: </span><br><span class="line">//   timeValue1:</span><br><span class="line">//     有效日期。</span><br><span class="line">//</span><br><span class="line">//   timeValue2:</span><br><span class="line">//     有效日期。</span><br><span class="line">//</span><br><span class="line">// 返回结果: </span><br><span class="line">//     timeValue1 和 timeValue2 之间的分钟数。</span><br><span class="line">[EdmFunction(&quot;Edm&quot;, &quot;DiffMinutes&quot;)]</span><br><span class="line">public static int? DiffMinutes(DateTime? timeValue1, DateTime? timeValue2);</span><br></pre></td></tr></table></figure></p>
+<p>其上面明明写着返回结果是timeValue1和timeValue2之间的分钟数.类似的方法还有<code>DiffMonths\(\)</code>,<code>DiffSeconds\(\)</code>,<code>DiffYears\(\)</code>..</p>
+<p>当我们信誓旦旦的写上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item =&amp;gt; item.Status == 0 &amp;amp;&amp;amp; EntityFunctions.DiffMinutes(DateTime.Now, item.CreateTime)&amp;gt;= 15)</span><br></pre></td></tr></table></figure></p>
+<p>却怎么也得不到想要的结果..</p>
+<p>通过sql监视发现其生成的SQL语句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DATEDIFF (minute, SysDateTime\(\), SysDateTime\(\))&amp;gt;=15</span><br></pre></td></tr></table></figure></p>
+<p>单独执行才发现,这两个参数的顺序反了.简直是我勒个擦了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item =&amp;gt;item.Status == 0 &amp;amp;&amp;amp; EntityFunctions.DiffMinutes(item.CreateTime, DateTime.Now)&amp;gt;= 15)</span><br></pre></td></tr></table></figure></p>
+<p>也就是说:EntityFunctions.Diff系列函数的调用,第一个参数得比第二个参数小,才能返回正数结果.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/724.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信支付官方SDK v3 .NET版的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1102,109 +1191,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-关于购物欲" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/604.html">关于购物欲</a>
-    </h1>
-  
-
-        
-        <a href="/604.html" class="archive-article-date">
-  	<time datetime="2015-04-28T12:38:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现小猪毕业之后的购物欲越来越强了!</p>
-<p>例如:去年的时候一直想要买个kindle,心里一直在想着如果有了他我一定会每天抽时间出来看书,平均达到多天一本书.还好年前作为公司福利,公司每个人都发了一部!</p>
-<p>去年开始,一直期望着自己能拥有一本mac book pro!在网上到处手机mbp的资料,到处给自己暗示:程序员都是用mac工作的!虽然到目前为止我还是一个.net程序员!</p>
-<p>今年开始我就想着能不能换个手机,也来体验一下ios的系统,到目前为止,市场上的三大主流手机操作系统也就剩下苹果我没有体验过了!</p>
-<p>春天到了,我又在想能不能买个好点的自行车,这样每天骑着自行车上班不仅拉风而且还锻炼身体!于是到处查看山地车的价格.</p>
-<p>这些天又在京东上关注机械键盘,又看到类似:程序员就应该拥有一把机械键盘!让你的手指享受应该有的待遇!因为它养活了你!之类的言论.</p>
-<p>今天又用上班时间看了下目前漫步者2.1音箱的价格…想着给自己的台式电脑配个低音炮在周末或者晚上的时候边瞧代码边摇晃着脑袋是不是会很带劲?</p>
-<p>越来越受不了自己了…</p>
-<p>好在我还算是个”磨叽”的人!没有说风就是雨,想到什么就买什么!</p>
-<p>所以上面说到的几个除了kindle是公司发的之外其他的到目前为止一个都没有买,有部分原因是小猪克制住了自己,当然大部分原因还是因为自己没钱,或者舍不得花这个钱!</p>
-<p>于是想到前段时间看到的一句很有道理的话:原文不记得了,但是意思大概是:</p>
-<quote>当我们开始关注某项物品时,他的作用会在我们心中无意的被放大!</quote>  
-
-<p>意思是我们一旦被某些文章或者广告提及到某样东西并被你得到认可之后,他的作用就会被我们自己人为的放大.!在没有这件物品时你就会想如果我拥有它之后我肯定会怎样怎样…而一旦拥有了且过了那阵子新鲜感之后你就会去寻找另外的替代品!当然这是我针对购物欲这件事上的见解.</p>
-<p>那怎样具体的区分我们想要买的东西到底是因为购物欲使坏还是真正的需要呢?同样有类似这样的言论:</p>
-<ol>
-<li>如果你犹豫要不要买一件东西只是因为它比较贵，那就买下来；如果你想买一件东西只是因为他非常便宜划算，那就不要买。<br>如果你买它，只是因为它价格便宜，那就不要买它，哪怕它是聚划算，狂打折！！因为如果只是因为便宜，而买的东西，通常都不是你最需要的。而且购买后，你通过这东西得到的满足感也很低，且多是因为买到划算的心理满足。</li>
-<li>在买任何东西之前牢记九字箴言：你喜欢，你需要，你适合。 PS：适用于很多事，包括感情也一样。<br>如果是你很喜欢，特别想要的东西，只要在你经济承受范围内，那就买吧！因为你得到的满足感是巨大的，且通常比较持久！有没有觉得有些喜欢的衣服，鞋子，或者用的东西，就会经常用，经常穿它？ </li>
-</ol>
-<p>按照这个理论,小猪想了想.</p>
-<p>为什么想要个mac book pro 呢?网上到处都充斥着对windows的鄙视和果粉对mac的支持,小猪受了影响!另外就是发现能在电视上看到的电脑基本上都是mac的.自己也想拥有一个来显示自己的逼格!真正需求呢?小猪自己也不知道!</p>
-<p>购买手机的欲望一开始是因为自己目前的红米1s电池越发不给力了,待机都待不到一天.所以想换,可是仔细想想用这个手机还不到一年!平时对手机的需求压根不高,上班时都是用电脑上网!难道手机真的到了不能使用的地步了吗?也还没有,能用的功能都有,只是偶尔收不到微信消息而已(内存太小,估计是进程被杀了)!</p>
-<p>想买自行车是在街上经常看到有人弯着腰很”酷”的蹬着山地车一个一个的超过电瓶车.小猪就被这样的镜头给打动了~</p>
-<p>机械键盘是偶尔看到知乎上的一个问答,题目大约是:为什么我的程序员男友特别想要一个机械键盘!后来除了因为价格的原因没有买之外也是因为看到了这么一个故事:一个挑夫有一天突然变的有钱了,他不知道用这钱来干什么,最后他用这个钱来做一个金扁担!</p>
-<p>音箱完全是自己意淫出来的一种假象让自己神往!!</p>
-<p>最后,的最后我觉得真正不能让小猪满足购物欲的还是自己没能赚到足够的钱啊!<!--StartFragment--> <img src="file:///C:/Users/zhuqi/AppData/Local/Temp/SGPicFaceTpBq/568/35E04048.gif" alt></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/604.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/16/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/18/">Next &raquo;</a>
@@ -1378,10 +1364,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1414,11 +1396,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1430,15 +1416,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1458,10 +1444,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
@@ -1470,11 +1452,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1506,6 +1492,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
@@ -1519,14 +1513,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1554,11 +1540,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1574,15 +1560,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Windows Phone</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1594,11 +1584,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1611,10 +1601,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1662,11 +1648,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
