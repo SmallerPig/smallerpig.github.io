@@ -161,6 +161,114 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ci-e4-b8-ad-e4-bd-bf-e7-94-a8layout-e6-96-87-e4-bb-b6-e7-b1-bb-e4-bc-bc-e6-a8-a1-e6-9d-bf-e6-95-88-e6-9e-9c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/653.html">CI中使用layout文件(类似模板效果)</a>
+    </h1>
+  
+
+        
+        <a href="/653.html" class="archive-article-date">
+  	<time datetime="2015-05-04T12:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CI框架本身不提供类似模板的功能,所以官方文档中并没有相关的介绍!</p>
+<p>虽然在视图的文档中给出了这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class Page extends CI_Controller &#123;</span><br><span class="line"></span><br><span class="line">   function index\(\)</span><br><span class="line">   &#123;</span><br><span class="line">      $data[&apos;title&apos;] = &apos;Your title&apos;;</span><br><span class="line">      $data[&apos;message&apos;] = &apos;Your message&apos;;</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;header&apos;,$data);</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;content&apos;);</span><br><span class="line">      $this-&gt;load-&gt;view(&apos;footer&apos;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>该段代码是利用了同一个控制器可以加载多个视图的特性.将html文档的头部,内容部分以及页脚部分分别放三个不同的文件中,这样在一定程度上能够满足我们的需求.但还是不够友好,</p>
+<p>小猪今天分享的是一个类库,利用该类库可以实现类似模板的功能.在application项目文件夹的libraries文件夹中新建Layout.php文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Layout</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    var $CI;</span><br><span class="line">    var $layout;</span><br><span class="line"></span><br><span class="line">    function Layout($layout = &quot;_layout&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;CI =&amp;amp; get_instance\(\);</span><br><span class="line">        $this-&gt;layout = &apos;share/&apos; . $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function setLayout($layout)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;layout = $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function view($view, $data=null, $return=false)</span><br><span class="line">    &#123;</span><br><span class="line">        $data[&apos;content_for_layout&apos;] = $this-&gt;CI-&gt;load-&gt;view($view,$data,true);</span><br><span class="line"></span><br><span class="line">        if($return)</span><br><span class="line">        &#123;</span><br><span class="line">            $output = $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, true);</span><br><span class="line">            return $output;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在application项目文件夹的view文件夹下新建share文件夹,然后新建_layout.php文件!如果有需求可以新建多个视图文件:</p>
+<p>输入文件内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php echo $content_for_layout  ?&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>代码中使用了php变量content_for_layout.而这个变量的值是在我们新建的Layout类库的view方法里赋值的,其值为$this-&gt;CI-&gt;load-&gt;view($view,$data,true).</p>
+<p>意思就是将加载了数据的视图文件赋值给变量$content_for_layout,然后再一次的加载我们的模板页,也就是layout.php文件!</p>
+<p>所以,我们在控制器里写入这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function test\(\)&#123;</span><br><span class="line">    $data[&quot;content&quot;] = &quot;hi smallerpig! this is the content from controller!&quot;;</span><br><span class="line">    $this-&gt;load-&gt;library(&apos;layout&apos;);</span><br><span class="line">    $this-&gt;layout-&gt;view(&quot;test&quot;,$data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中用到了一个视图文件test.php:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;-- &lt;?php echo $content ?&gt; -- &lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样最终我们页面输出的html文档将会是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;-- hi smallerpig! this is the content from controller! -- &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>最终我们完成了将整个页面相同的html代码先提取到了layout(share/_layout.php)文件中,然后将会变的内容放到单独的视图(test.php)文件!而且类库还兼容了原来的类库写法,即view方法的第三个参数类型为bool类型,如果传入为true,则将返回视图结果字符串!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/653.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-体验基于CI的CMS管理系统DiliCMS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1128,123 +1236,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-我的建站之路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/508.html">我的建站之路</a>
-    </h1>
-  
-
-        
-        <a href="/508.html" class="archive-article-date">
-  	<time datetime="2015-04-14T14:26:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>博客停止更新一个多月之后于4月10日又开通了,而这次选择了更加稳定以及速度有保障的空间与服务商,相信以后的站点不管是在稳定性还是内容质量上都会有一个量级的提升!</p>
-<p>这么多天我一直想要写这么一篇博客来记录我的建站之路.碍于对自己毅力的担心,还是先开始动手吧,何时发表就另外再说了.</p>
-<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>现在翻到博客的最底端,然后点击最后一页还能找到我的<a href="http://www.smallerpig.com/7.html" target="_blank" rel="noopener">第一篇博客</a>,那是在2013年的5月16日.当时怀着无比激动以及期待的心情开通了博客.最开始的动力是研究生期间的小张老师.其在自己的博客<a href="http://www.ulook.org" target="_blank" rel="noopener">ulook.org</a>中放肆的表达着自己单身生活的状态还是多少影响着我,那个时候就隐约的感到,要是我自己能有个自己的域名,然后站点上的内容都是我所记录的那该有多牛逼.</p>
-<p>然后开通博客这件事情的导火索还得赖到大强头上.13年那会还在睿阅科技,大强和阿黄还没毕业.那会阿黄天天带着我骑着小电驴奔驰在学校与530大厦的时候大强就偶尔会跟我吹起来现在的账户里还有多少刀多少刀时我才发现,原来尼玛的自己的站还能赚钱弄到呀!? 虽然大强的站据说因为一直凑不到整数,所以钱到目前为止一直取不出来.</p>
-<p>所以有次在咨询了小张老师之后决定下手开通.</p>
-<p>那时在gegehost上画的100块买的香港主机的空间,再加上39还是49一年的域名,总计就花了这么多钱之后站点立马就喜气洋洋的开通了:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150414215640.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150414215640_thumb.png" alt="20150414215640" title="20150414215640"></a></p>
-<p>可能是长时间不登录了,现在尝试登录gegehost的时候已经无法登录了,账号应该已经被注销.所以原来的邮件的关键部位也就不需要加码了!</p>
-<p>在2014年4月4号写完年度博客的时候,我发现我再也无法忍受因为是在香港主机的影响还无法打开博客,或者打开博客需要30秒以上的体验了.所以在多次被催缴费的情况下依然没有付费而让网站停止运营了不到一个月.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150414220440.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150414220440_thumb.png" alt="20150414220440" title="20150414220440"></a></p>
-<h3 id="友情的赞助"><a href="#友情的赞助" class="headerlink" title="友情的赞助"></a>友情的赞助</h3><p>直到有一天一直喜欢折腾的大强说他买的vps可以免费提供给我一点空间.所以我欢天喜地的付了一年49的域名费用后将域名重新解析到大强的vps,又开始了写博的历程.</p>
-<p>当然这也酝酿了后来悲剧的发生!</p>
-<h3 id="悲剧的发生"><a href="#悲剧的发生" class="headerlink" title="悲剧的发生"></a>悲剧的发生</h3><p>天上最终还是不会掉馅饼,在大强的vps上一直忍受着与之前一样的不稳定以及偶尔打不开.但是仗着吃人家的嘴短,以及便宜没好货,更何况还是不要钱的呢.但是大强一开始就提示我要及时备份,因为vps说不定哪天就宕机了…</p>
-<p>正如他所说的那样,他的主机真的宕机了,而且对于我来说一点预兆都没有,这也就意味着所有我在他主机上写的博客统统都没有了,我算了下大概在一百篇左右吧.这对我来说确实是个不小的打击,毕竟每一篇都是自己辛辛苦苦一个字一个字码出来的.</p>
-<p>所以现在的你如果仔细的话会发现我的博客文章是从14年4月份直接跳到了15年的4月份:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image9.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb8.png" alt="image" title="image"></a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h3 id="重新开始"><a href="#重新开始" class="headerlink" title="重新开始"></a>重新开始</h3><p>最终我还是找出来从gegehost上备份的一百多篇博客,本来一直想着自己买个服务器自己简单写个文章发布系统.这样自己可以享受DIY整个过程,甚至网站应该有的哪些功能我都已经打算好,可是开年到公司后一直在忙于奔命.始终没能抽出一整块的时间来完成这件事情,偶然的机会在广告中看到阿里云现在提供免费虚拟主机两年的使用,毫不犹豫的就申请了个并保存了下来.</p>
-<p>接下来的问题就是要想使用阿里云或者万网的主机的域名问题,要么就一直使用系统提供的临时域名,要么就将绑定到空间的域名备案,考虑到</p>
-<ol>
-<li>临时域名根本无法记忆,</li>
-<li>小猪发表的文章不会涉及违法违纪</li>
-<li>备案其实不需要额外的花钱</li>
-<li>备案的站有利于品牌的建立. </li>
-</ol>
-<p>小猪选择了将自己的域名转到万网并进行备案.整个备案过程还算顺利,除了去拍照片坐地铁花了点路费(拍照本身是免费),以及邮寄两份资料的邮费以外就再没有其他花费了,在这里赞一下阿里云的代备案系统.如果没有它小猪完全不知道整个备案的流程.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150322143052.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150322143052_thumb.png" alt="20150322143052" title="20150322143052"></a></p>
-<p>&nbsp;</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150323091043.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150323091043_thumb.png" alt="20150323091043" title="20150323091043"></a></p>
-<p>&nbsp;</p>
-<p>最终在3月底收到了备案成功的通知:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image10.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb9.png" alt="image" title="image"></a></p>
-<p>然后重新上传wordpress,备份的文章就重新开张了博客.这里也提醒大家,及时的备份自己的数据是个好习惯,万一哪天出了点意外发现自己努力的果实都付之东流的时候真是哭笑不得.</p>
-<h3 id="畅想未来"><a href="#畅想未来" class="headerlink" title="畅想未来"></a>畅想未来</h3><p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/wKiom1Uk21rht2uoAAAiJDalaeI525.jpg" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/wKiom1Uk21rht2uoAAAiJDalaeI525_thumb.jpg" alt="wKiom1Uk21rht2uoAAAiJDalaeI525" title="wKiom1Uk21rht2uoAAAiJDalaeI525"></a></p>
-<p>虽然我不在乎自己的博客到底有多少的流量以及访客,也不在乎有多少评论.但我在乎的是能不能写出我自己的水平,甚至别人想了解我的技术水平的话直接通过本站就行,而不需要所谓的面试几个小时.当然现在看我的文章跟一些大牛还有很大的差距,可正是通过博客我才发现自己与其他人的差距,不然始终觉得他们也不过尔尔.我想这也是写博客给我的一点收获吧.</p>
-<p>当然,最直接的目的还是为了记录我本身的学习过程,正如我在mete标签里所描述的那样:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image11.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb10.png" alt="image" title="image"></a></p>
-<p>..截了图发现自己在mete标签里打了错字,既然这样了就把他当成个美丽的错误吧.</p>
-<p>最后,我觉得,只要我还是程序员一天,我就会坚持写我的博客一天!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/508.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
@@ -1422,10 +1413,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
@@ -1434,7 +1421,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1442,15 +1429,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1470,11 +1461,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wechat</a>
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1510,11 +1501,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1530,15 +1521,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1546,7 +1537,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1554,7 +1545,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1566,7 +1557,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1578,7 +1573,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1646,10 +1653,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1662,11 +1665,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1674,11 +1673,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1686,7 +1681,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1695,6 +1690,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
