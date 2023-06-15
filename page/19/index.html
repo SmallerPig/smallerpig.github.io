@@ -161,6 +161,183 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-phpstorm-e8-ae-be-e7-bd-aectrly-e5-bf-ab-e6-8d-b7-e9-94-ae-e4-b8-ba-e9-87-8d-e5-81-9a" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/541.html">PhpStorm设置Ctrl+Y快捷键为重做</a>
+    </h1>
+  
+
+        
+        <a href="/541.html" class="archive-article-date">
+  	<time datetime="2015-04-16T03:38:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我使用的所有编辑器中,基本上<code>ctrl+z</code>的快捷键是撤销功能,<code>ctrl+y</code>的快捷键是重做功能.</p>
+<p>可是phpstorm不知道是从什么角度考虑了问题把<code>ctrl+y</code>的组合键放在了别的功能上面(删除整行),把重做的快捷键默认使用<code>ctrl+shift+z</code>.</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150416113332.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150416113332_thumb.png" alt="20150416113332" title="20150416113332"></a></p>
+<p>这样的快捷键使我很不适应!</p>
+<p>如果要按照我之前的习惯设置的话需要进行重新设置!</p>
+<p>File-Settings-Appearance&amp; Behavior – Keymap - 将选项Keymaps 从<code>Default</code> 选择为 <code>Visual Studio</code></p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/20150416113658.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/20150416113658_thumb.png" alt="20150416113658" title="20150416113658"></a></p>
+<p>这样整个快捷键就按照我熟悉的visual studio的功能来了.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">phpstrom</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/IDE//" class="article-tag-list-link color4">IDE</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/541.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-c-e9-80-92-e5-bd-92-e6-9f-a5-e8-af-a2-e8-87-aa-e5-b7-b1-e7-9a-84-e7-88-b6-e7-bb-93-e6-9e-84" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/512.html">C#递归查询自己的父结构</a>
+    </h1>
+  
+
+        
+        <a href="/512.html" class="archive-article-date">
+  	<time datetime="2015-04-15T05:57:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先数据为自包含结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Category</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int Father &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    private Category parentCategory;</span><br><span class="line"></span><br><span class="line">    public Category ParentCategory &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return Father!=0 ? new Category(new DictCategoryServer\(\).GetById(Father)) : null;</span><br><span class="line">        &#125;</span><br><span class="line">        set &#123; parentCategory = value; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Category(DictCategory dict)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Id = dict.Id;</span><br><span class="line">        Name = dict.Name;</span><br><span class="line">        Father = dict.FatherCategory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其用到的数据库实体类为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class DictCategory </span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string  Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Note &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int  FatherCategory &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样在对应的控制器里可以直接返回想要的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GetDictionaryItem(int id)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    Category category = new Category(new DictCategoryServer\(\).GetById(id));</span><br><span class="line"></span><br><span class="line">    return Json(new</span><br><span class="line">    &#123;</span><br><span class="line">        Result = new Result\(\)&#123;Success =  true,Note = &quot;&quot;&#125;,</span><br><span class="line">        DictionaryItem = new</span><br><span class="line">        &#123;</span><br><span class="line">            id = result.Id,</span><br><span class="line">            name = result.Name,</span><br><span class="line">            thumbnailUrl = result.ThumbnailUrl,</span><br><span class="line">            unitPrice = result.Price,</span><br><span class="line">            measurementUnits = result.MeasurementUnit,</span><br><span class="line">            category = new</span><br><span class="line">            &#123;</span><br><span class="line">                id = category.Id,</span><br><span class="line">                name = category.Name,</span><br><span class="line">                parentCategory = category.ParentCategory</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>最终的结果就是能够给前台递归直到father为0的 <code>DictCategory</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/512.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-我的建站之路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -889,217 +1066,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-asp-net-mvc-e7-bb-9f-e4-b8-80-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/422.html">ASP.NET MVC统一异常处理</a>
-    </h1>
-  
-
-        
-        <a href="/422.html" class="archive-article-date">
-  	<time datetime="2014-02-12T06:40:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>今早看了篇文章：<a href="http://www.cnblogs.com/stoneniqiu/p/3545230.html" target="_blank" rel="noopener">求知成瘾，却无作品 的思考</a>；很有感触，发现原来自己也是这样，对每样东西都抱有很大的兴趣或者希望自己去学，一年后发现原来自己什么都是皮毛什么都不精！最终发现真正的大牛都是在某一个领域的大牛，不会是全能的。所以是时候精一下了。</p>
-<p>本篇文章来源于今天的另外一篇阅读：《我的软件没bug》作者希望读者写的程序即使已经上线也能快速的发现自己bug而不是等着用户忍无可忍时的反馈，这样让用户产生错觉是其用的软件并没有bug，而能实现这些最关键的一点就是能不能发现bug。所以小猪今天写了其实已经关注非常久的一个主题：统一的异常处理</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>ASP.NET MVC提供了很方便的实现处理异常的机制：在需要进行异常处理的Controller中重写OnException。如果整个程序都需要异常处理，可以先写一个BaseController，其他所有Controller都继承它，然后在BaseController中重写OnException。<br>然后让自己的Controller继承自这个BaseController即可。</p>
-<p>另外如果只是针对某一个Action的捕获异常则可以写一个Attribute继承自HandleErrorAttribute：</p>
-<h2 id="存数据库还是文件"><a href="#存数据库还是文件" class="headerlink" title="存数据库还是文件"></a>存数据库还是文件</h2><p>细心的读者可能发现上述的代码小猪是保存在网站跟文件夹下的一个文件里的。这里涉及到把异常数据保存在什么地方的问题。有两种选择数据库和文件。但是小猪考虑到存数据库时存在一个问题：当数据库无法链接时网站也是会报错，这个时候的错误如果是采用存在数据库的机制的话则无法记录，而存在文件里则不存在这个问题，除非是web服务器奔了。综上原因小猪采取了把日志文件存放在文件里的方法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/422.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-编写自己的Windows Live Writer插件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/420.html">编写自己的Windows Live Writer插件</a>
-    </h1>
-  
-
-        
-        <a href="/420.html" class="archive-article-date">
-  	<time datetime="2014-02-10T04:34:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>自从小猪使用Windows Live Writer(wlw)来写博客之后就很少打开网站的后台编辑器了，这真是个写博客的好东西啊，但是任何东西都是不完美的。索契冬奥会开幕式都会把五环弄成四环呢！对于写博一个很简单的情景：小猪需要从别的网站上面引用一段话，我希望引用的这端话有独立的标签好定义其样式，就这么个简单的需求在原生的wlw里面却束手无策了。好在现在的软件都强调对其自身的拓展，wlw也不例外。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>其实需求很简单，就是希望能有那么个按钮，这个按钮的功能是给我的文字加上一段固定的标签就可以了。参考很多的代码高亮插件之后发现这个完全是可行的，而且相比于代码高亮来说实在是再简单不过了——我不需要针对每个关键字设置不同的标签样式，也就是我不需要解析插入的内容直接贴上去就好了。</p>
-<p>有了上述思想准备后小猪就开始了自己的插件开发</p>
-<h3 id="第一步：创建类库项目"><a href="#第一步：创建类库项目" class="headerlink" title="第一步：创建类库项目"></a>第一步：创建类库项目</h3><p>使用VS来创建类库项目：需要注意的是.NET的版本一定要是3.0以下(包括)的。小猪做的时候就在这上面浪费了很长的时间。</p>
-<h3 id="第二步：对官方API库的引用"><a href="#第二步：对官方API库的引用" class="headerlink" title="第二步：对官方API库的引用"></a>第二步：对官方API库的引用</h3><p>库在哪里？不需要去下载，只要电脑上安装了wlw，这个库就静静的躺在你的电脑里wlw的安装文件目录下，例如：C:Program Files (x86)Windows LiveWriterSystem.Windows.Forms.dll。当然因为需要新建一个输入代码的窗口，所以需要对System.Windows.Forms库的引用。</p>
-<h3 id="第三步：设置生成路径"><a href="#第三步：设置生成路径" class="headerlink" title="第三步：设置生成路径"></a>第三步：设置生成路径</h3><p>因为我们很多时候需要实时预览我们的插件，避免每次编译好了都自己安装的麻烦我们设置生成路径，让VS编译的时候直接帮我们生成的DLL文件放到指定的文件夹下。</p>
-<p>打开项目属性设置生成事件，在“后期生成事件命令行:”一栏中输入:XCOPY /D /Y /R “$(TargetPath)” “C:Program Files (x86)Windows LiveWriterPlugins”。保存并退出！</p>
-<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl = &quot;http://www.smallerpig.com&quot;, </span><br><span class="line">    Description = &quot;This is an Test plugin.&quot;, Name = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content = ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>第一个参数为一个Guid，我们可以用Visual Studio自动生成，其标识的作用。</li>
-<li>第二个参数为该插件的名称，将在Windows Live Writer的插件管理器中看到。</li>
-<li>PublisherUrl为发布者的网站地址，这里就写了我的Blog地址。</li>
-<li>ImagePath为插件的图标文件路径，注意该图标应为18*16大小，且一定以Embedded Resource形式编译在程序集中。</li>
-<li>Description为插件的一小段描述介绍。</li>
-</ol>
-<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// End the process.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再新建一个类来单独处理加标签的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The processed content.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The process function.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;/param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent = (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href=&quot;&#123;0&#125;&quot;&gt;引用:&lt;/a&gt;&lt;/legend&gt;&lt;div style=&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;/div&gt;&lt;/fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个时候这个简单控件的完整代码就已经完成。编译后重新打开wlw就可以在插件栏里发现它。</p>
-<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
-<blockquote>
-<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
-</blockquote>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>小猪写完这个简单的插件之后发现wlw不仅仅可以这么用，我们自己写的新闻发布页、博客等等程序其实都可以使用wlw来发布，如果需要一定自定义的格式或者要求我们完全可以使用插件来完成。这样我们就不需要在网页端使用富文本编辑器来编辑发布。有时间小猪好好研究研究者块内容。如果发现这个思路确实可行的话那么以后可以在项目中实施。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEBFORM/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/420.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/18/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/20/">Next &raquo;</a>
@@ -1205,6 +1171,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1218,10 +1188,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1277,6 +1243,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
@@ -1285,19 +1255,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1357,15 +1323,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1385,11 +1351,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
+                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1401,6 +1371,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ds</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
@@ -1409,11 +1383,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1425,7 +1403,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1437,19 +1415,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1469,11 +1443,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1486,10 +1460,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1537,15 +1507,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">

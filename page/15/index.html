@@ -161,6 +161,190 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-微信JSSDK python版本讲解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/889.html">微信JSSDK python版本讲解</a>
+    </h1>
+  
+
+        
+        <a href="/889.html" class="archive-article-date">
+  	<time datetime="2015-09-16T05:50:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文对微信官方的JSSDK的python版中的代码进行讲解,并在最后给到了其对应的python3.*版本.</p>
+<p>官方示例代码下载链接:<a href="http://demo.open.weixin.qq.com/jssdk/sample.zip" title="http://demo.open.weixin.qq.com/jssdk/sample.zip" target="_blank" rel="noopener">http://demo.open.weixin.qq.com/jssdk/sample.zip</a></p>
+<p>官方示例代码python版:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> import time</span><br><span class="line">import random</span><br><span class="line">import string</span><br><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">class Sign:</span><br><span class="line">    def __init__(self, jsapi_ticket, url):</span><br><span class="line">        self.ret = &#123;</span><br><span class="line">            &apos;nonceStr&apos;: self.__create_nonce_str\(\),</span><br><span class="line">            &apos;jsapi_ticket&apos;: jsapi_ticket,</span><br><span class="line">            &apos;timestamp&apos;: self.__create_timestamp\(\),</span><br><span class="line">            &apos;url&apos;: url</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    def __create_nonce_str(self):</span><br><span class="line">        return &apos;&apos;.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))</span><br><span class="line"></span><br><span class="line">    def __create_timestamp(self):</span><br><span class="line">        return int(time.time\(\))</span><br><span class="line"></span><br><span class="line">    def sign(self):</span><br><span class="line">        string = &apos;&amp;amp;&apos;.join([&apos;%s=%s&apos; % (key.lower\(\), self.ret[key]) for key in sorted(self.ret)])</span><br><span class="line">        print string</span><br><span class="line">        self.ret[&apos;signature&apos;] = hashlib.sha1(string).hexdigest\(\)</span><br><span class="line">        return self.ret</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # 注意 URL 一定要动态获取，不能 hardcode</span><br><span class="line">    sign = Sign(&apos;jsapi_ticket&apos;, &apos;http://example.com&apos;)</span><br><span class="line">    print sign.sign\(\)</span><br></pre></td></tr></table></figure></p>
+<p>可见代码其实非常少而且都挺简单.并没有什么高深的技术,只用到了4个模块的内容.time模块用来获取时间戳,random模块来生成随机字符串.string模块生成字符串,hashlib对数据进行sha1加密.</p>
+<p>代码中只定义了一个类Sign,用来提供签名方法.在该类的构造函数中需要传入jsapi_ticket和url两个参数.利用这两个参数生成一个字典:ret.字典有4个键,分别为:</p>
+<ul>
+<li>nonceStr</li>
+<li>jsapi_ticket</li>
+<li>timestamp</li>
+<li>url<br>其中jsapi_ticket和url就是直接传进来的参数.时间戳调用了私有方法<strong>create_timestamp(),这个方法返回当前时间戳.nonceStr调用了私有方法</strong>create_nonce_str().在__create_nonce_str()方法中生成了随机字符串.</li>
+</ul>
+<p>然后就是Sign类对外提供的签名方法sign(),在该方法中首先对ret字典进行排序并使用&amp;串联.然后对他进行sha1加密,然后将结果赋值给ret字典的signature键.最后返回ret字典.至此,整个生成验证过程结束.</p>
+<p>其中判断<strong>name</strong> 属性的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">   # 注意 URL 一定要动态获取，不能 hardcode</span><br><span class="line">   sign = Sign(&apos;jsapi_ticket&apos;, &apos;http://example.com&apos;)</span><br><span class="line">   print sign.sign\(\)</span><br></pre></td></tr></table></figure></p>
+<p>作用为如果是在命令行条件下执行的话则执行这段代码,如果是其他环境下则不执行这段代码.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/889.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp-net-mvc-e6-98-af-e4-b8-8d-e6-98-af-e7-ac-a6-e5-90-88mvc-e6-80-9d-e6-83-b3-e7-9a-84-e6-a1-86-e6-9e-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/887.html">ASP.NET MVC是不是符合MVC思想的框架</a>
+    </h1>
+  
+
+        
+        <a href="/887.html" class="archive-article-date">
+  	<time datetime="2015-09-10T15:13:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>几年前一开始接触ASP.NET MVC框架的时候就被它所吸引.相对于web form真的是太方便了.完全的逻辑和视图分离!而作为偏服务器端的我不需要过多的前端知识却能和前端无缝对接.简直就是神器嘛.</p>
+<p>用了差不多两年了,也陆续接触了CI和Django.发现虽然都是声称符合MVC思想的框架,但是仔细想想还是会发现其中的区别.</p>
+<p>其主要区别可能是在Model上面,最熟悉的ASP.NET MVC中,model只是数据模型,而真正呈现的是视图模型.而CI,Django等框架,可能是使用Php,python等弱类型语言的原因.其框架中并没有明确的视图模型的概念.另外最大的区别在于在其他MVC框架中,数据都是从Model直接获取的,也就是说最复杂的逻辑有可能出现在Model里,其担负着与数据库连接,取数据等操作.但是在ASP.NET MVC中,我们所定义的也只能是数据的模型,而不能在模型中定义过多的数据库连接之类.</p>
+<p>所以我一直认为ASP.NET MVC因为其model的原因并不算是真正符合MVC思想的.</p>
+<p>附上维基百科对MVC的链接<a href="https://zh.wikipedia.org/wiki/MVC" title="https://zh.wikipedia.org/wiki/MVC" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/MVC</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面向对象基础//" class="article-tag-list-link color2">面向对象基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/887.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-关于每天睡8小时的梗" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -993,209 +1177,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-记安装Ubuntu过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/833.html">记安装Ubuntu过程</a>
-    </h1>
-  
-
-        
-        <a href="/833.html" class="archive-article-date">
-  	<time datetime="2015-07-17T13:09:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>主要是为了体验下Lunix系统,在13年的时候尝试过用wubi.exe直接在win7下面安装,后来也没打开过几次系统,14年从睿阅出来换电脑后就没使用过lunix了.</p>
-<p>这段时间因为使用Php和python比较多,所以又有了尝试ubuntu的想法.可惜在使用wubi.exe安装时总是提示can not download***的错误,意思是无法下载ubuntu的镜像,可是我明明已经按照网上的说法把iso镜像文件放到除了c盘下的跟目录,可还是报同样的错误,所以小猪就直接使用高逼格的u盘安装了!</p>
-<p>电脑使用的是老婆5年前的DELL电脑,cpu为t6600,内存2g,所以第一步先从官网下载最新的32位系统</p>
-<p>制作u盘启动工具,即将iso文件刻制到U盘中</p>
-<p>使用U盘启动电脑</p>
-<p>执行图形化安装,安装过程比较简单.</p>
-<p>安装好了之后发现啥事都干不了,原来是没有无线网卡驱动,只好找来网线插到路由器上来寻找解决方法,还好这里直接插了网线就能上网,也能下载安装一些东西.</p>
-<p>修改系统的默认软件更新地址(系统设置=&gt;软件和更新=&gt;下载至=&gt;其他站点,这里我选择的是阿里云的镜像站点),不得不吐槽一下这里,之前小猪在公司电脑的虚拟机上没有设置这一步,所有的软件安装和更新都是奇慢无比,快的时候下载几十kb,慢的时候直接没速度.发现连上了阿里云的镜像之后,速度提升了N倍,心情立马不一样了!</p>
-<p>安装网卡驱动:上一步设置好了之后在”系统设置=&gt;软件和更新=&gt;附加驱动”栏目下会自动寻找当前电脑的可用驱动,按照提示安装即可.</p>
-<p>连上WiFi开始安装一些必要的php,python,pip,mysql等等!!</p>
-<p>发现自己在一边写着博客,另外一遍的Ubuntu上终端命令行在不断的输出内容的时候逼格真是大大的有啊,仿佛看到了电影里面的程序员的样子!</p>
-<p>参考文章:<a href="http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html" title="http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/7f766daf42b7984101e1d0be.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE//" class="article-tag-list-link color4">IDE</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/833.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-只有有良心的人才会感到痛苦——记《追风筝的人》" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/814.html">只有有良心的人才会感到痛苦——记《追风筝的人》</a>
-    </h1>
-  
-
-        
-        <a href="/814.html" class="archive-article-date">
-  	<time datetime="2015-07-12T14:53:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很久没有静下心来好好的看一部长篇小说了!</p>
-<p>标题是这两天陪老婆在医院时看的《追风筝的人》中的一点感悟，也是我深有体会的一段话。不能说我良心有多好，但是确实会因为小的时候或者童年的时候做过的一些事情而感动恼悔，每次想到一些事情的时候心里总会感动一阵的不安。</p>
-<p>是啊，只有有良心的人才会感到内心的痛苦，要是我们能够像《追风筝的人》中的阿塞尔那般冷库无情谁还会为自己过去的一些事情而让自己受这份罪呢？</p>
-<p>风筝这个在小说中被隐喻成了一些抽象的东西，既可以是情亲，友情，爱情，也可以是正直、善良、诚实。</p>
-<p>也不得不感叹作者的叙事的技巧，语言总是能够打动人心，徐徐道来却不乏激情。</p>
-<p>最让人感到的还是哈桑对主人公的忠诚，无私。无私到没有一点杂质，也是因为这忠诚才会让主人最后能够追回自己的风筝！当哈桑为了保护好主人的蓝色风筝而情愿自己被别人欺辱，当他知道主人看到这件事而并没有揭发，而是很认真的答道是跟别人冲突才把衣服弄脏，当他亲口承认明明是主人放在他床下的钱和手表是他偷的时候。他没有表现出任何的怨言，即使是这样，他还是会跟自己的儿子说：阿米尔是他这辈子最好的朋友！可是他自己临死都没有知道自己其实是阿米尔同父异母的兄弟！他其实应该理所当然的拥有阿米尔所拥有的一切身份和地位！</p>
-<p>而他只知道对主人好！留下那句话：为了你，千千万万遍！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">书评</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/814.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1301,6 +1282,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1314,10 +1299,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1373,6 +1354,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
@@ -1381,19 +1366,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1453,15 +1434,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1481,11 +1462,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
+                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1497,6 +1482,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ds</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
@@ -1505,11 +1494,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1521,7 +1514,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1533,19 +1526,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1565,11 +1554,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1582,10 +1571,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1633,15 +1618,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
