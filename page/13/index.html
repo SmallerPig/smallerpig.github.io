@@ -90,12 +90,6 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://www.github.com/SmallerPig" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
-		        
 			</div>
 		</nav>
 	</header>		
@@ -131,12 +125,6 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://www.github.com/SmallerPig" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
-			        
 				</div>
 			</nav>
 
@@ -160,6 +148,225 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-在Django中使用F()对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/992.html">在Django中使用F\(\)对象</a>
+    </h1>
+  
+
+        
+        <a href="/992.html" class="archive-article-date">
+  	<time datetime="2016-04-21T09:48:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>F()允许Django在未实际链接数据的情况下具有对数据库字段的值的引用。通常情况下我们在更新数据时需要先从数据库里将原数据取出后放在内存里，然后编辑某些属性，最后提交。例如这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Tintin filed a news story!</span><br><span class="line">reporter = Reporters.objects.get(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.stories_filed += 1</span><br><span class="line">reporter.save\(\)</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中我们先将reporter.stories_filed的值从数据库中取出放到内存中然后利用python的语法操作计算出新的值之后调用save()方法保存回数据库<br>最终生成是SQL语句有可能是类似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">update reporter set stores_filed = 20 where name = &apos;smp&apos;; --20可能是经过计算之后得到的值。</span><br></pre></td></tr></table></figure>
+<p>而我们知道其实我们的需求其实可以理解成SQL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">update reporter set stores_filed = stores_filed+1 where name = &apos;smp&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>而F()函数的作用就是直接生成SQL语句来描述类似的需求，看下面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models import F</span><br><span class="line"></span><br><span class="line">reporter = Reporters.objects.get(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.stories_filed = F(&apos;stories_filed&apos;) + 1</span><br><span class="line">reporter.save\(\)</span><br></pre></td></tr></table></figure>
+<p>虽然代码<code>reporter.stories_filed = F(&#39;stories_filed&#39;) + 1</code>有点类似python风格的代码，但实际上却能生成SQL语句直接描述对数据库的操作。</p>
+<p>当Django程序中出现F()时，Django会使用SQL语句的方式取代标准的Python操作。<br>上述代码中不管<code>reporter.stories_filed</code>的值是什么，Python都不曾获取过其值，python做的唯一的事情就是通过Django的F()函数创建了一条SQL语句然后执行而已。</p>
+<p>需要注意的是在使用上述方法更新过数据之后需要重新加载数据来使数据库中的值与程序中的值对应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter = Reporters.objects.get(pk=reporter.pk)</span><br></pre></td></tr></table></figure>
+<p>或者使用更加简单的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter.refresh_from_db\(\)</span><br></pre></td></tr></table></figure>
+<h2 id="更新多条数据"><a href="#更新多条数据" class="headerlink" title="更新多条数据"></a>更新多条数据</h2><p>与上面的在一个对象中操作的例子相似，F()函数同样可以使用在查询集中，配合update()方法。这样我们同样可以将更新的两步合并成一步：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">reporter = Reporters.objects.filter(name=&apos;Tintin&apos;)</span><br><span class="line">reporter.update(stories_filed=F(&apos;stories_filed&apos;) + 1)</span><br></pre></td></tr></table></figure>
+<p>我们同样可以使用<code>update\(\)</code>方法增加或者更改字段的值，这样做的效率比将其取到内存中后再一个个计算值再更新数据库的效率会提高非常多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Reporter.objects.all\(\).update(stories_filed=F(&apos;stories_filed&apos;) + 1)</span><br></pre></td></tr></table></figure>
+<h2 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h2><p>F()函数可以在创建模型时根据已知的N个字段组合出另外的字段数据，看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">company = Company.objects.annotate(</span><br><span class="line">    chairs_needed=F(&apos;num_employees&apos;) - F(&apos;num_chairs&apos;))</span><br></pre></td></tr></table></figure>
+<p>但是如果组合的两个字段拥有不同的数据类型，那么咱们需要手动告诉Django新生成的数据类似是什么，看下面的列子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models import DateTimeField, ExpressionWrapper, F</span><br><span class="line"></span><br><span class="line">Ticket.objects.annotate(</span><br><span class="line">    expires=ExpressionWrapper(</span><br><span class="line">        F(&apos;active_at&apos;) + F(&apos;duration&apos;), output_field=DateTimeField\(\)))</span><br></pre></td></tr></table></figure>
+<p>上述代码描述了个过期时间的概念，数据库中保存的是激活时间和持续时间，并且通过参数<code>output_field</code>告诉<code>expires</code>的类型为<code>DateTimeField</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/992.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-enumerable-all-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/986.html">Enumerable.All方法</a>
+    </h1>
+  
+
+        
+        <a href="/986.html" class="archive-article-date">
+  	<time datetime="2016-04-10T08:15:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="定义为"><a href="#定义为" class="headerlink" title="定义为:"></a>定义为:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static bool All&amp;lt;TSource&amp;gt;(    this IEnumerable&amp;lt;TSource&amp;gt; source,   Func&amp;lt;TSource, bool&amp;gt; predicate);</span><br></pre></td></tr></table></figure>
+<p>如果源序列中的每个元素都通过指定谓词中的测试，或者序列为空，则为 true；否则为 false。</p>
+<h3 id="用法举例"><a href="#用法举例" class="headerlink" title="用法举例:"></a>用法举例:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx\(\) </span><br><span class="line">&#123; </span><br><span class="line">    // 创建pet数组</span><br><span class="line">    Pet[] pets = &#123; new Pet &#123; Name=&quot;Barley&quot;, Age=10 &#125;, </span><br><span class="line">                    new Pet &#123; Name=&quot;Boots&quot;, Age=4 &#125;, </span><br><span class="line">                    new Pet &#123; Name=&quot;Whiskers&quot;, Age=6 &#125; &#125;; </span><br><span class="line"></span><br><span class="line">    // 判断是否所有pet的名字都以字符“B”开头 </span><br><span class="line">    bool allStartWithB = pets.All(pet =&amp;gt; </span><br><span class="line">                                        pet.Name.StartsWith(&quot;B&quot;)); </span><br><span class="line"></span><br><span class="line">    Console.WriteLine( </span><br><span class="line">        &quot;&#123;0&#125; pet names start with &apos;B&apos;.&quot;, </span><br><span class="line">        allStartWithB ? &quot;All&quot; : &quot;Not all&quot;); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">// 上述代码将输出Not all ，并不是所有pet名字都已字符B开头</span><br></pre></td></tr></table></figure>
+<p>该方法也可用于linq查询的where子句中，例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line">class Person </span><br><span class="line">&#123; </span><br><span class="line">    public string LastName &#123; get; set; &#125; </span><br><span class="line">    public Pet[] Pets &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx2\(\) </span><br><span class="line">&#123; </span><br><span class="line">    List&amp;lt;Person&amp;gt; people = new List&amp;lt;Person&amp;gt; </span><br><span class="line">        &#123; new Person &#123; LastName = &quot;Haas&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name=&quot;Barley&quot;, Age=10 &#125;, </span><br><span class="line">                                            new Pet &#123; Name=&quot;Boots&quot;, Age=14 &#125;, </span><br><span class="line">                                            new Pet &#123; Name=&quot;Whiskers&quot;, Age=6 &#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Fakhouri&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Snowball&quot;, Age = 1&#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Antebi&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Belle&quot;, Age = 8&#125; &#125;&#125;, </span><br><span class="line">            new Person &#123; LastName = &quot;Philips&quot;, </span><br><span class="line">                        Pets = new Pet[] &#123; new Pet &#123; Name = &quot;Sweetie&quot;, Age = 2&#125;, </span><br><span class="line">                                            new Pet &#123; Name = &quot;Rover&quot;, Age = 13&#125;&#125; &#125; </span><br><span class="line">        &#125;; </span><br><span class="line"></span><br><span class="line">    // 输出哪些用户的pet的Age都大于5</span><br><span class="line">    IEnumerable&amp;lt;string&amp;gt; names = from person in people </span><br><span class="line">                                where person.Pets.All(pet =&amp;gt; pet.Age &amp;gt; 5) </span><br><span class="line">                                select person.LastName; </span><br><span class="line"></span><br><span class="line">    foreach (string name in names) </span><br><span class="line">    &#123; </span><br><span class="line">        Console.WriteLine(name); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    /* 上述代码将输出</span><br><span class="line">        *  </span><br><span class="line">        * Haas </span><br><span class="line">        * Antebi </span><br><span class="line">        */ </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要特别注意的是如果集合为空，那么不管传入的predicate是什么都将返回true</p>
+<h3 id="与any函数的比较"><a href="#与any函数的比较" class="headerlink" title="与any函数的比较"></a>与any函数的比较</h3><p>同样的上述查询中，如果想要使用Any()方法查询出同样的结果，则需要使用下述代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IEnumerable&amp;lt;string&amp;gt; names = from person in people </span><br><span class="line">                            where !person.Pets.Any(pet =&amp;gt; pet.Age &amp;lt;= 5) </span><br><span class="line">                            select person.LastName; </span><br><span class="line"></span><br><span class="line">foreach (string name in names) </span><br><span class="line">&#123; </span><br><span class="line">    Console.WriteLine(name); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见Any()方法主要用于判断某集合里<strong>是否有</strong>满足条件的元素。<br>而All()方法用户判断某集合里<strong>是否都</strong>满足条件。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/986.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-entity-framework-e7-ad-9b-e9-80-89icollection-e7-b1-bb-e5-9e-8b-e7-9a-84-e5-b1-9e-e6-80-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1082,707 +1289,6 @@ view 代码
 
 
   
-    <article id="post-django-e8-87-aa-e5-ae-9a-e4-b9-89-e4-b8-83-e7-89-9b-e5-ad-98-e5-82-a8storage" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/946.html">Django自定义七牛存储Storage</a>
-    </h1>
-  
-
-        
-        <a href="/946.html" class="archive-article-date">
-  	<time datetime="2015-11-23T12:28:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="安装Django-Qiniu-Storage"><a href="#安装Django-Qiniu-Storage" class="headerlink" title="安装Django Qiniu Storage"></a>安装Django Qiniu Storage</h3><p>在Django自带的后台admin中，使用的是本地文件系统来存储用户上传的数据，这样虽然也没有太大的问题。但是很多服务商本身不支持在虚拟空间里上传(SAE)。这样就需要将用户上传的图片或者其他文件保存到其他地方，这样就需要自己来实现<code>Storage</code>。而目前使用比较多的是各种云(bae,sae,七牛,又拍云等)，这些云存储功能大致相同，本着小猪的博客都是使用七牛的基础上想研究上传到七牛上，所以想自己写Storage来做这件事。可是在捣鼓了一个下午之后最终还是无功而返。痛定思痛之后决定还是要从基础打起，很多python的基础知识掌握的不牢还是主要原因，不过这又是一个长期的必须经过的过程。再查看了别人的源码之后发现真的是离正在的牛人还有很多的路要走，人家的思路总是这么清晰，代码总是那么整洁。</p>
-<pre><code>pip install django-qiniu-storage
-
-
-### 配置
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-  &lt;th&gt;Django Settings / Environment Variable&lt;/th&gt;
-  &lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-  &lt;td&gt;QINIU_ACCESS_KEY&lt;/td&gt;
-  &lt;td&gt;七牛给开发者分配的 AccessKey&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;td&gt;QINIU_SECRET_KEY&lt;/td&gt;
-  &lt;td&gt;七牛给开发者分配的 Secret&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;td&gt;QINIU_BUCKET_NAME&lt;/td&gt;
-  &lt;td&gt;用来存放文件的七牛空间(bucket)的名字&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;td&gt;QINIU_BUCKET_DOMAIN&lt;/td&gt;
-  &lt;td&gt;七牛空间(bucket)的域名&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;td&gt;QINIU_SECURE_URL&lt;/td&gt;
-  &lt;td&gt;是否通过 HTTPS 来访问七牛云存储上的资源(若为&apos;是&apos;, 可填True, true 或 1；若为&apos;否&apos;, 可填False, false 或 0)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-### Usage
-
-如果你对 Django 的 Storage 系统尚不熟悉的话， Django 官方文档中的这几篇: [Managing files](https://docs.djangoproject.com/en/1.7/topics/files/), [Managing static files](https://docs.djangoproject.com/en/1.7/howto/static-files/), [The staticfiles app](https://docs.djangoproject.com/en/1.7/ref/contrib/staticfiles/) 都是很不错的阅读材料。 建议阅读完后， 再看本教程。
-
-##### 用例1： 只用七牛托管动态生成的文件（例如用户上传的文件）
-
-在 settings.py 里设置 `DEFAULT_FILE_STORAGE` :
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DEFAULT_FILE_STORAGE = &apos;qiniustorage.backends.QiniuStorage&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   这样设置以后每个使用到Storage的地方都会默认的使用七牛的配置。</span><br><span class="line"></span><br><span class="line">   ##### 用例2： 用七牛托管动态生成的文件以及站点自身的静态文件</span><br><span class="line"></span><br><span class="line">   首先，检查你的INSTALLED_APPS setting， 确保安装了django.contrib.staticfiles这个 app。</span><br><span class="line">   staticfiles提供了一个名为collectstatic的命令。它会收集各个 app 的根目录下的static子目录下的文件， 并汇总到一个地方。如果将 django settings 里的STATICFILES_STORAGE设置为QiniuStorage，收集到的静态文件就会被统一上传到七牛。</span><br><span class="line"></span><br><span class="line">   ## Documentation</span><br><span class="line"></span><br><span class="line">   It&apos;s hosted on the [Read The Doc](http://django-qiniu-storage.readthedocs.org/zh_CN/latest/).</span><br><span class="line"></span><br><span class="line">   #### 源码：</span><br></pre></td></tr></table></figure>
-<p> import datetime<br>    import os<br>    import warnings<br>    from inspect import getargspec</p>
-<pre><code>from django import forms
-from django.core import checks
-from django.core.files.base import File
-from django.core.files.images import ImageFile
-from django.core.files.storage import default_storage
-from django.db.models import signals
-from django.db.models.fields import Field
-from django.utils import six
-from django.utils.deprecation import RemovedInDjango20Warning
-from django.utils.encoding import force_str, force_text
-from django.utils.translation import ugettext_lazy as _
-
-class FieldFile(File):
-    def __init__(self, instance, field, name):
-        super(FieldFile, self).__init__(None, name)
-        self.instance = instance
-        self.field = field
-        self.storage = field.storage
-        self._committed = True
-
-    def __eq__(self, other):
-        # Older code may be expecting FileField values to be simple strings.
-        # By overriding the == operator, it can remain backwards compatibility.
-        if hasattr(other, &apos;name&apos;):
-            return self.name == other.name
-        return self.name == other
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash(self.name)
-
-    # The standard File contains most of the necessary properties, but
-    # FieldFiles can be instantiated without a name, so that needs to
-    # be checked for here.
-
-    def _require_file(self):
-        if not self:
-            raise ValueError(&quot;The &apos;%s&apos; attribute has no file associated with it.&quot; % self.field.name)
-
-    def _get_file(self):
-        self._require_file\(\)
-        if not hasattr(self, &apos;_file&apos;) or self._file is None:
-            self._file = self.storage.open(self.name, &apos;rb&apos;)
-        return self._file
-
-    def _set_file(self, file):
-        self._file = file
-
-    def _del_file(self):
-        del self._file
-
-    file = property(_get_file, _set_file, _del_file)
-
-    def _get_path(self):
-        self._require_file\(\)
-        return self.storage.path(self.name)
-    path = property(_get_path)
-
-    def _get_url(self):
-        self._require_file\(\)
-        return self.storage.url(self.name)
-    url = property(_get_url)
-
-    def _get_size(self):
-        self._require_file\(\)
-        if not self._committed:
-            return self.file.size
-        return self.storage.size(self.name)
-    size = property(_get_size)
-
-    def open(self, mode=&apos;rb&apos;):
-        self._require_file\(\)
-        self.file.open(mode)
-    # open\(\) doesn&apos;t alter the file&apos;s contents, but it does reset the pointer
-    open.alters_data = True
-
-    # In addition to the standard File API, FieldFiles have extra methods
-    # to further manipulate the underlying file, as well as update the
-    # associated model instance.
-
-    def save(self, name, content, save=True):
-        name = self.field.generate_filename(self.instance, name)
-
-        args, varargs, varkw, defaults = getargspec(self.storage.save)
-        if &apos;max_length&apos; in args:
-            self.name = self.storage.save(name, content, max_length=self.field.max_length)
-        else:
-            warnings.warn(
-                &apos;Backwards compatibility for storage backends without &apos;
-                &apos;support for the `max_length` argument in &apos;
-                &apos;Storage.save\(\) will be removed in Django 2.0.&apos;,
-                RemovedInDjango20Warning, stacklevel=2
-            )
-            self.name = self.storage.save(name, content)
-
-        setattr(self.instance, self.field.name, self.name)
-
-        # Update the filesize cache
-        self._size = content.size
-        self._committed = True
-
-        # Save the object because it has changed, unless save is False
-        if save:
-            self.instance.save\(\)
-    save.alters_data = True
-
-    def delete(self, save=True):
-        if not self:
-            return
-        # Only close the file if it&apos;s already open, which we know by the
-        # presence of self._file
-        if hasattr(self, &apos;_file&apos;):
-            self.close\(\)
-            del self.file
-
-        self.storage.delete(self.name)
-
-        self.name = None
-        setattr(self.instance, self.field.name, self.name)
-
-        # Delete the filesize cache
-        if hasattr(self, &apos;_size&apos;):
-            del self._size
-        self._committed = False
-
-        if save:
-            self.instance.save\(\)
-    delete.alters_data = True
-
-    def _get_closed(self):
-        file = getattr(self, &apos;_file&apos;, None)
-        return file is None or file.closed
-    closed = property(_get_closed)
-
-    def close(self):
-        file = getattr(self, &apos;_file&apos;, None)
-        if file is not None:
-            file.close\(\)
-
-    def __getstate__(self):
-        # FieldFile needs access to its associated model field and an instance
-        # it&apos;s attached to in order to work properly, but the only necessary
-        # data to be pickled is the file&apos;s name itself. Everything else will
-        # be restored later, by FileDescriptor below.
-        return {&apos;name&apos;: self.name, &apos;closed&apos;: False, &apos;_committed&apos;: True, &apos;_file&apos;: None}
-
-class FileDescriptor(object):
-    &quot;&quot;&quot;
-    The descriptor for the file attribute on the model instance. Returns a
-    FieldFile when accessed so you can do stuff like::
-
-        &amp;gt;&amp;gt;&amp;gt; from myapp.models import MyModel
-        &amp;gt;&amp;gt;&amp;gt; instance = MyModel.objects.get(pk=1)
-        &amp;gt;&amp;gt;&amp;gt; instance.file.size
-
-    Assigns a file object on assignment so you can do::
-
-        &amp;gt;&amp;gt;&amp;gt; with open(&apos;/tmp/hello.world&apos;, &apos;r&apos;) as f:
-        ...     instance.file = File(f)
-
-    &quot;&quot;&quot;
-    def __init__(self, field):
-        self.field = field
-
-    def __get__(self, instance=None, owner=None):
-        if instance is None:
-            raise AttributeError(
-                &quot;The &apos;%s&apos; attribute can only be accessed from %s instances.&quot;
-                % (self.field.name, owner.__name__))
-
-        # This is slightly complicated, so worth an explanation.
-        # instance.file`needs to ultimately return some instance of `File`,
-        # probably a subclass. Additionally, this returned object needs to have
-        # the FieldFile API so that users can easily do things like
-        # instance.file.path and have that delegated to the file storage engine.
-        # Easy enough if we&apos;re strict about assignment in __set__, but if you
-        # peek below you can see that we&apos;re not. So depending on the current
-        # value of the field we have to dynamically construct some sort of
-        # &quot;thing&quot; to return.
-
-        # The instance dict contains whatever was originally assigned
-        # in __set__.
-        file = instance.__dict__[self.field.name]
-
-        # If this value is a string (instance.file = &quot;path/to/file&quot;) or None
-        # then we simply wrap it with the appropriate attribute class according
-        # to the file field. [This is FieldFile for FileFields and
-        # ImageFieldFile for ImageFields; it&apos;s also conceivable that user
-        # subclasses might also want to subclass the attribute class]. This
-        # object understands how to convert a path to a file, and also how to
-        # handle None.
-        if isinstance(file, six.string_types) or file is None:
-            attr = self.field.attr_class(instance, self.field, file)
-            instance.__dict__[self.field.name] = attr
-
-        # Other types of files may be assigned as well, but they need to have
-        # the FieldFile interface added to them. Thus, we wrap any other type of
-        # File inside a FieldFile (well, the field&apos;s attr_class, which is
-        # usually FieldFile).
-        elif isinstance(file, File) and not isinstance(file, FieldFile):
-            file_copy = self.field.attr_class(instance, self.field, file.name)
-            file_copy.file = file
-            file_copy._committed = False
-            instance.__dict__[self.field.name] = file_copy
-
-        # Finally, because of the (some would say boneheaded) way pickle works,
-        # the underlying FieldFile might not actually itself have an associated
-        # file. So we need to reset the details of the FieldFile in those cases.
-        elif isinstance(file, FieldFile) and not hasattr(file, &apos;field&apos;):
-            file.instance = instance
-            file.field = self.field
-            file.storage = self.field.storage
-
-        # That was fun, wasn&apos;t it?
-        return instance.__dict__[self.field.name]
-
-    def __set__(self, instance, value):
-        instance.__dict__[self.field.name] = value
-
-class FileField(Field):
-
-    # The class to wrap instance attributes in. Accessing the file object off
-    # the instance will always return an instance of attr_class.
-    attr_class = FieldFile
-
-    # The descriptor to use for accessing the attribute off of the class.
-    descriptor_class = FileDescriptor
-
-    description = _(&quot;File&quot;)
-
-    def __init__(self, verbose_name=None, name=None, upload_to=&apos;&apos;, storage=None, **kwargs):
-        self._primary_key_set_explicitly = &apos;primary_key&apos; in kwargs
-        self._unique_set_explicitly = &apos;unique&apos; in kwargs
-
-        self.storage = storage or default_storage
-        self.upload_to = upload_to
-        if callable(upload_to):
-            self.generate_filename = upload_to
-
-        kwargs[&apos;max_length&apos;] = kwargs.get(&apos;max_length&apos;, 100)
-        super(FileField, self).__init__(verbose_name, name, **kwargs)
-
-    def check(self, **kwargs):
-        errors = super(FileField, self).check(**kwargs)
-        errors.extend(self._check_unique\(\))
-        errors.extend(self._check_primary_key\(\))
-        return errors
-
-    def _check_unique(self):
-        if self._unique_set_explicitly:
-            return [
-                checks.Error(
-                    &quot;&apos;unique&apos; is not a valid argument for a %s.&quot; % self.__class__.__name__,
-                    hint=None,
-                    obj=self,
-                    id=&apos;fields.E200&apos;,
-                )
-            ]
-        else:
-            return []
-
-    def _check_primary_key(self):
-        if self._primary_key_set_explicitly:
-            return [
-                checks.Error(
-                    &quot;&apos;primary_key&apos; is not a valid argument for a %s.&quot; % self.__class__.__name__,
-                    hint=None,
-                    obj=self,
-                    id=&apos;fields.E201&apos;,
-                )
-            ]
-        else:
-            return []
-
-    def deconstruct(self):
-        name, path, args, kwargs = super(FileField, self).deconstruct\(\)
-        if kwargs.get(&quot;max_length&quot;, None) == 100:
-            del kwargs[&quot;max_length&quot;]
-        kwargs[&apos;upload_to&apos;] = self.upload_to
-        if self.storage is not default_storage:
-            kwargs[&apos;storage&apos;] = self.storage
-        return name, path, args, kwargs
-
-    def get_internal_type(self):
-        return &quot;FileField&quot;
-
-    def get_prep_lookup(self, lookup_type, value):
-        if hasattr(value, &apos;name&apos;):
-            value = value.name
-        return super(FileField, self).get_prep_lookup(lookup_type, value)
-
-    def get_prep_value(self, value):
-        &quot;Returns field&apos;s value prepared for saving into a database.&quot;
-        value = super(FileField, self).get_prep_value(value)
-        # Need to convert File objects provided via a form to unicode for database insertion
-        if value is None:
-            return None
-        return six.text_type(value)
-
-    def pre_save(self, model_instance, add):
-        &quot;Returns field&apos;s value just before saving.&quot;
-        file = super(FileField, self).pre_save(model_instance, add)
-        if file and not file._committed:
-            # Commit the file to storage prior to saving the model
-            file.save(file.name, file, save=False)
-        return file
-
-    def contribute_to_class(self, cls, name, **kwargs):
-        super(FileField, self).contribute_to_class(cls, name, **kwargs)
-        setattr(cls, self.name, self.descriptor_class(self))
-
-    def get_directory_name(self):
-        return os.path.normpath(force_text(datetime.datetime.now\(\).strftime(force_str(self.upload_to))))
-
-    def get_filename(self, filename):
-        return os.path.normpath(self.storage.get_valid_name(os.path.basename(filename)))
-
-    def generate_filename(self, instance, filename):
-        return os.path.join(self.get_directory_name\(\), self.get_filename(filename))
-
-    def save_form_data(self, instance, data):
-        # Important: None means &quot;no change&quot;, other false value means &quot;clear&quot;
-        # This subtle distinction (rather than a more explicit marker) is
-        # needed because we need to consume values that are also sane for a
-        # regular (non Model-) Form to find in its cleaned_data dictionary.
-        if data is not None:
-            # This value will be converted to unicode and stored in the
-            # database, so leaving False as-is is not acceptable.
-            if not data:
-                data = &apos;&apos;
-            setattr(instance, self.name, data)
-
-    def formfield(self, **kwargs):
-        defaults = {&apos;form_class&apos;: forms.FileField, &apos;max_length&apos;: self.max_length}
-        # If a file has been provided previously, then the form doesn&apos;t require
-        # that a new file is provided this time.
-        # The code to mark the form field as not required is used by
-        # form_for_instance, but can probably be removed once form_for_instance
-        # is gone. ModelForm uses a different method to check for an existing file.
-        if &apos;initial&apos; in kwargs:
-            defaults[&apos;required&apos;] = False
-        defaults.update(kwargs)
-        return super(FileField, self).formfield(**defaults)
-
-class ImageFileDescriptor(FileDescriptor):
-    &quot;&quot;&quot;
-    Just like the FileDescriptor, but for ImageFields. The only difference is
-    assigning the width/height to the width_field/height_field, if appropriate.
-    &quot;&quot;&quot;
-    def __set__(self, instance, value):
-        previous_file = instance.__dict__.get(self.field.name)
-        super(ImageFileDescriptor, self).__set__(instance, value)
-
-        # To prevent recalculating image dimensions when we are instantiating
-        # an object from the database (bug #11084), only update dimensions if
-        # the field had a value before this assignment.  Since the default
-        # value for FileField subclasses is an instance of field.attr_class,
-        # previous_file will only be None when we are called from
-        # Model.__init__\(\).  The ImageField.update_dimension_fields method
-        # hooked up to the post_init signal handles the Model.__init__\(\) cases.
-        # Assignment happening outside of Model.__init__\(\) will trigger the
-        # update right here.
-        if previous_file is not None:
-            self.field.update_dimension_fields(instance, force=True)
-
-class ImageFieldFile(ImageFile, FieldFile):
-    def delete(self, save=True):
-        # Clear the image dimensions cache
-        if hasattr(self, &apos;_dimensions_cache&apos;):
-            del self._dimensions_cache
-        super(ImageFieldFile, self).delete(save)
-
-class ImageField(FileField):
-    attr_class = ImageFieldFile
-    descriptor_class = ImageFileDescriptor
-    description = _(&quot;Image&quot;)
-
-    def __init__(self, verbose_name=None, name=None, width_field=None,
-            height_field=None, **kwargs):
-        self.width_field, self.height_field = width_field, height_field
-        super(ImageField, self).__init__(verbose_name, name, **kwargs)
-
-    def check(self, **kwargs):
-        errors = super(ImageField, self).check(**kwargs)
-        errors.extend(self._check_image_library_installed\(\))
-        return errors
-
-    def _check_image_library_installed(self):
-        try:
-            from PIL import Image  # NOQA
-        except ImportError:
-            return [
-                checks.Error(
-                    &apos;Cannot use ImageField because Pillow is not installed.&apos;,
-                    hint=(&apos;Get Pillow at https://pypi.python.org/pypi/Pillow &apos;
-                          &apos;or run command &quot;pip install Pillow&quot;.&apos;),
-                    obj=self,
-                    id=&apos;fields.E210&apos;,
-                )
-            ]
-        else:
-            return []
-
-    def deconstruct(self):
-        name, path, args, kwargs = super(ImageField, self).deconstruct\(\)
-        if self.width_field:
-            kwargs[&apos;width_field&apos;] = self.width_field
-        if self.height_field:
-            kwargs[&apos;height_field&apos;] = self.height_field
-        return name, path, args, kwargs
-
-    def contribute_to_class(self, cls, name, **kwargs):
-        super(ImageField, self).contribute_to_class(cls, name, **kwargs)
-        # Attach update_dimension_fields so that dimension fields declared
-        # after their corresponding image field don&apos;t stay cleared by
-        # Model.__init__, see bug #11196.
-        # Only run post-initialization dimension update on non-abstract models
-        if not cls._meta.abstract:
-            signals.post_init.connect(self.update_dimension_fields, sender=cls)
-
-    def update_dimension_fields(self, instance, force=False, *args, **kwargs):
-        &quot;&quot;&quot;
-        Updates field&apos;s width and height fields, if defined.
-
-        This method is hooked up to model&apos;s post_init signal to update
-        dimensions after instantiating a model instance.  However, dimensions
-        won&apos;t be updated if the dimensions fields are already populated.  This
-        avoids unnecessary recalculation when loading an object from the
-        database.
-
-        Dimensions can be forced to update with force=True, which is how
-        ImageFileDescriptor.__set__ calls this method.
-        &quot;&quot;&quot;
-        # Nothing to update if the field doesn&apos;t have dimension fields.
-        has_dimension_fields = self.width_field or self.height_field
-        if not has_dimension_fields:
-            return
-
-        # getattr will call the ImageFileDescriptor&apos;s __get__ method, which
-        # coerces the assigned value into an instance of self.attr_class
-        # (ImageFieldFile in this case).
-        file = getattr(instance, self.attname)
-
-        # Nothing to update if we have no file and not being forced to update.
-        if not file and not force:
-            return
-
-        dimension_fields_filled = not(
-            (self.width_field and not getattr(instance, self.width_field))
-            or (self.height_field and not getattr(instance, self.height_field))
-        )
-        # When both dimension fields have values, we are most likely loading
-        # data from the database or updating an image field that already had
-        # an image stored.  In the first case, we don&apos;t want to update the
-        # dimension fields because we are already getting their values from the
-        # database.  In the second case, we do want to update the dimensions
-        # fields and will skip this return because force will be True since we
-        # were called from ImageFileDescriptor.__set__.
-        if dimension_fields_filled and not force:
-            return
-
-        # file should be an instance of ImageFieldFile or should be None.
-        if file:
-            width = file.width
-            height = file.height
-        else:
-            # No file, so clear dimensions fields.
-            width = None
-            height = None
-
-        # Update the width and height fields.
-        if self.width_field:
-            setattr(instance, self.width_field, width)
-        if self.height_field:
-            setattr(instance, self.height_field, height)
-
-    def formfield(self, **kwargs):
-        defaults = {&apos;form_class&apos;: forms.ImageField}
-        defaults.update(kwargs)
-        return super(ImageField, self).formfield(**defaults)
-</code></pre><p>​    </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/946.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python-super" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/944.html">Python super\(\)</a>
-    </h1>
-  
-
-        
-        <a href="/944.html" class="archive-article-date">
-  	<time datetime="2015-11-23T06:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一般我们在使用类的继承时会用到super()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Animal(object):</span><br><span class="line">    def eat(self,food):</span><br><span class="line">        print(&apos;the animal is eating&apos;,food)</span><br><span class="line"></span><br><span class="line">class Person(Animal):</span><br><span class="line">    def eat(self):</span><br><span class="line">        print(&apos;the person is eating now!&apos;)</span><br><span class="line">        super(Person,self).eat(&apos;meal&apos;)</span><br><span class="line"></span><br><span class="line">person = Person\(\)</span><br><span class="line">person.eat\(\)</span><br></pre></td></tr></table></figure></p>
-<p>该代码在python3.4中输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; the person is eating now!</span><br><span class="line">&gt;   the animal is eating meal</span><br><span class="line">&gt;   [Finished in 0.1s]</span><br></pre></td></tr></table></figure></p>
-<p>可以看出其使用方法和C#的还是有点区别，C#使用关键字<code>base</code>来调用父类的方法，而在python中使用super。而且需要传递当前类名和self关键字然后再调用具体的方法。我在想这个过程是不是已经将父类给实例化出来了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/944.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
@@ -1888,6 +1394,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1901,10 +1411,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1932,6 +1438,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1941,10 +1451,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1960,7 +1466,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1972,15 +1478,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1988,15 +1486,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2028,11 +1534,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2048,14 +1562,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -2068,6 +1574,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
@@ -2076,19 +1586,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2096,19 +1594,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ds</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">canal</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ds</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2116,7 +1614,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2125,10 +1631,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2148,6 +1650,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
               </li>
              
@@ -2164,11 +1670,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2208,10 +1714,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -2224,7 +1726,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2236,19 +1746,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
