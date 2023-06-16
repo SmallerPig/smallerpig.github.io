@@ -161,6 +161,105 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-记阿里云ECS服务器搬迁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/893.html">记阿里云ECS服务器搬迁</a>
+    </h1>
+  
+
+        
+        <a href="/893.html" class="archive-article-date">
+  	<time datetime="2015-09-16T06:45:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前一直使用的是其他账号购买的公司服务器,但是这个其他账号因为开过了别的公司的发票,而现在阿里云的发票一个账号只能对应一个抬头,修改起来非常麻烦,所以只能单独申请一个账号来购买服务器了.正好赶上最近搞活动,经过企业认证的账号购买第一台服务器半价.果断准备这件事.</p>
+<p>首先我想吐槽下阿里云的这次活动,明明说的是第一台半价,我想有这好事为什么不能多买几年,反正这玩意肯定是要买的.结果操作的时候才发现人家最多只让你买一年,超过一年的话连第一年都给你按照原价算.这算不算是欺骗消费者,在线等…挺急的…</p>
+<p>整个搬迁过程中最关键的就是得保证数据不能丢失,这里再吐槽一下阿里云的ECS服务器不能账号间转移!如果可以像域名一样直接将产品转移到其他账户下的话也就不会这么多事了.不过那样的话我们就享受不到企业认证之后第一台半价的优惠了,O(∩_∩)O.</p>
+<p>为了保证数据不丢失,我也是操碎了这颗玻璃心,咨询客服之后发现可以进行镜像分享的操作达到目的!.那真是太好了.这里再赞一下阿里云的客服.提交工单之后很快给出回应,在文字沟通不顺利的情况下还直接打电话过来沟通,包括上次小猪的域名备案过程中.有什么问题直接提交工单,客服都会很认真的对问题进行解答.</p>
+<p>附上与客服的记录:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/09/VVA9B1P7QKU7FWUK3EO_thumb.png" target="_blank" rel="noopener"></a></p>
+<p>然后就是将原来的服务器的数据盘的数据都复制到系统盘,然后登陆阿里云后台制作镜像,分享给新的阿里云账号,新的阿里云账号创建ECS实例,创建时系统选择分享的镜像,然后付钱,进入新的服务器,.哎呀妈呀,一整个服务器和原来的一模一样啊.连之前没删掉的百度云关键都在呢,真是贴心.这样确实是省了很多事.一些基础的软件例如IIS SQLSERVER FTP等软件不需要安装不说,最关键的是我们之前的网站数据也可以完全的克隆过来.整个过程体验我给阿里云95分.还有5分不是对他不满意,而是希望继续给我们惊喜!</p>
+<p>最后的问题就是数据库的问题了.因为当初在复制数据的时候mdf文件没有直接复制过来(没有挺掉数据库服务而无法复制),然后打开新服务器对应的库就是”恢复挂起”的状态.原因我猜就是因为找不到对应的Mdf文件.这时候只好手动将原服务器的mdf文件都下载到新服务器并放到对应的文件夹下,然后到网上找解决方法,看到<a href="http://bbs.csdn.net/topics/390702507" target="_blank" rel="noopener">这里</a>说的可以使用sql语句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter database dbname</span><br><span class="line">set online</span><br></pre></td></tr></table></figure></p>
+<p>来让对应的库恢复,可是我执行了该语句之后却给我了个错误:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">消息 5120，级别 16，状态 101，第 1 行</span><br><span class="line">无法打开物理文件“D:\www\Movies\Movies.mdf”。操作系统错误 5:“5(拒绝访问。)”。</span><br><span class="line">消息 5120，级别 16，状态 101，第 1 行</span><br><span class="line">无法打开物理文件“D:\www\Movies\Movies_log.ldf”。操作系统错误 5:“5(拒绝访问。)”。</span><br><span class="line">消息 5181，级别 16，状态 5，第 1 行</span><br><span class="line">无法重新启动数据库“Movies”。将恢复到以前的状态。</span><br><span class="line">消息 5069，级别 16，状态 1，第 1 行</span><br><span class="line">ALTER DATABASE 语句失败。</span><br></pre></td></tr></table></figure></p>
+<p>最后删除原来的库,使用SQL SERVER的附加数据库功能将mdf文件附加到服务器中.这样整个迁移过程就完成了.</p>
+<p>接下来需要做的就是把对应的域名解析到新的服务器上面咯.!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">阿里云</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/893.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信JSSDK python版本讲解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1084,99 +1183,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dota2-e5-b0-8f-e9-b1-bc-e4-ba-ba-e9-81-87-e5-88-b0aoe-e5-a4-9a-e7-9a-84-e9-98-b5-e5-ae-b9-e5-b0-b1-e6-98-af-e4-b8-aa-e8-84-86-e9-be-9f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/836.html">[dota2]小鱼人遇到AOE多的阵容就是个脆龟</a>
-    </h1>
-  
-
-        
-        <a href="/836.html" class="archive-article-date">
-  	<time datetime="2015-07-19T08:03:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>“好像我不够狡猾似的”</p>
-<p>正如它在吃幻象的时候说的,小鱼人还是不适合团战啊,他要狡猾,如果团战第一个冲上去,死了太快了,毕竟太脆了.以前看过海涛说过他适合收割的节奏!</p>
-<p>今天下午的一局就是这样,我玩的小鱼人跳中人了之后跟人家A几下,还有一半血的时候开大,结果后面他们全能就接一个加血,尼玛就这么活生生的死了.</p>
-<p>也难怪目前大家都是在出了隐刀之后就往冰眼上出,毕竟冰眼还是提供了不少的力量属性的.以前不都是直接疯狂晕锤的么?现在得先站得住才能输出!还有如果友方不能够提供一个控制的话在前期想仅仅通过一个跳来单杀还是很难.</p>
-<p>到了后期如果对面一轮技能弄不死小鱼的话那就要对小鱼负责了,毕竟狂吸收你的属性,是属于越战越勇型的!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">dota</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/836.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
@@ -1282,10 +1288,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1299,6 +1301,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1354,7 +1360,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1366,6 +1372,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
@@ -1374,23 +1388,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1434,15 +1440,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1470,6 +1476,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">主数据</a>
               </li>
              
@@ -1478,11 +1488,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ds</a>
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1490,11 +1496,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+                <a href="javascript:void(0)" class="js-tag color3">ds</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1506,7 +1516,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1518,11 +1528,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1534,7 +1540,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1554,11 +1564,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1598,6 +1608,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
@@ -1607,10 +1621,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">terminal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1634,11 +1644,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">
