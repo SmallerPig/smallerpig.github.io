@@ -149,6 +149,109 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-c-e7-9a-84-e5-a7-94-e6-89-98-e7-9a-84-e7-90-86-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/206.html">C#委托的理解</a>
+    </h1>
+  
+
+        
+        <a href="/206.html" class="archive-article-date">
+  	<time datetime="2013-06-28T06:20:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直以来小猪都没有跨过委托的这个概念的门槛，只能够回答委托就是函数的指针。但是怎么用却并不能够理解。</p>
+<p>这也一直困扰着我，最近越发的决定要把他拿下。</p>
+<p>现在讲讲我对他的理解。</p>
+<p>网上很多例子都讲了他是函数的指针，即把某个方法传递给另外一个方法作为参数来用。一直不理解为什么这样。直到今天想到去年的时候用到一个方法时回头看才发现那会已经用到了。</p>
+<p>例子是这样的，我需要一个方法来过滤一个List&lt;&gt;里面相同的元素，“相同的”的这是个模糊的概念，不同类型对“相同的”概念的定义是不同的。</p>
+<p>这样在写这么一个过滤类的方法的时候就不能直接的判断List里面的元素是否==了，从而也就不能够删除达到过滤的效果。那这个怎么办呢？</p>
+<p>可以给这个方法加上一个参数，这个参数是委托的类型。在定义委托的时候需要给其加上返回bool的标签（相同返回true，不同返回false）。</p>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public delegate bool EqualsComparer&amp;lt;T&amp;gt;(T x, T y);</span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 过滤重复数据</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">public class Comparint&amp;lt;T&amp;gt; : IEqualityComparer&amp;lt;T&amp;gt;</span><br><span class="line">&#123;</span><br><span class="line">    private EqualsComparer&amp;lt;T&amp;gt; ec;</span><br><span class="line">    public Comparint\(\) &#123; &#125;</span><br><span class="line">    public Comparint(EqualsComparer&amp;lt;T&amp;gt; e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.ec = e;</span><br><span class="line">    &#125;</span><br><span class="line">    #region IEqualityComparer&amp;lt;BudgetBE&amp;gt; 成员</span><br><span class="line"></span><br><span class="line">    public bool Equals(T x, T y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (null != this.ec)</span><br><span class="line">            return this.ec(x, y);</span><br><span class="line">        else</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(T obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return obj.ToString\(\).GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样在使用这个类的比较方法时必须要给这个方法传递一个方法，这个方法用来判断你要比较的类是否相等。(即需要确定是否相等)</p>
+<p>下面给出实现的这个方法，很简单，我拿string类型做示例，如果复杂的类需要自己实现返回的true 或者false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public bool bijiao(string a , string b)</span><br><span class="line">&#123;</span><br><span class="line">    return a==b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样再配合通用的类这样来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&amp;lt;string&amp;gt; distinceString = TestList.Distinct(new Comparint&amp;lt;string&amp;gt;(bijiao)).ToList\(\);</span><br></pre></td></tr></table></figure></p>
+<p>代码中的TestList即是含有重复类容的List</p>
+<p>这样我们就把bijiao这个方法传递给了<code>Comparint</code>。</p>
+<p>注意：给委托赋值的时候是对其值是没有括号的，有括号的是方法的调用，没括号是方法的地址。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/206.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp-net-mvc-e6-9d-83-e9-99-90-e9-aa-8c-e8-af-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -991,108 +1094,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-小猪捡了个手机" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/96.html">小猪捡了个手机</a>
-    </h1>
-  
-
-        
-        <a href="/96.html" class="archive-article-date">
-  	<time datetime="2013-06-01T02:30:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><span style="font-size:18px;"> &nbsp; &nbsp;发现了个很无理的事实，工作日的时候每天早上起床都很困难，在起身坐起来的时候会想离这个周末还有几天，还差几天就可以好好的睡个懒觉了。好不容易等来了周末，今天早上醒来了翻来覆去的在床上怎么滴再也睡不着，睡不香。伸手拿了旁边的手机一看，刚好才是平时工作日起床工作的点！！！这是什么情况，昨晚小猪还特地睡的比平时要晚一点的呢。</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;所以就在六一儿童节的早上一起来就面对着电脑了，因为小猪起床了除了开电脑其他的也不知道能干嘛。</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;昨晚看了high哥推荐的电影：恐怖游轮，发现我挺喜欢这种高智商的电影的了。需要聚精会神的看每一个细节的电影，这样看完了整部电影之后就像是喝了一口很浓的咖啡，久久留香~回味无穷！</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;结果晚上就梦到捡了个手机，清晰的知道是酷派的牌子，屏保和室友现在用的手机一样！当我在桥上的人行道上看到它时，它正亮着屏幕，黑色的手机上面还插着白色的耳机，应该是有人打电话进来的！我兴奋的捡起来，心想真是幸运。但是却对着路人心虚起来，自己觉得在道德上面应该把手机物归原主，所以详装打了这个手机上面的未接电话，心想如果接电话的是丢失手机的人我就做会好人，站在道德的制高点把手机还给他，如果不是那我自己就收了，没有理由自己捡了个东西还要背负道德上面的包袱。接电话的是个女人，满口的地方方言，隐约只听到一些词语：儿子？成绩出来啦？……从这个女人的话中我知道了他的儿子高三，考完了高考在等成绩，全家人甚至是整个亲戚圈都在等他儿子的消息。我回答我不是你儿子，成绩也没出来呢就挂完了电话。这时一边想让自己下定决心留下手机，一方面心虚的想应不应该这样。</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;就在这个时候见到一个人，逆向的走过来，他弯着腰低着头、吃力的在地上的每一个角落里需找着，仿佛是在寻找硬币更或者是隐形眼睛。我知道他是在找手机，这时我深怕被他看到，本能的把手里的手机往口袋里一放，收了起来，手护着口袋看着这位学生模样的人弯着腰，扶着桥栏从我的身边走过。走过身边已经小步向前跑了几步之后我停了下来，回头仔细看了看这个人的背影，个子不高，穿着灰色的衣服，衣服应该是因为穿的太久已经褪色的厉害，回头看他时因为他低头弯腰扶着栏杆，看起来像是肚子疼的老头艰难的行走着。</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;我起了恻隐之心，心想要不还给他吧，这样我左手拿着手机饶着耳机线测在身后快步的追了上去，到了他身后我把他叫住问到：同学，你在找什么，是不是在找手机？这时候他直起了腰回过头来看我，这时候我才完全看清他的脸(但是是什么样子完全记不得了)，迎接我的是一个无比灿烂、无比阳光、无比童真的笑容。他笑着对我说：是的是的，是不是你捡了？我冰冷的回答：是啊，我是捡了个手机，现在你告诉我你丢的手机号码，如果是我捡到的这个那就还给你吧。他高兴的说：189开头，后面不记得了……，这时我开始侥幸起来，你都不知道这个手机的号码，我怎么会把这个手机给你呢，这样我还是可以名正言顺的带走这个手机了。我也开心的对他说：从道理上讲，你说我怎么可能在你不知道号码的情况下把这个手机还给你。他跳到了我身边，并跟随我向前走，边走边开心的说：这个手机是我刚充话费送的，本来在高中读书出了给家里打电话就用不着手机，所以用了个非常破的手机。他拿出来另外一个手机，全键盘手机，看起来国产山寨的那种。继续说到：现在高考完了，心想稍微犒劳下自己给自己买个好点的，所以就去充话费送了个准备上大学的时候用。这时候我想就这个破手机也是个“好”的……？可还是准备把手机还给他了，但是却心怀一线希望的开始说教他：到了大学里，各种高富帅目不暇接，你用这种手机是很没有面子的，人家谁还用充话费送的手机啊！……他回答：家里不是很富裕没有办法只能这样……!哎,算了吧，只能把手机还给他了，这样还能做会拾金不昧的好人，我很不情愿的把手机拿给他：讷~给你吧，刚才你妈妈打你电话了！。他兴奋的拿回了手机并走开两步后打起了电话，对着话筒就喊道：妈！哈哈，我考完啦……成绩？成绩还没出来呢……你们就在家安心的等着成绩吧！哈哈……</span></p>
-<p><span style="font-size:18px;"> &nbsp; &nbsp;我瞧瞧的走开了……<br></span></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">手机</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">梦</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/96.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/27/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/29/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/27/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/29/">Next &raquo;</a>
     </nav>
   
 
@@ -1239,10 +1243,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1252,6 +1252,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1267,7 +1271,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1279,11 +1283,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1291,19 +1295,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1315,15 +1319,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,19 +1339,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1363,6 +1359,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1375,10 +1379,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
@@ -1387,19 +1387,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1407,11 +1399,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ds</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1423,11 +1427,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1435,11 +1439,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1451,7 +1451,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1471,11 +1475,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1535,10 +1539,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
@@ -1547,15 +1547,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">

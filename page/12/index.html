@@ -149,6 +149,119 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-删除了文章列表的评论数项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1060.html">删除了文章列表的评论数项</a>
+    </h1>
+  
+
+        
+        <a href="/1060.html" class="archive-article-date">
+  	<time datetime="2016-08-12T09:41:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg" alt="都是评论数为0的文章"></p>
+<p>所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。</p>
+<p>所以决定自己动手丰衣足食了。</p>
+<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list = get_the_category_list(&apos;,&apos;,&apos;&apos;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list = get_the_tag_list(&apos;&apos;, &apos;,&apos; );</span><br><span class="line"></span><br><span class="line">$advent_author= ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( &apos;ID&apos; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments = wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date = sprintf(&apos;发表于 :&lt;time datetime=&quot;%1$s&quot;&gt;%2$s&lt;/time&gt;&apos;, esc_attr(get_the_date(&apos;c&apos;)), esc_html(get_the_date(&apos;y,m,d&apos;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment = comments_number(__(&apos;No Comments&apos;, &apos;advent&apos;), __(&apos;1 Comment&apos;, &apos;advent&apos;), __(&apos;% Comments&apos;, &apos;advent&apos;)); ?&gt;&lt;/li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到上面代码是在获取并展示了文章的元数据，我们将想要删除的数据删除。也就是获取评论数的代码：</p>
+<p><code>`</code>  </p>
+<p>function advent_entry_meta() {</p>
+<p>$advent_categories_list = get_the_category_list(‘,’,’’);</p>
+<p>$advent_tag_list = get_the_tag_list(‘’, ‘,’ );</p>
+<p>$advent_author= ucfirst(get_the_author());</p>
+<p>$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( ‘ID’ ) ) );</p>
+<p>$advent_date = sprintf(‘发表于 :<time datetime="%1$s">%2$s</time>‘, esc_attr(get_the_date(‘c’)), esc_html(get_the_date(‘y,m,d’)));<br>?&gt;  </p>
+<pre><code>&lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;
+
+&lt;?php if(!empty($advent_categories_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;
+
+&lt;?php if(!empty($advent_tag_list)) { ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php } ?&gt;        
+</code></pre><p>&lt;?php<br>}</p>
+<p>更新文件之后再看看我们的文章列表页是不是感觉不那么不自然了呢。？<br>不进文章具体内容页谁知道咱们的文章热度到底怎么样啊。啊哈哈哈哈<br>等到不知道哪天小猪的blog人气很高的时候，也就是每篇文章都有人评论的时候咱们再把这块遮羞布拿掉呗~2333333~~~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/WEB开发/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1060.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java-e6-b3-9b-e5-9e-8b" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1139,129 +1252,9 @@ if (nodes.length&amp;gt;1) {
 
 
   
-    <article id="post-在Django中使用Q()对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1000.html">在Django中使用Q\(\)对象</a>
-    </h1>
-  
-
-        
-        <a href="/1000.html" class="archive-article-date">
-  	<time datetime="2016-04-22T08:10:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;gt;&amp;gt;&amp;gt; q1 = Entry.objects.filter(headline__startswith=&quot;What&quot;)</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q2 = q1.exclude(pub_date__gte=datetime.date.today\(\))</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q3 = q1.filter(pub_date__gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure></p>
-<p>或者将其组合起来，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;gt;&amp;gt;&amp;gt;q1 = Entry.objects.filter(headline_startswith=&quot;What&quot;).exclude(pub_date_gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure>
-<p>随着我们的程序越来越复杂，查询的条件也跟着复杂起来，这样简单的通过一个filter()来进行查询的条件将导致我们的查询越来越长。</p>
-<h2 id="Q-对象就是为了将这些条件组合起来。"><a href="#Q-对象就是为了将这些条件组合起来。" class="headerlink" title="Q()对象就是为了将这些条件组合起来。"></a>Q()对象就是为了将这些条件组合起来。</h2><p>当我们在查询的条件中需要组合条件时(例如两个条件“且”或者“或”)时。我们可以使用Q()查询对象。<br>例如下面的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models imports Q</span><br><span class="line">q=Q(question_startswith=&quot;What&quot;)</span><br></pre></td></tr></table></figure>
-<p>这样就生成了一个Q()对象，我们可以使用符号&amp;或者|将多个Q()对象组合起来传递给filter()，exclude()，get()等函数。当多个Q()对象组合起来时，Django会自动生成一个新的Q()。<br>例如下面代码就将两个条件组合成了一个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | Q(question__startswith=&apos;What&apos;)</span><br></pre></td></tr></table></figure>
-<p>使用上述代码可以使用SQL语句这么理解:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question LIKE &apos;Who%&apos; OR question LIKE &apos;What%&apos;</span><br></pre></td></tr></table></figure>
-<p>我们可以在Q()对象的前面使用字符“~”来代表意义“非”，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | ~Q(pub_date__year=2005)</span><br></pre></td></tr></table></figure>
-<p>对应SQL语句可以理解为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question like &quot;Who%&quot; OR year(pub_date) !=2005</span><br></pre></td></tr></table></figure>
-<p>这样我们可以使用 “&amp;”或者“|”还有括号来对条件进行分组从而组合成更加复杂的查询逻辑。</p>
-<p>也可以传递多个Q()对象给查询函数，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">News.objects,get(</span><br><span class="line">    Q(question__startswith=&apos;Who&apos;),</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>多个Q()对象之间的关系Django会自动理解成“且(and)”关系。如上面代码使用SQL语句理解将会是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT * from news WHERE question LIKE &apos;Who%&apos;  AND (pub_date = &apos;2005-05-02&apos; OR pub_date = &apos;2005-05-06&apos;)</span><br></pre></td></tr></table></figure>
-<p>Q()对象可以结合关键字参数一起传递给查询函数，不过需要注意的是要将Q()对象放在关键字参数的前面，看下面代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#正确的做法</span><br><span class="line">News.objects.get(</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),</span><br><span class="line">    question__startswith=&apos;Who&apos;)</span><br><span class="line"></span><br><span class="line">#错误的做法，代码将关键字参数放在了Q\(\)对象的前面。</span><br><span class="line">News.objects.get(</span><br><span class="line">    question__startswith=&apos;Who&apos;,</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1000.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
     </nav>
   
 
@@ -1408,10 +1401,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
@@ -1421,6 +1410,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1436,7 +1429,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1448,11 +1441,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1460,19 +1453,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1484,15 +1477,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">wechat</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1504,19 +1497,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1532,6 +1517,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">极验</a>
               </li>
              
@@ -1544,10 +1537,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
@@ -1556,19 +1545,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1576,11 +1557,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ds</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1592,11 +1585,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1604,11 +1597,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1620,7 +1609,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1640,11 +1633,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1704,10 +1697,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">root</a>
               </li>
              
@@ -1716,15 +1705,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flask</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">flask</a>
               </li>
              
               <li class="article-tag-list-item">
