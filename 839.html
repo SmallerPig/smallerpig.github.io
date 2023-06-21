@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="1. Why you don’t have a root passwordWhile you can create a password for the superuser account allowing you to log in as root with su, it’s worth mentioning that this isn’t the “Ubuntu” way of doing t">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:updated_time" content="2023-06-21T09:22:58.456Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="请不要给你的Ubuntu设置root密码">
 <meta name="twitter:description" content="1. Why you don’t have a root passwordWhile you can create a password for the superuser account allowing you to log in as root with su, it’s worth mentioning that this isn’t the “Ubuntu” way of doing t">
@@ -149,7 +149,7 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-请不要给你的Ubuntu设置root密码" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-踩坑-请不要给你的Ubuntu设置root密码" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -171,26 +171,13 @@ var _hmt = _hmt || [];
       
         <h4 id="1-Why-you-don’t-have-a-root-password"><a href="#1-Why-you-don’t-have-a-root-password" class="headerlink" title="1. Why you don’t have a root password"></a>1. Why you don’t have a root password</h4><p>While you <em>can</em> create a password for the superuser account allowing you to log in as root with <code>su</code>, it’s worth mentioning that this isn’t the “Ubuntu” way of doing things. Ubuntu have specifically chosen _not_to give a root login and password by default for a reason. Instead, a default Ubuntu install will use <code>sudo</code>.  </p><p>Sudo is an alternative to giving people a root password in order to perform superuser duties. In a default Ubuntu install the person who installed the OS is given “sudo” permission by default.  </p><p>Anybody with “sudo” permission may perform something “as a superuser” by pre-pending <code>sudo</code> to their command. For instance, to run <code>apt-get dist-upgrade</code> as a superuser, you could use:</p>
 <pre><code>sudo apt-get dist-upgrade
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    You will see this usage of sudo pretty much anywhere you read a tutorial about Ubuntu on the web. It&apos;s an alternative to doing this.</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> su</span><br><span class="line">    apt-get dist-upgrade</span><br><span class="line">    exit</span><br></pre></td></tr></table></figure>
-<pre><code>With sudo, you choose in advance which users have sudo access. There is no need for them to remember a root password, as they use their own password. If you have multiple users, you can revoke one&apos;s superuser access just by removing their sudo permission, without needing to change the root password and notify everyone of a new password. You can even choose which commands a user is allowed to perform using sudo and which commands are forbidden for that user. And lastly, if there is a security breach it can in some cases leave a better audit trail showing which user account was compromised. 
-&lt;p&gt;Sudo makes it easier to perform a single command with superuser privileges. With `su`, you permanently drop to a superuser shell which must be exited using `exit` or `logout`. This can lead to people staying in the superuser shell for longer than necessary just because it&apos;s more convenient than logging out and in again later. 
-&lt;p&gt;With sudo, you still have the option of opening a permanent (interactive) superuser shell with the command:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
-<pre><code>... and this can still be done without any root password, because `sudo` gives superuser privileges to the `su` command. 
-&lt;p&gt;_And similarly, instead of `su -` for a login shell you can use `sudo su -` or even `sudo -i`._ 
-&lt;p&gt;However when doing so you just need to be aware that you are acting as a superuser for every command. It&apos;s a good security principle not to stay as a superuser for longer than necessary, just to lessen the possibility of accidentally causing some damage to the system (without it, you can only damage files your user owns). 
-&lt;p&gt;Just to clarify, you _can_, if you choose, give the root user a password allowing logins as root as described in @Oli&apos;s answer, if you specifically want to do things this way instead. I just wanted to let you know about the Ubuntu convention of preferring `sudo` instead and let you know that there is an alternative. 
-
-* * *
-
-#### 2\. The problems with your chmod 777 -R command
-
-&lt;p&gt;Your question also has a second part to it: your issues with the command `sudo chmod 777 -R foobs`. 
-&lt;p&gt;Firstly, the following warning indicates a potentially serious security issue on your machine:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo: /var/lib/sudo writable by non-owner (040777), should be mode 0700</span><br></pre></td></tr></table></figure>
-<pre><code>This means that at some stage, you&apos;ve set `/var/lib/sudo` to be world-writable. I imagine you&apos;ve done this at some stage using a command like `sudo chmod 777 -R /`. Unfortunately, by doing this you&apos;ve probably pretty much broken all file permissions throughout your system. It&apos;s unlikely that this will be the only important system file whose permissions have been changed to be world-writable. Essentially you have an easily hackable system now, and the only easy way to get it back would be to re-install. 
-&lt;p&gt;Secondly, the command you were using:
-</code></pre><p><code>`</code>  </p>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">You will see this usage of sudo pretty much anywhere you read a tutorial about Ubuntu on the web. It&apos;s an alternative to doing this.</span><br></pre></td></tr></table></figure>
+<p> su<br>    apt-get dist-upgrade<br>    exit</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">With sudo, you choose in advance which users have sudo access. There is no need for them to remember a root password, as they use their own password. If you have multiple users, you can revoke one&apos;s superuser access just by removing their sudo permission, without needing to change the root password and notify everyone of a new password. You can even choose which commands a user is allowed to perform using sudo and which commands are forbidden for that user. And lastly, if there is a security breach it can in some cases leave a better audit trail showing which user account was compromised. </span><br><span class="line">&lt;p&gt;Sudo makes it easier to perform a single command with superuser privileges. With `su`, you permanently drop to a superuser shell which must be exited using `exit` or `logout`. This can lead to people staying in the superuser shell for longer than necessary just because it&apos;s more convenient than logging out and in again later. </span><br><span class="line">&lt;p&gt;With sudo, you still have the option of opening a permanent (interactive) superuser shell with the command:</span><br></pre></td></tr></table></figure>
+<p> sudo su</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">... and this can still be done without any root password, because `sudo` gives superuser privileges to the `su` command. </span><br><span class="line">&lt;p&gt;_And similarly, instead of `su -` for a login shell you can use `sudo su -` or even `sudo -i`._ </span><br><span class="line">&lt;p&gt;However when doing so you just need to be aware that you are acting as a superuser for every command. It&apos;s a good security principle not to stay as a superuser for longer than necessary, just to lessen the possibility of accidentally causing some damage to the system (without it, you can only damage files your user owns). </span><br><span class="line">&lt;p&gt;Just to clarify, you _can_, if you choose, give the root user a password allowing logins as root as described in @Oli&apos;s answer, if you specifically want to do things this way instead. I just wanted to let you know about the Ubuntu convention of preferring `sudo` instead and let you know that there is an alternative. </span><br><span class="line"></span><br><span class="line">* * *</span><br><span class="line"></span><br><span class="line">#### 2\. The problems with your chmod 777 -R command</span><br><span class="line"></span><br><span class="line">&lt;p&gt;Your question also has a second part to it: your issues with the command `sudo chmod 777 -R foobs`. </span><br><span class="line">&lt;p&gt;Firstly, the following warning indicates a potentially serious security issue on your machine:</span><br></pre></td></tr></table></figure>
+<p> sudo: /var/lib/sudo writable by non-owner (040777), should be mode 0700</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">This means that at some stage, you&apos;ve set `/var/lib/sudo` to be world-writable. I imagine you&apos;ve done this at some stage using a command like `sudo chmod 777 -R /`. Unfortunately, by doing this you&apos;ve probably pretty much broken all file permissions throughout your system. It&apos;s unlikely that this will be the only important system file whose permissions have been changed to be world-writable. Essentially you have an easily hackable system now, and the only easy way to get it back would be to re-install. </span><br><span class="line">&lt;p&gt;Secondly, the command you were using:</span><br></pre></td></tr></table></figure>
 <p> sudo chmod 777 -R foobs</p>
 <p>When manipulating files within your home directory, in this case in <code>~/Desktop</code>, you should not have to use <code>sudo</code>. All the files you create in your home directory should be modifiable by you anyway (and if not, something funny is going on). </p>
 <p></p><p>Also, you need to be fully aware of the consequences of changing file permissions en masse, such as doing it recursively or on a huge number of files. In this case, you’re changing carefully set up file permissions to be world-writable. Any other user, or any buggy server software on the machine, may have easy access to overwrite all of these files and directories. </p>
@@ -522,14 +509,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ASP.NET MVC</a>
               </li>
              
@@ -538,11 +517,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -558,10 +549,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">entity framwork</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">spring cloud</a>
               </li>
              
@@ -574,14 +561,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
               </li>
              
@@ -590,11 +569,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -602,7 +585,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mac</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -611,10 +602,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -646,7 +633,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -655,10 +650,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -678,19 +669,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -706,11 +697,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ds</a>
+                <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,7 +709,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color3">ds</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -727,10 +718,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -814,11 +801,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -850,19 +837,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flask</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tansational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -874,11 +861,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
             
             <div class="clearfix"></div>
