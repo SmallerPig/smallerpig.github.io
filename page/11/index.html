@@ -149,6 +149,117 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-在django的admin中使用二级联动(附源码)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1125.html">在django的admin中使用二级联动(附源码)</a>
+    </h1>
+  
+
+        
+        <a href="/1125.html" class="archive-article-date">
+  	<time datetime="2016-11-18T09:26:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直尝试寻找不用自定义的方法，例如看到mdoel的各个Field的属性里面有一个叫做<code>choices</code>的属性，眼前一亮。仔细看文档或者网上找了也不是这么个用法，看到有<code>limit_choices_to</code>这个属性心想这应该差不多了吧，结果使用起来也不是那么顺利。<br>仔细想想也不太可能提供好本身只能由ajax才能做的事情，这个确实是太为难人家Django了。</p>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>首先要解决的就是二级联动到底是个什么样的过程，<br>一般在使用到的地方比较典型的是城市的选择：先选择省份、再根据身份选择市、再下面是县或者更详细的信息。<br>看看数据结构可能会发现我们最终想要的其实是一个省份+市+*的结果，也就是最终的地址。所以在数据库里面通常会有省份表(province)、市表(city)，再加上我们想要的address表。city表有一个外键是是province_id；address表有province表的外键，也有city表的外键。<br>小猪只是拿简单的数据结构来解释面临的问题，其实不仅仅是局限于省市的联动，我们的程序中有很多类似的场景。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>默认的django会自动根据我们定义的模型生成form给admin使用，使用到这个form的地方分别是change和add的时候。<br>最终生成的结果就是可以选择所有的省，也可以选择所有的市，你看到这篇文章就说明你也发现这并不合理，正确的应该是在选择某个省的时候在市的下拉列表里只有该省的城市。<br>恰好，django原生并不能做到这么智能。</p>
+<h2 id="用到的Django知识"><a href="#用到的Django知识" class="headerlink" title="用到的Django知识"></a>用到的Django知识</h2><h3 id="form表单"><a href="#form表单" class="headerlink" title="form表单"></a>form表单</h3><p>默认的django会自动根据我们定义的模型生成form提交给admin页面，我可以使用重载modeladmin的方法来更改这个表单。</p>
+<h3 id="自定义templates"><a href="#自定义templates" class="headerlink" title="自定义templates"></a>自定义templates</h3><p>我们可以在django的admin后台自定义显示的html。</p>
+<h3 id="view-amp-ajax"><a href="#view-amp-ajax" class="headerlink" title="view &amp; ajax"></a>view &amp; ajax</h3><p>当用户选择了一个省的时候需要通过ajax来请求该省下面有哪些城市，view的责任就是来选择有哪些城市。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>下面只是大概代码，具体的代码当然需要根据项目的实际数据结构来做想要的调整。<br>view部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def get_city(request, provience_id):</span><br><span class="line">    # 根据传递的省的id 查找数据库中该省的城市</span><br><span class="line">    citys = City.objects.filter(provience_id=provience_id)</span><br><span class="line">    result = []</span><br><span class="line">    for i in citys:</span><br><span class="line">        # 对应的id和城市名称组成一个字典</span><br><span class="line">        result.append(&#123;&apos;id&apos;:i.id, &apos;name&apos;:i.name&#125;)</span><br><span class="line">    # 返回json数据</span><br><span class="line">    return HttpResponse(json.dumps(result), content_type=&quot;application/json&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>有了view部分代码之后需要之后我们需要能够调用到该view的ajax，所以在项目的templates文件夹下的下列目录中加入对应的<code>change_form.html</code>(只有change,没有add)文件</p>
+<blockquote>
+<p>/templates/admin/appname/address/change_form.html</p>
+</blockquote>
+<p>html代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">\&#123;\% extends &quot;admin/change_form.html&quot; \%\&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block extrahead %&#125;</span><br><span class="line">&#123;&#123; block.super &#125;&#125;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;&#123;% url &apos;admin:jsi18n&apos; %&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    django.jQuery(function\(\) &#123;</span><br><span class="line">        var select = django.jQuery(&quot;#id_provience&quot;);</span><br><span class="line">        select.change(function\(\)&#123;</span><br><span class="line">            console.log(&quot;value change&quot;+django.jQuery(this).val\(\))</span><br><span class="line">            var url = &quot;/appname/get_city/&quot;+django.jQuery(this).val\(\);//能够正确的访问到view的url</span><br><span class="line">            console.log(url);</span><br><span class="line">            django.jQuery.get(</span><br><span class="line">                url,</span><br><span class="line">                function(data)&#123;</span><br><span class="line">                    var target = django.jQuery(&quot;#id_city&quot;);</span><br><span class="line">                    target.empty\(\);//先要清空一下</span><br><span class="line">                    data.forEach(function(e)&#123;</span><br><span class="line">                        // 将从view得到的id和城市名称赋值给city的select</span><br><span class="line">                        target.append(&quot;&lt;option value=&apos;&quot;+e.id+&quot;&apos;&gt;&quot;+e.name+&quot;&lt;option&gt;&quot;);</span><br><span class="line">                        target.eq(0).attr(&apos;selected&apos;, &apos;true&apos;);</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+<p>文件位置放的正确以后在添加address时django会加载该html文件取代默认的add_form.html文件。<br>好了，核心代码就是上面的两段。我们就可以实现了对应的二级联动，如果想要实现三级联动，思路都是一样的。<br>done!!</p>
+<p>项目源码：<a href="https://github.com/SmallerPig/django-demo" target="_blank" rel="noopener">https://github.com/SmallerPig/django-demo</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">二级联动</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1125.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-拔牙记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1068,135 +1179,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-mysql-e8-a1-a8-e5-88-86-e5-8c-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1062.html">MySQL 分表存储</a>
-    </h1>
-  
-
-        
-        <a href="/1062.html" class="archive-article-date">
-  	<time datetime="2016-08-16T08:35:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一般我们项目中如果数据量特别大的话通常会考虑将某一表数据进行分表处理，例如：我们的用户访问日志。如果将该数据始终保存在一张表的话那么久而久之这张表的数据量会特别大，导致查询效率降低。这个时候就需要考虑将该数据分别存储到多张表中。<br>而日志数据具有典型的如下特点：<br>1. 数据量大。<br>2. 每天每月都稳定输出。<br>3. 对数据的操作在插入之后大部分只有查询，很少有编辑或者删除操作。</p>
-<p>MySQL数据库提供了数据分表的方式。</p>
-<hr>
-<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t1&apos;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t2&apos;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE=MERGE UNION=(t1,t2) INSERT_METHOD=LAST;</span><br></pre></td></tr></table></figure></p>
-<p>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
-<p>我们可以在total表中使用哦SELECT,DELETE,UPDATE和INSERT操作，不过必须要拥有各分表的SELECT,DELETE 和UPDATE权限。</p>
-<p>在创建MERGE表时，使用参数<code>UNION</code>对表进行整合，例如上面代码的<code>UNION=(t1, t2)</code>。也可以使用<code>INSERT_METHOD</code>参数来申明如果在MERGE表中插入数据，是将数据插入到第一张表还是最后一张表中，如果<code>INSERT_METHOD=NO</code>，那么MEGRE表中将不允许插入数据，只允许插入在各分表当中。</p>
-<p>不过另外一个值得注意的地方是上述代码中我们在分区表中并没有定义索引，但是在total表中我们定义了<code>INDEX(a)</code>并且没有定义<code>PRIMARY KEY</code>。这是因为在总表中的数据并不能保证也不检查数据的唯一性，也就是在各分表中是允许存在完全相同的数据的。</p>
-<hr>
-<h2 id="编辑映射"><a href="#编辑映射" class="headerlink" title="编辑映射"></a>编辑映射</h2><p>如果我们在使用过程中新建了需要加入总表的分表，这时候通常有两种方式：</p>
-<ol>
-<li>删掉总表重新创建</li>
-<li>使用<code>ALTER TABLE tbl_name UNION=(……)</code>来重新标记需要映射的分表。</li>
-</ol>
-<blockquote>
-<p>如果我们不小心写成<code>UNION=\(\)</code>（括号中为空），会发现这张表将为空，并且插入不进去数据，因为实际上本身总表不存储数据，这样插入数据时MYSQL也就不知道讲数据插入到哪了。</p>
-</blockquote>
-<hr>
-<h2 id="一些规则"><a href="#一些规则" class="headerlink" title="一些规则"></a>一些规则</h2><p>总表和分表的定义以及索引需要保证大部分的一致。MySQL不会在创建总表的时候去检查分表的设置有没有错误，只有在打开查询的时候才会进行判断有没有存在错误。这也导致我们有可能在创建分表的时候不存在错误，然后某天编辑了分表，从而导致主表无法使用的情况。所以我们的总表和分表必须满足下列规则</p>
-<ul>
-<li>总表和分表的列数必须相同。</li>
-<li>总表和分表的列顺序需要一致。</li>
-<li><p>另外，总表和分表的列规则必须满足以下规则</p>
-</li>
-<li><p>列类型必须相同</p>
-</li>
-<li>列的长度必须相同</li>
-<li>列的内容可以为NULL</li>
-<li>分表的索引数量必须大于等于总表的索引数量。分表的索引数量可以大于总表，但不可以少于总表。</li>
-</ul>
-<p>表索引的相关规则:</p>
-<ul>
-<li>总表和分表的索引类型必须一致</li>
-<li>总表和分表的符合索引部分必须一致</li>
-<li>针对索引部分(index part)的额外检查</li>
-<li>索引部分长度必须一致</li>
-<li>索引部分类型必须一致</li>
-<li>索引部分的语言设置必须一致</li>
-<li>可以为空</li>
-</ul>
-<p>如果我们的总表在使用过程中无法打开了或者无法使用，我们亦可以使用命令：<code>CHECK TABLE</code>来显示到底是哪一个分表出现了问题。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1062.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
@@ -1302,10 +1284,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1322,11 +1300,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ASP.NET MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">RouteData</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,6 +1309,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ASP.NET MVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">RouteData</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1374,6 +1356,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -1386,15 +1372,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1402,11 +1380,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1418,11 +1396,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1431,6 +1409,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1443,10 +1425,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1482,11 +1460,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1494,15 +1472,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1518,11 +1496,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1530,11 +1508,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1614,11 +1596,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1642,19 +1624,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1674,11 +1656,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>

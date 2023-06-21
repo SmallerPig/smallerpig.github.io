@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>Hive基础知识-表类型 | 朱启的个人博客</title>
+  <title>数仓-维度建模之拉链表 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hive的数据类型支持有好多种。 那么hive的表类型有哪些呢？ 今天就来对其进行整理： 123456789内部表和外部表静态分区表动态分区表 分桶表抽样查询">
-<meta name="keywords" content="hive">
+  <meta name="description" content="上一篇整体介绍了下在数仓建设中常用到的数据表类型，其中有一种比较特殊，是跟数据的历史状态相关联的。 在我从事的医疗大数据领域，有一个场景是需要考虑。 就是很多医院会改名，今天叫第一人民医院、过两年就叫上海市第一人民医院，再过几年可能叫红房子医院。这些随着时间推移的记录一般我们也会将其进行保存，那怎么保存这些变更记录呢，或者在数仓体系里面，这些属于变更记录的数据应该怎么来设计表更合适，有没有对应的方">
+<meta name="keywords" content="数仓">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hive基础知识-表类型">
-<meta property="og:url" content="http://blog.smallerpig.com/table-info-of-hive.html">
+<meta property="og:title" content="数仓-维度建模之拉链表">
+<meta property="og:url" content="http://blog.smallerpig.com/info-of-slowly-changing-dimensions.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="hive的数据类型支持有好多种。 那么hive的表类型有哪些呢？ 今天就来对其进行整理： 123456789内部表和外部表静态分区表动态分区表 分桶表抽样查询">
+<meta property="og:description" content="上一篇整体介绍了下在数仓建设中常用到的数据表类型，其中有一种比较特殊，是跟数据的历史状态相关联的。 在我从事的医疗大数据领域，有一个场景是需要考虑。 就是很多医院会改名，今天叫第一人民医院、过两年就叫上海市第一人民医院，再过几年可能叫红房子医院。这些随着时间推移的记录一般我们也会将其进行保存，那怎么保存这些变更记录呢，或者在数仓体系里面，这些属于变更记录的数据应该怎么来设计表更合适，有没有对应的方">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-31T05:43:34.895Z">
+<meta property="og:updated_time" content="2023-06-20T12:04:15.645Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hive基础知识-表类型">
-<meta name="twitter:description" content="hive的数据类型支持有好多种。 那么hive的表类型有哪些呢？ 今天就来对其进行整理： 123456789内部表和外部表静态分区表动态分区表 分桶表抽样查询">
+<meta name="twitter:title" content="数仓-维度建模之拉链表">
+<meta name="twitter:description" content="上一篇整体介绍了下在数仓建设中常用到的数据表类型，其中有一种比较特殊，是跟数据的历史状态相关联的。 在我从事的医疗大数据领域，有一个场景是需要考虑。 就是很多医院会改名，今天叫第一人民医院、过两年就叫上海市第一人民医院，再过几年可能叫红房子医院。这些随着时间推移的记录一般我们也会将其进行保存，那怎么保存这些变更记录呢，或者在数仓体系里面，这些属于变更记录的数据应该怎么来设计表更合适，有没有对应的方">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -149,89 +149,187 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Hive基础知识-数据表类型" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-数仓-拉链表" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hive基础知识-表类型
+      数仓-维度建模之拉链表
     </h1>
   
 
         
-        <a href="/table-info-of-hive.html" class="archive-article-date">
-  	<time datetime="2022-05-23T05:27:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-23</time>
+        <a href="/info-of-slowly-changing-dimensions.html" class="archive-article-date">
+  	<time datetime="2023-06-20T08:00:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>hive的数据类型支持有好多种。</p>
-<p>那么hive的表类型有哪些呢？</p>
-<p>今天就来对其进行整理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">内部表和外部表</span><br><span class="line"></span><br><span class="line">静态分区表</span><br><span class="line"></span><br><span class="line">动态分区表 </span><br><span class="line"></span><br><span class="line">分桶表</span><br><span class="line"></span><br><span class="line">抽样查询</span><br></pre></td></tr></table></figure>
+        <p>上一篇整体介绍了下在数仓建设中常用到的数据表类型，其中有一种比较特殊，是跟数据的历史状态相关联的。</p>
+<p>在我从事的医疗大数据领域，有一个场景是需要考虑。</p>
+<p>就是很多医院会改名，今天叫第一人民医院、过两年就叫上海市第一人民医院，再过几年可能叫红房子医院。这些随着时间推移的记录一般我们也会将其进行保存，那怎么保存这些变更记录呢，或者在数仓体系里面，这些属于变更记录的数据应该怎么来设计表更合适，有没有对应的方法论支撑呢？</p>
+<p>这篇文章就是来说说这个问题的。</p>
 <a id="more"></a>
-<p>首先贴上官方文档地址：<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL" target="_blank" rel="noopener">LanguageManual DDL - Apache Hive - Apache Software Foundation</a></p>
-<h2 id="内部表和外部表"><a href="#内部表和外部表" class="headerlink" title="内部表和外部表"></a>内部表和外部表</h2><p>未被external修饰的是内部表（managed table），被external修饰的为外部表（external table）；</p>
-<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
-<li><p>内部表数据由Hive自身管理，外部表数据由HDFS管理；</p>
-</li>
-<li><p>内部表数据存储的位置是hive.metastore.warehouse.dir（默认：/user/hive/warehouse），</p>
-</li>
-<li><p>外部表数据的存储位置由自己制定（如果没有LOCATION，Hive将在HDFS上的/user/hive/warehouse文件夹下以外部表的表名创建一个文件夹，并将属于这个表的数据存放在这里）；</p>
-</li>
-<li>删除内部表会直接删除元数据（metadata）及存储数据；删除外部表仅仅会删除元数据，HDFS上的文件并不会被删除；</li>
-<li>对内部表的修改会将修改直接同步给元数据，而对外部表的表结构和分区进行修改，则需要修复（<code>MSCK REPAIR TABLE table_name</code>;)</li>
-</ul>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>对于一些公共的数据源使用外部表。对于保存的一些业务维度表或者是统计好的报表使用管理表(内部表)</p>
-<h3 id="查看表信息"><a href="#查看表信息" class="headerlink" title="查看表信息"></a>查看表信息</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">desc formatted student2;</span><br><span class="line">Table Type:             MANAGED_TABLE  <span class="comment">-- 内部表</span></span><br><span class="line"> </span><br><span class="line">desc formatted student2;</span><br><span class="line">Table Type:             EXTERNAL_TABLE <span class="comment">-- 外部表</span></span><br></pre></td></tr></table></figure>
-<h3 id="内部表和外部表互换"><a href="#内部表和外部表互换" class="headerlink" title="内部表和外部表互换"></a>内部表和外部表互换</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student2 <span class="keyword">set</span> tblproperties(<span class="string">'EXTERNAL'</span>=<span class="string">'FALSE'</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h2><p>数据分区的概念以及存在很久了，通常使用分区来水平分散压力，将数据从物理上移到和使用最频繁的用户更近的地方，以及实现其目的。</p>
-<p>hive中处理的数据在HDFS中 , </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_name <span class="keyword">where</span> dt=<span class="number">2020</span><span class="number">-06</span><span class="number">-18</span> ;</span><br></pre></td></tr></table></figure>
-<p>查询表中的数据是加载HDFS中对应表文件夹下的数据 ,文件夹下的数据很多,将数据全部加载以后再筛选过滤出数据, 显然效率低 ,Hive中的分区表起始就是根据某种维度将数据分文件夹管理 ,当安装这种维度查询的时候,直接从对应的文件夹下加载数,效率更高!                         </p>
-<p>hive中有分区表的概念，我们可以看到分区具重要性能优势，而且分区表还可以将数据以一种符合逻辑的方式进行组织，比如分层存储<br>分区表分别有静态分区和动态分区 !</p>
-<p>分区表详情推荐阅读以下内容。</p>
-<p><a href="https://zhuanlan.zhihu.com/p/445240161" target="_blank" rel="noopener">大数据开发之Hive篇19-Hive分区表详解 - 知乎 (zhihu.com)</a></p>
-<h2 id="静态分区表"><a href="#静态分区表" class="headerlink" title="静态分区表"></a>静态分区表</h2><h2 id="动态分区表"><a href="#动态分区表" class="headerlink" title="动态分区表"></a>动态分区表</h2><p>上述是静态分区 , 静态分区是数据原本已经安装某维度保存在了不同的文件中了 , 如果想要根据查询的数据的某个属性进行分区 ,就是动态分区!</p>
-<p>数据如下 ,想要根据性别, 或者是地理位置来进行分区,那么就是根据每个属性的值来进行分区的!!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">user.txt</span><br><span class="line">u001 ZSS 23 M beijing</span><br><span class="line">u002 YMM 33 F nanjing</span><br><span class="line">u003 LSS 43 M beijing</span><br><span class="line">u004 ZY 23 F beijing</span><br><span class="line">u005 ZM 23 M beijing</span><br><span class="line">u006 CL 23 M dongjing</span><br><span class="line">u007 LX 23 F beijing</span><br><span class="line">u008 YZ 23 M beijing</span><br><span class="line">u009 YM 23 F nanjing</span><br><span class="line">u010 XM 23 M beijing</span><br><span class="line">u011 XD 23 F beijing</span><br><span class="line">u012 LH 23 M dongjing</span><br><span class="line">u013 FTM 23 F dongjing</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-1-创建一个普通表-导入数据"><a href="#2-2-1-创建一个普通表-导入数据" class="headerlink" title="2.2.1 创建一个普通表  导入数据"></a>2.2.1 创建一个普通表  导入数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span>  <span class="keyword">table</span>  <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  tb_user(</span><br><span class="line">  uid <span class="keyword">string</span> ,</span><br><span class="line">  <span class="keyword">name</span>  <span class="keyword">string</span> ,</span><br><span class="line">  age <span class="built_in">int</span> ,</span><br><span class="line">  gender <span class="keyword">string</span> ,</span><br><span class="line">  address <span class="keyword">string</span> </span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span>  <span class="keyword">terminated</span> <span class="keyword">by</span>  <span class="string">" "</span> ;</span><br><span class="line"><span class="keyword">load</span>  <span class="keyword">data</span> <span class="keyword">local</span>  inpath <span class="string">"/hive/data/user.txt"</span>  <span class="keyword">into</span> <span class="keyword">table</span>  tb_user ;</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-2-创建分区表"><a href="#2-2-2-创建分区表" class="headerlink" title="2.2.2 创建分区表"></a>2.2.2 创建分区表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span>  <span class="keyword">table</span>  <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  tb_p_user(</span><br><span class="line">  uid <span class="keyword">string</span> ,</span><br><span class="line">  <span class="keyword">name</span>  <span class="keyword">string</span> ,</span><br><span class="line">  age <span class="built_in">int</span> ,</span><br><span class="line">  gender <span class="keyword">string</span> ,</span><br><span class="line">  address <span class="keyword">string</span> </span><br><span class="line">)</span><br><span class="line">partitioned  <span class="keyword">by</span> (addr <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span>  <span class="keyword">terminated</span> <span class="keyword">by</span>  <span class="string">" "</span> ;</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-3-开启动态分区功能"><a href="#2-2-3-开启动态分区功能" class="headerlink" title="2.2.3 开启动态分区功能"></a>2.2.3 开启动态分区功能</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition=<span class="literal">true</span> ;</span><br><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition.mode=nonstrick;  可以从普通表中导入数据</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-4-动态导入数据"><a href="#2-2-4-动态导入数据" class="headerlink" title="2.2.4 动态导入数据"></a>2.2.4 动态导入数据</h3><p>普通表5个字段<br>分区表 5个主字段 1 个分区字段<br>插入数据的时候字段个数类型一致  最后一个字段就是分区字段 </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_p_user <span class="keyword">partition</span>(addr)</span><br><span class="line"><span class="keyword">select</span> uid , <span class="keyword">name</span> , age , gender , address , address <span class="keyword">from</span>  tb_user ;</span><br></pre></td></tr></table></figure>
-<h2 id="分桶表"><a href="#分桶表" class="headerlink" title="分桶表"></a>分桶表</h2><p>对Hive(Inceptor)表分桶可以将表中记录按分桶键(字段)的哈希值分散进多个文件中，这些小文件称为桶。</p>
-<p>分区针对的是数据的<strong>存储路径</strong>；分桶针对的是<strong>数据文件</strong>。</p>
-<p>分区提供一个隔离数据和优化查询的便利方式。不过，并非所有的数据集都可形成合理的分区，特别是之前所提到过的要确定合适的划分大小这个疑虑。</p>
-<p>分桶是将数据集分解成更容易管理的若干部分的另一个技术。</p>
-<p>把表或分区划分成bucket有两个理由</p>
+<p>拉链表，学名叫缓慢变化维（Slowly Changing Dimensions），简称渐变维（SCD），俗称拉链表，是为了记录关键字段的历史变化而设计出来的一种数据存储模型，常见于维度表设计，在数据仓库相关的面试中，也经常有被问到。但是在工程实践中，拉链表真是太麻烦了，而且是在模型设计、初始化、ETL 开发、运维、日常取数等各个环节都很麻烦，而麻烦的设计通常都容易出错，或者对团队成员能力要求高些。</p>
+<p>从这个角度来看，拉链表实际上是属于维度表的一部分。</p>
+<p>我们先看一个示例，这就是一张拉链表，存储的是用户的最基本信息以及每条记录的生命周期。我们可以使用这张表拿到最新的当天的最新数据以及之前的历史数据。</p>
+<table>
+<thead>
+<tr>
+<th>注册时间</th>
+<th>用户编号</th>
+<th>手机号</th>
+<th>t_start_date</th>
+<th>t_end_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017-01-01</td>
+<td>001</td>
+<td>11111</td>
+<td>2017-01-01</td>
+<td>9999-12-31</td>
+</tr>
+<tr>
+<td>2017-01-01</td>
+<td>002</td>
+<td>222222</td>
+<td>2017-01-01</td>
+<td>2017-01-01</td>
+</tr>
+<tr>
+<td>2017-01-01</td>
+<td>002</td>
+<td>233333</td>
+<td>2017-01-02</td>
+<td>9999-12-31</td>
+</tr>
+<tr>
+<td>2017-01-02</td>
+<td>003</td>
+<td>333333</td>
+<td>2017-01-01</td>
+<td>9999-12-31</td>
+</tr>
+<tr>
+<td>2017-01-03</td>
+<td>004</td>
+<td>444444</td>
+<td>2017-01-01</td>
+<td>2017-01-01</td>
+</tr>
+<tr>
+<td>2017-01-04</td>
+<td>004</td>
+<td>432432</td>
+<td>2017-01-03</td>
+<td>9999-12-31</td>
+</tr>
+</tbody>
+</table>
+<p>我们暂且不对这张表做细致的讲解，实现案例二会专门来阐述怎么来设计、实现和使用它。</p>
+<p>而这张表数据来源一般类似如下的表结构，并没有开始时间与结束时间。</p>
+<table>
+<thead>
+<tr>
+<th>注册时间</th>
+<th>用户编号</th>
+<th>手机号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="对于变化数据的处理方案"><a href="#对于变化数据的处理方案" class="headerlink" title="对于变化数据的处理方案"></a>对于变化数据的处理方案</h2><p>我们常说，数据模型设计一定要切合实际业务需求。对于变化数据的处理，常见需求有以下三种：</p>
+<p>需求一：保护第一个值</p>
+<p>在广告投放的业务场景中，有个很重要的概念叫广告归因，这就是一个典型的必须保护第一个值的案例。就是说一个安装归属到渠道 1 后，就应该永远绑定在该渠道上。</p>
+<p>该需求实现最简单，只需要追加新数据就好了。</p>
+<p>需求二：保留最新值</p>
+<p>当我们不需要记录历史变化的时候，就可以只保留最新值。比如用户修改了出生日期，有可能之前给的是系统默认值。</p>
+<p>该需求处理会稍微复杂，需要 update 用户维表，同时如果有对于用户年龄相关的分析，还要重刷相关的事实表数据。</p>
+<p>需求三：记录历史变化</p>
+<p>我们需要回溯主体历史某一时点的状态的时候，就必须记录历史变化了。比如某一天，某业务员转岗了，那么部门业绩月度汇总的时候，就需要知道该业务员过去在哪些部门待过以及起始日期。</p>
+<p>需求三处理起来比较麻烦，方案如下：</p>
 <ul>
-<li><p>1，更快，桶为表加上额外结构，链接相同列划分了桶的表，可以使用map-side join更加高效。</p>
-</li>
-<li><p>2，取样sampling更高效。没有分区的话需要扫描整个数据集。</p>
-</li>
+<li>方案一：每天记录一份快照，以每天为切片。（冗余了大量数据）</li>
+<li>方案二：增加新的列，比如只需要存最近 3 次变化，那么我们新增三列就好了。(只适合特定的场景)</li>
+<li>方案三：增加新的行，核心属性变化一次，新增一条，同时新增 2 列（数据开始日期、数据截止日期）。–拉链表方案</li>
 </ul>
-<h3 id="4-1-数据"><a href="#4-1-数据" class="headerlink" title="4.1 数据"></a>4.1 数据</h3><p>将数据分文件存储  , 类似于分区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">uid      name</span><br><span class="line">1001    ss1</span><br><span class="line">1002    ss2</span><br><span class="line">1003    ss3</span><br><span class="line">1004    ss4</span><br><span class="line">1005    ss5</span><br><span class="line">1006    ss6</span><br><span class="line">1007    ss7</span><br><span class="line">1008    ss8</span><br><span class="line">1009    ss9</span><br><span class="line">1010    ss10</span><br><span class="line">1011    ss11</span><br><span class="line">1012    ss12</span><br><span class="line">1013    ss13</span><br><span class="line">1014    ss14</span><br><span class="line">1015    ss15</span><br><span class="line">1016    ss16</span><br></pre></td></tr></table></figure>
-<h3 id="4-2-创建分桶表"><a href="#4-2-创建分桶表" class="headerlink" title="4.2  创建分桶表"></a>4.2  创建分桶表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists  tb_cluster(</span><br><span class="line">uid  int ,</span><br><span class="line">name string</span><br><span class="line">)</span><br><span class="line">clustered by(uid) </span><br><span class="line">into  4  buckets </span><br><span class="line">row format  delimited fields terminated by &quot;\t&quot; ;</span><br></pre></td></tr></table></figure>
-<p>查看表的分桶信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">desc formatted tb_cluster ;</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">+-------------------------------+----------------------------------------------------+-----------------------+</span><br><span class="line">|           col_name            |                     data_type                      |           comment           |</span><br><span class="line">+-------------------------------+----------------------------------------------------+-----------------------+</span><br><span class="line"></span><br><span class="line">| Num Buckets:                  | 4                                                  | NULL                        |</span><br><span class="line">| Bucket Columns:               | [uid]                                              | NULL                        |</span><br><span class="line">+-------------------------------+----------------------------------------------------+-----------------------+</span><br></pre></td></tr></table></figure>
-<h3 id="4-3-创建普通表-导入数据到普通表中"><a href="#4-3-创建普通表-导入数据到普通表中" class="headerlink" title="4.3 创建普通表   导入数据到普通表中"></a>4.3 创建普通表   导入数据到普通表中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists  tb_cluster2(</span><br><span class="line">uid  int ,</span><br><span class="line">name string</span><br><span class="line">)</span><br><span class="line">row format  delimited fields terminated by &quot;\t&quot; ;</span><br><span class="line">load  data local inpath &quot;/hive/data/cluster.txt&quot; into table  tb_cluster2 ;</span><br><span class="line">+------------------+-------------------+</span><br><span class="line">| tb_cluster2.uid  | tb_cluster2.name  |</span><br><span class="line">+------------------+-------------------+</span><br><span class="line">| 1001             | ss1               |</span><br><span class="line">| 1002             | ss2               |</span><br><span class="line">| 1003             | ss3               |</span><br><span class="line">| 1004             | ss4               |</span><br><span class="line">| 1005             | ss5               |</span><br><span class="line">| 1006             | ss6               |</span><br><span class="line">| 1007             | ss7               |</span><br><span class="line">| 1008             | ss8               |</span><br><span class="line">| 1009             | ss9               |</span><br><span class="line">| 1010             | ss10              |</span><br><span class="line">| 1011             | ss11              |</span><br><span class="line">| 1012             | ss12              |</span><br><span class="line">| 1013             | ss13              |</span><br><span class="line">| 1014             | ss14              |</span><br><span class="line">| 1015             | ss15              |</span><br><span class="line">| 1016             | ss16              |</span><br><span class="line">+------------------+-------------------+</span><br></pre></td></tr></table></figure>
-<h3 id="4-4-开启分桶"><a href="#4-4-开启分桶" class="headerlink" title="4.4  开启分桶"></a>4.4  开启分桶</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set hive.enforce.bucketing=true; </span><br><span class="line">set mapreduce.job.reduces=-1;</span><br></pre></td></tr></table></figure>
-<h3 id="4-5-基于查询的方式将数据导入到分桶表中"><a href="#4-5-基于查询的方式将数据导入到分桶表中" class="headerlink" title="4.5  基于查询的方式将数据导入到分桶表中"></a>4.5  基于查询的方式将数据导入到分桶表中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert  into table tb_cluster</span><br><span class="line">select  uid , name from tb_cluster2 ;</span><br></pre></td></tr></table></figure>
-<h3 id="4-6-原理"><a href="#4-6-原理" class="headerlink" title="4.6 原理"></a>4.6 原理</h3><p>就是将数据按照指定的分桶字段进行hashcode%桶数 ,类似于MR程序中的数据分区</p>
-<p>在HDFS文件系统中数据存储</p>
-<h3 id="5-抽样查询"><a href="#5-抽样查询" class="headerlink" title="5 抽样查询"></a>5 抽样查询</h3><p>对于非常大的数据集，有时用户需要使用的只是一个具有代表性的查询结果，而不是全部结果。Hive可以通过对表进行分桶抽样来满足这个需求。</p>
-<h3 id="5-1-分桶抽样"><a href="#5-1-分桶抽样" class="headerlink" title="5.1 分桶抽样"></a>5.1 分桶抽样</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from numbers TABLESAMPLE(BUCKET 3 OUT OF 10 ON number);</span><br></pre></td></tr></table></figure>
-<p>其中<code>tablesample</code>是抽样语句，语法：<code>TABLESAMPLE(BUCKET x OUT OF y)</code>。y必须是table总bucket数的倍数或者因子。hive根据y的大小，决定抽样的比例。例如，table总共分了64份，当y=32时，抽取(64/32=)2个bucket的数据，当y=128时，抽取(64/128=)1/2个bucket的数据。x表示从哪个bucket开始抽取。例如，table总bucket数为32，<code>tablesample(bucket 3 out of 16)</code>，表示总共抽取（32/16=）2个bucket的数据，分别为第3个bucket和第（3+16=）19个bucket的数据。</p>
-<h3 id="5-2-数据库抽样"><a href="#5-2-数据库抽样" class="headerlink" title="5.2 数据库抽样"></a>5.2 数据库抽样</h3><p>Hive提供了另外一种按照抽样百分比进行抽样的方式，这种是基于行数的，按照输入路径下的数据块百分比进行抽样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from numbersflat TABLESAMPLE(0.1 PERCENT) s；</span><br></pre></td></tr></table></figure>
-<p>这种抽样方式不一定适用于所有的文件格式。另外抽样的最小抽样单元是一个HDFS数据块。如果标的数据大小小于普通的块大小128MB，那么会返回所有的行。</p>
-<p>抽样查询使用于hive中的任意表, 只不过分桶表抽样效率更高!!</p>
+<p>这是多数人都能想到的处理思路，即拉链表。适用场景必须是缓慢变化，例如一张表有 10 亿数据，每天变化的只有几万、几十万才能称为缓慢变化，反之如果 10 亿的表每天有 7 亿都会发生变化，那这还适合用拉链表吗？</p>
+<p>拉链表的优点是，相对于快照表可以极大的节省存储空间，缺点也很明显就是太麻烦了。</p>
+<h2 id="拉链表插入案例"><a href="#拉链表插入案例" class="headerlink" title="拉链表插入案例"></a>拉链表插入案例</h2><h3 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h3><p>这里用商品价格的变化作为例子，具体的开发过程要按实际的来，不能照搬代码，编程重要的是了解背后的思路和原理，而不是简单的复制粘贴。</p>
+<p>原始表结构：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">商品主键</th>
+<th style="text-align:center">开始时间</th>
+<th style="text-align:center">结束时间</th>
+<th style="text-align:center">价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">xxx</td>
+<td style="text-align:center">start_date</td>
+<td style="text-align:center">end_date</td>
+<td style="text-align:center">sale_price</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 商品原始表这里取名goods_table</span></span><br><span class="line"><span class="keyword">select</span> spu_id,</span><br><span class="line">       <span class="keyword">min</span>(start_date) <span class="keyword">as</span> start_date,</span><br><span class="line">       end_date <span class="keyword">as</span> end_date,</span><br><span class="line">       sale_price</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">  (<span class="keyword">select</span> spu_id,</span><br><span class="line">          start_date,</span><br><span class="line">          <span class="keyword">if</span>(sale_price = lead_sale_price,lead_end_date,end_date) <span class="keyword">as</span> end_date,</span><br><span class="line">          sale_price</span><br><span class="line">   <span class="keyword">from</span></span><br><span class="line">     ( <span class="keyword">select</span> spu_id,</span><br><span class="line">              start_date,</span><br><span class="line">              end_date,</span><br><span class="line">              sale_price,</span><br><span class="line">              <span class="keyword">lead</span>(sale_price,<span class="number">1</span>,<span class="literal">null</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> spu_id <span class="keyword">order</span> <span class="keyword">by</span> end_date) <span class="keyword">as</span> lead_sale_price,</span><br><span class="line">              <span class="keyword">lead</span>(end_date) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> spu_id <span class="keyword">order</span> <span class="keyword">by</span> end_date) <span class="keyword">as</span> lead_end_date</span><br><span class="line">      <span class="keyword">from</span> goods_table ) t) t	</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> spu_id,</span><br><span class="line">         end_date,</span><br><span class="line">         sale_price ;</span><br></pre></td></tr></table></figure>
+<p>以上SQL的整体思路是：将最新的商品记录插入历史拉链表中，然后我们通过HIVE的窗口行数，按照end_date排序，然后分别取下一条的sale_price和end_date，然后再判断本条的价格和下一条的价格是否相等，如果是一样的，那么就把end_date改为下一条的end_date,最后做去重处理，然后就得到我们想要的数据了。</p>
+<h3 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h3><p>以上面的用户表为例，我们要实现用户的拉链表。在实现它之前，我们需要先确定一下我们有哪些数据源可以用。</p>
+<ol>
+<li>我们需要一张ODS层的用户全量表。至少需要用它来初始化。</li>
+<li>每日的用户更新表。</li>
+</ol>
+<p><strong>ods层的user表</strong></p>
+<p>现在我们来看一下我们ods层的用户资料切片表的结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> ods.user (</span><br><span class="line">  user_num <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  mobile <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'手机号码'</span>,</span><br><span class="line">  reg_date <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'注册日期'</span></span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">'用户资料表'</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (dt <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> ORC</span><br><span class="line">LOCATION <span class="string">'/ods/user'</span>;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><strong>ods层的user_update表</strong></p>
+<p>然后我们还需要一张用户每日更新表，前面已经分析过该如果得到这张表，现在我们假设它已经存在。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> ods.user_update (</span><br><span class="line">  user_num <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  mobile <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'手机号码'</span>,</span><br><span class="line">  reg_date <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'注册日期'</span></span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">'每日用户资料更新表'</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (dt <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> ORC</span><br><span class="line">LOCATION <span class="string">'/ods/user_update'</span>;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><strong>拉链表</strong></p>
+<p>现在我们创建一张拉链表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> dws.user_his (</span><br><span class="line">  user_num <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  mobile <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'手机号码'</span>,</span><br><span class="line">  reg_date <span class="keyword">STRING</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  t_start_date ,</span><br><span class="line">  t_end_date</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">'用户资料拉链表'</span></span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span> <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> ORC</span><br><span class="line">LOCATION <span class="string">'/dws/user_his'</span>;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>实现sql语句</p>
+<p>然后初始化的sql就不写了，其实就相当于是拿一天的ods层用户表过来就行，我们写一下每日的更新语句。</p>
+<p>现在我们假设我们已经已经初始化了2017-01-01的日期，然后需要更新2017-01-02那一天的数据，我们有了下面的Sql。</p>
+<p>然后把两个日期设置为变量就可以了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> OVERWRITE <span class="keyword">TABLE</span> dws.user_his</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> A.user_num,</span><br><span class="line">           A.mobile,</span><br><span class="line">           A.reg_date,</span><br><span class="line">           A.t_start_time,</span><br><span class="line">           <span class="keyword">CASE</span></span><br><span class="line">                <span class="keyword">WHEN</span> A.t_end_time = <span class="string">'9999-12-31'</span> <span class="keyword">AND</span> B.user_num <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">THEN</span> <span class="string">'2017-01-01'</span></span><br><span class="line">                <span class="keyword">ELSE</span> A.t_end_time</span><br><span class="line">           <span class="keyword">END</span> <span class="keyword">AS</span> t_end_time</span><br><span class="line">    <span class="keyword">FROM</span> dws.user_his <span class="keyword">AS</span> A</span><br><span class="line">    <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ods.user_update <span class="keyword">AS</span> B</span><br><span class="line">    <span class="keyword">ON</span> A.user_num = B.user_num</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line">    <span class="keyword">SELECT</span> C.user_num,</span><br><span class="line">           C.mobile,</span><br><span class="line">           C.reg_date,</span><br><span class="line">           <span class="string">'2017-01-02'</span> <span class="keyword">AS</span> t_start_time,</span><br><span class="line">           <span class="string">'9999-12-31'</span> <span class="keyword">AS</span> t_end_time</span><br><span class="line">    <span class="keyword">FROM</span> ods.user_update <span class="keyword">AS</span> C</span><br><span class="line">) <span class="keyword">AS</span> T</span><br></pre></td></tr></table></figure>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>好了，我们分析了拉链表的原理、设计思路、并且在Hive环境下实现了一份拉链表，下面对拉链表做一些小的补充。</p>
+<p>拉链表和流水表<br>流水表存放的是一个用户的变更记录，比如在一张流水表中，一天的数据中，会存放一个用户的每条修改记录，但是在拉链表中只有一条记录。</p>
+<p>这是拉链表设计时需要注意的一个粒度问题。我们当然也可以设置的粒度更小一些，一般按天就足够。</p>
+<p>查询性能<br>拉链表当然也会遇到查询性能的问题，比如说我们存放了5年的拉链数据，那么这张表势必会比较大，当查询的时候性能就比较低了，个人认为两个思路来解决：</p>
+<p>在一些查询引擎中，我们对start_date和end_date做索引，这样能提高不少性能。<br>保留部分历史数据，比如说我们一张表里面存放全量的拉链表数据，然后再对外暴露一张只提供近3个月数据的拉链表。</p>
+<p><a href="https://blog.csdn.net/zhaodedong/article/details/54177686" target="_blank" rel="noopener">漫谈数据仓库之拉链表（原理、设计以及在Hive中的实现）<em>数仓 拉链表 木东居士</em>木东居士的博客-CSDN博客</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/446951491" target="_blank" rel="noopener">数据仓库实践-拉链表设计 - 知乎 (zhihu.com)</a></p>
 
       
 
@@ -266,7 +364,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hive</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数仓</a>
         		</li>
       		
 		</ul>
@@ -333,7 +431,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/table-info-of-hive.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/info-of-slowly-changing-dimensions.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -368,18 +466,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/reverse-list-node.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          小猪学算法-反转链表
-        
-      </div>
-    </a>
   
-  
-    <a href="/20220427.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">小猪学算法-广度优先BFS</div>
+    <a href="/table-type-of-warehouse.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数仓-维度建模之表类型</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -406,7 +495,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内部表和外部表"><span class="toc-number">1.</span> <span class="toc-text">内部表和外部表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#区别"><span class="toc-number">1.1.</span> <span class="toc-text">区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-number">1.2.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看表信息"><span class="toc-number">1.3.</span> <span class="toc-text">查看表信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内部表和外部表互换"><span class="toc-number">1.4.</span> <span class="toc-text">内部表和外部表互换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分区表"><span class="toc-number">2.</span> <span class="toc-text">分区表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分区表"><span class="toc-number">3.</span> <span class="toc-text">静态分区表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态分区表"><span class="toc-number">4.</span> <span class="toc-text">动态分区表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-创建一个普通表-导入数据"><span class="toc-number">4.1.</span> <span class="toc-text">2.2.1 创建一个普通表  导入数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-创建分区表"><span class="toc-number">4.2.</span> <span class="toc-text">2.2.2 创建分区表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-开启动态分区功能"><span class="toc-number">4.3.</span> <span class="toc-text">2.2.3 开启动态分区功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-动态导入数据"><span class="toc-number">4.4.</span> <span class="toc-text">2.2.4 动态导入数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分桶表"><span class="toc-number">5.</span> <span class="toc-text">分桶表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-数据"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-创建分桶表"><span class="toc-number">5.2.</span> <span class="toc-text">4.2  创建分桶表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-创建普通表-导入数据到普通表中"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 创建普通表   导入数据到普通表中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-开启分桶"><span class="toc-number">5.4.</span> <span class="toc-text">4.4  开启分桶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-基于查询的方式将数据导入到分桶表中"><span class="toc-number">5.5.</span> <span class="toc-text">4.5  基于查询的方式将数据导入到分桶表中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-原理"><span class="toc-number">5.6.</span> <span class="toc-text">4.6 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-抽样查询"><span class="toc-number">5.7.</span> <span class="toc-text">5 抽样查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-分桶抽样"><span class="toc-number">5.8.</span> <span class="toc-text">5.1 分桶抽样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-数据库抽样"><span class="toc-number">5.9.</span> <span class="toc-text">5.2 数据库抽样</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#对于变化数据的处理方案"><span class="toc-number">1.</span> <span class="toc-text">对于变化数据的处理方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拉链表插入案例"><span class="toc-number">2.</span> <span class="toc-text">拉链表插入案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例一"><span class="toc-number">2.1.</span> <span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例二"><span class="toc-number">2.2.</span> <span class="toc-text">案例二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol>
                     </div>
                 </span>
             </div>

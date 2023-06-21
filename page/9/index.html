@@ -149,6 +149,122 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-跟着小猪来做小程序开发吧——获取formId" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1192.html">跟着小猪来做小程序开发吧——获取formId</a>
+    </h1>
+  
+
+        
+        <a href="/1192.html" class="archive-article-date">
+  	<time datetime="2017-04-17T03:06:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接下来的几篇小猪将围绕模板消息推动的功能分别向读者介绍小程序的几个功能</p>
+<p>今天要介绍的是获取<code>formId</code></p>
+<h2 id="为什么要获取formId"><a href="#为什么要获取formId" class="headerlink" title="为什么要获取formId"></a>为什么要获取formId</h2><p>在回答这个问题之前先简单的介绍下微信的模板消息功能。</p>
+<p>在一开始，模板消息这个权限可不是所有都公众号都有的，即使你已经交了300块完成了微信认证。只有一些比较牛逼的企业例如说各个银行，人家的需求是类似在每次有交易信息的时候通知用户，这样的功能简直不能太好，人家本来是通过短信通知的，现在通过微信就可以了，而且还不收费，走运营商的短信接口可是需要大概一毛一条的。</p>
+<p>所以这个权限是只有走内部流程的。</p>
+<p>大概是在13年底的时候微信向所有认证的服务号开放了申请接口。这下模板消息这个功能就彻底开放出来了，每一个公众号都可以发送自己的模板消息，用户会在该公众号的回话窗口看到模板消息。</p>
+<p>可是小程序是没有单独的回话窗口的，要使用模板消息，那用户收到的模板消息会在哪呢？</p>
+<p>答案是在微信的单独的一个“服务通知”回话框里。</p>
+<p>可是如果每一个小程序都可以像公众号那样无限制的发送模板消息的话，那这个“服务通知”的会话框很快就会被占领。</p>
+<p>所以必须有一定的限制小程序使用模板消息，微信目前的限制是在如下两种情况下小程序才能够正常的使用模板消息：<br>1. 在小程序内使用了微信支付接口，<br>2. 在小程序里用户点击了表单，而且该表单的report-submit属性值为true时。</p>
+<p>在上述第二种情况下，小程序框架会给出一个formid，利用这个formId才能正常发送模板消息。</p>
+<h2 id="怎么获取formId？"><a href="#怎么获取formId？" class="headerlink" title="怎么获取formId？"></a>怎么获取formId？</h2><p>使用类似下面的代码，注意表单的report-submit属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// demo.wxml</span><br><span class="line">&lt;form bindsubmit=&quot;formSubmit&quot; bindreset=&quot;formReset&quot; report-submit = &quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">  &lt;view class=&quot;section section_gap&quot;&gt;</span><br><span class="line">    &lt;view class=&quot;section__title&quot;&gt;checkbox&lt;/view&gt;</span><br><span class="line">    &lt;checkbox-group name=&quot;checkbox&quot;&gt;</span><br><span class="line">      &lt;label&gt;&lt;checkbox value=&quot;checkbox1&quot;/&gt;checkbox1&lt;/label&gt;</span><br><span class="line">      &lt;label&gt;&lt;checkbox value=&quot;checkbox2&quot;/&gt;checkbox2&lt;/label&gt;</span><br><span class="line">    &lt;/checkbox-group&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">  &lt;view class=&quot;btn-area&quot;&gt;</span><br><span class="line">    &lt;button formType=&quot;submit&quot;&gt;Submit&lt;/button&gt;</span><br><span class="line">    &lt;button formType=&quot;reset&quot;&gt;Reset&lt;/button&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后在对应的js文件里加上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line">  formSubmit: function(e) &#123;</span><br><span class="line">    console.log(&apos;form发生了submit事件，fromId为：&apos;, e.detail.formId)</span><br><span class="line">  &#125;,</span><br><span class="line">  formReset: function\(\) &#123;</span><br><span class="line">    console.log(&apos;form发生了reset事件&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad:function\(\)&#123;</span><br><span class="line">      console.log(&apos;sform load&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>单机提交按钮之后可以看到运行结果：</p>
+<blockquote>
+<p>form发生了submit事件，携带数据为： the formId is a mock one</p>
+</blockquote>
+<p>因为我们是在IDE中测试，所以得到的formId值为<code>the formId is a mock one</code>。在真机中我们可以得到一个具体的值，利用该值结合其他参数我们就可以发送模板消息啦。</p>
+<p>下一篇小猪将使用flask结合mysql数据库来做一个demo，把这个formId 存储起来供下次使用。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1192.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-跟着小猪来做小程序开发吧——本地数据存储" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1246,123 +1362,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-真是个撩人的小妖精！谈谈python的编码问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1158.html">真是个撩人的小妖精！谈谈python的编码问题</a>
-    </h1>
-  
-
-        
-        <a href="/1158.html" class="archive-article-date">
-  	<time datetime="2017-02-24T06:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上两天编写了个小工具程序，读取文件信息并输出适当数据到控制台。程序本身没什么难度，但是编码问题确实恶心到我了。同样的程序，在mac下跑没问题，在Windows下跑就有问题；在pycharm上面的终端上跑没问题，到系统自带的terminal上面跑又有问题。真是哔了狗了呀！</p>
-<p>简单搜索下就可以发现在python下面确实很多人遇到或者曾经遇到过python的这个编码问题。<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1fd0h8vsnoxj210s12edrw.jpg" alt><br><strong>作为程序员，你一定遇到过中文编码的问题。</strong></p>
-<h2 id="编码基础"><a href="#编码基础" class="headerlink" title="编码基础"></a>编码基础</h2><p>就像不同的国家使用不同的语言一样，小猪面对不会中文的同学时也是一脸懵逼。计算机也是一样，不同的地区使用不同的语言，而计算机只认识0和1。怎么让这些0和1显示成人能理解的字符呢？</p>
-<p>首先登场的是ASCII码。</p>
-<h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>ASCII码，每一个字符都会对应一个ASCII码，占一个字节，早期的电脑是美国人发明的，所以最开始的时候ASCII码是只有127个的。例如0123456789a-zA-Z。发展到中国的时候，原本的这些ASCII码显然已经不够用了，所以中国制定了GB2312码，占两个字节。</p>
-<p>可是这只解决了中文的问题，那韩文日文法文怎么办呢？每个国家都制定一个编码？那一个语言的输出到另外的国家的编码里显然会出现了所谓的乱码。所以，编码真是个让人头疼的问题啊。尤其是在编写python2程序的时候。</p>
-<p>为了解决上述问题，另外一个名词就出现了：Unicode，占用两字节，目前大多数操作系统都支持该编码。</p>
-<h3 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h3><p>Unicode（中文：万国码、国际码、统一码、单一码）是计算机科学领域里的一项业界标准。它对世界上大部分的文字系统进行了整理、编码，使得电脑可以用更为简单的方式来呈现和处理文字 –<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener">维基百科</a></p>
-<blockquote>
-<p>字母A用ASCII编码是二进制的<code>01000001</code>，十进制的65；<br>字符0用ASCII编码是二进制的<code>00110000</code>，十进制的48，注意字符’0’和整数0是不同的；<br>汉字中已经超出了ASCII编码的范围，用Unicode编码是十进制的20013，二进制的01001110 00101101。<br>你可以猜测，如果把ASCII编码的A用Unicode编码，只需要在前面补0就可以，因此，A的Unicode编码是00000000 01000001。</p>
-</blockquote>
-<p>所以，Unicode其实是包含了ASCII码的表示范围的，只是如果ASCII码在不够使用的情况下使用Unicode来表示。在使用Unicode码的时候，本身能够使用ASCII码的数据只需在前面补足一个字节的00000000就可以了。<br>可是在早期的计算机系统当中，存储数据的空间是非常昂贵的。虽然是满足了所有字符能够表示的问题，但是多出来毫无意义的一个字节也是要占用空间的。<br>这个时候又出现了我们经常提到用到的<code>UTF-8</code>编码.</p>
-<h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>他就是所谓的变长编码，当表示的字符能够用一个字节来表示是，他就占用一个字节，当当前字符需要使用两个字节的空间来表示时，他就占用两个字节，特殊情况下可能用到三个字节甚至四个字节。</p>
-<p>所以在计算机的内存中，是使用0和1的ASCII码，当存储到硬盘或者需要显示的时候，程序将其转换成对应的UTF-8码。</p>
-<h2 id="python的编码"><a href="#python的编码" class="headerlink" title="python的编码"></a>python的编码</h2><p>python可是在Unicode发布之前就已经出身了。所以他出身之后的事情在出身时当然是不知道的。<br>所以python2的默认编码为ascii，python3的默认编码为utf-8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; sys.getdefaultencoding\(\)</span><br><span class="line">&apos;ascii&apos;</span><br></pre></td></tr></table></figure></p>
-<p>python提供了内置函数来查看字符的ASCII码！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ord(&apos;Z&apos;)</span><br><span class="line">    90</span><br><span class="line">&gt;&gt;&gt; chr(90)</span><br><span class="line">    &apos;Z&apos;</span><br></pre></td></tr></table></figure>
-<p>在后来的版本中，python提供了对Unicode的支持，但是必须要在字符的前面加上字母u:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print(u&quot;小猪&quot;)</span><br><span class="line">小猪</span><br><span class="line">&gt;&gt;&gt; u&quot;小猪&quot;</span><br><span class="line">u&apos;\u5c0f\u732a&apos;</span><br><span class="line">&gt;&gt;&gt; &quot;小猪&quot;</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">&gt;&gt;&gt; u&quot;小猪&quot;.encode(&apos;utf-8&apos;)</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">u&apos;\u5c0f\u732a&apos;.encode(&apos;utf-8&apos;)</span><br><span class="line">&apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;\xe5\xb0\x8f\xe7\x8c\xaa&apos;.decode(&apos;utf-8&apos;)</span><br><span class="line">u&apos;\u5c0f\u732a&apos;</span><br></pre></td></tr></table></figure>
-<p>所以，字符<code>u&#39;\u5c0f\u732a&#39;</code>和<code>u&quot;小猪&quot;</code>对python来说是一样的。但是对于只看输出结果的<strong>人</strong>来说就不一样了，所以才会出现文章一开始的时候提到的让小猪头疼的输出乱码问题。<br>上面代码的第三部分是把字符’小猪’当做utf-8来打印了。所以在使用utf-8来decode的时候能够解析出来<code>u&#39;\u5c0f\u732a&#39;</code></p>
-<p>一般我们需要在python文件的开头标识当前文件使用哪个编码格式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br></pre></td></tr></table></figure>
-<p>这样在打印中文的时候就不会报错:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">print(&quot;小猪&quot;)</span><br><span class="line"># SyntaxError: Non-ASCII character &apos;\xe5&apos; in file /Users/smallerpig/Desktop/demo.py on line 1, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details</span><br></pre></td></tr></table></figure>
-<p>可是在还有一些情况下，例如开头时说的，很多字符是从别的库里面引用进来的，这样我们并不能保证得到的每个字符串的编码都是一致的。这时候就要根据得到的字符的具体的编码来使用decode方法来进行解码然后来显示了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1158.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
@@ -1468,10 +1467,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ASP.NET</a>
               </li>
              
@@ -1488,11 +1483,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ASP.NET MVC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">RouteData</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1501,6 +1492,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ASP.NET MVC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">RouteData</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1540,6 +1539,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -1552,15 +1555,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1568,11 +1563,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1584,11 +1579,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">电影</a>
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
+                <a href="javascript:void(0)" class="js-tag color3">电影</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1597,6 +1592,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工作</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1609,10 +1608,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1648,11 +1643,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
+                <a href="javascript:void(0)" class="js-tag color4">MDM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1660,15 +1655,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+                <a href="javascript:void(0)" class="js-tag color3">数仓</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">canal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1684,11 +1679,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flink</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
+                <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1696,11 +1691,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
+                <a href="javascript:void(0)" class="js-tag color5">单元测试</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1780,11 +1779,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color3">团队</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">团队</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1808,19 +1807,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1840,11 +1839,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
