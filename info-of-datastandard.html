@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
-  <title>Category: 微信开发 | 朱启的个人博客</title>
+  <title>大数据技术-数据标准 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="朱启的个人博客">
-<meta property="og:url" content="http://blog.smallerpig.com/categories/微信开发/index.html">
+  <meta name="description" content="数据治理需要一个目标，目标由谁来定？ 不同的系统，不同的厂商对同一个字典的定义不一样，应该采用谁的？例如同样的字典，性别：有的用1代表男，0代表女，有的用femal。治理的时候采用谁的？ 这就是数据标准模块应该解决的问题。">
+<meta name="keywords" content="数据治理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据技术-数据标准">
+<meta property="og:url" content="http://blog.smallerpig.com/info-of-datastandard.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
+<meta property="og:description" content="数据治理需要一个目标，目标由谁来定？ 不同的系统，不同的厂商对同一个字典的定义不一样，应该采用谁的？例如同样的字典，性别：有的用1代表男，0代表女，有的用femal。治理的时候采用谁的？ 这就是数据标准模块应该解决的问题。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-06-25T11:52:11.517Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
+<meta name="twitter:title" content="大数据技术-数据标准">
+<meta name="twitter:description" content="数据治理需要一个目标，目标由谁来定？ 不同的系统，不同的厂商对同一个字典的定义不一样，应该采用谁的？例如同样的字典，性别：有的用1代表男，0代表女，有的用femal。治理的时候采用谁的？ 这就是数据标准模块应该解决的问题。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -147,593 +149,260 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-大数据/大数据技术-数据标准" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      大数据技术-数据标准
+    </h1>
+  
+
+        
+        <a href="/info-of-datastandard.html" class="archive-article-date">
+  	<time datetime="2023-06-25T11:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-25</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据治理需要一个目标，目标由谁来定？</p>
+<p>不同的系统，不同的厂商对同一个字典的定义不一样，应该采用谁的？例如同样的字典，性别：有的用1代表男，0代表女，有的用<code>femal</code>。治理的时候采用谁的？</p>
+<p>这就是数据标准模块应该解决的问题。</p>
+<a id="more"></a>
+<h2 id="什么是数据标准？"><a href="#什么是数据标准？" class="headerlink" title="什么是数据标准？"></a><strong>什么是数据标准？</strong></h2><p>数据标准是一套由管理制度、管控流程、技术工具共同组成的体系，通过这套体系来推广和应用统一的数据定义、数据分类、纪律格式和转换、编码等来对数据的标准化，保障数据定义和使用的一致性、准确性和完整性的规范性约束。</p>
+<h2 id="为什么要做数据标准？"><a href="#为什么要做数据标准？" class="headerlink" title="为什么要做数据标准？"></a><strong>为什么要做数据标准？</strong></h2><p>长久以来，绝大多数企业的系统建设都是依据业务需求来的，没有一个整体的规划，没有考虑是否与其它系统的功能或数据存在重复的问题，而且各个系统由不同的厂商和产品搭建，所以不同系统之间数据的不一致性难以避免，也造成多种数据问题：</p>
+<p><strong>1、数据共享难以实现</strong></p>
+<p>数据存储结构不一致，调用多系统的数据时，由于某些数据在不同系统中数据存储结构不同，导致数据无法直接关联，影响不同系统之间的数据共享。</p>
+<p><strong>2、数据同名不同义导致错误</strong></p>
+<p>数据定义不一致，不同系统对数据的命名、业务含义、取值范围等定义不同，比如同名不同义、同义不同名等。</p>
+<p><strong>3、沟通成本增加</strong></p>
+<p>数据理解不一致，不同人员对数据的理解不一致，导致在数据使用时浪费很多时间来进行沟通。</p>
+<p><strong>4、数据来源不明</strong></p>
+<p>数据来源不一致，数据存在多个来源，在使用数据时，不清楚应该取哪个系统的数据。</p>
+<h2 id="数据标准的分类"><a href="#数据标准的分类" class="headerlink" title="数据标准的分类"></a>数据标准的分类</h2><p>在企业日常管理和业务发展中，一般会从业务、技术、管理这三个维度对数据标准规范进行分类。</p>
+<p>一、 业务标准规范。一般包括业务的定义、标准的名称、标准的分类等。对于业务人员而言，数据标准化建设，可以提升业务的规范性，进而提升工作效率；同时，保障了数据含义的一致性也可以降低沟通成本，从而为业务的数据分析、挖掘和信息共享提供便利。</p>
+<p>二、 技术标准规范。从技术角度看待数据标准，包括数据的类型、长度、格式、<a href="https://www.zhihu.com/search?q=编码规则&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A&quot;586708300&quot;}" target="_blank" rel="noopener">编码规则</a>等。对于技术人员来说，有了数据标准规范，可以大幅度提升工作效率，并降低系统的出错率，有助于数据质量的提升。</p>
+<p>三、 管理标准规范。从管理角度，看待数据标准。比如数据标准的管理者是谁、如何增添和删减数据、访问数据的标准条件是什么等。对于管理人员来说，数据标准建设，保证了数据的完整、准确、安全，进而为企业的<a href="https://www.zhihu.com/search?q=经营决策&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A&quot;586708300&quot;}" target="_blank" rel="noopener">经营决策</a>提供了支持和保障。</p>
+<h2 id="做数据标准的好处有哪些？"><a href="#做数据标准的好处有哪些？" class="headerlink" title="做数据标准的好处有哪些？"></a><strong>做数据标准的好处有哪些？</strong></h2><p>上述问题，任何一个的出现都会让人头痛不已，但是通过数据标准的建设，却可以有效消除数据跨系统的非一致性，从根源上解决数据定义和使用的不一致问题，为企业数据建设带来诸多好处：</p>
+<ul>
+<li>数据标准的统一制定与管理，可保证数据定义和使用的一致性，促进企业级单一数据视图的形成，促进信息资源共享。</li>
+<li>通过评估已有系统标准建设情况，可及时发现现有系统标准问题，支撑系统改造，减少数据转换，促进系统集成，提高数据质量。</li>
+<li>数据标准可作为新建系统参考依据，为企业系统建设整体规划打好基础，减少系统建设工作量，保障新建系统完全符合标准。</li>
+</ul>
+<p>同时，数据标准建设也为企业各类人员提供了强有力的支撑：</p>
+<ul>
+<li><strong>对业务人员而言</strong>，数据标准建设可提升业务规范性，保障人员对数据业务含义理解一致，支撑业务数据分析、挖掘及信息共享；</li>
+<li><strong>对技术人员而言</strong>，有数据标准作为支撑，可提升系统实施工作效率，保障系统建设符合规范，同时降低出错率，提升数据质量；</li>
+<li><strong>对管理人员而言</strong>，数据标准建设可提供更加完整、准确的数据，更好的支撑经营决策、精细化管理。</li>
+</ul>
+<h2 id="如何建设数据标准？"><a href="#如何建设数据标准？" class="headerlink" title="如何建设数据标准？"></a><strong>如何建设数据标准？</strong></h2><p>要让数据从下至上、从里到外真正做到高度一致，一定要进行有组织有纪律的规划，再按规划的流程进行实施，定能事半功倍。数据标准建设的实施流程如下：</p>
+<p><strong>1、标准规划</strong></p>
+<p>从实际情况出发，结合业界经验，收集国家标准、现行标准、新系统需求标准以及行业通行标准等，梳理出数据标准建设的整体范围，定义数据标准体系框架和分类，并制定数据标准的实施计划。不是所有的数据都需要建立数据标准，企业实际数据模型中有上万个字段，有些模型还会经常变换更新，没有必要将这些信息全部纳入到标准体系中，仅需对核心数据建立标准并落地，即可达到预期效果，同时也提升了工作效率。数据标准范围圈定建议如下：</p>
+<ul>
+<li>共享性高、使用频率高的字段需要入标</li>
+<li>监管报送或发文涉及到的业务信息需要入标</li>
+<li>结合数据使用情况，对于关键数据的字段尽量入标</li>
+<li>数据应用有使用需求的字段需要入标</li>
+<li>与系统人员沟通其系统内重要信息来辅助入标判断</li>
+</ul>
+<p><strong>2、标准编制</strong></p>
+<p>数据标准管理办公室根据数据需求展开数据的编制工作、确定数据项，数据标准管理执行组根据所需数据项提供数据属性信息，例如：数据项的名称、编码、类型、长度、业务含义、数据来源、质量规则、安全级别、值域范围等。数据标准管理办公室对这些数据项进行标准化定义形成初稿并提交审核。</p>
+<p><strong>3、标准评审发布</strong></p>
+<p>数据标准管理委员会对数据标准初稿进行审核，判断数据标准是否符合企业的应用和管理需求，是否符合企业数据战略要求。如数据标准审查不通过，则由数据标准管理办公室进行修订，直到满足企业数据标准的发布要求。</p>
+<p>标准通过审查后，由数据标准管理办公室面向全公司进行数据标准的发布。该过程中数据标准管理执行组需要配合进行数据标准发布对现有应用系统、数据模型的影响评估，并做好相应的应对策略。</p>
+<p><strong>4、标准落地执行</strong></p>
+<p>把已定义的数据标准与业务系统、应用和服务进行映射，标明标准和现状的关系以及可能影响到的应用。该过程中，对于企业新建的系统应当直接应用定义好的数据标准，对于旧系统则建议建立相应的数据映射关系，进行数据转换，逐步进行数据标准的落地。</p>
+<p>当然，不是所有的数据标准都能够完全落地，实际工作中可能会存在历史系统无法改造的情况，所以首先确定数据标准落地策略和落地范围，并制定相应的落地方案，然后推动数据标准落地方案的执行，对标准落地情况进行跟踪并评估成效。</p>
+<p><strong>5、标准维护增强</strong></p>
+<p>数据标准后续可能会随着业务的发展变化、国标行标的变化、以及监管要求的变化需要不断更新和完善。在数据标准维护阶段，需要对标准变更建立相应的管理流程，并做好标准版本管理。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1202.html" class="archive-article-date">
-  	<time datetime="2017-05-09T06:42:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1202.html">跟着小猪来做小程序开发吧——分享页面到微信群或者好友</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据治理</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1197.html" class="archive-article-date">
-  	<time datetime="2017-04-18T08:35:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1197.html">跟着小猪来做小程序开发吧——表单</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1194.html" class="archive-article-date">
-  	<time datetime="2017-04-18T03:02:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1194.html">跟着小猪来做小程序开发吧——体验模板消息</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">模板消息</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1192.html" class="archive-article-date">
-  	<time datetime="2017-04-17T03:06:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1192.html">跟着小猪来做小程序开发吧——获取formId</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1186.html" class="archive-article-date">
-  	<time datetime="2017-04-11T15:51:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1186.html">跟着小猪来做小程序开发吧——解密cryptedData</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">flask</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1184.html" class="archive-article-date">
-  	<time datetime="2017-04-10T08:21:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1184.html">跟着小猪来做小程序开发吧——获取用户openid</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1181.html" class="archive-article-date">
-  	<time datetime="2017-04-07T07:19:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1181.html">跟着小猪来做小程序开发吧——hello world</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1177.html" class="archive-article-date">
-  	<time datetime="2017-04-05T07:38:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1177.html">跟着小猪来做小程序开发吧——前奏</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/1146.html" class="archive-article-date">
-  	<time datetime="2017-01-09T02:46:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/1146.html">获取商户订单信息超时或商户返回http非200</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">微信支付</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/889.html" class="archive-article-date">
-  	<time datetime="2015-09-16T05:50:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/889.html">微信JSSDK python版本讲解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://blog.smallerpig.com/info-of-datastandard.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <script src="https://giscus.app/client.js"
+      data-repo="smallerpig/smallerpig.github.io"
+      data-repo-id="MDEwOlJlcG9zaXRvcnkxMDQ3MTM3NjE="
+      data-category="Announcements"
+      data-category-id="DIC_kwDOBj3OIc4CWi56"
+      data-mapping="url"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="preferred_color_scheme"
+      data-lang="zh-CN"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+      </script>
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/info-of-slowly-changing-dimensions.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数仓-维度建模之拉链表</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是数据标准？"><span class="toc-number">1.</span> <span class="toc-text">什么是数据标准？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要做数据标准？"><span class="toc-number">2.</span> <span class="toc-text">为什么要做数据标准？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据标准的分类"><span class="toc-number">3.</span> <span class="toc-text">数据标准的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#做数据标准的好处有哪些？"><span class="toc-number">4.</span> <span class="toc-text">做数据标准的好处有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何建设数据标准？"><span class="toc-number">5.</span> <span class="toc-text">如何建设数据标准？</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/微信开发/page/2/">2</a><a class="extend next" rel="next" href="/categories/微信开发/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -757,10 +426,10 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
