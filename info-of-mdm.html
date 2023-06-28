@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>大数据技术-主数据管理MDM | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。">
+  <meta name="description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。 某种意义上来讲，患者信息对于医院就是主数据，主数据管理系统就是实现主数据的识别、抽取、审核、发布、生成、变更、失效的全生命周期管理">
 <meta name="keywords" content="主数据,MDM,数据治理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大数据技术-主数据管理MDM">
 <meta property="og:url" content="http://blog.smallerpig.com/info-of-mdm.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。">
+<meta property="og:description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。 某种意义上来讲，患者信息对于医院就是主数据，主数据管理系统就是实现主数据的识别、抽取、审核、发布、生成、变更、失效的全生命周期管理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-06-16T02:22:51.707Z">
+<meta property="og:updated_time" content="2023-06-28T08:13:38.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据技术-主数据管理MDM">
-<meta name="twitter:description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。">
+<meta name="twitter:description" content="我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。 某种意义上来讲，患者信息对于医院就是主数据，主数据管理系统就是实现主数据的识别、抽取、审核、发布、生成、变更、失效的全生命周期管理">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -170,6 +170,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>我目前从事医疗行业，在医疗行业里最典型的主数据就是患者，各个医院里可能存在不同的供应商、不同历史阶段建设的不同的业务系统，其对患者的标识号不可能做到统一，而此时如果想要将各个业务系统的患者信息拉通，就需要建设所谓的患者主索引管理(EMPI)系统。</p>
+<p>某种意义上来讲，患者信息对于医院就是主数据，主数据管理系统就是实现主数据的识别、抽取、审核、发布、生成、变更、失效的全生命周期管理</p>
 <a id="more"></a>
 <h2 id="主数据定义"><a href="#主数据定义" class="headerlink" title="主数据定义"></a>主数据定义</h2><p>主数据（Master Data）是指在一个组织内部跨多个系统、应用程序和业务过程中共享、使用和维护的关键业务实体的核心数据。这些数据通常包括客户、产品、供应商、员工和其他重要的<strong>业务对象</strong>的信息。主数据的目的是确保数据在组织内的一致性、准确性和可靠性。</p>
 <p>主数据经常在交互业务中出现，但是其通常是趋于静态，与那些波动较大的交易数据相比，主数据的更新频率相对较低。</p>
