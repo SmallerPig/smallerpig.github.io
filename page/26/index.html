@@ -149,6 +149,354 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-web/html5-server-sent-events-asp-net-e5-90-91web-e5-ae-a2-e6-88-b7-e7-ab-af-e6-8e-a8-e9-80-81-e4-bf-a1-e6-81-af" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/302.html">HTML5 Server-sent Events ASP.NET向Web客户端推送信息</a>
+    </h1>
+  
+
+        
+        <a href="/302.html" class="archive-article-date">
+  	<time datetime="2013-09-11T02:42:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>在 Web 应用中，浏览器和服务器之间使用的是请求 / 响应的交互模式。浏览器发出请求，服务器根据收到的请求来生成相应的响应。浏览器再对收到的响应进行处理，展现给用户。响应的格式可能是 HTML、XML 或 JSON 等。随着 REST 架构风格和 AJAX 的流行，服务器更多地使用 JSON 作为响应的数据格式。Web 应用使用 XMLHttpRequest 对象来发送请求，并根据服务器端返回的数据，对页面的内容进行动态更新。通常来说，用户在页面上的操作，比如点击或移动鼠标，会触发相应的事件。由 XMLHttpRequest 对象来发出请求，得到服务器响应之后进行页面的局部更新。这种方式的不足之处在于：服务器端产生的数据变化不能及时地通知浏览器，而是需要等到下次请求发出时才能被浏览器获取。对于某些对数据实时性要求很高的应用来说，这种延迟是不能接受的。<br>为了满足这类应用的需求，就需要有某种方式能够从服务器端推送数据给浏览器，以保证服务器端的数据变化可以在第一时间通知给用户。目前常见的解决办法有不少，主要可以分成两类。这两类方法的区别在于是否基于 HTTP 协议来实现。不使用 HTTP 协议的做法是使用 HTML 5 新增的 WebSocket 规范，而使用 HTTP 协议的做法则包括简易轮询、COMET 技术和本文中要介绍的 HTML 5 服务器推送事件。</p>
+<hr>
+<p><strong>规范</strong><br>Server-sent Events 规范是 HTML 5 规范的一个组成部分，具体的规范文档见参考资源。该规范比较简单，主要由两个部分组成：第一个部分是服务器端与浏览器端之间的通讯协议，第二部分则是在浏览器端可供 JavaScript 使用的 EventSource 对象。通讯协议是基于纯文本的简单协议。服务器端的响应的内容类型是“text/event-stream”。响应文本的内容可以看成是一个事件流，由不同的事件所组成。每个事件由类型和数据两部分组成，同时每个事件可以有一个可选的标识符。不同事件的内容之间通过仅包含回车符和换行符的空行（“rn”）来分隔。每个事件的数据可能由多行组成。代码清单 1 给出了服务器端响应的示例。</p>
+<p>清单一：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data: first event</span><br><span class="line"></span><br><span class="line">data: second event</span><br><span class="line">id: 100</span><br><span class="line"></span><br><span class="line">event: myevent</span><br><span class="line">data: third event</span><br><span class="line">id: 101</span><br><span class="line"></span><br><span class="line">: this is a comment</span><br><span class="line">data: fourth event</span><br><span class="line">data: fourth event continue</span><br></pre></td></tr></table></figure></p>
+<p>如代码清单 1 所示，每个事件之间通过空行来分隔。对于每一行来说，冒号（“:”）前面表示的是该行的类型，冒号后面则是对应的值。可能的类型包括：</p>
+<ul>
+<li><p>类型为空白，表示该行是注释，会在处理时被忽略。</p>
+</li>
+<li><p>类型为 data，表示该行包含的是数据。以 data 开头的行可以出现多次。所有这些行都是该事件的数据。</p>
+</li>
+<li><p>类型为 event，表示该行用来声明事件的类型。浏览器在收到数据时，会产生对应类型的事件。</p>
+</li>
+<li><p>类型为 id，表示该行用来声明事件的标识符。</p>
+</li>
+<li><p>类型为 retry，表示该行用来声明浏览器在连接断开之后进行再次连接之前的等待时间。</p>
+</li>
+</ul>
+<p>在代码清单 1 中，第一个事件只包含数据“first event”，会产生默认的事件；第二个事件的标识符是 100，数据为“second event”；第三个事件会产生类型为“myevent”的事件；最后一个事件的数据为“fourth eventnfourth event continue”。当有多行数据时，实际的数据由每行数据以换行符连接而成。<br>如果服务器端返回的数据中包含了事件的标识符，浏览器会记录最近一次接收到的事件的标识符。如果与服务器端的连接中断，当浏览器端再次进行连接时，会通过 HTTP 头“Last-Event-ID”来声明最后一次接收到的事件的标识符。服务器端可以通过浏览器端发送的事件标识符来确定从哪个事件开始来继续连接。<br>对于服务器端返回的响应，浏览器端需要在 JavaScript 中使用 EventSource 对象来进行处理。EventSource 使用的是标准的事件监听器方式，只需要在对象上添加相应的事件处理方法即可。EventSource 提供了三个标准事件(open, message, error )，</p>
+<p>如之前所述，服务器端可以返回自定义类型的事件。对于这些事件，可以使用 addEventListener 方法来添加相应的事件处理方法。代码清单 2 给出了 EventSource 对象的使用示例。</p>
+<p>清单 2. EventSource 对象的使用示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vares = newEventSource(&apos;events&apos;);</span><br><span class="line">es.onmessage = function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">es.addEventListener(&apos;myevent&apos;, function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>如代码清单 2 所示，在指定 URL 创建出 EventSource 对象之后，可以通过 onmessage 和 addEventListener 方法来添加事件处理方法。当服务器端有新的事件产生，相应的事件处理方法会被调用。EventSource 对象的 onmessage 属性的作用类似于 addEventListener( ‘ message ’ )，不过 onmessage 属性只支持一个事件处理方法。<br>在介绍完服务器推送事件的规范内容之后，下面介绍服务器端的实现。</p>
+<hr>
+<p><strong>服务器端和浏览器端实现</strong></p>
+<p>从上一节中对通讯协议的描述可以看出，服务器端推送事件是一个比较简单的协议。服务器端的实现也相对比较简单，只需要按照协议规定的格式，返回响应内容即可。在开源社区可以找到各种不同的服务器端技术相对应的实现。自己开发的难度也不大。</p>
+<p>代码清单3：服务器端对应代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">publicvoidEvents\(\)</span><br><span class="line">&#123;</span><br><span class="line">    Response.ContentType = &quot;text/event-stream&quot;;</span><br><span class="line">    Response.Expires = -1;</span><br><span class="line">    while(Response.IsClientConnected)</span><br><span class="line">    &#123;</span><br><span class="line">        //Response.Write(&quot;event: add&quot;);</span><br><span class="line">        Response.Write(string.Format(&quot;event: testeventndata: &#123;0&#125;nn&quot;, DateTime.Now.ToString\(\)));</span><br><span class="line">        Response.Flush\(\);</span><br><span class="line">        Thread.Sleep(1000);</span><br><span class="line">    &#125;</span><br><span class="line">    Response.Close\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如代码清单3所示：在ASP.NET MVC中实现，该代码在对应的Controller中定义一个方法，定期返回服务器时间。如果不定义事件类型则默认事件名为：message。当客户端持续链接未断开时可以看到控制台在输出对应的信息。</p>
+<p>参考链接：<a href="http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/index.html" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/index.html</a></p>
+<p>该文章中使用了java作为后台语言实现同样的推送功能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/JS/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/JS/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/JS/MVC/WEBFORM/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/302.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-web/jquery-min-map-404-not-found" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/297.html">jquery.min.map 404 (Not Found) </a>
+    </h1>
+  
+
+        
+        <a href="/297.html" class="archive-article-date">
+  	<time datetime="2013-09-03T03:23:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很高兴你能注意到这个问题，因为其实这个错误对页面呈现效果是毫无影响的。说明你找到这个问题完全是想你的页面完美运行毫无错误！小猪说错了吗？</p>
+<p>请回答：</p>
+<ol>
+<li><p>1：你用的是chrome浏览器吗？</p>
+</li>
+<li><p>2：其他浏览器没出现这个错误吧？</p>
+</li>
+<li><p>3：你用了jquery库，而且你并没有在页面引用标题中的文件。</p>
+</li>
+</ol>
+<p>回答应该都是“YES”，因为距目前为止好像只有chrome浏览器支持这个特性。</p>
+<p>下面小猪来说说这个问题的原因。</p>
+<p>目前大多数js库都是使用压缩过的，压缩的好处是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）压缩，减小体积。比如jQuery 1.9的源码，压缩前是252KB，压缩后是32KB。</span><br><span class="line">（2）多个文件合并，减少HTTP请求数。</span><br><span class="line">（3）其他语言编译成JavaScript。</span><br></pre></td></tr></table></figure>
+<p>这三种情况，都使得实际运行的代码不同于开发代码，除错（debug）变得困难重重。<br>通常，JavaScript的解释器会告诉你，第几行第几列代码出错。但是，这对于转换后的代码毫无用处。举例来说，jQuery 1.9压缩后只有3行，每行3万个字符，所有内部变量都改了名字。你看着报错信息，感到毫无头绪，根本不知道它所对应的原始位置。<br><strong>这就是Source map想要解决的问题。</strong></p>
+<p>简单说，Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。<br>有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码。这无疑给开发者带来了很大方便。（下图中，上面的图是经过压缩后的js，下面的图是在调试时浏览器根据对应的map文件将压缩后的js文件还原后的结果）</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/82921378178807.png" alt></p>
+<p>目前，暂时只有Chrome浏览器支持这个功能。在Developer Tools的Setting设置中，确认选中&quot;Enable source maps&quot;。</p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/23071378178807.png" alt></p>
+<p>你可以在你的js文件里面找到类似对应行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//@ sourceMappingURL=jquery.min.ma</span><br></pre></td></tr></table></figure>
+<p><strong>现在知道原因了来看看解决方案：</strong></p>
+<ol>
+<li><p>直接删除jquery库的对应行文件，即<code>//@ sourceMappingURL=jquery.min.ma</code>，这个方法最简单也最直接了。哈哈。</p>
+</li>
+<li><p>如果你需要继续调试这段js代码的话引用对应的map文件，例如<a href="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.map" target="_blank" rel="noopener">http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.map</a></p>
+</li>
+<li><p>禁用浏览器的该功能，即把图2中的钩钩去掉。</p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/297.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-csharp/c-http-e6-96-ad-e7-82-b9-e7-bb-ad-e4-bc-a0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/294.html">C# HTTP 断点续传</a>
+    </h1>
+  
+
+        
+        <a href="/294.html" class="archive-article-date">
+  	<time datetime="2013-09-02T02:23:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在IIS中，磁盘路径对应的文件是可以直接下载的，而原生的IIS并不需要额外的配置就可以进行断点续传。而在小猪的项目中使用到的文件下载地址不对应磁盘路径的文件地址，而是需要验证用户是否有权限进行下载然后使用<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="noopener">使用fileresult提供文件下载</a>。这样整个下载过程都需要自己动手写代码完成。为了使客户端的体验更佳，所以必须要提供断点续传的功能。</p>
+<p><strong>断点续传的原理</strong></p>
+<p>其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 </p>
+<p>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下：<br>假设服务器域名为 w<a href="http://www.smallerpig.com，文件名为" target="_blank" rel="noopener">www.smallerpig.com，文件名为</a> down.zip。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /down.zip HTTP/1.1  </span><br><span class="line">Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-   </span><br><span class="line">excel, application/msword, application/vnd.ms-powerpoint, */*   </span><br><span class="line">Accept-Language: zh-cn   </span><br><span class="line">Accept-Encoding: gzip, deflate   </span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)   </span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<p>服务器收到请求后，按要求寻找请求的文件，提取文件的信息，然后返回给浏览器，返回信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">200  </span><br><span class="line">Content-Length=106786028  </span><br><span class="line">Accept-Ranges=bytes   </span><br><span class="line">Date=Mon, 30 Apr 2001 12:56:11 GMT   </span><br><span class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type=application/octet-stream   </span><br><span class="line">Server=Microsoft-IIS/5.0  </span><br><span class="line">Last-Modified=Mon, 30 Apr 2001 12:56:11 GMT</span><br></pre></td></tr></table></figure>
+<p>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。<br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /down.zip HTTP/1.0  </span><br><span class="line">User-Agent: NetFox   </span><br><span class="line">RANGE: bytes=2000070-   </span><br><span class="line">Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2</span><br></pre></td></tr></table></figure></p>
+<p>仔细看一下就会发现多了一行 RANGE: bytes=2000070-<br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。<br>服务器收到这个请求以后，返回的信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">206  </span><br><span class="line">Content-Length=106786028  </span><br><span class="line">Content-Range=bytes 2000070-106786027/106786028  </span><br><span class="line">Date=Mon, 30 Apr 2001 12:55:20 GMT   </span><br><span class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type=application/octet-stream   </span><br><span class="line">Server=Microsoft-IIS/5.0  </span><br><span class="line">Last-Modified=Mon, 30 Apr 2001 12:55:20 GMT</span><br></pre></td></tr></table></figure></p>
+<p>和前面服务器返回的信息比较一下，就会发现增加了一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Range=bytes 2000070-106786027/106786028</span><br></pre></td></tr></table></figure>
+<p>返回的代码也改为 206 了，而不再是 200 了。</p>
+<p>知道了以上原理，就可以进行断点续传的编程了。</p>
+<p><strong>C#实现断点续传</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 支持断点续传</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;httpContext&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;filePath&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;speed&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span><br><span class="line">public static bool DownloadFile(HttpContext httpContext, string filePath, long speed)</span><br><span class="line">&#123;</span><br><span class="line">    bool ret = true;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        #region--验证：HttpMethod，请求的文件是否存在</span><br><span class="line">        switch (httpContext.Request.HttpMethod.ToUpper\(\))</span><br><span class="line">        &#123; //目前只支持GET和HEAD方法   </span><br><span class="line">            case &quot;GET&quot;:</span><br><span class="line">            case &quot;HEAD&quot;:</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                httpContext.Response.StatusCode = 501;</span><br><span class="line">                return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!System.IO.File.Exists(filePath))</span><br><span class="line">        &#123;</span><br><span class="line">            httpContext.Response.StatusCode = 404;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region 定义局部变量</span><br><span class="line">        long startBytes = 0;</span><br><span class="line">        int packSize = 1024 * 40; //分块读取，每块40K bytes   </span><br><span class="line">        string fileName = Path.GetFileName(filePath);</span><br><span class="line">        FileStream myFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);</span><br><span class="line">        BinaryReader br = new BinaryReader(myFile);</span><br><span class="line">        long fileLength = myFile.Length;</span><br><span class="line"></span><br><span class="line">        int sleep = (int)Math.Ceiling(1000.0 * packSize / speed);//毫秒数：读取下一数据块的时间间隔   </span><br><span class="line">        string lastUpdateTiemStr = System.IO.File.GetLastWriteTimeUtc(filePath).ToString(&quot;r&quot;);</span><br><span class="line">        string eTag = HttpUtility.UrlEncode(fileName, Encoding.UTF8) + lastUpdateTiemStr;//便于恢复下载时提取请求头;   </span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region--验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修</span><br><span class="line">        if (myFile.Length &amp;gt; Int32.MaxValue)</span><br><span class="line">        &#123;//-------文件太大了-------   </span><br><span class="line">            httpContext.Response.StatusCode = 413;//请求实体太大   </span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (httpContext.Request.Headers[&quot;If-Range&quot;] != null)//对应响应头ETag：文件名+文件最后修改时间   </span><br><span class="line">        &#123;</span><br><span class="line">            //----------上次被请求的日期之后被修改过--------------   </span><br><span class="line">            if (httpContext.Request.Headers[&quot;If-Range&quot;].Replace(&quot;&quot;&quot;, &quot;&quot;) != eTag)</span><br><span class="line">            &#123;//文件修改过   </span><br><span class="line">                httpContext.Response.StatusCode = 412;//预处理失败   </span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            #region -------添加重要响应头、解析请求头、相关验证-------------------</span><br><span class="line">            httpContext.Response.Clear\(\);</span><br><span class="line">            httpContext.Response.Buffer = false;</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-MD5&quot;,Common.ASE.GetMD5Hash(filePath));//用于验证文件</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);//重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;ETag&quot;, &quot;&quot;&quot; + eTag + &quot;&quot;&quot;);//重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;Last-Modified&quot;, lastUpdateTiemStr);//把最后修改日期写入响应                   </span><br><span class="line">            httpContext.Response.ContentType = &quot;application/octet-stream&quot;;//MIME类型：匹配任意文件类型   </span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot; + HttpUtility.UrlEncode(fileName, Encoding.UTF8).Replace(&quot;+&quot;, &quot;%20&quot;));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Length&quot;, (fileLength - startBytes).ToString\(\));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</span><br><span class="line">            httpContext.Response.ContentEncoding = Encoding.UTF8;</span><br><span class="line">            if (httpContext.Request.Headers[&quot;Range&quot;] != null)</span><br><span class="line">            &#123;//------如果是续传请求，则获取续传的起始位置，即已经下载到客户端的字节数------   </span><br><span class="line">                httpContext.Response.StatusCode = 206;//重要：续传必须，表示局部范围响应。初始下载时默认为200   </span><br><span class="line">                string[] range = httpContext.Request.Headers[&quot;Range&quot;].Split(new char[] &#123; &apos;=&apos;, &apos;-&apos; &#125;);//&quot;bytes=1474560-&quot;   </span><br><span class="line">                startBytes = Convert.ToInt64(range[1]);//已经下载的字节数，即本次下载的开始位置     </span><br><span class="line">                if (startBytes &amp;lt; 0 || startBytes &amp;gt;= fileLength)</span><br><span class="line">                &#123;//无效的起始位置   </span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (startBytes &amp;gt; 0)</span><br><span class="line">            &#123;//------如果是续传请求，告诉客户端本次的开始字节数，总长度，以便客户端将续传数据追加到startBytes位置后----------   </span><br><span class="line">                httpContext.Response.AddHeader(&quot;Content-Range&quot;, string.Format(&quot; bytes &#123;0&#125;-&#123;1&#125;/&#123;2&#125;&quot;, startBytes, fileLength - 1, fileLength));</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line"></span><br><span class="line">            #region -------向客户端发送数据块-------------------</span><br><span class="line">            br.BaseStream.Seek(startBytes, SeekOrigin.Begin);</span><br><span class="line">            int maxCount = (int)Math.Ceiling((fileLength - startBytes + 0.0) / packSize);//分块下载，剩余部分可分成的块数   </span><br><span class="line">            for (int i = 0; i &amp;lt; maxCount &amp;amp;&amp;amp; httpContext.Response.IsClientConnected; i++)</span><br><span class="line">            &#123;//客户端中断连接，则暂停   </span><br><span class="line">                httpContext.Response.BinaryWrite(br.ReadBytes(packSize));</span><br><span class="line">                httpContext.Response.Flush\(\);</span><br><span class="line">                if (sleep &amp;gt; 1) Thread.Sleep(sleep);</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line">        &#125;</span><br><span class="line">        catch</span><br><span class="line">        &#123;</span><br><span class="line">            ret = false;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            br.Close\(\);</span><br><span class="line">            myFile.Close\(\);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    catch</span><br><span class="line">    &#123;</span><br><span class="line">        ret = false;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/WEBFORM/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/294.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-csharp/c-e6-93-8d-e4-bd-9cjson-e5-ad-97-e7-ac-a6-e4-b8-b2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -846,336 +1194,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-杂谈/操场边的人" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/279.html">操场边的人</a>
-    </h1>
-  
-
-        
-        <a href="/279.html" class="archive-article-date">
-  	<time datetime="2013-08-15T05:07:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些天养成了一个习惯，自从开始使用韩寒的“一个”之后发现每天抽一点时间来阅读一篇文章是件让人愉快的事情。“一个”吸引我的地方是他每天只推荐一篇文章。现在太多的应用信息量太大导致我有点疲劳，相反“一个”每天只有一篇文章，这反而使我每天定时的打开应用仔细的阅读他。</p>
-<p>这篇文章起源于今天推荐的关于跑步的文章。其中一段讲到了开始晨跑的原因，有那么一个人鼓励作者跑步，每次作者跑步的时候他总是拿着衣服在操场边上边走边等着他跑完。</p>
-<p>……</p>
-<p>我在大学的时候大二的时候学校由于迎接本科教育评估，硬是让已经耍了一年的我们大二学生起床做早操。每天早上我都需要像赶鸭子似的一个个宿舍敲门叫大家起来做早操，导致同学见到我就像是见了仇人。当评估结束了之后也就取消了做操的政策，但当时我作为班级里面位数不多的几个四级还没过的人不知道是从什么时候起决定早上6点起床跑步，背英语。</p>
-<p>自己一个人跑了一段时间之后有一个人出现在我的每天跑步的操场边上。</p>
-<p>我要考四级、她要考六级。</p>
-<p>我每天坚持跑几圈，她不跑，她只是在操场边上读她的英语。</p>
-<p>十一月份的天气早上六点多虽然太阳已经懒洋洋的升起来，但早上的风吹着却是很冷的，每次我跑完看着她冻的鼻子通红的时候我都会有种怜悯之心，衷心的祝福她能够顺利通过六级考试。</p>
-<p>某个早晨她告诉我，假期她要回家一次，所以早上她就不来了，我说嗯，你忙你的。</p>
-<p>直到那个短假期内的夜里我接到一个电话，电话的内容很短：“请你不要做伤害感情的事情！”我回答：“我没有做伤害感情的事”“那就好……”而背景里面隐约出现她的声音……</p>
-<p>挂完电话我躺床上楞了好久……</p>
-<p>躺在床上想我和她的事，他和她的事，整个过程。想我所做的一切是不是值得。</p>
-<p>后来早上跑步的时候操场边上就一直没有了她，可能是她已经不再早读了，或者他已经不需要早读了，或者她已经不需要我了。</p>
-<p>后来我听说那次她六级没过，再后来我六级过了她六级好像也没过，再后来就不知道她过没过了。</p>
-<p>很多年过去了，现在的她不知道是什么样子了，偶尔还能从她的QQ状态中了解她还是那么的乐观开朗，一切都是那么的平静。</p>
-<p>只是我有时候还是能够回忆起那点记忆，那短暂的记忆，一起吃麻辣烫，一起到旱冰场她不愿意穿鞋，她为我写了又删掉的日志。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/279.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/asp-net-mvc-fileresult-e4-bb-8b-e7-bb-8d" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/272.html">ASP.NET MVC FileResult介绍</a>
-    </h1>
-  
-
-        
-        <a href="/272.html" class="archive-article-date">
-  	<time datetime="2013-08-13T02:10:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在前一篇中，小猪向大家分享了在WebForm中<a href="http://www.smallerpig.com/archives/257" target="_blank" rel="noopener">使用Response.WriteFile()方法来向客户端提供指定文件的下载</a>。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。</p>
-<p>我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。<br><figure class="highlight plain"><figcaption><span>FileResult DownLoad\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    //Some code</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>FileResult 是一个抽象类，继承自 ActionResult。在 System.Web.Mvc.dll 中，它有如上三个子类，分别以不同的方式向客户端发送文件。</p>
-<p>在实际使用中我们通常不需要直接实例化一个 FileResult 的子类，因为 Controller 类已经提供了六个 File 方法来简化我们的操作：<br><figure class="highlight plain"><figcaption><span>internal FilePathResult File(string fileName, string contentType);</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected internal virtual FilePathResult File(string fileName, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileContentResult File(byte[] fileContents, string contentType);</span><br><span class="line">protected internal virtual FileContentResult File(byte[] fileContents, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileStreamResult File(Stream fileStream, string contentType);</span><br><span class="line">protected internal virtual FileStreamResult File(Stream fileStream, string contentType, string fileDownloadName);</span><br></pre></td></tr></table></figure></p>
-<p><strong>1.最简单的方法</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>第一个参数指定文件路径，第二个参数指定文件的 MIME 类型。</p>
-<p>用户点击浏览器上的下载链接后，会调出下载窗口。</p>
-<p>大家应该注意到，文件名称会变成 Download1.zip，默认成了 Action 的名字。我们使用 File 方法的第二个重载来解决文件名的问题：</p>
-<p><strong>2.为文件指定默认下载名</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload2\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    return File(&quot;F:\小小猪.zip&quot;, &quot;application/x-zip-compressed&quot;, &quot;crane.zip&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ActionResult FilePathDownload3\(\)</span><br><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们可以通过给 fileDownloadName 参数传值来指定文件名，fileDownloadName 不必和磁盘上的文件名一样。下载提示窗口还是默认为了 Action 的名字。原因是 fileDownloadName 将作为 URL 的一部分，只能包含 ASCII 码。我们把 FilePathDownload3 改进一下：</p>
-<p><strong>3. 对 fileDownloadName 进行 Url 编码</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload4\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, Url.Encode(name));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>好了，没问题了。上面代码中 Url.Encode(…)，也可使用 HttpUtility.UrlEncode(…)，前者在内部调用后者。</p>
-<p>我们再来看 FileContentResult.</p>
-<p><strong>4.FileContentResult</strong></p>
-<p>FileContentResult 可以直接将 byte[] 以文件形式发送至浏览器（而不用创建临时文件）。参考代码如下：<br><figure class="highlight plain"><figcaption><span>ActionResult FileContentDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    byte[] data = Encoding.UTF8.GetBytes(&quot;欢迎访问 小小猪 的博客 www.smallerpig.com&quot;);</span><br><span class="line">    return File(data, &quot;text/plain&quot;, &quot;welcome.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>点击后下载链接后，弹出提示窗口是否下载“welcome.txt”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/272.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据库/sql-server-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8b-e8-af-a6-e8-a7-a3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/258.html">SQL SERVER 数据类型详解</a>
-    </h1>
-  
-
-        
-        <a href="/258.html" class="archive-article-date">
-  	<time datetime="2013-08-12T08:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>bit &nbsp; &nbsp;整型<br>bit数据类型是整型，其值只能是0、1或空值。这种数据类型用于存储只有两种可能值的数据，如Yes 或No、True 或False 、On 或Off. &nbsp;<br>注意：很省空间的一种数据类型，如果能够满足需求应该尽量多用。</p>
-<p>tinyint &nbsp; 整型<br>tinyint 数据类型能存储从0到255 之间的整数。它在你只打算存储有限数目的数值时很有用。这种数据类型在数据库中占用1 个字节.<br>注意：如果bit类型太单调不能满足您的需求，您可以考虑用tinyint类型，因为这个类型相对也是比较安全的，不接受恶意脚本内容的嵌入。</p>
-<p>smallint &nbsp; &nbsp; 整型 &nbsp;<br>smallint 数据类型可以存储从- 2的15次幂(-32768)到2的15次幂(32767)之间的整数。这种数据类型对存储一些常限定在特定范围内的数值型数据非常有用。这种数据类型在数据库里占用2 字节空间.<br>注意：如果tinyint类型太单调不能满足您的需求，您可以考虑用smallint类型，因为这个类型相对也是比较安全的，不接受恶意脚本内容的嵌入。 </p>
-<p>int &nbsp; &nbsp;整型<br>int 数据类型可以存储从- 2的31次幂(-2147483648)到2的31次幂 (2147483 647)之间的整数。存储到数据库的几乎所有数值型的数据都可以用这种数据类型。这种数据类型在数据库里占用4个字节. </p>
-<p>注意：如果smallint也不能够满足您的需求，您可以考虑用长度更大的int类型。</p>
-<p>decimal &nbsp; 精确数值型<br>decimal 数据类型能用来存储从-10的38次幂-1到10的38次幂-1的固定精度和范围的数值型数据。使用这种数据类型时，必须指定范围和精度。 范围是小数点左右所能存储的数字的总位数。精度是小数点右边存储的数字的位数</p>
-<p>numeric &nbsp; 精确数值型<br>numeric数据类型与decimal 相似。</p>
-<p>smallmoney &nbsp; &nbsp;货币型<br>smallmoney 数据类型用来表示钱和货币值。这种数据类型能存储从-214748.3648 到214748.3647 之间的数据，精确到货币单位的万分之一<br>money &nbsp; 货币型<br>money数据类型用来表示钱和货币值。这种数据类型能存储从-9220亿到9220 亿之间的数据，精确到货币单位的万分之一 &nbsp;</p>
-<p>float &nbsp; &nbsp;近似数值型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>float 数据类型是一种近似数值类型，供浮点数使用。说浮点数是近似的，是因为在其范围内不是所有的数都能精确表示。浮点数可以是从-1.79E+308到1.79E+308 之间的任意数 </p>
-<p>real &nbsp; &nbsp; 近似数值型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>real 数据类型像浮点数一样，是近似数值类型。它可以表示数值在-3.40E+38到3.40E+38之间的浮点数<br>Smalldatetime &nbsp; 日期时间型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>smalldatetime 数据类型用来表示从1900年1月1日到2079年6月6日间的日期和时间，精确到一分钟 &nbsp;</p>
-<p>datetime &nbsp; 日期时间型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>datetime数据类型用来表示日期和时间。这种数据类型存储从1753年1月1日到9999年12月31日间所有的日期和时间数据， 精确到三百分之一秒或3.33毫秒 . </p>
-<p>cursor &nbsp; &nbsp;特殊数据型<br>cursor 数据类型是一种特殊的数据类型，它包含一个对游标的引用。这种数据类型用在存储过程中，而且创建表时不能用 </p>
-<p>timestamp &nbsp; 特殊数据型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>timestamp 数据类型是一种特殊的数据类型，用来创建一个数据库范围内的唯一数码。 一个表中只能有一个timestamp列。每次插入或修改一行时，timestamp列的值都会改变。尽管它的名字中有“time”， 但timestamp列不是人们可识别的日期。在一个数据库里，timestamp值是唯一的 &nbsp;</p>
-<p>Uniqueidentifier &nbsp; &nbsp;特殊数据型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>Uniqueidentifier数据类型用来存储一个全局唯一标识符，即GUID。GUID确实是全局唯一的。这个数几乎没有机会在另一个系统中被重建。可以使用NEWID 函数或转换一个字符串为唯一<br>标识符来初始化具有唯一标识符的列 .</p>
-<p>char &nbsp; &nbsp;字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>char数据类型用来存储指定长度的定长非统一编码型的数据。当定义一列为此类型时，你必须指定列长。当你总能知道要存储的数据的长度时，此数据类型很有用。例如，当你按邮政编码加4个字符格式来存储数据时，你知道总要用到10个字符。此数据类型的列宽最大为8000 个字符.</p>
-<p>varchar &nbsp; 字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; varchar数据类型，同char类型一样，用来存储非统一编码型字符数据。与char 型不一样，此数据类型为变长。当定义一列为该数据类型时，你要指定该列的最大长度。 它与char数据类型最大的区别是，存储的长度不是列长，而是数据的长度 &nbsp; .</p>
-<p>text &nbsp; &nbsp;字符型 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>text 数据类型用来存储大量的非统一编码型字符数据。这种数据类型最多可以有231-1或20亿个字符.</p>
-<p>nchar &nbsp; &nbsp;统一编码字符型 &nbsp;<br>nchar 数据类型用来存储定长统一编码字符型数据。统一编码用双字节结构来存储每个字符，而不是用单字节(普通文本中的情况)。它允许大量的扩展字符。此数据类型能存储4000种字符，使用的字节空间上增加了一倍.</p>
-<p>nvarchar &nbsp; &nbsp;统一编码字符型 &nbsp; &nbsp;<br>nvarchar 数据类型用作变长的统一编码字符型数据。此数据类型能存储4000种字符，使用的字节空间增加了一倍.</p>
-<p><span style="color:#FF0000;">使用VARCHAR，CHAR每个汉字是占2位但NVARCHAR是Unicode字符一个汉字只占1位！所以NVARCHAR(10)应该可以存10个汉字</span></p>
-<p>ntext &nbsp; &nbsp;统一编码字符型 &nbsp; &nbsp;<br>ntext 数据类型用来存储大量的统一编码字符型数据。这种数据类型能存储230 -1或将近10亿个字符，且使用的字节空间增加了一倍</p>
-<p>binary &nbsp; &nbsp;二进制数据类型 &nbsp;<br>binary数据类型用来存储可达8000 字节长的定长的二进制数据。当输入表的内容接近相同的长度时，你应该使用这种数据类型.</p>
-<p>varbinary &nbsp; &nbsp; 二进制数据类型 &nbsp;<br>varbinary 数据类型用来存储可达8000 字节长的变长的二进制数据。当输入表的内容大小可变时，你应该使用这种数据类型 &nbsp;</p>
-<p>image &nbsp; &nbsp;二进制数据类型 &nbsp; &nbsp;<br>image 数据类型用来存储变长的二进制数据，最大可达231-1或大约20亿字节 &nbsp;</p>
-<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>(1)二进制数据类型<br>　　二进制数据包括 Binary、Varbinary 和 Image<br>　　Binary 数据类型既可以是固定长度的(Binary),也可以是变长度的。<br>　　Binary[(n)] 是 n 位固定的二进制数据。其中，n 的取值范围是从 1 到 8000。其存储窨的大小是 n + 4 个字节。<br>　　Varbinary[(n)] 是 n 位变长度的二进制数据。其中，n 的取值范围是从 1 到 8000。其存储窨的大小是 n + 4个字节，不是n 个字节。<br>　　在 Image 数据类型中存储的数据是以位字符串存储的，不是由 SQL Server 解释的，必须由应用程序来解释。例如，应用程序可以使用BMP、TIEF、GIF 和 JPEG 格式把数据存储在 Image 数据类型中。 </p>
-<p>(2)字符数据类型 </p>
-<p>　　字符数据的类型包括 Char，Varchar 和 Text<br>　　字符数据是由任何字母、符号和数字任意组合而成的数据。<br>　　Varchar 是变长字符数据，其长度不超过 8KB。Char 是定长字符数据，其长度最多为 8KB。超过 8KB 的ASCII 数据可以使用Text数据类型存储。例如，因为 Html 文档全部都是 ASCII 字符，并且在一般情况下长度超过 8KB，所以这些文档可以 Text 数据类型存储在SQL Server 中。 </p>
-<p>(3)Unicode 数据类型 </p>
-<p>　　Unicode 数据类型包括 Nchar,Nvarchar 和Ntext<br>　　在 Microsoft SQL Server 中，传统的非 Unicode 数据类型允许使用由特定字符集定义的字符。在 SQL Server安装过程中，允许选择一种字符集。使用 Unicode 数据类型，列中可以存储任何由Unicode 标准定义的字符。在 Unicode 标准中，包括了以各种字符集定义的全部字符。使用Unicode数据类型，所战胜的窨是使用非 Unicode 数据类型所占用的窨大小的两倍。<br>　　在 SQL Server 中，Unicode 数据以 Nchar、Nvarchar 和 Ntext 数据类型存储。使用这种字符类型存储的列可以存储多个字符集中的字符。当列的长度变化时，应该使用Nvarchar 字符类型，这时最多可以存储 4000 个字符。当列的长度固定不变时，应该使用 Nchar 字符类型，同样，这时最多可以存储4000 个字符。当使用 Ntext 数据类型时，该列可以存储多于 4000 个字符。 </p>
-<p>(4)日期和时间数据类型 </p>
-<p>　　日期和时间数据类型包括 Datetime 和 Smalldatetime两种类型<br>　　日期和时间数据类型由有效的日期和时间组成。例如，有效的日期和时间数据包括“4/01/98 12:15:00:00:00 PM”和“1:28:29:15:01AM 8/17/98”。前一个数据类型是日期在前，时间在后一个数据类型是霎时间在前，日期在后。在 Microsoft SQL Server中，日期和时间数据类型包括Datetime 和 Smalldatetime 两种类型时，所存储的日期范围是从 1753 年 1 月 1 日开始，到9999 年12 月 31 日结束(每一个值要求 8 个存储字节)。使用 Smalldatetime 数据类型时，所存储的日期范围是 1900年 1 月 1日 开始，到 2079 年 12 月 31 日结束(每一个值要求 4 个存储字节)。<br>　　日期的格式可以设定。设置日期格式的命令如下：<br>　　Set DateFormat {format | @format _var|<br>　　其中，format | @format_var 是日期的顺序。有效的参数包括 MDY、DMY、YMD、YDM、MYD 和 DYM。在默认情况下，日期格式为MDY。<br>　　例如，当执行 Set DateFormat YMD 之后，日期的格式为年 月 日 形式；当执行 Set DateFormat DMY 之后，日期的格式为日 月有年 形式 </p>
-<p>（5）数字数据类型 </p>
-<p>　　数字数据只包含数字。数字数据类型包括正数和负数、小数（浮点数）和整数<br>　　整数由正整数和负整数组成，例如 39、25、0-2 和 33967。在 Micrsoft SQL Server 中，整数存储的数据类型是 　　 Int，Smallint和 Tinyint。Int 数据类型存储数据的范围大于 Smallint 数据类型存储数据的范围，而 Smallint 据类型存储数据的范围大于Tinyint 数据类型存储数据的范围。使用 Int 数据狗昔存储数据的范围是从 -2 147 483 648 到 2 147 483 647（每一个值要求4个字节存储空间）。使用 Smallint 数据类型时，存储数据的范围从 -32 768 到 32 767（每一个值要求2个字节存储空间）。使用Tinyint 数据类型时，存储数据的范围是从0 到255（每一个值要求1个字节存储空间）。<br>　　精确小娄数据在 SQL Server 中的数据类型是 Decimal 和 Numeric。这种数据所占的存储空间根据该数据的位数后的位数来确定。<br>　　在SQL Server 中，近似小数数据的数据类型是 Float 和 Real。例如，三分之一这个分数记作。3333333，当使用近似数据类型时能准确表示。因此，从系统中检索到的数据可能与存储在该列中数据不完全一样。 </p>
-<p>（6）货币数据表示正的或者负的货币数量 。 </p>
-<p>　　在 Microsoft SQL Server 中，货币数据的数据类型是Money 和 Smallmoney<br>　　Money数据类型要求 8 个存储字节，Smallmoney 数据类型要求 4 个存储字节。 </p>
-<p>（7）特殊数据类型 </p>
-<p>　　特殊数据类型包括前面没有提过的数据类型。特殊的数据类型有3种，即 　　 Timestamp、Bit 和 Uniqueidentifier。<br>　　Timestamp 用于表示SQL Server 活动的先后顺序，以二进投影的格式表示。Timestamp 数据与插入数据或者日期和时间没有关系。<br>　　Bit 由 1 或者 0 组成。当表示真或者假、ON 或者 OFF 时，使用 Bit 数据类型。例如，询问是否是每一次访问的客户机请求可以存储在这种数据类型的列中。<br>　　Uniqueidentifier 由 16 字节的十六进制数字组成，表示一个全局唯一的。当表的记录行要求唯一时，GUID是非常有用。例如，在客户标识号列使用这种数据类型可以区别不同的客户。 </p>
-<p>2.用户定义的数据类型 </p>
-<p>　　用户定义的数据类型基于在 Microsoft SQL Server 中提供的数据类型。当几个表中必须存储同一种数据类型时，并且为保证这些列有相同的数据类型、长度和可空性时，可以使用用户定义的数据类型。例如，可定义一种称为 　　postal_code 的数据类型，它基于 Char 数据类型。<br>　　当创建用户定义的数据类型时，必须提供三个数：数据类型的名称、所基于的系统数据类型和数据类型的可空性。 </p>
-<p>（1）创建用户定义的数据类型 </p>
-<p>　　创建用户定义的数据类型可以使用 Transact-SQL 语句。系统存储过程 sp_addtype 可以来创建用户定义的数据类型。其语法形式如下：<br>　　sp_addtype {type},[,system_data_bype][,&#39;null_type&#39;]<br>　　其中，type 是用户定义的数据类型的名称。system_data_type 是系统提供的数据类型，例如 Decimal、Int、Char 　　等等。 null_type 表示该数据类型是如何处理空值的，必须使用单引号引起来，例如&#39;NULL&#39;、&#39;NOT NULL&#39;或者&#39;NONULL&#39;。<br>　　例子：<br>　　Use cust<br>　　Exec sp_addtype ssn,&#39;Varchar(11)&#39;,&quot;Not Null&#39;<br>　　创建一个用户定义的数据类型 ssn，其基于的系统数据类型是变长为11 的字符，不允许空。<br>　　例子：<br>　　Use cust<br>　　Exec sp_addtype birthday,datetime,&#39;Null&#39;<br>　　创建一个用户定义的数据类型 birthday，其基于的系统数据类型是 DateTime，允许空。<br>　　例子：<br>　　Use master<br>　　Exec sp_addtype telephone,&#39;varchar(24),&#39;Not Null&#39;<br>　　Eexc sp_addtype fax,&#39;varchar(24)&#39;,&#39;Null&#39;<br>　　创建两个数据类型，即 telephone 和 fax </p>
-<p>（2）删除用户定义的数据类型 </p>
-<p>　　当用户定义的数据类型不需要时，可删除。删除用户定义的数据类型的命令是 sp_droptype {&#39;type&#39;}。<br>　　例子：<br>　　Use master<br>　　Exec sp_droptype &#39;ssn&#39;<br>　　注意：当表中的列还正在使用用户定义的数据类型时，或者在其上面还绑定有默认或者规则时，这种用户定义的数据类型不能删除。 </p>
-<p>SQL SERVER的字段类型说明 </p>
-<p>　　以下为SQL SERVER7.0以上版本的字段类型说明。SQL SERVER6.5的字段类型说明请参考SQL SERVER提供的说明。</p>
-<p>字段类型 描述<br>bit &nbsp; 0或1的整型数字<br>int &nbsp; 从-2^31(-2,147,483,648)到2^31(2,147,483,647)的整型数字<br>smallint &nbsp; 从-2^15(-32,768)到2^15(32,767)的整型数字<br>tinyint &nbsp; 从0到255的整型数字<br> &nbsp; &nbsp;<br>decimal &nbsp; 从-10^38到10^38-1的定精度与有效位数的数字<br>numeric &nbsp; decimal的同义词<br> &nbsp; &nbsp;<br>money &nbsp; 从-2^63(-922,337,203,685,477.5808)到2^63-1(922,337,203,685,477.5807)的货币数据，最小货币单位千分之十<br>smallmoney &nbsp; 从-214,748.3648到214,748.3647的货币数据，最小货币单位千分之十<br> &nbsp; &nbsp;<br>float &nbsp; 从-1.79E+308到1.79E+308可变精度的数字<br>real &nbsp; 从-3.04E+38到3.04E+38可变精度的数字<br> &nbsp; &nbsp;<br>datetime &nbsp; 从1753年1月1日到9999年12日31的日期和时间数据，最小时间单位为百分之三秒或3.33毫秒<br>smalldatetime &nbsp; 从1900年1月1日到2079年6月6日的日期和时间数据，最小时间单位为分钟<br> &nbsp; &nbsp;<br>timestamp &nbsp; 时间戳，一个数据库宽度的唯一数字<br>uniqueidentifier &nbsp; 全球唯一标识符GUID<br> &nbsp; &nbsp;<br>char &nbsp; 定长非Unicode的字符型数据，最大长度为8000<br>varchar &nbsp; 变长非Unicode的字符型数据，最大长度为8000<br>text &nbsp; 变长非Unicode的字符型数据，最大长度为2^31-1(2G)<br> &nbsp; &nbsp;<br>nchar &nbsp; 定长Unicode的字符型数据，最大长度为8000<br>nvarchar &nbsp; 变长Unicode的字符型数据，最大长度为8000<br>ntext &nbsp; 变长Unicode的字符型数据，最大长度为2^31-1(2G)<br> &nbsp; &nbsp;<br>binary &nbsp; 定长二进制数据，最大长度为8000<br>varbinary &nbsp; 变长二进制数据，最大长度为8000<br>image &nbsp; 变长二进制数据，最大长度为2^31-1(2G) </p>
-<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>Bit<br> &nbsp; &nbsp; 1位，值为0或1<br> &nbsp; &nbsp; Int<br> &nbsp; &nbsp; Integer<br> &nbsp; &nbsp; 4字节，值为-2^31~2^31-1<br> &nbsp; &nbsp; Smallint<br> &nbsp; &nbsp; 2字节，值为-2^15~2^15-1<br> &nbsp; &nbsp; Tinyint<br> &nbsp; &nbsp; 1字节，值为0~255<br> &nbsp; &nbsp; Decimal (p,s)<br> &nbsp; &nbsp; 数字数据，固定精度为P，宽度为S<br> &nbsp; &nbsp; Numeric<br> &nbsp; &nbsp; Money<br> &nbsp; &nbsp; 8字节，存放货币类型，值为-2^63~2^63-1<br> &nbsp; &nbsp; Small money<br> &nbsp; &nbsp; 4字节，存放货币类型，值为-214748.3648~+214748.3647近似数值数据类型<br> &nbsp; &nbsp; Float (n)<br> &nbsp; &nbsp; N在1~24之间，4字节，7位精度<br> &nbsp; &nbsp; N=1~7为real<br> &nbsp; &nbsp; N在25~53之间，8字节，15位精度<br> &nbsp; &nbsp; =8~15为float<br>Datetime<br> &nbsp; &nbsp; 8字节，描述某天的日期和时刻，值的精确度为1/300秒<br> &nbsp; &nbsp; Smalldatetime<br> &nbsp; &nbsp; 4字节，描述某天的日期和时刻，精度为分钟<br> &nbsp; &nbsp; Cursor &nbsp;<br> &nbsp; &nbsp; 对游标的引用<br> &nbsp; &nbsp; Timestamp<br> &nbsp; &nbsp; 8字节，存放在数据库内唯一的数据<br> &nbsp; &nbsp; Uniqueidentifier<br> &nbsp; &nbsp; 16字节，存放全局唯一标识（GUID）<br> &nbsp; &nbsp; Char (n)<br> &nbsp; &nbsp; 非unicode字符串的固定长度，n=1~8000<br> &nbsp; &nbsp; Character (n)<br>Varchar (n)<br> &nbsp; &nbsp; 可变长度，非unicode字符串n=1~8000<br> &nbsp; &nbsp; Char varying(n)<br>Text<br> &nbsp; &nbsp; 服务器代码页中可变长度非unicode数据。最大长度为231-1个字符<br> &nbsp; &nbsp; Nchar<br> &nbsp; &nbsp; 固定长度unicode字符串n=1~4000<br> &nbsp; &nbsp; National character (n),<br> &nbsp; &nbsp; National char(n)<br>Nvarchar<br> &nbsp; &nbsp; 固定长度unicode字符串n=1~4000<br> &nbsp; &nbsp; National character varying(n)<br>Ntext<br> &nbsp; &nbsp; 可变长度unicode数据，最大长度为230-1个字符<br> &nbsp; &nbsp; National text<br>Binary (n)<br> &nbsp; &nbsp; 固定长度二进制数据，n在1~8000之间，存储空间为n+4字节<br> &nbsp; &nbsp; Varbinary (n)<br> &nbsp; &nbsp; 可变长度二进制数据，n=1~8000<br> &nbsp; &nbsp; Binary varying (n)<br>Tmage<br> &nbsp; &nbsp; 可变长度二进制数据，大小为0~231-1<br> &nbsp; &nbsp; 注意：<br> &nbsp; &nbsp; 1） 对于数值型数据类型，宽度（scale）是指存储在小数点后的数字位数，而精度（precision）是指能存储的包含小数点在内的所有数字位数。<br> &nbsp; &nbsp; 2） money和small money的存储宽度为4。<br> &nbsp; &nbsp; 3） 时间戳列值在每一行更新时系统自动更新，时间戳列不能是关键字或关键字的一部分。<br> &nbsp; &nbsp; 4） 唯一标识数据类型不能使用算术操作符（如+、-等），这种数据类型只能使用相等比较操作。Unicode是所有字符集的一致存储数据的标准。它要使用两倍于非Unicode数据存储的存储空间。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/258.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/25/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/27/">Next &raquo;</a>
@@ -1277,10 +1295,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -1289,7 +1303,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1297,15 +1311,39 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1337,7 +1375,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1345,11 +1383,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1373,35 +1407,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jvm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1413,15 +1419,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1433,19 +1439,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1453,15 +1455,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MDM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1469,15 +1463,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据治理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">主数据</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">canal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1489,15 +1483,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hbase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1509,31 +1507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
+                <a href="javascript:void(0)" class="js-tag color5">oceanbase</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1541,15 +1519,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1561,10 +1535,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">模板消息</a>
               </li>
              
@@ -1573,7 +1543,87 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1585,15 +1635,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1609,11 +1659,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
+                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">猪之理</a>
+                <a href="javascript:void(0)" class="js-tag color4">拖后腿</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1621,15 +1671,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1638,30 +1684,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
