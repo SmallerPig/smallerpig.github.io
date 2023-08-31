@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>在Django中使用Q\(\)对象 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:123&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q1 = Entry.objects.filter(headline__startswith=&amp;quot;What&amp;quot;)&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q2 = q1.exclude(pub_date__gte=dateti">
-<meta name="keywords" content="python,Django">
+  <meta name="description" content="问题一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:123&gt;&gt;&gt; q1 &#x3D; Entry.objects.filter(headline__startswith&#x3D;&quot;What&quot;)&gt;&gt;&gt; q2 &#x3D; q1.exclude(pub_date__gte&#x3D;datetime.d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Django中使用Q\(\)对象">
 <meta property="og:url" content="http://blog.smallerpig.com/1000.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="问题一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:123&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q1 = Entry.objects.filter(headline__startswith=&amp;quot;What&amp;quot;)&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q2 = q1.exclude(pub_date__gte=dateti">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-31T01:18:12.767Z">
+<meta property="og:description" content="问题一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:123&gt;&gt;&gt; q1 &#x3D; Entry.objects.filter(headline__startswith&#x3D;&quot;What&quot;)&gt;&gt;&gt; q2 &#x3D; q1.exclude(pub_date__gte&#x3D;datetime.d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-22T08:10:54.000Z">
+<meta property="article:modified_time" content="2023-05-31T01:18:12.767Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="Django">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Django中使用Q\(\)对象">
-<meta name="twitter:description" content="问题一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:123&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q1 = Entry.objects.filter(headline__startswith=&amp;quot;What&amp;quot;)&amp;amp;gt;&amp;amp;gt;&amp;amp;gt; q2 = q1.exclude(pub_date__gte=dateti">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -47,8 +48,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -169,27 +170,27 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;gt;&amp;gt;&amp;gt; q1 = Entry.objects.filter(headline__startswith=&quot;What&quot;)</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q2 = q1.exclude(pub_date__gte=datetime.date.today\(\))</span><br><span class="line">&amp;gt;&amp;gt;&amp;gt; q3 = q1.filter(pub_date__gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure></p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>一般我们在Django程序中查询数据库操作都是在QuerySet里进行进行，例如下面代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; q1 &#x3D; Entry.objects.filter(headline__startswith&#x3D;&quot;What&quot;)</span><br><span class="line">&gt;&gt;&gt; q2 &#x3D; q1.exclude(pub_date__gte&#x3D;datetime.date.today\(\))</span><br><span class="line">&gt;&gt;&gt; q3 &#x3D; q1.filter(pub_date__gte&#x3D;datetime.date.today\(\))</span><br></pre></td></tr></table></figure></p>
 <p>或者将其组合起来，例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;gt;&amp;gt;&amp;gt;q1 = Entry.objects.filter(headline_startswith=&quot;What&quot;).exclude(pub_date_gte=datetime.date.today\(\))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt;q1 &#x3D; Entry.objects.filter(headline_startswith&#x3D;&quot;What&quot;).exclude(pub_date_gte&#x3D;datetime.date.today\(\))</span><br></pre></td></tr></table></figure>
 <p>随着我们的程序越来越复杂，查询的条件也跟着复杂起来，这样简单的通过一个filter()来进行查询的条件将导致我们的查询越来越长。</p>
 <h2 id="Q-对象就是为了将这些条件组合起来。"><a href="#Q-对象就是为了将这些条件组合起来。" class="headerlink" title="Q()对象就是为了将这些条件组合起来。"></a>Q()对象就是为了将这些条件组合起来。</h2><p>当我们在查询的条件中需要组合条件时(例如两个条件“且”或者“或”)时。我们可以使用Q()查询对象。<br>例如下面的代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models imports Q</span><br><span class="line">q=Q(question_startswith=&quot;What&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from django.db.models imports Q</span><br><span class="line">q&#x3D;Q(question_startswith&#x3D;&quot;What&quot;)</span><br></pre></td></tr></table></figure>
 <p>这样就生成了一个Q()对象，我们可以使用符号&amp;或者|将多个Q()对象组合起来传递给filter()，exclude()，get()等函数。当多个Q()对象组合起来时，Django会自动生成一个新的Q()。<br>例如下面代码就将两个条件组合成了一个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | Q(question__startswith=&apos;What&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith&#x3D;&#39;Who&#39;) | Q(question__startswith&#x3D;&#39;What&#39;)</span><br></pre></td></tr></table></figure>
 <p>使用上述代码可以使用SQL语句这么理解:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question LIKE &apos;Who%&apos; OR question LIKE &apos;What%&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question LIKE &#39;Who%&#39; OR question LIKE &#39;What%&#39;</span><br></pre></td></tr></table></figure>
 <p>我们可以在Q()对象的前面使用字符“~”来代表意义“非”，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith=&apos;Who&apos;) | ~Q(pub_date__year=2005)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Q(question__startswith&#x3D;&#39;Who&#39;) | ~Q(pub_date__year&#x3D;2005)</span><br></pre></td></tr></table></figure>
 <p>对应SQL语句可以理解为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question like &quot;Who%&quot; OR year(pub_date) !=2005</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">WHERE question like &quot;Who%&quot; OR year(pub_date) !&#x3D;2005</span><br></pre></td></tr></table></figure>
 <p>这样我们可以使用 “&amp;”或者“|”还有括号来对条件进行分组从而组合成更加复杂的查询逻辑。</p>
 <p>也可以传递多个Q()对象给查询函数，例如下面代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">News.objects,get(</span><br><span class="line">    Q(question__startswith=&apos;Who&apos;),</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">News.objects,get(</span><br><span class="line">    Q(question__startswith&#x3D;&#39;Who&#39;),</span><br><span class="line">    Q(pub_date&#x3D;date(2005, 5, 2)) | Q(pub_date&#x3D;date(2005, 5, 6))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>多个Q()对象之间的关系Django会自动理解成“且(and)”关系。如上面代码使用SQL语句理解将会是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT * from news WHERE question LIKE &apos;Who%&apos;  AND (pub_date = &apos;2005-05-02&apos; OR pub_date = &apos;2005-05-06&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT * from news WHERE question LIKE &#39;Who%&#39;  AND (pub_date &#x3D; &#39;2005-05-02&#39; OR pub_date &#x3D; &#39;2005-05-06&#39;)</span><br></pre></td></tr></table></figure>
 <p>Q()对象可以结合关键字参数一起传递给查询函数，不过需要注意的是要将Q()对象放在关键字参数的前面，看下面代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#正确的做法</span><br><span class="line">News.objects.get(</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),</span><br><span class="line">    question__startswith=&apos;Who&apos;)</span><br><span class="line"></span><br><span class="line">#错误的做法，代码将关键字参数放在了Q\(\)对象的前面。</span><br><span class="line">News.objects.get(</span><br><span class="line">    question__startswith=&apos;Who&apos;,</span><br><span class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#正确的做法</span><br><span class="line">News.objects.get(</span><br><span class="line">    Q(pub_date&#x3D;date(2005, 5, 2)) | Q(pub_date&#x3D;date(2005, 5, 6)),</span><br><span class="line">    question__startswith&#x3D;&#39;Who&#39;)</span><br><span class="line"></span><br><span class="line">#错误的做法，代码将关键字参数放在了Q\(\)对象的前面。</span><br><span class="line">News.objects.get(</span><br><span class="line">    question__startswith&#x3D;&#39;Who&#39;,</span><br><span class="line">    Q(pub_date&#x3D;date(2005, 5, 2)) | Q(pub_date&#x3D;date(2005, 5, 6)))</span><br></pre></td></tr></table></figure>
       
 
       
@@ -483,11 +484,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -499,7 +504,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,39 +512,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,6 +552,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -579,11 +564,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,11 +616,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -615,18 +640,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -635,15 +648,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -671,6 +692,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -679,19 +708,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -699,7 +716,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -707,7 +724,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -715,11 +752,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -739,87 +776,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -831,15 +788,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -867,10 +824,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -879,7 +832,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -930,9 +935,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

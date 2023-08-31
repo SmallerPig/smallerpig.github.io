@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>C# IEqualityComparer&lt;T&gt;接口的使用 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct\(\)方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct的另一个重载了1public sta">
+  <meta name="description" content="如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用IEnumerable&amp;lt;T&amp;gt;的Distinct\(\)方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用IEnumerable&amp;lt;T&amp;gt;的Distinct的另一个重载了1public sta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C# IEqualityComparer&lt;T&gt;接口的使用">
 <meta property="og:url" content="http://blog.smallerpig.com/577.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct\(\)方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct的另一个重载了1public sta">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用IEnumerable&amp;lt;T&amp;gt;的Distinct\(\)方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用IEnumerable&amp;lt;T&amp;gt;的Distinct的另一个重载了1public sta">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb6.png">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:published_time" content="2015-04-21T05:30:45.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C# IEqualityComparer&lt;T&gt;接口的使用">
-<meta name="twitter:description" content="如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct\(\)方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用IEnumerable&amp;amp;lt;T&amp;amp;gt;的Distinct的另一个重载了1public sta">
 <meta name="twitter:image" content="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb6.png">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -48,8 +48,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -170,12 +170,8 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct\(\)</code>方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct</code>的另一个重载了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable Distinct(this IEnumerable source, IEqualityComparer comparer);</span><br></pre></td></tr></table></figure></p>
-<p>该重载需要传递一个实现了<code>IEqualityComparer&amp;lt;T&amp;gt;</code>的类型来告诉<code>Distinct</code>要进行怎样的区别,今天我就来分享下如果使用该接口:</p>
-<p>该接口的定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    bool Equals(T x, T y);</span><br><span class="line"></span><br><span class="line">    int GetHashCode(T obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>例如我们为了使用该接口定义了下面的类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class EqualityComparer : IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line">    public bool Equals(DemoClass x, DemoClass y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(x, y)) return true;</span><br><span class="line"></span><br><span class="line">        if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))</span><br><span class="line">            return false;</span><br><span class="line"></span><br><span class="line">        return x.Id == y.Id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(DemoClass obj)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(obj, null)) return 0;</span><br><span class="line"></span><br><span class="line">        return obj.Id.GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoClass</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Action &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的比较器实现了对<code>DemoClass</code>的比较,只要两个类的ID相同,不管<code>action</code>值是否相同都认为他们是一样的,这样在<code>distanct</code>的时候只返回一条数据,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    IEnumerable demoClasses = new List</span><br><span class="line">    &#123;</span><br><span class="line">        new DemoClass\(\) &#123;Id = 1, Action = &quot;edit&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 2, Action = &quot;add&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 3, Action = &quot;insert&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id = 1, Action = &quot;2222&quot;&#125;,</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    demoClasses = demoClasses.Distinct(new EqualityComparer\(\)).ToArray\(\);</span><br><span class="line"></span><br><span class="line">    foreach (var demoClass in demoClasses)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(demoClass.Id + &quot; &quot; + demoClass.Action);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console.ReadLine\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上述代码的最终输出为:</p>
+        <p>如果我们使用的都是简单类型,例如int.string等等.那么我们在使用linq的Distinct的时候就可以直接使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct\(\)</code>方法了.可是如果我们要对复杂类型进行区分而且区分的逻辑本身需要我们自己完成的时候就需要使用<code>IEnumerable&amp;lt;T&amp;gt;</code>的<code>Distinct</code>的另一个重载了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable Distinct(this IEnumerable source, IEqualityComparer comparer);</span><br></pre></td></tr></table></figure><br>该重载需要传递一个实现了<code>IEqualityComparer&amp;lt;T&amp;gt;</code>的类型来告诉<code>Distinct</code>要进行怎样的区别,今天我就来分享下如果使用该接口:</p>
+<p>该接口的定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    bool Equals(T x, T y);</span><br><span class="line"></span><br><span class="line">    int GetHashCode(T obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>例如我们为了使用该接口定义了下面的类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class EqualityComparer : IEqualityComparer</span><br><span class="line">&#123;</span><br><span class="line">    public bool Equals(DemoClass x, DemoClass y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(x, y)) return true;</span><br><span class="line"></span><br><span class="line">        if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))</span><br><span class="line">            return false;</span><br><span class="line"></span><br><span class="line">        return x.Id &#x3D;&#x3D; y.Id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(DemoClass obj)</span><br><span class="line">    &#123;</span><br><span class="line">        if (Object.ReferenceEquals(obj, null)) return 0;</span><br><span class="line"></span><br><span class="line">        return obj.Id.GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoClass</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Action &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>上面的比较器实现了对<code>DemoClass</code>的比较,只要两个类的ID相同,不管<code>action</code>值是否相同都认为他们是一样的,这样在<code>distanct</code>的时候只返回一条数据,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    IEnumerable demoClasses &#x3D; new List</span><br><span class="line">    &#123;</span><br><span class="line">        new DemoClass\(\) &#123;Id &#x3D; 1, Action &#x3D; &quot;edit&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id &#x3D; 2, Action &#x3D; &quot;add&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id &#x3D; 3, Action &#x3D; &quot;insert&quot;&#125;,</span><br><span class="line">        new DemoClass\(\) &#123;Id &#x3D; 1, Action &#x3D; &quot;2222&quot;&#125;,</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    demoClasses &#x3D; demoClasses.Distinct(new EqualityComparer\(\)).ToArray\(\);</span><br><span class="line"></span><br><span class="line">    foreach (var demoClass in demoClasses)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(demoClass.Id + &quot; &quot; + demoClass.Action);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Console.ReadLine\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>上述代码的最终输出为:</p>
 <p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image7.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb6.png" alt="image" title="image"></a></p>
 
       
@@ -448,11 +444,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -464,7 +464,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -472,39 +472,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -536,6 +512,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -544,11 +524,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -564,11 +576,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,18 +600,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -600,15 +608,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -636,6 +652,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -644,19 +668,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -664,7 +676,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -672,7 +684,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -680,11 +712,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -704,87 +736,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -796,15 +748,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -832,10 +784,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -844,7 +792,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -895,9 +895,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

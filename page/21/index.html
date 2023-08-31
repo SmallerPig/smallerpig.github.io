@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/21/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -148,6 +147,170 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-csharp/使用Linq快速的操作XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/425.html">使用Linq快速的操作XML</a>
+    </h1>
+  
+
+        
+        <a href="/425.html" class="archive-article-date">
+  	<time datetime="2014-02-21T08:06:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="开始内容之前先分享一段话"><a href="#开始内容之前先分享一段话" class="headerlink" title="开始内容之前先分享一段话"></a>开始内容之前先分享一段话</h3><p>有时候，当你知道要做什么的时候就做的很快，比如你要实现个功能，码字的活儿不算很难，做个检索也不会有什么难倒你的。<br>但是，做着做着，你发现好像世界上的工作都在重复，于是你有种心要飞起来的感觉，但总觉得脚步速度太慢，你开始抱怨进度，公司也对你充满期待，于是会给你配备助手，一来二去，你成为了小领导，你不再自己编码了，而且要做什么也都告诉你的助手们了，这时，你陷入了沉思，我该干什么呢？<br>偶然的，你发现某些事情朝着错误的方向发展，用户开始抱怨了，你跳出来，指出助手们的错误，然后事情过去了，你却停不下来，你怕这样的事情再次发生，于是你开始更深的沉思，这次你学会了思考，我要做的就是保持优秀的团队力量，如何保持呢？古板不是个办法，因为古板会使你的团队成员走你的老路，他们会感到单一、重复、枯燥。。。<br>你不能再去写代码以逃避无休无止的思考，因为你写的那点代码也起不到作用，还冷不丁的出个意外需要你公关，你很想突破，突破思维的限制，你发现突破不仅是你的挑战，更是你唯一的出路。 </p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;Columns&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;序号&quot;&gt;</span><br><span class="line">    &lt;name&gt;序号&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;检验项目&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验项目&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;单位&quot;&gt;</span><br><span class="line">    &lt;name&gt;单位&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;标准要求&quot;&gt;</span><br><span class="line">    &lt;name&gt;标准要求&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;检验结果&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验结果&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">  &lt;column id&#x3D;&quot;结论&quot;&gt;</span><br><span class="line">    &lt;name&gt;结论&lt;&#x2F;name&gt;</span><br><span class="line">  &lt;&#x2F;column&gt;</span><br><span class="line">&lt;&#x2F;Columns&gt;</span><br></pre></td></tr></table></figure>
+<p>以上就是一个Xml文件，我们知道，Xml文件是用来存储数据的，那么我们如何遍历这些数据呢？<br>其实最简单的方法，就是使用Linq：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iTestResultXml&#x3D;new List&lt;string&gt;\(\);</span><br><span class="line">      &#x2F;&#x2F;定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode &#x3D; XElement.Load(@&quot;testResult.xml&quot;);   </span><br><span class="line">      &#x2F;&#x2F;查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes &#x3D; from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">          iTestResultXml.Add(node.Value);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们就可以获得&lt;column/&gt;标签里所有的数据了，并把他们存储到列表iTestResultXml中。<br>在testResult.xml文件中，我们看到，&lt;column/&gt;标签设置了本身的id,而此id并不是他的数据，而是他的一个属性，那么如果我们想获得他的属性而不是他标签里的内容该如何获得呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iXmlID &#x3D; new List&lt;string&gt;\(\);</span><br><span class="line">      &#x2F;&#x2F;定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode &#x3D; XElement.Load(@&quot;....XmltestResult.xml&quot;);   </span><br><span class="line">      &#x2F;&#x2F;查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes &#x3D; from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">            iXmlID.Add(node.Attribute(&quot;id&quot;).Value);   &#x2F;&#x2F;获取指定属性的方法</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们就获取了&lt;column/&gt;标签里id属性的列表iXmlID。</p>
+<p>参考地址：<a href="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" target="_blank" rel="noopener" title="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN">http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN</a></p>
+<p><a href="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" target="_blank" rel="noopener" title="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html">http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/425.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-杂谈/再也不相信”红米”了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/423.html">再也不相信”红米”了</a>
+    </h1>
+  
+
+        
+        <a href="/423.html" class="archive-article-date">
+  	<time datetime="2014-02-15T09:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>尼玛的，作为一个电信吊死档真心不容易，一如电信深似海，从此好手机如路人啊，凡是新出来的或者关注度比较高的小猪不需要卖肾能买的都不支持CDMA制势啊。之前的Nexus5、小猪关注好久结果不能用。另外一方面自己却舍不得这个号码。换号码很麻烦的说。好不容易等到红米电信版出来了。结果又搞了什么抢码。那玩意都是毫秒级的抢法。小猪只是点了一下就得知抢光了~~~</p>
+<p>像什么魅族MX3之类的压根就没有电信版、然后想跟小米争风头的华为荣耀3C也没电信版的。如果华为出电信的小猪会毫不犹豫的去抢啊。毕竟华为的品质小猪还是有底的啊！！</p>
+<p>可怜小猪想买手机的欲望一点一点的被这些奸商给磨灭。最后就让我的lumia 822陪我度余生吧。什么乱七八糟的小猪都不管了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/423.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-asp.net/asp-net-mvc-e7-bb-9f-e4-b8-80-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -270,7 +433,7 @@ var _hmt = _hmt || [];
 <h3 id="第二步：对官方API库的引用"><a href="#第二步：对官方API库的引用" class="headerlink" title="第二步：对官方API库的引用"></a>第二步：对官方API库的引用</h3><p>库在哪里？不需要去下载，只要电脑上安装了wlw，这个库就静静的躺在你的电脑里wlw的安装文件目录下，例如：C:Program Files (x86)Windows LiveWriterSystem.Windows.Forms.dll。当然因为需要新建一个输入代码的窗口，所以需要对System.Windows.Forms库的引用。</p>
 <h3 id="第三步：设置生成路径"><a href="#第三步：设置生成路径" class="headerlink" title="第三步：设置生成路径"></a>第三步：设置生成路径</h3><p>因为我们很多时候需要实时预览我们的插件，避免每次编译好了都自己安装的麻烦我们设置生成路径，让VS编译的时候直接帮我们生成的DLL文件放到指定的文件夹下。</p>
 <p>打开项目属性设置生成事件，在“后期生成事件命令行:”一栏中输入:XCOPY /D /Y /R “$(TargetPath)” “C:Program Files (x86)Windows LiveWriterPlugins”。保存并退出！</p>
-<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl = &quot;http://www.smallerpig.com&quot;, </span><br><span class="line">    Description = &quot;This is an Test plugin.&quot;, Name = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content = ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl &#x3D; &quot;http:&#x2F;&#x2F;www.smallerpig.com&quot;, </span><br><span class="line">    Description &#x3D; &quot;This is an Test plugin.&quot;, Name &#x3D; &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText &#x3D; &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content &#x3D; ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>第一个参数为一个Guid，我们可以用Visual Studio自动生成，其标识的作用。</li>
 <li>第二个参数为该插件的名称，将在Windows Live Writer的插件管理器中看到。</li>
@@ -278,13 +441,13 @@ var _hmt = _hmt || [];
 <li>ImagePath为插件的图标文件路径，注意该图标应为18*16大小，且一定以Embedded Resource形式编译在程序集中。</li>
 <li>Description为插件的一小段描述介绍。</li>
 </ol>
-<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// End the process.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; End the process.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>再新建一个类来单独处理加标签的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The processed content.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The process function.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;/param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent = (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href=&quot;&#123;0&#125;&quot;&gt;引用:&lt;/a&gt;&lt;/legend&gt;&lt;div style=&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;/div&gt;&lt;/fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; The processed content.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; The process function.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;&#x2F;param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent &#x3D; (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href&#x3D;&quot;&#123;0&#125;&quot;&gt;引用:&lt;&#x2F;a&gt;&lt;&#x2F;legend&gt;&lt;div style&#x3D;&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;&#x2F;div&gt;&lt;&#x2F;fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个时候这个简单控件的完整代码就已经完成。编译后重新打开wlw就可以在插件栏里发现它。</p>
-<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
+<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
 <blockquote>
-<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
+<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
 </blockquote>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>小猪写完这个简单的插件之后发现wlw不仅仅可以这么用，我们自己写的新闻发布页、博客等等程序其实都可以使用wlw来发布，如果需要一定自定义的格式或者要求我们完全可以使用插件来完成。这样我们就不需要在网页端使用富文本编辑器来编辑发布。有时间小猪好好研究研究者块内容。如果发现这个思路确实可行的话那么以后可以在项目中实施。</p>
 
@@ -485,10 +648,10 @@ var _hmt = _hmt || [];
 <p>我们知道，C#, Java和JavaScript, Ruby, Python这些语言不同，在C#和Java的世界里面，原子对象就是类(当然还有struct和基本变量)，而不是很多动态语言中的函数，我们可以实例化一个类，实例化一个变量，但不可以直接new 一个函数。也就是表面上看，我们是没办法像js那样将函数进行实例化和传递的。这也是为什么直到Java 7闭包才被姗姗来迟的加入Java特性中。但对C#来说这些只是表象，我刚学C#的时候，看到最多的解释委托的话就是：委托啊，就相当于C++里面的函数指针啦。这句话虽然笼统，但确实有一定道理，通过委托特别是匿名委托这层对象的包装，我们就可以突破无法将函数当做对象传递的限制了。</p>
 <p>好像这里还是没讲到闭包和委托的关系，好吧，我太啰嗦了，下面从概念开始讲。</p>
 <p>闭包其实就是使用的变量已经脱离其作用域，却由于和作用域存在上下文关系，从而可以在当前环境中继续使用其上文环境中所定义的一种函数对象。</p>
-<p>下面小猪把上面的js代码翻译成对应的C#代码：<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TCloser</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Func&amp;lt;<span class="keyword">int</span>&amp;gt; T1()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> n =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> () =&gt;;</span><br><span class="line">        &#123;</span><br><span class="line">            n++</span><br><span class="line">            Console.WriteLine(n);</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="keyword">new</span> TCloser();</span><br><span class="line">        <span class="keyword">var</span> b = a.T1();</span><br><span class="line">        Console.WriteLine(b());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面小猪把上面的js代码翻译成对应的C#代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class TCloser</span><br><span class="line">&#123;</span><br><span class="line">    public Func&lt;int&gt; T1()</span><br><span class="line">    &#123;</span><br><span class="line">        var n &#x3D;0;</span><br><span class="line">        return () &#x3D;&gt;;</span><br><span class="line">        &#123;</span><br><span class="line">            n++</span><br><span class="line">            Console.WriteLine(n);</span><br><span class="line">            return n;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        var a &#x3D; new TCloser();</span><br><span class="line">        var b &#x3D; a.T1();</span><br><span class="line">        Console.WriteLine(b());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从上面的代码我们不难看到，变量n实际上是属于函数T1的局部变量，它本来生命周期应该是伴随着函数T1的调用结束而被释放掉的，但这里我们却在返回的委托b中仍然能调用它，这里正是闭包所展示出来的威力。因为T1调用返回的匿名委托的代码片段中我们用到了n，而在编译器看来，这些都是合法的，因为返回的委托b和函数T1存在上下文关系，也就是说匿名委托b是允许使用它所在的函数或者类里面的局部变量的，于是编译器通过一系列动作(具体动作我们后面再说)使b中调用的函数T1的局部变量自动闭合，从而使该局部变量满足新的作用范围。</p>
 <p>因此，如果你看到.NET中的闭包，你就可以像js中那样理解它，由于返回的匿名函数对象是在函数T1中生成的，因此相当于它是属于T1的一个属性。如果你把T1的对象级别往上提升一个层次就很好理解了，这里就相当于T1是一个类，而返回的匿名对象则是T1的一个属性，对属性而言，它可以调用它所寄存的对象T1的任何其他属性或者方法，包括T1寄存的对象TCloser内部的其他属性。如果这个匿名函数会被返回给其他对象调用，那么编译器会自动将匿名函数所用到的方法T1中的局部变量的生命周转期自动提升，并与匿名函数的生命周期相同，这样就称之为闭合。</p>
-<p>参考:<a href="http://kb.cnblogs.com/page/111231/" title="http://kb.cnblogs.com/page/111231/" target="_blank" rel="noopener">http://kb.cnblogs.com/page/111231/</a></p>
+<p>参考:<a href="http://kb.cnblogs.com/page/111231/" target="_blank" rel="noopener" title="http://kb.cnblogs.com/page/111231/">http://kb.cnblogs.com/page/111231/</a></p>
 <p>《Node.js》开发指南</p>
 
       
@@ -689,7 +852,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前使用一直是没有问题的，只到今天发现删除的时候无法删除，增加的时候却一直在增加，导致搜索的时候可以搜出来很多相同的结果。</p>
-<p>小猪决定趁今天这个机会好好的把这个问题给解决了。<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ProcessJobs</span>(<span class="params">IndexWriter writer</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (jobs.Count != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        IndexJob job = jobs.Dequeue\(\);</span><br><span class="line">        writer.DeleteDocuments(<span class="keyword">new</span> Term(<span class="string">"Id"</span>, job.Id.ToString\(\)));<span class="comment">//先执行删除的操作</span></span><br><span class="line">        <span class="comment">//如果“添加文章”任务再添加，</span></span><br><span class="line">        <span class="keyword">if</span> (job.JobType == JobType.Add)</span><br><span class="line">        &#123;</span><br><span class="line">            BLL.BooksManage bll = <span class="keyword">new</span> BLL.BooksManage\(\);</span><br><span class="line">            Entity.Books art = bll.GetById(job.Id);</span><br><span class="line">            <span class="keyword">if</span> (art == <span class="literal">null</span>)<span class="comment">//有可能刚添加就被删除了</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//string channel_id = art.channel_id.ToString\(\);</span></span><br><span class="line">            <span class="keyword">string</span> title = art.Title;</span><br><span class="line">            DateTime time = art.CreateDate;</span><br><span class="line">            <span class="keyword">string</span> content = Utils.DropHTML(art.Brief.ToString\(\));</span><br><span class="line">            <span class="keyword">string</span> Addtime = art.CreateDate.ToString(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line"></span><br><span class="line">            Document document = <span class="keyword">new</span> Document\(\);</span><br><span class="line">            <span class="comment">//只有对需要全文检索的字段才ANALYZED</span></span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Id"</span>, job.Id.ToString\(\), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Title"</span>, title, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Tag"</span>, art.Tag, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"PubTime"</span>, art.PubTime.ToString(<span class="string">"yyyy-MM-dd"</span>), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Cover"</span>, art.Cover, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Author"</span>, art.Author == <span class="literal">null</span> ? <span class="string">""</span> : art.Author, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Translator"</span>, art.Translator == <span class="literal">null</span> ? <span class="string">""</span> : art.Translator, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Publisher"</span>, art.Publisher == <span class="literal">null</span> ? <span class="string">""</span> : art.Publisher, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Language"</span>, art.Language, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Brief"</span>, Utils.DropHTML(art.Brief.ToString\(\)), Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Icon"</span>, art.Icon, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Rate"</span>, art.Rate.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Price"</span>, art.Price.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Device"</span>, art.Device, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"EngineVersion"</span>, art.EngineVersion.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"ContentType"</span>, art.ContentType, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Size"</span>, art.Size.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Status"</span>, art.Status.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(<span class="keyword">new</span> Field(<span class="string">"Other2"</span>, art.Other2, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            writer.AddDocument(document);</span><br><span class="line">            logger.Debug(<span class="string">"索引"</span> + job.Id + <span class="string">"完毕"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123; </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>小猪决定趁今天这个机会好好的把这个问题给解决了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">private void ProcessJobs(IndexWriter writer)</span><br><span class="line">&#123;</span><br><span class="line">    while (jobs.Count !&#x3D; 0)</span><br><span class="line">    &#123;</span><br><span class="line">        IndexJob job &#x3D; jobs.Dequeue\(\);</span><br><span class="line">        writer.DeleteDocuments(new Term(&quot;Id&quot;, job.Id.ToString\(\)));&#x2F;&#x2F;先执行删除的操作</span><br><span class="line">        &#x2F;&#x2F;如果“添加文章”任务再添加，</span><br><span class="line">        if (job.JobType &#x3D;&#x3D; JobType.Add)</span><br><span class="line">        &#123;</span><br><span class="line">            BLL.BooksManage bll &#x3D; new BLL.BooksManage\(\);</span><br><span class="line">            Entity.Books art &#x3D; bll.GetById(job.Id);</span><br><span class="line">            if (art &#x3D;&#x3D; null)&#x2F;&#x2F;有可能刚添加就被删除了</span><br><span class="line">            &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;string channel_id &#x3D; art.channel_id.ToString\(\);</span><br><span class="line">            string title &#x3D; art.Title;</span><br><span class="line">            DateTime time &#x3D; art.CreateDate;</span><br><span class="line">            string content &#x3D; Utils.DropHTML(art.Brief.ToString\(\));</span><br><span class="line">            string Addtime &#x3D; art.CreateDate.ToString(&quot;yyyy-MM-dd&quot;);</span><br><span class="line"></span><br><span class="line">            Document document &#x3D; new Document\(\);</span><br><span class="line">            &#x2F;&#x2F;只有对需要全文检索的字段才ANALYZED</span><br><span class="line">            document.Add(new Field(&quot;Id&quot;, job.Id.ToString\(\), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Title&quot;, title, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;Tag&quot;, art.Tag, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;PubTime&quot;, art.PubTime.ToString(&quot;yyyy-MM-dd&quot;), Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Cover&quot;, art.Cover, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Author&quot;, art.Author &#x3D;&#x3D; null ? &quot;&quot; : art.Author, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;Translator&quot;, art.Translator &#x3D;&#x3D; null ? &quot;&quot; : art.Translator, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;Publisher&quot;, art.Publisher &#x3D;&#x3D; null ? &quot;&quot; : art.Publisher, Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;Language&quot;, art.Language, Field.Store.YES, Field.Index.NOT_ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Brief&quot;, Utils.DropHTML(art.Brief.ToString\(\)), Field.Store.YES, Field.Index.ANALYZED, Lucene.Net.Documents.Field.TermVector.WITH_POSITIONS_OFFSETS));</span><br><span class="line">            document.Add(new Field(&quot;Icon&quot;, art.Icon, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Rate&quot;, art.Rate.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Price&quot;, art.Price.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Device&quot;, art.Device, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;EngineVersion&quot;, art.EngineVersion.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;ContentType&quot;, art.ContentType, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Size&quot;, art.Size.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Status&quot;, art.Status.ToString\(\), Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            document.Add(new Field(&quot;Other2&quot;, art.Other2, Field.Store.YES, Field.Index.ANALYZED));</span><br><span class="line">            writer.AddDocument(document);</span><br><span class="line">            logger.Debug(&quot;索引&quot; + job.Id + &quot;完毕&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123; </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>之前小猪还在想为什么这里没有处理删除的逻辑，仔细看了下发现只要增加了任务不管是删除还是添加都会先执行删除操作以防止索引结果的重复。问题就出现在这里，依照什么规则来删除呢？之前小猪直接用的别人的代码，今天才发现需要自己定义删除的规则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">writer.DeleteDocuments(new Term(&quot;number&quot;, job.Id.ToString\(\)))</span><br></pre></td></tr></table></figure></p>
 <p>另外就是要处理好啥时候删除，啥时候增加的逻辑。不然很容易出现各种问题，例如数据库中没有而索引里有的，或者数据库里有的但是不可用的但是搜索出来的等等等等~~</p>
 
@@ -782,10 +945,8 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>小猪本来想把博客的网站数据迁移到自己的电脑上面，mysql数据库还是放在主机供应商，这样就能缓解一下每次写博客时访问速度捉急的状况。</p>
-<p>计划是美满的，但是只到实施的时候才发现各种问题。先是直接运行程序时提示 建立数据库连接时出错 。这一定是数据库连接的问题嘛，首先小猪想到的是之前的数据库链接是用localhost来链接的，果断把其改成<a href="http://www.smallerpig.com" target="_blank" rel="noopener">www.smallerpig.com</a> ,可问题还是依旧。然后通过打开调试模式来看看具体情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 开发者专用：WordPress 调试模式。</span><br><span class="line"> *</span><br><span class="line"> * 将这个值改为“true”，WordPress 将显示所有用于开发的提示。</span><br><span class="line"> * 强烈建议插件开发者在开发环境中启用本功能。</span><br><span class="line"> */</span><br><span class="line">define(&apos;WP_DEBUG&apos;, false);</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>再次打开时报这个错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PHP Warning:  mysql_connect\(\):  in E:Studyphppublic_htmlwp-includeswp-db.php on line 1142</span><br><span class="line">PHP Stack trace:</span><br><span class="line">PHP   1\. &#123;main&#125;\(\) E:Studyphppublic_htmlindex.php:0</span><br><span class="line">PHP   2\. require\(\) E:Studyphppublic_htmlindex.php:17</span><br><span class="line">PHP   3\. require_once\(\) E:Studyphppublic_htmlwp-blog-header.php:12</span><br><span class="line">PHP   4\. require_once\(\) E:Studyphppublic_htmlwp-load.php:29</span><br><span class="line">PHP   5\. require_once\(\) E:Studyphppublic_htmlwp-config.php:89</span><br><span class="line">PHP   6\. require_wp_db\(\) E:Studyphppublic_htmlwp-settings.php:72</span><br><span class="line">PHP   7\. wpdb-&amp;gt;__construct\(\) E:Studyphppublic_htmlwp-includesload.php:334</span><br><span class="line">PHP   8\. wpdb-&amp;gt;db_connect\(\) E:Studyphppublic_htmlwp-includeswp-db.php:540</span><br><span class="line">PHP   9\. mysql_connect\(\) E:Studyphppublic_htmlwp-includeswp-db.php:1142</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
+<p>计划是美满的，但是只到实施的时候才发现各种问题。先是直接运行程序时提示 建立数据库连接时出错 。这一定是数据库连接的问题嘛，首先小猪想到的是之前的数据库链接是用localhost来链接的，果断把其改成<a href="http://www.smallerpig.com" target="_blank" rel="noopener">www.smallerpig.com</a> ,可问题还是依旧。然后通过打开调试模式来看看具体情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 开发者专用：WordPress 调试模式。</span><br><span class="line"> *</span><br><span class="line"> * 将这个值改为“true”，WordPress 将显示所有用于开发的提示。</span><br><span class="line"> * 强烈建议插件开发者在开发环境中启用本功能。</span><br><span class="line"> *&#x2F;</span><br><span class="line">define(&#39;WP_DEBUG&#39;, false);</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>再次打开时报这个错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PHP Warning:  mysql_connect\(\):  in E:Studyphppublic_htmlwp-includeswp-db.php on line 1142</span><br><span class="line">PHP Stack trace:</span><br><span class="line">PHP   1\. &#123;main&#125;\(\) E:Studyphppublic_htmlindex.php:0</span><br><span class="line">PHP   2\. require\(\) E:Studyphppublic_htmlindex.php:17</span><br><span class="line">PHP   3\. require_once\(\) E:Studyphppublic_htmlwp-blog-header.php:12</span><br><span class="line">PHP   4\. require_once\(\) E:Studyphppublic_htmlwp-load.php:29</span><br><span class="line">PHP   5\. require_once\(\) E:Studyphppublic_htmlwp-config.php:89</span><br><span class="line">PHP   6\. require_wp_db\(\) E:Studyphppublic_htmlwp-settings.php:72</span><br><span class="line">PHP   7\. wpdb-&gt;__construct\(\) E:Studyphppublic_htmlwp-includesload.php:334</span><br><span class="line">PHP   8\. wpdb-&gt;db_connect\(\) E:Studyphppublic_htmlwp-includeswp-db.php:540</span><br><span class="line">PHP   9\. mysql_connect\(\) E:Studyphppublic_htmlwp-includeswp-db.php:1142</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
 <p>打开wp-admin/index.php页面也出现下面状况</p>
 <h1 id="Error-establishing-a-database-connection"><a href="#Error-establishing-a-database-connection" class="headerlink" title="Error establishing a database connection"></a>Error establishing a database connection</h1><p>This either means that the username and password information in your wp-config.php file is incorrect or we can’t contact the database server at <a href="http://www.smallerpig.com" target="_blank" rel="noopener">www.smallerpig.com</a> . This could mean your host’s database server is down. </p>
 <p>Are you sure you have the correct username and password?<br>Are you sure that you have typed the correct hostname?<br>Are you sure that the database server is running?</p>
@@ -794,10 +955,9 @@ var _hmt = _hmt || [];
 <p>2：我的数据库主机名称也在上面那一步修改正确了吧，应该……</p>
 <p>3：不确定数据库是否在running呢。但是如果不running的话我的博客也应该打不开啊。</p>
 <p>所以我猜是mysql不支持或者默认不支持这样的操作，果然，在网上找到这样的一篇文章：</p>
-<p><a href="http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/" title="http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/" target="_blank" rel="noopener">http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/</a></p>
+<p><a href="http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/" target="_blank" rel="noopener" title="http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/">http://cpanel.hostucan.cn/manage-mysql-database-remotely-on-cpanel/</a></p>
 <p>接下来我们需要配置工具，推荐使用<strong>Navicat</strong>或者<strong>SQLyog</strong>（如果没有请先下载安装）。这里我们使用Navicat for MySQL 10.0.10版本。使用工具新建一个链接（如图3所示），Connection Name处填写数据库名，其可在cPanel数据库内查看。<span style="color: #ff0000;">在填写HOST时要注意，很多主机默认这一端口是关闭的，这里需要联系你的主机商，要求开启3306端口</span>。全部填写完毕后，点击“<strong>Test Connection</strong>”测试一下链接（如图3所示），如果显示成功的话，点击“<strong>OK</strong>”。</p>
-<p>在问了供应商之后果然是这样的。啧啧啧~~~<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Pig—启  20:55:54</span><br><span class="line">主机的mysql数据库是不是无法在外部进行连接？</span><br><span class="line">胡戈戈  20:55:55</span><br><span class="line">[自动回复]您好，我现在有事不在，一会再和您联系。 不再提醒</span><br><span class="line">胡戈戈  21:01:32</span><br><span class="line">是的</span><br></pre></td></tr></table></figure></p>
-<p>这个计划最终就这样夭折了。</p>
+<p>在问了供应商之后果然是这样的。啧啧啧~~~<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Pig—启  20:55:54</span><br><span class="line">主机的mysql数据库是不是无法在外部进行连接？</span><br><span class="line">胡戈戈  20:55:55</span><br><span class="line">[自动回复]您好，我现在有事不在，一会再和您联系。 不再提醒</span><br><span class="line">胡戈戈  21:01:32</span><br><span class="line">是的</span><br></pre></td></tr></table></figure><br>这个计划最终就这样夭折了。</p>
 <p>还好现在发现了Windows Live Writor！！！</p>
 
       
@@ -952,185 +1112,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-web/让DIV实现抖动效果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/401.html">让DIV实现抖动效果！</a>
-    </h1>
-  
-
-        
-        <a href="/401.html" class="archive-article-date">
-  	<time datetime="2014-01-16T09:23:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &amp;lt;html&amp;gt;</span><br><span class="line">&amp;lt;head&amp;gt;</span><br><span class="line">&amp;lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&amp;gt;</span><br><span class="line">&amp;lt;title&amp;gt;JavaScript层抖动效果&amp;lt;/title&amp;gt;</span><br><span class="line">&amp;lt;style type=&quot;text/css&quot;&amp;gt;</span><br><span class="line">#body&#123;text-align:center;&#125;</span><br><span class="line">#test&#123;width:200px;position:absolute;margin:10px auto;height:100px;border:2px dotted red;text-align:center&#125;</span><br><span class="line">&amp;lt;/style&amp;gt;</span><br><span class="line">&amp;lt;/head&amp;gt;</span><br><span class="line">&amp;lt;body&amp;gt;</span><br><span class="line">&amp;lt;div style=&quot;margin:10px 200px&quot;&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;~点这里让我抖抖吧~&quot; onclick=&quot;nn.start\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div&amp;gt;</span><br><span class="line">        &amp;lt;input type=&quot;button&quot; value=&quot;晃晕了，我不抖了！&quot; onclick=&quot;nn.stop\(\)&quot; /&amp;gt;&amp;lt;/div&amp;gt;</span><br><span class="line">    &amp;lt;div id=&quot;test&quot;&amp;gt;</span><br><span class="line">        &amp;lt;br&amp;gt;</span><br><span class="line">        &amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;/div&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;p&amp;gt;　&amp;lt;/p&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br><span class="line">&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;</span><br><span class="line"> var m=document.getElementById(&quot;test&quot;);</span><br><span class="line">function SKclass (obj,Rate,speed) &#123;</span><br><span class="line">     var oL=obj.offsetLeft;</span><br><span class="line">     var oT=obj.offsetTop;</span><br><span class="line">     this.stop=null;</span><br><span class="line">     this.oTime=null;</span><br><span class="line">     var om=this;</span><br><span class="line">     this.start=function\(\)&#123;</span><br><span class="line">             if(parseInt(obj.style.left)==oL-2)&#123;</span><br><span class="line">                obj.style.top=oT+2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL+2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">             &#125;</span><br><span class="line">             else&#123;</span><br><span class="line">                obj.style.top=oT-2+&quot;px&quot;;</span><br><span class="line">                setTimeout(function\(\)&#123;obj.style.left=oL-2+&quot;px&quot;&#125;,Rate)</span><br><span class="line">            &#125;</span><br><span class="line">        this.oTime=setTimeout(function\(\)&#123;om.start\(\)&#125;,speed);</span><br><span class="line">     &#125;</span><br><span class="line">     this.stop=function\(\)&#123;</span><br><span class="line">       clearTimeout(this.oTime);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">var nn=new SKclass(m,20,70);</span><br><span class="line">&amp;lt;/script&amp;gt;</span><br><span class="line">&amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/401.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-报错/踩坑-防止用户按浏览器后退按钮回到登陆页面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/400.html">防止用户按浏览器后退按钮回到登陆页面</a>
-    </h1>
-  
-
-        
-        <a href="/400.html" class="archive-article-date">
-  	<time datetime="2014-01-15T12:54:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这个在注册或者登陆的时候是一个普遍的问题，登陆之后，跳转到另外一个页面，如果这时候用户不小心点了后退按钮如果处理不当的话就会重新回到登陆页面，但事实是用户已经登录了，所有页面的状态都应该是已登录的，不管什么情况下都不应该让用户在看到这个页面。用户的点击操作会引发上面的问题，而程序 <code>history.go(-1) ;history.back()</code> 也会有一样的bug。  </p>
-<p>这样的问题处理方案比较简单，ajax 拿到 success 的状态码时立刻做跳转，但是这里不能用 <code>window.location.href</code>，这样浏览器还是会记录这个登录历史，应该使用 <code>window.location.replace</code>，替换当前历史记录。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/400.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/20/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/22/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1221,11 +1205,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1237,7 +1225,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,39 +1233,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1309,6 +1273,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1317,11 +1285,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1337,11 +1337,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1353,18 +1361,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1373,15 +1369,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1409,6 +1413,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1417,19 +1429,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1437,7 +1437,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1445,7 +1445,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1453,11 +1473,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1477,87 +1497,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1569,15 +1509,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1605,10 +1545,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1617,7 +1553,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1668,9 +1656,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>C#拉姆达(=&gt;)表达式 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#    前言： 之前小猪曾经分享过自己对[C#委托的一点理解](http://www.smallerpig.com/archives/206)&amp;amp;nbsp;其实在使用委托的过程中我们会大量的使用拉姆达(=&amp;amp;gt;)表达式 #    介绍： &amp;amp;quot;Lambda表达式&amp;amp;quot;是一个匿名函数，是一种高效的类似于函数式编程的表达式，Lambda简化了开发中需要编写">
+  <meta name="description" content="#    前言： 之前小猪曾经分享过自己对[C#委托的一点理解](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;archives&#x2F;206)&amp;nbsp;其实在使用委托的过程中我们会大量的使用拉姆达(&#x3D;&amp;gt;)表达式 #    介绍： &amp;quot;Lambda表达式&amp;quot;是一个匿名函数，是一种高效的类似于函数式编程的表达式，Lambda简化了开发中需要编写">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C#拉姆达(=&gt;)表达式">
+<meta property="og:title" content="C#拉姆达(&#x3D;&gt;)表达式">
 <meta property="og:url" content="http://blog.smallerpig.com/352.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="#    前言： 之前小猪曾经分享过自己对[C#委托的一点理解](http://www.smallerpig.com/archives/206)&amp;amp;nbsp;其实在使用委托的过程中我们会大量的使用拉姆达(=&amp;amp;gt;)表达式 #    介绍： &amp;amp;quot;Lambda表达式&amp;amp;quot;是一个匿名函数，是一种高效的类似于函数式编程的表达式，Lambda简化了开发中需要编写">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:description" content="#    前言： 之前小猪曾经分享过自己对[C#委托的一点理解](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;archives&#x2F;206)&amp;nbsp;其实在使用委托的过程中我们会大量的使用拉姆达(&#x3D;&amp;gt;)表达式 #    介绍： &amp;quot;Lambda表达式&amp;quot;是一个匿名函数，是一种高效的类似于函数式编程的表达式，Lambda简化了开发中需要编写">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-11-28T03:49:08.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C#拉姆达(=&gt;)表达式">
-<meta name="twitter:description" content="#    前言： 之前小猪曾经分享过自己对[C#委托的一点理解](http://www.smallerpig.com/archives/206)&amp;amp;nbsp;其实在使用委托的过程中我们会大量的使用拉姆达(=&amp;amp;gt;)表达式 #    介绍： &amp;amp;quot;Lambda表达式&amp;amp;quot;是一个匿名函数，是一种高效的类似于函数式编程的表达式，Lambda简化了开发中需要编写">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -176,13 +176,13 @@ var _hmt = _hmt || [];
 自C#3.0开始，就可以使用这种代码赋予委托。只要有委托参数类型的地方，就可以使用Lambda表达式。
 
 ps：lambda表达式的语法比匿名方法简单。如果所调用的方法有参数，且不需要参数，匿名方法的语法就比较简单，因为这样不需要提供参数。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">namespace TimeBookMVC4.TEST</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            string mid = &amp;quot;, middle part,&amp;quot;;</span><br><span class="line"></span><br><span class="line">            Func&amp;lt;string, string&amp;gt; lambda = param =&amp;gt;</span><br><span class="line">            &#123;</span><br><span class="line">                param += mid;</span><br><span class="line">                param += &amp;quot; and this was added to thes string.&amp;quot;;</span><br><span class="line">                return param;</span><br><span class="line">            &#125;;</span><br><span class="line">            Console.WriteLine(lambda(&amp;quot;Start of string&amp;quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">namespace TimeBookMVC4.TEST</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            string mid &#x3D; &quot;, middle part,&quot;;</span><br><span class="line"></span><br><span class="line">            Func&lt;string, string&gt; lambda &#x3D; param &#x3D;&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                param +&#x3D; mid;</span><br><span class="line">                param +&#x3D; &quot; and this was added to thes string.&quot;;</span><br><span class="line">                return param;</span><br><span class="line">            &#125;;</span><br><span class="line">            Console.WriteLine(lambda(&quot;Start of string&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <pre><code>lambda运算符&amp;quot;=&amp;gt;&amp;quot;的左边列出了需要的参数，右边定义了赋予lambda变量的方法的实现代码。
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">参数</span><br><span class="line"></span><br><span class="line">	Lambda表达式有集中定义参数的方式。如果只有一个参数，只写出参数名就足够了。下面的Lambda表达式使用了参数s。因为委托类型顶了一个string参数，所以s的类型就是string。实现代码调用Strign.Format\(\)方法来返回一个字符串，在调用该委托时，就把字符串写到控制台上：</span><br></pre></td></tr></table></figure>
 <pre><code>Func&amp;lt;string, string&amp;gt; oneparam = s =&amp;gt; String.Format(
         &amp;quot;change uppercase {0}&amp;quot;,s.ToUpper\(\));
 Console.WriteLine(oneparam(&amp;quot;test&amp;quot;));
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如果委托使用多个参数，就把参数名放在花括号中。这里参数x和y的类型是double，由Func&amp;lt;double,double,double&amp;gt;委托定义：</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如果委托使用多个参数，就把参数名放在花括号中。这里参数x和y的类型是double，由Func&lt;double,double,double&gt;委托定义：</span><br></pre></td></tr></table></figure>
 <pre><code>Func&amp;lt;double, double, double&amp;gt; twoparam = (x, y) =&amp;gt; x * y;
 Console.WriteLine(twoparam(3,2));
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">为了方便，可以在花括号中给变量名添加参数类型：</span><br></pre></td></tr></table></figure>
@@ -192,16 +192,16 @@ Console.WriteLine(twoparam(3,2));
 <p>## </p>
 <p>多行代码</p>
 <pre><code>如果Lambda表达式只有一条语句，在方法块内就不需要花括号和return语句，因为编译器会添加一条隐式的return语句。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Func&amp;lt;double, double&amp;gt; square = x =&amp;gt; x * x;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;double, double&gt; square &#x3D; x &#x3D;&gt; x * x;</span><br></pre></td></tr></table></figure>
 <pre><code>添加花括号、return语句和分号是完全合法的，通常这比不添加这些括号更容易阅读:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Func&amp;lt;double, double&amp;gt; square = x =&amp;gt; &#123;</span><br><span class="line">         return x*x;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;double, double&gt; square &#x3D; x &#x3D;&gt; &#123;</span><br><span class="line">         return x*x;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <pre><code>但是，如果在Lambda表达式的实现代码中需要多条语句，就必须添加花括号和return语句：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Func&amp;lt;string, string&amp;gt; lambda = param =&amp;gt;</span><br><span class="line">&#123;</span><br><span class="line">    param += mid;</span><br><span class="line">    param += &amp;quot; and this was added to thes string.&amp;quot;;</span><br><span class="line">    return param;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;string, string&gt; lambda &#x3D; param &#x3D;&gt;</span><br><span class="line">&#123;</span><br><span class="line">    param +&#x3D; mid;</span><br><span class="line">    param +&#x3D; &quot; and this was added to thes string.&quot;;</span><br><span class="line">    return param;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <pre><code>&amp;nbsp;
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Lambda表达式外部的变量</span><br><span class="line"></span><br><span class="line">	通过Lambda表达式可以访问Lambda表达式块外部的变量。这是一个非常好的功能，但如果未正确使用，也会非常危险。</span><br><span class="line"></span><br><span class="line">	在下面的示例中，Fun&amp;lt;int,int&amp;gt;类型的Lambda表达式需要一个int参数，返回一个int。该Lambda表达式的参数用变量x定义。实现代码还访问了Lambda表达式外部的变量someVal。只要不认为在调用f时，Lambda表达式创建了一个以后使用的新方法，这似乎么有什么问题。看看这个代码块，调用f的返回值应是x加5的结果，但似乎不是这样：</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Lambda表达式外部的变量</span><br><span class="line"></span><br><span class="line">	通过Lambda表达式可以访问Lambda表达式块外部的变量。这是一个非常好的功能，但如果未正确使用，也会非常危险。</span><br><span class="line"></span><br><span class="line">	在下面的示例中，Fun&lt;int,int&gt;类型的Lambda表达式需要一个int参数，返回一个int。该Lambda表达式的参数用变量x定义。实现代码还访问了Lambda表达式外部的变量someVal。只要不认为在调用f时，Lambda表达式创建了一个以后使用的新方法，这似乎么有什么问题。看看这个代码块，调用f的返回值应是x加5的结果，但似乎不是这样：</span><br></pre></td></tr></table></figure>
 <pre><code>int someVal = 5;
 Func&amp;lt;int, int&amp;gt; f = x =&amp;gt; x + someVal;
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">假定以后要修改变量someVal，于是调用Lambda表达式时，会使用someVal的新值。调用f(3)的结果是10：</span><br><span class="line"></span><br><span class="line">someVal =7;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(f(3));</span><br><span class="line"></span><br><span class="line">特别是，通过另一个线程调用Lambda表达式时，我们可能不知道进行了这个调用，也不知道外部变量的当前值是什么。</span><br><span class="line"></span><br><span class="line">现在我们也许会奇怪，如何在Lambda表达式的内部访问Lambda表达式外部的变量。为了理解这一点，看看编译器在定义Lambda表达式时做了什么。对于Lambda表达式x=&amp;gt;x+someVal,编译器会创建一个匿名类，他有一个构造函数来传递外部变量。该构造函数取决于从外部传递进来的变量个数。对于这个简单的例子，构造函数接收一个int。匿名类包涵一个匿名方法，其实现代码、参数和返回类型有Lambda变大事定义：</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">假定以后要修改变量someVal，于是调用Lambda表达式时，会使用someVal的新值。调用f(3)的结果是10：</span><br><span class="line"></span><br><span class="line">someVal &#x3D;7;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(f(3));</span><br><span class="line"></span><br><span class="line">特别是，通过另一个线程调用Lambda表达式时，我们可能不知道进行了这个调用，也不知道外部变量的当前值是什么。</span><br><span class="line"></span><br><span class="line">现在我们也许会奇怪，如何在Lambda表达式的内部访问Lambda表达式外部的变量。为了理解这一点，看看编译器在定义Lambda表达式时做了什么。对于Lambda表达式x&#x3D;&gt;x+someVal,编译器会创建一个匿名类，他有一个构造函数来传递外部变量。该构造函数取决于从外部传递进来的变量个数。对于这个简单的例子，构造函数接收一个int。匿名类包涵一个匿名方法，其实现代码、参数和返回类型有Lambda变大事定义：</span><br></pre></td></tr></table></figure>
 <pre><code>public class AnonymousClass
 {
     private int someVal;
@@ -496,11 +496,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,7 +516,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -520,39 +524,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -584,6 +564,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -592,11 +576,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,11 +628,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -628,18 +652,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -648,15 +660,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -684,6 +704,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -692,19 +720,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -712,7 +728,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -720,7 +736,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -728,11 +764,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -752,87 +788,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -844,15 +800,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -880,10 +836,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -892,7 +844,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -943,9 +947,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

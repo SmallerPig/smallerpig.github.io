@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>ASP.NET MVC FileResult介绍 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在前一篇中，小猪向大家分享了在WebForm中使用Response.WriteFile()方法来向客户端提供指定文件的下载。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。 我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。FileResult DownLoad\(\)1234&amp;#123;    //Some code    ...&amp;#12">
+  <meta name="description" content="在前一篇中，小猪向大家分享了在WebForm中使用Response.WriteFile()方法来向客户端提供指定文件的下载。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。 我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。FileResult DownLoad\(\)1234&amp;#123;    &#x2F;&#x2F;Some code">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ASP.NET MVC FileResult介绍">
 <meta property="og:url" content="http://blog.smallerpig.com/272.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="在前一篇中，小猪向大家分享了在WebForm中使用Response.WriteFile()方法来向客户端提供指定文件的下载。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。 我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。FileResult DownLoad\(\)1234&amp;#123;    //Some code    ...&amp;#12">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:description" content="在前一篇中，小猪向大家分享了在WebForm中使用Response.WriteFile()方法来向客户端提供指定文件的下载。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。 我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。FileResult DownLoad\(\)1234&amp;#123;    &#x2F;&#x2F;Some code">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-08-13T02:10:09.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ASP.NET MVC FileResult介绍">
-<meta name="twitter:description" content="在前一篇中，小猪向大家分享了在WebForm中使用Response.WriteFile()方法来向客户端提供指定文件的下载。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。 我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。FileResult DownLoad\(\)1234&amp;#123;    //Some code    ...&amp;#12">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -169,20 +169,20 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>在前一篇中，小猪向大家分享了在WebForm中<a href="http://www.smallerpig.com/archives/257" target="_blank" rel="noopener">使用Response.WriteFile()方法来向客户端提供指定文件的下载</a>。这篇小猪向大家介绍在ASP.NET MVC中怎么为客户端实现相同的功能。</p>
-<p>我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。<br><figure class="highlight plain"><figcaption><span>FileResult DownLoad\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    //Some code</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以定义Control的返回类型为FileResult来向客户端提供文件的下载。<br><figure class="highlight plain"><figcaption><span>FileResult DownLoad\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;Some code</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>FileResult 是一个抽象类，继承自 ActionResult。在 System.Web.Mvc.dll 中，它有如上三个子类，分别以不同的方式向客户端发送文件。</p>
 <p>在实际使用中我们通常不需要直接实例化一个 FileResult 的子类，因为 Controller 类已经提供了六个 File 方法来简化我们的操作：<br><figure class="highlight plain"><figcaption><span>internal FilePathResult File(string fileName, string contentType);</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected internal virtual FilePathResult File(string fileName, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileContentResult File(byte[] fileContents, string contentType);</span><br><span class="line">protected internal virtual FileContentResult File(byte[] fileContents, string contentType, string fileDownloadName);</span><br><span class="line">protected internal FileStreamResult File(Stream fileStream, string contentType);</span><br><span class="line">protected internal virtual FileStreamResult File(Stream fileStream, string contentType, string fileDownloadName);</span><br></pre></td></tr></table></figure></p>
-<p><strong>1.最简单的方法</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>1.最简单的方法</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path &#x3D; Server.MapPath(&quot;~&#x2F;Files&#x2F;小小猪.zip&quot;);</span><br><span class="line">    return File(path, &quot;application&#x2F;x-zip-compressed&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>第一个参数指定文件路径，第二个参数指定文件的 MIME 类型。</p>
 <p>用户点击浏览器上的下载链接后，会调出下载窗口。</p>
 <p>大家应该注意到，文件名称会变成 Download1.zip，默认成了 Action 的名字。我们使用 File 方法的第二个重载来解决文件名的问题：</p>
-<p><strong>2.为文件指定默认下载名</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload2\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    return File(&quot;F:\小小猪.zip&quot;, &quot;application/x-zip-compressed&quot;, &quot;crane.zip&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ActionResult FilePathDownload3\(\)</span><br><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;); </span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>2.为文件指定默认下载名</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload2\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path &#x3D; Server.MapPath(&quot;~&#x2F;Files&#x2F;小小猪.zip&quot;); </span><br><span class="line">    return File(&quot;F:\小小猪.zip&quot;, &quot;application&#x2F;x-zip-compressed&quot;, &quot;crane.zip&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ActionResult FilePathDownload3\(\)</span><br><span class="line">&#123;</span><br><span class="line">    var path &#x3D; Server.MapPath(&quot;~&#x2F;Files&#x2F;小小猪.zip&quot;); </span><br><span class="line">    var name &#x3D; Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application&#x2F;x-zip-compressed&quot;, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>我们可以通过给 fileDownloadName 参数传值来指定文件名，fileDownloadName 不必和磁盘上的文件名一样。下载提示窗口还是默认为了 Action 的名字。原因是 fileDownloadName 将作为 URL 的一部分，只能包含 ASCII 码。我们把 FilePathDownload3 改进一下：</p>
-<p><strong>3. 对 fileDownloadName 进行 Url 编码</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload4\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path = Server.MapPath(&quot;~/Files/小小猪.zip&quot;);</span><br><span class="line">    var name = Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application/x-zip-compressed&quot;, Url.Encode(name));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>3. 对 fileDownloadName 进行 Url 编码</strong><br><figure class="highlight plain"><figcaption><span>ActionResult FilePathDownload4\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    var path &#x3D; Server.MapPath(&quot;~&#x2F;Files&#x2F;小小猪.zip&quot;);</span><br><span class="line">    var name &#x3D; Path.GetFileName(path);</span><br><span class="line">    return File(path, &quot;application&#x2F;x-zip-compressed&quot;, Url.Encode(name));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>好了，没问题了。上面代码中 Url.Encode(…)，也可使用 HttpUtility.UrlEncode(…)，前者在内部调用后者。</p>
 <p>我们再来看 FileContentResult.</p>
 <p><strong>4.FileContentResult</strong></p>
-<p>FileContentResult 可以直接将 byte[] 以文件形式发送至浏览器（而不用创建临时文件）。参考代码如下：<br><figure class="highlight plain"><figcaption><span>ActionResult FileContentDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    byte[] data = Encoding.UTF8.GetBytes(&quot;欢迎访问 小小猪 的博客 www.smallerpig.com&quot;);</span><br><span class="line">    return File(data, &quot;text/plain&quot;, &quot;welcome.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>FileContentResult 可以直接将 byte[] 以文件形式发送至浏览器（而不用创建临时文件）。参考代码如下：<br><figure class="highlight plain"><figcaption><span>ActionResult FileContentDownload1\(\)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    byte[] data &#x3D; Encoding.UTF8.GetBytes(&quot;欢迎访问 小小猪 的博客 www.smallerpig.com&quot;);</span><br><span class="line">    return File(data, &quot;text&#x2F;plain&quot;, &quot;welcome.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>点击后下载链接后，弹出提示窗口是否下载“welcome.txt”</p>
 
       
@@ -467,11 +467,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -483,7 +487,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -491,39 +495,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,6 +535,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -563,11 +547,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,11 +599,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,18 +623,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -619,15 +631,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -655,6 +675,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -663,19 +691,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -683,7 +699,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -691,7 +707,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -699,11 +735,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -723,87 +759,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -815,15 +771,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -851,10 +807,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -863,7 +815,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -914,9 +918,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

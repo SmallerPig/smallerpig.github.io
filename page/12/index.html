@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/12/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -149,6 +148,230 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-设计模式/小猪学设计模式之——代理模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1111.html">小猪学设计模式之——代理模式</a>
+    </h1>
+  
+
+        
+        <a href="/1111.html" class="archive-article-date">
+  	<time datetime="2016-09-29T07:40:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>代理模式是对象的结构模式。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用。</p>
+</blockquote>
+<h2 id="参与的角色"><a href="#参与的角色" class="headerlink" title="参与的角色"></a>参与的角色</h2><p>　　●　　<strong>抽象对象角色</strong>：声明了目标对象和代理对象的共同接口，这样一来在任何可以使用目标对象的地方都可以使用代理对象。<br>　　●　　<strong>目标对象角色</strong>：定义了代理对象所代表的目标对象。<br>　　●　　<strong>代理对象角色</strong>：代理对象内部含有目标对象的引用，从而可以在任何时候操作目标对象；代理对象提供一个与目标对象相同的接口，以便可以在任何时候替代目标对象。代理对象通常在客户端调用传递给目标对象之前或之后，执行某个操作，而不是单纯地将调用传递给目标对象。</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>抽象对象角色<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>目标对象角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealObject</span> <span class="keyword">extends</span> <span class="title">AbstractObject</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//具体做一些事情。</span></span><br><span class="line">        System.out.println(<span class="string">"一些操作"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代理对象角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyObject</span> <span class="keyword">extends</span> <span class="title">AbstractObject</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//内部含有目标对象的引用</span></span><br><span class="line">    RealObject realObject = <span class="keyword">new</span> RealObject();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//调用目标对象之前可以做相关操作</span></span><br><span class="line">        System.out.println(<span class="string">"do something before"</span>);        </span><br><span class="line">        realObject.operation();        </span><br><span class="line">        <span class="comment">//调用目标对象之后可以做相关操作</span></span><br><span class="line">        System.out.println(<span class="string">"do something after"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这里的真实对象就被代理对象给“代理”了，客户端并不知道真实对象的存在</span></span><br><span class="line">        AbstractObject obj = <span class="keyword">new</span> ProxyObject();</span><br><span class="line">        obj.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由例子可以看出被代理的对象在客户端代码中并没有实际出现，客户端也就不关心真正的执行是什么样子了，而且代理类可以在被代理类执行的前后执行一些额外的功能代码。被代理的对象一般可以概括为：<br>1. 远程对象<br>2. 创建开销大的对象<br>3. 需要安全控制的对象</p>
+<p>在《设计模式》一书中作者列举了这样一个例子：</p>
+<blockquote>
+<p>对一个对象进行访问控制的一个原因是为了只有在我们确实需要这个对象时才对它进行创建和初始化。我们考虑一个可以在文档中嵌入图像对象的文档编辑器。有些图像对象（如大型的光栅图像）的创建开销很大。但打开文档必须很迅速，因此我们在打开文档时应避免一次性的创建所有开销很大的对象。因为并非所有这些开销很大的对象在文档中都同时可见。所以并没有必要同时创建这些对象。<br>  这一限制条件意为着，对于每一个开销很大的对象，应该根据需要进行创建，当一个图像对象变成可见时会有这样的需要。但是在文档中我们用什么来代理这个图像呢？我们又如何才能隐藏根据需要创建图像这个事实，从而不会使得编辑器的实现复杂化呢？例如，这种优化不应该影响绘制和格式化的代码。<br>  问题的解决方法是使用另外一个对象，即图像Proxy，替代那个真实的图像，Proxy可以代替一个图像对象，并且在需要时负责实例化这个图像对象。只要当文档编辑器激活图像代理的Draw操作以显示这个图像的时候，图像Proxy才创建真正的图像。Proxy直接将随后的请求转发给这个图像对象。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>又是一个对多态概念的具体实现的模式。<br>很多时候在面试时都会问被面的人，什么叫面向对象的多态，可惜的是很多同学都答不上来啊。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">代理模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1111.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-设计模式/小猪学设计模式之—观察者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1109.html">小猪学设计模式之—观察者模式</a>
+    </h1>
+  
+
+        
+        <a href="/1109.html" class="archive-article-date">
+  	<time datetime="2016-09-28T03:45:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>观察者模式在所有设计模式中应该属于比较好理解的也是能让大家立即先想到的设计模式了。<br>观察者模式是行为型模式的一种。</p>
+<blockquote>
+<p>定义对象间的一种一对多的依赖关系，当一个对象状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。</p>
+</blockquote>
+<p>一个简单的例子是用观察者模式和轮询做对比，麦兜在吃煮粉时不停的问：老板有煮粉吗？这叫轮询；而老板说：你先等着，等有了之后我通知你！这就叫订阅，也就是观察者了。</p>
+<hr>
+<h2 id="涉及到的角色"><a href="#涉及到的角色" class="headerlink" title="涉及到的角色"></a>涉及到的角色</h2><ol>
+<li>抽象被观察者</li>
+<li>抽象观察者</li>
+<li>具体被观察者</li>
+<li>具体观察者</li>
+</ol>
+<p><strong>抽象被观察者角色</strong>：把所有对观察者对象的引用保存在一个集合中，每个被观察者角色都可以有任意数量的观察者。被观察者提供一个接口，可以增加和删除观察者角色。一般用一个抽象类和接口来实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 抽象主题类，也叫被观察者</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IList&lt;Observer&gt; observers = <span class="keyword">new</span> List&lt;Observer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 增加观察者</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="comment">/// &lt;param name="observer"&gt;&lt;/param&gt;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Attach</span><span class="params">(Observer observer)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        observers.Add(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 移除观察者</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="comment">/// &lt;param name="observer"&gt;&lt;/param&gt;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Detach</span><span class="params">(Observer observer)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        observers.Remove(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 向观察者（们）发出通知</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Notify</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        foreach (Observer o in observers)</span><br><span class="line">        &#123;</span><br><span class="line">            o.Update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>具体被观察者角色</strong>：在被观察者内部状态改变时，给所有登记过的观察者发出通知。具体被观察者角色通常用一个子类实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 具体观察者或具体通知者，将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色通常用一个具体子类实现。</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String subjectState;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 具体观察者的状态</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="keyword">public</span> String SubjectState</span><br><span class="line">    &#123;</span><br><span class="line">        get &#123; <span class="keyword">return</span> subjectState; &#125;</span><br><span class="line">        set &#123; subjectState = value; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>抽象观察者角色</strong>：为所有具体的观察者定义一个接口，在得到主题的通知时更新自己。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>具体观察者角色</strong>：该角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态相协调。通常用一个子类实现。如果需要，具体观察者角色可以保存一个指向具体主题角色的引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 具体观察者，实现抽象观察者角色所要求的更新接口，已是本身状态与主题状态相协调</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String observerState;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> ConcreteSubject subject;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 具体观察者用一个具体主题来实现</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="keyword">public</span> ConcreteSubject Subject</span><br><span class="line">    &#123;</span><br><span class="line">        get &#123; <span class="keyword">return</span> subject; &#125;</span><br><span class="line">        set &#123; subject = value; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteObserver</span><span class="params">(ConcreteSubject subject, String name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.subject = subject;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">    <span class="comment">/// 实现抽象观察者中的更新操作</span></span><br><span class="line">    <span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Update</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        observerState = subject.SubjectState;</span><br><span class="line">        Console.WriteLine(<span class="string">"The observer's state of &#123;0&#125; is &#123;1&#125;"</span>, name, observerState);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述的示例代码中我们使用了抽象类作为抽象被观察者和抽象观察者，当然我们也可以使用接口来代替抽象类实现同样的功能。</p>
+<p>另外，上述代码中的被观察者向外提供的通知方法是<code>Notify()</code>，在实际的代码中我们需要对这部分进行抽象，例如在麦兜的例子中，老板应该提供给所有客户（当然包括麦兜）提供一个通知接口，这个接口告诉所有想吃煮粉的客户，你们想要吃的东西来了，现在可以下单了。在这里，老板就是具体的被观察者了，而客户就是具体的观察者，麦兜是观察者中的一员。</p>
+<hr>
+<h2 id="推模式与拉模式"><a href="#推模式与拉模式" class="headerlink" title="推模式与拉模式"></a>推模式与拉模式</h2><p>目标角色在发生变化后，仅仅告诉观察者角色“我变化了”，观察者角色如果想要知道具体的变化细节，则就要自己从目标角色的接口中得到。这种模式被很形象的称为：拉模式——就是说变化的信息是观察者角色主动从目标角色中“拉”出来的。<br>在麦兜的例子中，当顾客们知道有 了煮粉之后，如果想要继续了解煮粉还有多少份，卖多少钱这些信息的时候，他们就得再次的去找老板问了。</p>
+<p>还有一种方法，那就是我目标角色“服务一条龙”，通知你发生变化的同时，通过一个参数将变化的细节传递到观察者角色中去。这就是“推模式”——管你要不要，先给你啦。<br>如果我们在观察者的抽象接口中添加被观察者的参数，例如下列的抽象观察者的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 抽象观察者类，为所有具体观察者定义一个接口，在得到通知时更新自己</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Update</span><span class="params">(<span class="keyword">final</span> Subject subject,<span class="keyword">final</span> Object parms)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在被观察者进行通知时就需要将本身的一些信息推给观察者，观察者可根据被观察者的信息做一些逻辑判断然后选择自身做的事。<br>当老板通知在等煮粉的客户：现在可以订煮粉啦，限量20份，每份200块时，聪明的麦兜果断选择了放弃煮粉，点了份鸭血粉丝汤开心的吃了起来。</p>
+<p>不过这两种模式的使用，取决于系统设计时的需要。如果目标角色比较复杂，并且观察者角色进行更新时必须得到一些具体变化的信息，则“推模式”比较合适。如果目标角色比较简单，则“拉模式”就很合适啦</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1109.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-杂谈/关于近况" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -173,7 +396,7 @@ var _hmt = _hmt || [];
 <p>房子也算是装修完成了，上半年这些时间也是辛苦了老爸，一个人在这忙东忙西，六十多岁的年纪还天天奔波在各种建材市场里面。对于我们这一代人来说不啃老是挺难的，如果光靠自己的经济实力和精力要想买房、装修、养小孩那真是太辛苦。有几个刚毕业的就能够年薪20w然后以平均一年攒下十来万然后5年内买房的？这么想也就为自己能够啃这么一口老而找到了借口，内心释然了不少。只是每当看到父亲满脸的皱纹，为了几十块甚至几块钱而和商家争执的时候才会感到我似乎没这个权利理所当然的拿着父母辈的钱还要对着他们做思想工作让他们看开点。</p>
 <p>工作也还算是循序渐进吧。可能是跟之前的工作相比而言强度并没有那么高，主要看的是自己对时间的掌控能力了。所以除了自己给自己适当的压力之外并没有感到刚到这边那几天的措手不及。另外自己也适当的做了些工作方法上面的调整，新员工培训回来之后我更加意识到在团队工作中沟通的重要性，很多时候我们所做的项目虽然都比较大，而分配到每个人头上的任务都是比较具体的、直接的，我们只需要把我们需要做的那部分做好了就能够保证整个项目的正常推进，这就好比我们培训结束当天的挑战：“巅峰99秒”，看起来一个很大的挑战，但是组内每个人做的事情就那么一两样，每个人做好了之后发现整个挑战很顺利，相反，如果任何其中的一个环节一个人出了问题，那么都将影响整个团队成绩。意识到这些之后有什么事情别自己硬抗，主动向领导请示或者找同事沟通解决能够避免自己陷入一种瞎忙的状态。<br>这也算是一种成长吧!?</p>
 <p>这些天有时间就折腾了下blog服务器的配置，似乎也渐渐的喜欢上了Linux系。不过还是缺少成型的项目开发经验，所以心里一直想着能不能找个合适的项目做练手，不然总感觉有种理论大于实践的感觉。</p>
-<p>昨天回看了自己13年写的blog，发现这都写的啥呀……<br><img src="http://ww4.sinaimg.cn/mw690/88e12591gw1f7u8mbw7zlj20go09aaal.jpg" alt><br>是自己变厉害了还是当时写的就是穆棱两可啊！然后再对比下三年之后的现状，貌似自己写的也没好到哪里去，很多时候都是心里想的很丰满，写出来之后发现干巴巴的。也难怪以前在写信的时候大家都会在开头写上这么一句：心里有很多想说的话，拿起笔来却不知如何下笔了！<br>看来写文章这事还是有技术的，不然为何很多人以写文章而讨生活呢！</p>
+<p>昨天回看了自己13年写的blog，发现这都写的啥呀……<br><img src="http://ww4.sinaimg.cn/mw690/88e12591gw1f7u8mbw7zlj20go09aaal.jpg" alt=""><br>是自己变厉害了还是当时写的就是穆棱两可啊！然后再对比下三年之后的现状，貌似自己写的也没好到哪里去，很多时候都是心里想的很丰满，写出来之后发现干巴巴的。也难怪以前在写信的时候大家都会在开头写上这么一句：心里有很多想说的话，拿起笔来却不知如何下笔了！<br>看来写文章这事还是有技术的，不然为何很多人以写文章而讨生活呢！</p>
 
       
 
@@ -577,9 +800,9 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="自动生成模型文件"><a href="#自动生成模型文件" class="headerlink" title="自动生成模型文件"></a>自动生成模型文件</h2><p>Django提供了<code>inspectdb</code>命令来检测已经存在的数据库，并自动生成模型文件，我们可通过下列命令来在命令行中进行查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python manage.py inspectdb</span><br></pre></td></tr></table></figure></p>
 <p>当然我们可以通过标准的Unix风格输出(重定向)到指定文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ python manage.py inspectdb &amp;gt; models.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ python manage.py inspectdb &gt; models.py</span><br></pre></td></tr></table></figure>
 <p>适当编辑模型文件之后，把我们的app添加到配置项的<code>INSTALLED_APPS</code>中。<br>默认的，<code>inspectdb</code>命令创建了一个<code>Meta</code>类属性中<code>managed = Falsed</code>的模型。该模型不可通过Django的自带后台管理系统来管理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Person(models.Model):</span><br><span class="line">    id = models.IntegerField(primary_key=True)</span><br><span class="line">    first_name = models.CharField(max_length=70)</span><br><span class="line">    class Meta:</span><br><span class="line">        managed = False</span><br><span class="line">        db_table = &apos;CENSUS_PERSONS&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Person(models.Model):</span><br><span class="line">    id &#x3D; models.IntegerField(primary_key&#x3D;True)</span><br><span class="line">    first_name &#x3D; models.CharField(max_length&#x3D;70)</span><br><span class="line">    class Meta:</span><br><span class="line">        managed &#x3D; False</span><br><span class="line">        db_table &#x3D; &#39;CENSUS_PERSONS&#39;</span><br></pre></td></tr></table></figure>
 <p>当然，如果我们需要使用Django的后台来管理的话，将<code>managed = Falsed</code>删除或者将值设置成<code>True</code>即可。</p>
 <h2 id="安装Django的核心表"><a href="#安装Django的核心表" class="headerlink" title="安装Django的核心表"></a>安装Django的核心表</h2><hr>
 <p>接下来，使用<code>migrate</code>命令来安装Django额外需要的表，例如管理员权限和内容类型等。</p>
@@ -677,8 +900,7 @@ var _hmt = _hmt || [];
         <p>一般我们项目中如果数据量特别大的话通常会考虑将某一表数据进行分表处理，例如：我们的用户访问日志。如果将该数据始终保存在一张表的话那么久而久之这张表的数据量会特别大，导致查询效率降低。这个时候就需要考虑将该数据分别存储到多张表中。<br>而日志数据具有典型的如下特点：<br>1. 数据量大。<br>2. 每天每月都稳定输出。<br>3. 对数据的操作在插入之后大部分只有查询，很少有编辑或者删除操作。</p>
 <p>MySQL数据库提供了数据分表的方式。</p>
 <hr>
-<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE=MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t1&apos;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&apos;Testing&apos;),(&apos;table&apos;),(&apos;t2&apos;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE=MERGE UNION=(t1,t2) INSERT_METHOD=LAST;</span><br></pre></td></tr></table></figure></p>
-<p>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
+<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE&#x3D;MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE&#x3D;MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&#39;Testing&#39;),(&#39;table&#39;),(&#39;t1&#39;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&#39;Testing&#39;),(&#39;table&#39;),(&#39;t2&#39;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE&#x3D;MERGE UNION&#x3D;(t1,t2) INSERT_METHOD&#x3D;LAST;</span><br></pre></td></tr></table></figure><br>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
 <p>我们可以在total表中使用哦SELECT,DELETE,UPDATE和INSERT操作，不过必须要拥有各分表的SELECT,DELETE 和UPDATE权限。</p>
 <p>在创建MERGE表时，使用参数<code>UNION</code>对表进行整合，例如上面代码的<code>UNION=(t1, t2)</code>。也可以使用<code>INSERT_METHOD</code>参数来申明如果在MERGE表中插入数据，是将数据插入到第一张表还是最后一张表中，如果<code>INSERT_METHOD=NO</code>，那么MEGRE表中将不允许插入数据，只允许插入在各分表当中。</p>
 <p>不过另外一个值得注意的地方是上述代码中我们在分区表中并没有定义索引，但是在total表中我们定义了<code>INDEX(a)</code>并且没有定义<code>PRIMARY KEY</code>。这是因为在总表中的数据并不能保证也不检查数据的唯一性，也就是在各分表中是允许存在完全相同的数据的。</p>
@@ -806,7 +1028,7 @@ var _hmt = _hmt || [];
         <p>由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg" alt="都是评论数为0的文章"></p>
 <p>所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。</p>
 <p>所以决定自己动手丰衣足食了。</p>
-<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list = get_the_category_list(&apos;,&apos;,&apos;&apos;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list = get_the_tag_list(&apos;&apos;, &apos;,&apos; );</span><br><span class="line"></span><br><span class="line">$advent_author= ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( &apos;ID&apos; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments = wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date = sprintf(&apos;发表于 :&lt;time datetime=&quot;%1$s&quot;&gt;%2$s&lt;/time&gt;&apos;, esc_attr(get_the_date(&apos;c&apos;)), esc_html(get_the_date(&apos;y,m,d&apos;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment = comments_number(__(&apos;No Comments&apos;, &apos;advent&apos;), __(&apos;1 Comment&apos;, &apos;advent&apos;), __(&apos;% Comments&apos;, &apos;advent&apos;)); ?&gt;&lt;/li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list &#x3D; get_the_category_list(&#39;,&#39;,&#39;&#39;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list &#x3D; get_the_tag_list(&#39;&#39;, &#39;,&#39; );</span><br><span class="line"></span><br><span class="line">$advent_author&#x3D; ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url&#x3D; esc_url( get_author_posts_url( get_the_author_meta( &#39;ID&#39; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments &#x3D; wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date &#x3D; sprintf(&#39;发表于 :&lt;time datetime&#x3D;&quot;%1$s&quot;&gt;%2$s&lt;&#x2F;time&gt;&#39;, esc_attr(get_the_date(&#39;c&#39;)), esc_html(get_the_date(&#39;y,m,d&#39;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href&#x3D;&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel&#x3D;&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;&#x2F;li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&#39;发表在 : &#39;, &#39;advent&#39;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;&#x2F;li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&#39;标签 : &#39;, &#39;advent&#39;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;&#x2F;li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment &#x3D; comments_number(__(&#39;No Comments&#39;, &#39;advent&#39;), __(&#39;1 Comment&#39;, &#39;advent&#39;), __(&#39;% Comments&#39;, &#39;advent&#39;)); ?&gt;&lt;&#x2F;li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看到上面代码是在获取并展示了文章的元数据，我们将想要删除的数据删除。也就是获取评论数的代码：</p>
 <p><code>`</code>  </p>
 <p>function advent_entry_meta() {</p>
@@ -1012,216 +1234,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-java/从内部类中访问本地变量; 需要被声明为final类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1049.html">从内部类中访问本地变量; 需要被声明为final类型</a>
-    </h1>
-  
-
-        
-        <a href="/1049.html" class="archive-article-date">
-  	<time datetime="2016-07-26T07:18:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用java编写程序时，经常使用接口。当我们想使用接口时通常是直接实例化某一个接口。如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(String parm)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    asyncClient.setCallback(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">messageArrived</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"parm"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上述代码在接受到parm参数时调用asyncClient的设置回调方法，最关键看实现的内部使用了parm这个属于外部的变量。<br>如果我们尝试编译程序，在java 7环境下会报错：</p>
-<blockquote>
-<p>从内部类中访问本地变量parm; 需要被声明为<code>final</code>类型</p>
-</blockquote>
-<p>在java8环境下可以正常编译通过。<br>最终的解决方法是在方法中将该参数定义为final类型，即如下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(<span class="keyword">final</span> String parm)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    asyncClient.setCallback(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">messageArrived</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"parm"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样之后调用者也不需要知道具体细节，直接传递指定参数即可。<br>具体为什么java语言是这样，在谷歌随便搜索了一下就会出现很多结果：<br>参考1：<a href="http://stackoverflow.com/questions/1299837/cannot-refer-to-a-non-final-variable-inside-an-inner-class-defined-in-a-differen" target="_blank" rel="noopener">Cannot refer to a non-final variable inside an inner class defined in a different method</a><br>参考2：<a href="http://cuipengfei.me/blog/2013/06/22/why-does-it-have-to-be-final/" target="_blank" rel="noopener">为什么必须是final的呢？</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java/程序语言//" class="article-tag-list-link color5">程序语言</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1049.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-杂谈/方鸿渐与唐晓芙" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1039.html">方鸿渐与唐晓芙</a>
-    </h1>
-  
-
-        
-        <a href="/1039.html" class="archive-article-date">
-  	<time datetime="2016-06-14T15:33:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由于换了工作，路程变的遥远，每天坐公车上班要一个多小时，不比以前走路十几分钟就能到公司。虽说每天都为这件事感到痛苦，却另外一方面能够坐在车上利用一小段时间静下心来看点书，我的待机时间五六个月的kindle现在整天揣在包里了。相比坐车看手机新闻，我倒是更愿意看那么点经典的书籍。</p>
-<p>《围城》这部书是在大学的时候借的石胖子的书读的，当时就被钱钟书前辈的文笔所折服。读研的时候想这么一部经典的书籍要有一本珍藏的。所以特意在听雨发帖买了本二手的，至今还记得一个妹纸和我到纺院的楼下进行十块钱的交易。这么多年过去了，妹纸的长相已经不记得，但是交易的物品还在。</p>
-<p>今天要记录的是主角方鸿渐与唐晓芙的那段说不清的关系，两个人隔着苏小姐搞着暧昧，到不是说他俩多么苟且，但是经过钱老前辈的那么一描述，却是能让人理解当时他俩的心境。<br>其中方鸿渐第一次见到唐晓芙时，钱老前辈是这么描写的：</p>
-<blockquote>
-<p>苏小姐领了个二十左右的娇小女孩子出来，介绍道：“这是我表妹唐晓芙。”唐小姐妩媚端正的圆脸，有两个浅酒窝。天生着一般女人要花钱费时、调脂和粉来仿造的好脸色，新鲜得使人忘掉了口渴而又觉嘴馋，仿佛是好水果。她眼睛并不顶大。可是灵活温柔，反衬得许多女人的大眼睛只像政治家讲的大话，大而无当。古典学者看他说笑时露出的好牙齿，会诧异为什么古今中外的诗人，都甘心变成女人头插的杈，腰束的带，身体睡的席，甚至脚下践踏的鞋袜，可是从没想过化作她的牙刷。她头发没烫，眉毛不镊，口红也没擦，似乎安心遵守天生的限制，不要弥补造化的缺陷。总而言之，唐小姐是摩登文明社会里那桩罕物——一个真正的女孩子。有许多都市女孩子已经装模作样的早熟女人，算不得孩子；有许多女孩子只是混沌痴顽的无性别孩子，还说不上女人。方鸿渐立刻想在她心上造个好印象。</p>
-</blockquote>
-<p>上面的文字恰到好处的描写了方鸿渐遇到唐晓芙时一下子就被她所吸引，然后就开始喜欢上她。并接下来在言语中极力的想讨好她，抓住每一个机会来表现自己。<br>然后在两个阴差阳错的发展到暧昧关系时，通过书信的方式来互相表述。其中有段这么描写方鸿渐夜不能寐的情景：</p>
-<blockquote>
-<p>他恨不能用英文写信，因为文言信的语气太生分，白话信的语气容易变成讨人厌的亲热；只有英文信容许他坦白地写“我亲爱的唐小姐”、“你的极虔诚的方鸿渐”。这些西文书函的平常称呼在中文里就刺眼肉麻。他深知自己写的英文富有英国人言论自由和美国人宣言独立的精神，不收文法约束的，不然真想仗外国文来跟唐小姐亲爱，正像政治犯躲在外国租界里活动。以后这一个多月里，他见了唐小姐七八次，写给她十几封信，唐小姐也回了五六封信。他第一次收到唐小姐的信，临睡时把信看一遍，搁在枕边，中夜一醒，就开电灯看信，看完关灯趟好，想着信里的话，忍不住又开灯再看一遍。以后他写的信渐渐变成一天天的随感杂记，随身带到银行里，碰见一桩趣事，响起一句话，他就拿笔在纸上跟唐小姐窃窃私语，有时无话可说，他就要写，例如：“今天到行起了许多信稿子，到这时候才透口气，伸个懒腰，a—a—a—ah！听得到我打哈欠的声音么？茶房来请吃午饭了，再谈。你也许在吃饭，祝你‘午饭多吃口，活到九千九百九十九’；”又如“这封信要寄给你了，还想写几句话。可是你看纸上全写满了，只留这一小方，刚挤得进我心里那一句话，它还怕羞不敢见你的面呢。哎呦，纸——”写信的时候总觉得这是慰情聊胜于此，比不上见面，见了面许多话倒讲不出来，还想不如写信。见面有瘾的；最初，约着见一面就能使假面的前后几天都沾着光，变成好日子。渐渐的恨不得天天见面了；到后来，很不得刻刻见面了。写好信发出去，他总担心这信像支火箭，到落地时，火已熄了，对方收到的只是一段枯炭。</p>
-</blockquote>
-<p>这段话好能引起共鸣，想想咱们刚刚喜欢上一姑娘时不就这样么。整天跟个傻子似得，碰到一丁点小事都想着与心里的那位分享，恨不得立马出现在TA面前讲给TA听。可能也就是大师能够细微观察并用文字表达出来吧。<br>用最近一段网上见到的字叫做：人家能说出：“落霞与孤鹜齐飞，秋水共长天一色”的句子，而我只能说：“我靠，好漂亮，好多鸟啊，真他妈太漂亮了，怎么这么漂亮……”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">围城</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟/小猪的记忆//" class="article-tag-list-link color1">小猪的记忆</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1039.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1312,11 +1327,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1328,7 +1347,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1336,39 +1355,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1400,6 +1395,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1408,11 +1407,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1428,11 +1459,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1444,18 +1483,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1464,15 +1491,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1500,6 +1535,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1508,19 +1551,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1528,7 +1559,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1536,7 +1567,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1544,11 +1595,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1568,87 +1619,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1660,15 +1631,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1696,10 +1667,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1708,7 +1675,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1759,9 +1778,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

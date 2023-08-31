@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>Django学习笔记 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="查看安装版本:import django print(django.get_version\(\)) # 1.8.2  12#### 创建一个项目:    django-admin startproject mysite  12可以生成如下结构的文件夹：    mysite/        manage.py        mysite/            init.py">
-<meta name="keywords" content="Django">
+  <meta name="description" content="查看安装版本:import django print(django.get_version\(\)) # 1.8.2  12#### 创建一个项目:    django-admin startproject mysite  12可以生成如下结构的文件夹：    mysite&#x2F;        manage.py        mysite&#x2F;            init.py">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django学习笔记">
 <meta property="og:url" content="http://blog.smallerpig.com/912.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="查看安装版本:import django print(django.get_version\(\)) # 1.8.2  12#### 创建一个项目:    django-admin startproject mysite  12可以生成如下结构的文件夹：    mysite/        manage.py        mysite/            init.py">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="og:description" content="查看安装版本:import django print(django.get_version\(\)) # 1.8.2  12#### 创建一个项目:    django-admin startproject mysite  12可以生成如下结构的文件夹：    mysite&#x2F;        manage.py        mysite&#x2F;            init.py">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-30T02:37:40.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="Django">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django学习笔记">
-<meta name="twitter:description" content="查看安装版本:import django print(django.get_version\(\)) # 1.8.2  12#### 创建一个项目:    django-admin startproject mysite  12可以生成如下结构的文件夹：    mysite/        manage.py        mysite/            init.py">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -47,8 +47,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -193,16 +193,16 @@ class Choice(models.Model):
     question = models.ForeignKey(Question)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">模型都继承自类`models.Model`,对应的一个属性就对应一个数据库字段。以`Quesiton`为例，其有两个字段`question_text`和`pub_date`，分别为`Char`类型(长度为200)和`DateTime`类型。</span><br><span class="line">最大长度的问题：[max_length](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.CharField.max_length),默认值的问题:[default](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.Field.default),外键的问题:[models.ForeignKey](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.ForeignKey)!</span><br><span class="line">值得注意的是上述类型中我们并没有为每一个类定义id字段。</span><br><span class="line">然后将新建的app加入到项目中。`INSTALLED_APPS=( ...,&apos;polls&apos;)`</span><br><span class="line">然后再使用迁移的方法新建数据库</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">模型都继承自类&#96;models.Model&#96;,对应的一个属性就对应一个数据库字段。以&#96;Quesiton&#96;为例，其有两个字段&#96;question_text&#96;和&#96;pub_date&#96;，分别为&#96;Char&#96;类型(长度为200)和&#96;DateTime&#96;类型。</span><br><span class="line">最大长度的问题：[max_length](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.CharField.max_length),默认值的问题:[default](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.Field.default),外键的问题:[models.ForeignKey](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.ForeignKey)!</span><br><span class="line">值得注意的是上述类型中我们并没有为每一个类定义id字段。</span><br><span class="line">然后将新建的app加入到项目中。&#96;INSTALLED_APPS&#x3D;( ...,&#39;polls&#39;)&#96;</span><br><span class="line">然后再使用迁移的方法新建数据库</span><br></pre></td></tr></table></figure>
 <p>   python manage.py makemigrations polls</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述模型代码会为我们生成如下的sql语句,通过命令`python manage.py sqlmigrate polls 0001`我们可以参考到</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述模型代码会为我们生成如下的sql语句,通过命令&#96;python manage.py sqlmigrate polls 0001&#96;我们可以参考到</span><br></pre></td></tr></table></figure>
 <p>   BEGIN;<br>    CREATE TABLE “polls_choice” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “choice_text” varchar(200) NOT NULL,<br>        “votes” integer NOT NULL<br>    );<br>    CREATE TABLE “polls_question” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “question_text” varchar(200) NOT NULL,<br>        “pub_date” timestamp with time zone NOT NULL<br>    );<br>    ALTER TABLE “polls_choice” ADD COLUMN “question_id” integer NOT NULL;<br>    ALTER TABLE “polls_choice” ALTER COLUMN “question_id” DROP DEFAULT;<br>    CREATE INDEX “polls_choice_7aa0f6ee” ON “polls_choice” (“question_id”);<br>    ALTER TABLE “polls_choice”<br>      ADD CONSTRAINT “polls_choice_question_id_246c99a640fbbd72_fk_polls_question_id”<br>        FOREIGN KEY (“question_id”)<br>        REFERENCES “polls_question” (“id”)<br>        DEFERRABLE INITIALLY DEFERRED;</p>
 <pre><code>COMMIT;
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   可见上述sql语句自动为我们生成了主键id，当然我们也可以自己加上 ,</span><br><span class="line">*   表名称为app名+类名(全小写)！</span><br><span class="line">*   外键的名字默认为外键名+_id!</span><br><span class="line">*   会根据使用的不同数据库来生成符合不同数据库规范的sql语句</span><br><span class="line">*   `sqlmigrate`语句并没有执行，而仅仅是生成了sql.如果想要执行的话就需要运行命令:`python manage.py migrate`</span><br><span class="line"></span><br><span class="line">    #### 本地使用model的api</span><br><span class="line"></span><br><span class="line">    进入脚本模式`python manage.py shell`</span><br><span class="line">    然后可执行一些语句来直接操作数据库了；</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   可见上述sql语句自动为我们生成了主键id，当然我们也可以自己加上 ,</span><br><span class="line">*   表名称为app名+类名(全小写)！</span><br><span class="line">*   外键的名字默认为外键名+_id!</span><br><span class="line">*   会根据使用的不同数据库来生成符合不同数据库规范的sql语句</span><br><span class="line">*   &#96;sqlmigrate&#96;语句并没有执行，而仅仅是生成了sql.如果想要执行的话就需要运行命令:&#96;python manage.py migrate&#96;</span><br><span class="line"></span><br><span class="line">    #### 本地使用model的api</span><br><span class="line"></span><br><span class="line">    进入脚本模式&#96;python manage.py shell&#96;</span><br><span class="line">    然后可执行一些语句来直接操作数据库了；</span><br></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>from polls.models import Question, Choice<br>Question.objects.all()<br>    []<br>from django.utils import timezone<br>q = Question(question_text=”What’s new?”, pub_date=timezone.now())<br>q.save()<br>q.id<br>    1<br>q.question_text<br>    “What’s new?”<br>q.pub_date<br>    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<utc>)</utc></p>
+<p>from polls.models import Question, Choice<br>Question.objects.all()<br>    []<br>from django.utils import timezone<br>q = Question(question_text=”What’s new?”, pub_date=timezone.now())<br>q.save()<br>q.id<br>    1<br>q.question_text<br>    “What’s new?”<br>q.pub_date<br>    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<UTC>)</p>
 </blockquote>
 </blockquote>
 </blockquote>
@@ -213,8 +213,8 @@ class Choice(models.Model):
 &gt;&gt;&gt; Question.objects.all\(\)
 [&lt;Question: Question object&gt;]
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 自带的Admin管理后台</span><br><span class="line"></span><br><span class="line">#### 创建一个超级管理员</span><br></pre></td></tr></table></figure>
-<p>   python manage.py createsuperuser<br>    Username:admin<br>    Email address:<a href="mailto:admin@example.com" target="_blank" rel="noopener">admin@example.com</a><br>    password:<br>    Password(again):<br>    Superuser created successfully.</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这样就可以在启动测试服务器之后在网址:hostname/admin中进入后台。</span><br><span class="line">如果过程出错的话确保admin模块配置正确和Url配置正确。系统已经默认生成了用户组合用户模块以及基本的权限控制。</span><br><span class="line">进入polls/admin.py让我们新建的app能够在后台中编辑内容。</span><br></pre></td></tr></table></figure>
+<p>   python manage.py createsuperuser<br>    Username:admin<br>    Email address:<a href="mailto:admin@example.com">admin@example.com</a><br>    password:<br>    Password(again):<br>    Superuser created successfully.</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这样就可以在启动测试服务器之后在网址:hostname&#x2F;admin中进入后台。</span><br><span class="line">如果过程出错的话确保admin模块配置正确和Url配置正确。系统已经默认生成了用户组合用户模块以及基本的权限控制。</span><br><span class="line">进入polls&#x2F;admin.py让我们新建的app能够在后台中编辑内容。</span><br></pre></td></tr></table></figure>
 <p>   from django.contrib import admin<br>    from .models import Question</p>
 <pre><code>admin.site.regitster(Question)
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   表单是系统根据我们的Question模型生成的。</span><br><span class="line">*   模型的不同字段会生成不同的输入框类型。例如时间格式的会显示成日期选择器。</span><br><span class="line">    后台还会记录用户操作的记录。</span><br><span class="line"></span><br><span class="line">    #### 自定义表单</span><br><span class="line"></span><br><span class="line">    将Question注册到admin的代码修改成：</span><br></pre></td></tr></table></figure>
@@ -237,10 +237,10 @@ admin.site.register(Question,QuestionAdmin)
     inlines = [ChoiceInline]
 
 admin.site.register(Question, QuestionAdmin)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以将`StackedInline`替换成`TabularInline`来时显示更加简洁，表格化：</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以将&#96;StackedInline&#96;替换成&#96;TabularInline&#96;来时显示更加简洁，表格化：</span><br></pre></td></tr></table></figure>
 <p>   class ChoiceInline(admin.TabularInline):</p>
 <pre><code>#...
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 自定义admin变化列表</span><br><span class="line"></span><br><span class="line">默认的。django会显示模型的`str\(\)`方法作为列表的内容。但是如果我们想要显示更多的内容就需要使用`list_display`选项了.。</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 自定义admin变化列表</span><br><span class="line"></span><br><span class="line">默认的。django会显示模型的&#96;str\(\)&#96;方法作为列表的内容。但是如果我们想要显示更多的内容就需要使用&#96;list_display&#96;选项了.。</span><br></pre></td></tr></table></figure>
 <p>   class QuestionAdmin(admin.ModelAdmin):</p>
 <pre><code># ...
 list_display = (&apos;question_text&apos;, &apos;pub_date&apos;， &apos;was_published_recently&apos;)
@@ -539,11 +539,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,7 +559,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,39 +567,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -627,6 +607,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -635,11 +619,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -655,11 +671,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -671,18 +695,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -691,15 +703,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -727,6 +747,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -735,19 +763,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -755,7 +771,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -763,7 +779,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -771,11 +807,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -795,87 +831,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -887,15 +843,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -923,10 +879,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -935,7 +887,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -986,9 +990,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

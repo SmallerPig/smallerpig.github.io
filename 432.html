@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>设置正确的post数据格式 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。 首先：按照正常使用习惯来生成的代码是：1234567891011121314151617181920212223HttpHelper http = new HttpHe">
+  <meta name="description" content="之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。 首先：按照正常使用习惯来生成的代码是：1234567891011121314151617181920212223HttpHelper http &#x3D; new H">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设置正确的post数据格式">
 <meta property="og:url" content="http://blog.smallerpig.com/432.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。 首先：按照正常使用习惯来生成的代码是：1234567891011121314151617181920212223HttpHelper http = new HttpHe">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-30T12:05:44.055Z">
+<meta property="og:description" content="之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。 首先：按照正常使用习惯来生成的代码是：1234567891011121314151617181920212223HttpHelper http &#x3D; new H">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-02-26T01:55:59.000Z">
+<meta property="article:modified_time" content="2023-05-30T12:05:44.055Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设置正确的post数据格式">
-<meta name="twitter:description" content="之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。 首先：按照正常使用习惯来生成的代码是：1234567891011121314151617181920212223HttpHelper http = new HttpHe">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -169,16 +169,11 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。</p>
-<p>首先：按照正常使用习惯来生成的代码是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HttpHelper http = new HttpHelper\(\);</span><br><span class="line">HttpItem item = new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">   URL = &quot;http://localhost:2250/api/login&quot;,//URL     必需项    </span><br><span class="line">    Method = &quot;post&quot;,//URL     可选项 默认为Get   </span><br><span class="line">    IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">    Cookie = &quot;&quot;,//字符串Cookie     可选项   </span><br><span class="line">    Referer =&quot;&quot;,//来源URL     可选项   </span><br><span class="line">    Postdata = &quot;username=1@1.com&amp;amp;password=123456&quot;,//Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout = 100000,//连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   </span><br><span class="line">    UserAgent = &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)&quot;,//用户的浏览器类型，版本，操作系统     可选项有默认值   </span><br><span class="line">    ContentType = &quot;text/html&quot;,//返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect = false,//是否根据301跳转     可选项   </span><br><span class="line">    //CerPath = &quot;d:123.cer&quot;,//证书绝对路径     可选项不需要证书时可以不写这个参数   </span><br><span class="line">    //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    </span><br><span class="line">    ProxyIp = &quot;&quot;,//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    </span><br><span class="line">    //ProxyPwd = &quot;123456&quot;,//代理服务器密码     可选项    </span><br><span class="line">    //ProxyUserName = &quot;administrator&quot;,//代理服务器账户名     可选项   </span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result = http.GetHtml(item);</span><br><span class="line">string html = result.Html;</span><br><span class="line">string cookie = result.Cookie;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>服务器来接受到请求，但是接受到的username 和password字段都是null。 小猪捣鼓了一个下午一直认为是post数据的问题。尝试将其改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=123&amp;amp;password=123&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>甚至是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=&apos;123&apos;&amp;amp;password=&apos;123&apos;&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>问题依旧啊！害得我昨天晚上一生气玩dota到12点~:-)</p>
-<p>期间自己编写html代码来测试数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;form action=&quot;http://localhost:2250/api/login&quot; method =&quot;Post&quot;&gt;</span><br><span class="line">    &lt;input type = &quot;text&quot; name = &quot;username&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;password&quot; name = &quot;password&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;submit&quot; &gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>这样测试是能够接受到数据的。各种百度、谷歌、官方论坛找到下列结果<a href="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" title="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" target="_blank" rel="noopener">http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5</a></p>
-<p>原来需要将请求的ContenType，这样HttpWebRequest类会将post数据当成表单数据来处理，这样在ASP.NET MVC后台就可以成功接受到数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContentType = &quot;application/x-www-form-urlencoded&quot;,</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
+<p>首先：按照正常使用习惯来生成的代码是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HttpHelper http &#x3D; new HttpHelper\(\);</span><br><span class="line">HttpItem item &#x3D; new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">   URL &#x3D; &quot;http:&#x2F;&#x2F;localhost:2250&#x2F;api&#x2F;login&quot;,&#x2F;&#x2F;URL     必需项    </span><br><span class="line">    Method &#x3D; &quot;post&quot;,&#x2F;&#x2F;URL     可选项 默认为Get   </span><br><span class="line">    IsToLower &#x3D; false,&#x2F;&#x2F;得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">    Cookie &#x3D; &quot;&quot;,&#x2F;&#x2F;字符串Cookie     可选项   </span><br><span class="line">    Referer &#x3D;&quot;&quot;,&#x2F;&#x2F;来源URL     可选项   </span><br><span class="line">    Postdata &#x3D; &quot;username&#x3D;1@1.com&amp;password&#x3D;123456&quot;,&#x2F;&#x2F;Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout &#x3D; 100000,&#x2F;&#x2F;连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout &#x3D; 30000,&#x2F;&#x2F;写入Post数据超时时间     可选项默认为30000   </span><br><span class="line">    UserAgent &#x3D; &quot;Mozilla&#x2F;5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident&#x2F;5.0)&quot;,&#x2F;&#x2F;用户的浏览器类型，版本，操作系统     可选项有默认值   </span><br><span class="line">    ContentType &#x3D; &quot;text&#x2F;html&quot;,&#x2F;&#x2F;返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect &#x3D; false,&#x2F;&#x2F;是否根据301跳转     可选项   </span><br><span class="line">    &#x2F;&#x2F;CerPath &#x3D; &quot;d:123.cer&quot;,&#x2F;&#x2F;证书绝对路径     可选项不需要证书时可以不写这个参数   </span><br><span class="line">    &#x2F;&#x2F;Connectionlimit &#x3D; 1024,&#x2F;&#x2F;最大连接数     可选项 默认为1024    </span><br><span class="line">    ProxyIp &#x3D; &quot;&quot;,&#x2F;&#x2F;代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    </span><br><span class="line">    &#x2F;&#x2F;ProxyPwd &#x3D; &quot;123456&quot;,&#x2F;&#x2F;代理服务器密码     可选项    </span><br><span class="line">    &#x2F;&#x2F;ProxyUserName &#x3D; &quot;administrator&quot;,&#x2F;&#x2F;代理服务器账户名     可选项   </span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result &#x3D; http.GetHtml(item);</span><br><span class="line">string html &#x3D; result.Html;</span><br><span class="line">string cookie &#x3D; result.Cookie;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>服务器来接受到请求，但是接受到的username 和password字段都是null。 小猪捣鼓了一个下午一直认为是post数据的问题。尝试将其改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData &#x3D; &quot;&#123;username&#x3D;123&amp;password&#x3D;123&#125;&quot;</span><br></pre></td></tr></table></figure><br>甚至是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData &#x3D; &quot;&#123;username&#x3D;&#39;123&#39;&amp;password&#x3D;&#39;123&#39;&#125;&quot;</span><br></pre></td></tr></table></figure><br>问题依旧啊！害得我昨天晚上一生气玩dota到12点~:-)</p>
+<p>期间自己编写html代码来测试数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;form action&#x3D;&quot;http:&#x2F;&#x2F;localhost:2250&#x2F;api&#x2F;login&quot; method &#x3D;&quot;Post&quot;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;text&quot; name &#x3D; &quot;username&quot;&#x2F;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;password&quot; name &#x3D; &quot;password&quot;&#x2F;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;submit&quot; &gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>这样测试是能够接受到数据的。各种百度、谷歌、官方论坛找到下列结果<a href="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" target="_blank" rel="noopener" title="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5">http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5</a></p>
+<p>原来需要将请求的ContenType，这样HttpWebRequest类会将post数据当成表单数据来处理，这样在ASP.NET MVC后台就可以成功接受到数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContentType &#x3D; &quot;application&#x2F;x-www-form-urlencoded&quot;,</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
 
       
 
@@ -458,11 +453,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -474,7 +473,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -482,39 +481,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -546,6 +521,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -554,11 +533,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -574,11 +585,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -590,18 +609,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -610,15 +617,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -646,6 +661,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -654,19 +677,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -674,7 +685,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -682,7 +693,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -690,11 +721,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -714,87 +745,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -806,15 +757,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -842,10 +793,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -854,7 +801,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -905,9 +904,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

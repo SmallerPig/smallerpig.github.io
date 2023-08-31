@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/28/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -149,6 +148,271 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/在ASP.NET中启动SQL SERVER缓存" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/235.html">在ASP.NET中启动SQL SERVER缓存</a>
+    </h1>
+  
+
+        
+        <a href="/235.html" class="archive-article-date">
+  	<time datetime="2013-07-31T08:25:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在小猪的一次面试中，面试官问过这样的问题，在我们打开网站的时候我们需要向数据库取数据，大家是每次都去取呢还是通过什么方法呢？</p>
+<p>当时小猪虽然知道可以通过缓存来减少不必要的数据库访问次数，但是却并不知道怎么来完成这样的功能。这样一段时间之内一直纠结于怎么搞他呢？</p>
+<p>这段时间小猪比较清闲，有了很多时间思考之前没时间思考的东西，所以好好的把数据库缓存这块的知识整理整理。</p>
+<p>好吧，下面进入正题。要想使用SQL SERVER 自带的缓存功能需要以下步骤：</p>
+<p>1. sqlserver中使用语句启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
+<p>如果启用失败或者很长时间一直在执行请执行以下语句，然后秒了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE TestDB SET NEW_BROKER WITH ROLLBACK IMMEDIATE;</span><br><span class="line"></span><br><span class="line">ALTER DATABASE TestDB SET ENABLE_BROKER;</span><br></pre></td></tr></table></figure></p>
+<p>2. 检查数据库是否启用监听服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT is_broker_enabled FROM sys.databases WHERE name &#x3D; &#39;TestDB&#39;</span><br></pre></td></tr></table></figure></p>
+<p>(1为已启用,0为未启用)</p>
+<p>3. 配置WebConfig</p>
+<p>配置<connectionStrings><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;connectionStrings&gt;</span><br><span class="line">&lt;add name&#x3D;&quot;conStr&quot; connectionString&#x3D;&quot;Data Source&#x3D;.;Initial Catalog&#x3D;TestDB;Persist Security Info&#x3D;True;User ID&#x3D;sa;Password&#x3D;sa&quot; providerName&#x3D;&quot;System.Data.SqlClient&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;connectionStrings&gt;</span><br></pre></td></tr></table></figure></p>
+<p>&lt;system.web&gt; &nbsp; 节点下配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;caching&gt;</span><br><span class="line">    &lt;sqlCacheDependency enabled&#x3D;&quot;true&quot; pollTime&#x3D;&quot;1000&quot;&gt;</span><br><span class="line">        &lt;databases&gt;&lt;add name&#x3D;&quot;TestDB&quot; connectionStringName&#x3D;&quot;conStr&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;databases&gt;</span><br><span class="line">    &lt;&#x2F;sqlCacheDependency&gt;</span><br><span class="line">&lt;&#x2F;caching&gt;</span><br></pre></td></tr></table></figure></p>
+<p>ps:Ok，下面上示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义连接字符串</span><br><span class="line">string conStr &#x3D; System.Configuration.ConfigurationManager.ConnectionStrings[&quot;conStr&quot;].ConnectionString;</span><br><span class="line"></span><br><span class="line">protected void Page_Load(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    if (!IsPostBack)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        SqlDependency.Start(conStr);&#x2F;&#x2F;启动监听服务，ps：只需启动一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableNotifications(conStr);&#x2F;&#x2F;设置通知的数据库连接，ps：只需设置一次</span><br><span class="line">        System.Web.Caching.SqlCacheDependencyAdmin.EnableTableForNotifications(constr, &quot;dbo.TableA&quot;);&#x2F;&#x2F;设置通知的数据库连接和表，ps：只需设置一次</span><br><span class="line">        string sql &#x3D; &quot;select Name from dbo.TableA&quot;;</span><br><span class="line">        SqlConnection con &#x3D; new SqlConnection(conStr);</span><br><span class="line">        SqlCommand cmd &#x3D; new SqlCommand(sql, con);</span><br><span class="line">        SqlDataAdapter adapter &#x3D; new SqlDataAdapter(cmd);</span><br><span class="line"></span><br><span class="line">        DataSet ds &#x3D; new DataSet\(\);</span><br><span class="line">        adapter.Fill(ds, &quot;cache&quot;);</span><br><span class="line"></span><br><span class="line">        System.Web.Caching.SqlCacheDependency cd &#x3D; new System.Web.Caching.SqlCacheDependency(&quot;TestDB&quot;, &quot;dbo.TableA&quot;);&#x2F;&#x2F;建立关联</span><br><span class="line">        Cache.Insert(&quot;cache&quot;, ds, cd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样初始化后，更新数据库TestDB中表dbo.TableA后，缓存Cache[&quot;cache&quot;]会失效。</p>
+<p>另外，在其他地方我们可以这样用，一个字：方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;Role&gt; list &#x3D; this.Cache[&quot;data&quot;] as List&lt;Role&gt;;</span><br><span class="line">if (list !&#x3D; null) &#123; return list; &#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    list &#x3D; GetList\(\);&#x2F;&#x2F;此方法是从数据库读取数据，代码就不予展示了</span><br><span class="line">    System.Web.Caching.SqlCacheDependency scd &#x3D; new SqlCacheDependency(&quot;flag&quot;, &quot;T_ERP_Role&quot;);&#x2F;&#x2F;创建数据库依赖 第一个参数是web.config配置文件中databases节点下的Name值，第二个参数数据库中被建立依赖的表的表名称</span><br><span class="line">    this.Cache.Insert(&quot;data&quot;, list, scd, System.Web.Caching.Cache.NoAbsoluteExpiration, System.Web.Caching.Cache.NoSlidingExpiration, System.Web.Caching.CacheItemPriority.High, CallBack);</span><br><span class="line">    &#x2F;&#x2F;第三个参数scd 为文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。</span><br><span class="line">    &#x2F;&#x2F;最后一个参数CallBack： 在从缓存中移除对象时将调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</span><br><span class="line"></span><br><span class="line">    return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，在ASP.NET中不仅仅可以缓存SQL ，系统自带了Cache类来实现缓存</p>
+<p>这样可以方便的自定义自己需要缓存的东西，可以参照下列文章。</p>
+<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2501864.html</a></p>
+<p><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/17/2506015.html</a><br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener">http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html</a> </p>
+<p>下面小猪需要封装单独的数据库缓存类。<br><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"></a><a href="http://www.cnblogs.com/John-Connor/archive/2012/05/18/2507514.html" target="_blank" rel="noopener"> </a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC/SQL/WEBFORM//" class="article-tag-list-link color3">WEBFORM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/235.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-csharp/c-e5-bb-b6-e8-bf-9f-e5-8a-a0-e8-bd-bd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/232.html">C#延迟加载</a>
+    </h1>
+  
+
+        
+        <a href="/232.html" class="archive-article-date">
+  	<time datetime="2013-07-30T06:29:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-07-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>延迟加载(lazy loading) 设计模式是为了避免一些无谓的性能开销而提出来的，所谓延迟加载就是当在真正需要数据(读取属性值)的时候，才真正执行数据加载操作.</p>
+<p>有效使用它可以大大提高系统性能.</p>
+<more></more>
+
+<p>为了便于理解, 我们来建立一个场景, 假设我们要构造一个Hero(英雄) 类, 每个Hero 有自己的名字和(SpecialSkill)特殊技能.</p>
+<p>建模</p>
+<p>这是一种建立的方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public class Hero</span><br><span class="line">&#123;</span><br><span class="line">    public string FullName &#123; get; set; &#125;</span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line">    public SpecialSkill Skill&#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public Hero(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        Name &#x3D; name;</span><br><span class="line">        FullName &#x3D; &quot;Super &quot; + name;</span><br><span class="line">        Skill &#x3D; new SpecialSkill(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SpecialSkill</span><br><span class="line">&#123;</span><br><span class="line">    public int Power &#123; get; set; &#125;</span><br><span class="line">    public string SkillName &#123; get; set; &#125;</span><br><span class="line">    public int StrengthSpent &#123; get; set; &#125;</span><br><span class="line">    public SpecialSkill(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;loading special skill .....&quot;);</span><br><span class="line">        Power &#x3D; name.Length;</span><br><span class="line">        StrengthSpent &#x3D; name.Length * 3;</span><br><span class="line">        SkillName &#x3D; name + &quot; Blazing&quot;;</span><br><span class="line">        Console.WriteLine(SkillName + &quot;,... this&#39;s what makes a legend!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Hero hero &#x3D; new Hero(&quot;wukong&quot;);            </span><br><span class="line">        Console.WriteLine(&quot;nn..............Press Enter to continue ................nn&quot;);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">        Console.WriteLine(&quot;Hero&#39;s special skill: &quot; + hero.Skill.SkillName);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">        Console.Read\(\);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> &#96;&#96;&#96;&lt;div&gt;运行程序后输出如下, 这个例子非常的容易理解, 结果也是显然的.&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">![ScreenShot066](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;89571375165521.jpg &quot;ScreenShot066&quot;)</span><br><span class="line"></span><br><span class="line">它的缺点是, 当运行Hero 构造函数的时候, SpecialSkill 的所有属性都已经加载了. 如果我们只想获取这个Hero 的FullName, 我们也加载了SpecialSkill 所有值. </span><br><span class="line"></span><br><span class="line">## 属性的加载延迟</span><br><span class="line"></span><br><span class="line">在没有Lazy&lt;T&gt; 以前我们可以这样做:</span><br></pre></td></tr></table></figure></p>
+<p>public class Hero<br> {<br>     public string FullName { get; set; }<br>     public string Name { get; set; }<br>     private SpecialSkill skill;<br>     public SpecialSkill Skill<br>     {<br>         get { return skill ?? (skill = new SpecialSkill(Name)); }<br>     }<br>     public Hero(string name)<br>     {<br>         Name = name;<br>         FullName = “Super “ + name;</p>
+<pre><code>}
+</code></pre><p> }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">即: 修改属性SpecialSkill的加载方法. 那么当我们再运行程序时, 得到的输出就是:</span><br><span class="line"></span><br><span class="line">![ScreenShot067](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;45811375165521.jpg &quot;ScreenShot067&quot;)</span><br><span class="line"></span><br><span class="line">非常好! 这就是我们要的效果, 这样可以让系统更加的有效率.</span><br><span class="line"></span><br><span class="line">## Lazy&lt;T&gt;</span><br><span class="line"></span><br><span class="line">当net framework 引入了Lazy&lt;T&gt; 类后, 我们也可以使用它来实现:</span><br></pre></td></tr></table></figure>
+<p>public class Hero<br>{<br>    public string FullName { get; set; }<br>    public string Name { get; set; }</p>
+<pre><code>private readonly Lazy&amp;lt;SpecialSkill&amp;gt; skill;
+public SpecialSkill Skill
+{
+    get { return skill.Value; }
+}
+
+public Hero(string name)
+{
+    Name = name;
+    FullName = &quot;Super &quot; + name;
+
+    skill = new Lazy&amp;lt;SpecialSkill&amp;gt;(\(\) =&amp;gt; new SpecialSkill(name));
+}
+</code></pre><p>}</p>
+<p> <code>`</code></p>
+<p>Lazy&lt;T&gt;提供对延迟初始化的支持。而 Lazy&lt;T&gt; 中的一个属性 Value, 则是获取当前 Lazy&lt;T&gt; 实例的延迟初始化值。</p>
+<h2 id="Lazy-lt-T-gt-的优势"><a href="#Lazy-lt-T-gt-的优势" class="headerlink" title="Lazy&lt;T&gt;的优势"></a>Lazy&lt;T&gt;的优势</h2><p>那么既然我们已经可以用属性缓存的方法实现, 为什么还要引入Lazy&lt;T&gt; ?</p>
+<p>至少Lazy&lt;T&gt; 有以下几点优势:</p>
+<ol>
+<li><p>它具有 LazyThreadSafetyMode, 但是我们一般不使用它, 除非是很关键的情况下(在此略去181个字)</p>
+</li>
+<li><p>它使属性的定义行更加简单</p>
+</li>
+<li><p>从语义上来讲, 它更加明确, 更加具有可读性</p>
+</li>
+<li><p>它允许null为有效值</p>
+</li>
+</ol>
+<h2 id="ASP-NET"><a href="#ASP-NET" class="headerlink" title="ASP.NET"></a>ASP.NET</h2><p>其实小猪今天想到这个主题的原因是想到了一个面试题。在web页面中怎么实现数据的缓存，或者不是每次打开页面的时候都去访问数据库。</p>
+<p>下篇小猪将做种说说对数据库的延迟加载或者缓存。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/232.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-csharp/c-e6-a0-bc-e5-bc-8f-e5-8c-96datetime-e6-97-b6-e9-97-b4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -169,7 +433,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    DateTime dt = DateTime.Now;</span><br><span class="line">Label1.Text = dt.ToString\(\);//2005-11-5 13:21:25</span><br><span class="line">Label2.Text = dt.ToFileTime\(\).ToString\(\);//127756416859912816</span><br><span class="line">Label3.Text = dt.ToFileTimeUtc\(\).ToString\(\);//127756704859912816</span><br><span class="line">Label4.Text = dt.ToLocalTime\(\).ToString\(\);//2005-11-5 21:21:25</span><br><span class="line">Label5.Text = dt.ToLongDateString\(\).ToString\(\);//2005年11月5日</span><br><span class="line">Label6.Text = dt.ToLongTimeString\(\).ToString\(\);//13:21:25</span><br><span class="line">Label7.Text = dt.ToOADate\(\).ToString\(\);//38661.5565508218</span><br><span class="line">Label8.Text = dt.ToShortDateString\(\).ToString\(\);//2005-11-5</span><br><span class="line">Label9.Text = dt.ToShortTimeString\(\).ToString\(\);//13:21</span><br><span class="line">Label10.Text = dt.ToUniversalTime\(\).ToString\(\);//2005-11-5 5:21:25</span><br><span class="line">    2005-11-5 13:30:28.4412864</span><br><span class="line">Label1.Text = dt.Year.ToString\(\);//2005</span><br><span class="line">Label2.Text = dt.Date.ToString\(\);//2005-11-5 0:00:00</span><br><span class="line">Label3.Text = dt.DayOfWeek.ToString\(\);//Saturday</span><br><span class="line">Label4.Text = dt.DayOfYear.ToString\(\);//309</span><br><span class="line">Label5.Text = dt.Hour.ToString\(\);//13</span><br><span class="line">Label6.Text = dt.Millisecond.ToString\(\);//441</span><br><span class="line">Label7.Text = dt.Minute.ToString\(\);//30</span><br><span class="line">Label8.Text = dt.Month.ToString\(\);//11</span><br><span class="line">Label9.Text = dt.Second.ToString\(\);//28</span><br><span class="line">Label10.Text = dt.Ticks.ToString\(\);//632667942284412864</span><br><span class="line">Label11.Text = dt.TimeOfDay.ToString\(\);//13:30:28.4412864</span><br><span class="line">Label1.Text = dt.ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label2.Text = dt.AddYears(1).ToString\(\);//2006-11-5 13:47:04</span><br><span class="line">Label3.Text = dt.AddDays(1.1).ToString\(\);//2005-11-6 16:11:04</span><br><span class="line">Label4.Text = dt.AddHours(1.1).ToString\(\);//2005-11-5 14:53:04</span><br><span class="line">Label5.Text = dt.AddMilliseconds(1.1).ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label6.Text = dt.AddMonths(1).ToString\(\);//2005-12-5 13:47:04</span><br><span class="line">Label7.Text = dt.AddSeconds(1.1).ToString\(\);//2005-11-5 13:47:05</span><br><span class="line">Label8.Text = dt.AddMinutes(1.1).ToString\(\);//2005-11-5 13:48:10</span><br><span class="line">Label9.Text = dt.AddTicks(1000).ToString\(\);//2005-11-5 13:47:04</span><br><span class="line">Label10.Text = dt.CompareTo(dt).ToString\(\);//0</span><br><span class="line">Label11.Text = dt.Add(?).ToString\(\);//问号为一个时间段</span><br><span class="line">Label1.Text = dt.Equals(&quot;2005-11-6 16:11:04&quot;).ToString\(\);//False</span><br><span class="line">Label2.Text = dt.Equals(dt).ToString\(\);//True</span><br><span class="line">Label3.Text = dt.GetHashCode\(\).ToString\(\);//1474088234</span><br><span class="line">Label4.Text = dt.GetType\(\).ToString\(\);//System.DateTime</span><br><span class="line">Label5.Text = dt.GetTypeCode\(\).ToString\(\);//DateTime</span><br><span class="line"></span><br><span class="line">Label1.Text = dt.GetDateTimeFormats(&apos;s&apos;)[0].ToString\(\);//2005-11-05T14:06:25</span><br><span class="line">Label2.Text = dt.GetDateTimeFormats(&apos;t&apos;)[0].ToString\(\);//14:06</span><br><span class="line">Label3.Text = dt.GetDateTimeFormats(&apos;y&apos;)[0].ToString\(\);//2005年11月</span><br><span class="line">Label4.Text = dt.GetDateTimeFormats(&apos;D&apos;)[0].ToString\(\);//2005年11月5日</span><br><span class="line">Label5.Text = dt.GetDateTimeFormats(&apos;D&apos;)[1].ToString\(\);//2005 11 05</span><br><span class="line">Label6.Text = dt.GetDateTimeFormats(&apos;D&apos;)[2].ToString\(\);//星期六 2005 11 05</span><br><span class="line">Label7.Text = dt.GetDateTimeFormats(&apos;D&apos;)[3].ToString\(\);//星期六 2005年11月5日</span><br><span class="line">Label8.Text = dt.GetDateTimeFormats(&apos;M&apos;)[0].ToString\(\);//11月5日</span><br><span class="line">Label9.Text = dt.GetDateTimeFormats(&apos;f&apos;)[0].ToString\(\);//2005年11月5日 14:06</span><br><span class="line">Label10.Text = dt.GetDateTimeFormats(&apos;g&apos;)[0].ToString\(\);//2005-11-5 14:06</span><br><span class="line">Label11.Text = dt.GetDateTimeFormats(&apos;r&apos;)[0].ToString\(\);//Sat, 05 Nov 2005 14:06:25 GMT</span><br><span class="line">Label1.Text =   string.Format(&quot;&#123;0:d&#125;&quot;,dt);//2005-11-5</span><br><span class="line">Label2.Text =   string.Format(&quot;&#123;0:D&#125;&quot;,dt);//2005年11月5日</span><br><span class="line">Label3.Text =   string.Format(&quot;&#123;0:f&#125;&quot;,dt);//2005年11月5日 14:23</span><br><span class="line">Label4.Text =   string.Format(&quot;&#123;0:F&#125;&quot;,dt);//2005年11月5日 14:23:23</span><br><span class="line">Label5.Text =   string.Format(&quot;&#123;0:g&#125;&quot;,dt);//2005-11-5 14:23</span><br><span class="line">Label6.Text =   string.Format(&quot;&#123;0:G&#125;&quot;,dt);//2005-11-5 14:23:23</span><br><span class="line">Label7.Text =   string.Format(&quot;&#123;0:M&#125;&quot;,dt);//11月5日</span><br><span class="line">Label8.Text =   string.Format(&quot;&#123;0:R&#125;&quot;,dt);//Sat, 05 Nov 2005 14:23:23 GMT</span><br><span class="line">Label9.Text =   string.Format(&quot;&#123;0:s&#125;&quot;,dt);//2005-11-05T14:23:23</span><br><span class="line">Label10.Text = string.Format(&quot;&#123;0:t&#125;&quot;,dt);//14:23</span><br><span class="line">Label11.Text = string.Format(&quot;&#123;0:T&#125;&quot;,dt);//14:23:23</span><br><span class="line">Label12.Text = string.Format(&quot;&#123;0:u&#125;&quot;,dt);//2005-11-05 14:23:23Z</span><br><span class="line">Label13.Text = string.Format(&quot;&#123;0:U&#125;&quot;,dt);//2005年11月5日 6:23:23</span><br><span class="line">Label14.Text = string.Format(&quot;&#123;0:Y&#125;&quot;,dt);//2005年11月</span><br><span class="line">Label15.Text = string.Format(&quot;&#123;0&#125;&quot;,dt);//2005-11-5 14:23:23</span><br><span class="line">Label16.Text = string.Format(&quot;&#123;0:yyyyMMddHHmmssffff&#125;&quot;,dt);</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    DateTime dt &#x3D; DateTime.Now;</span><br><span class="line">Label1.Text &#x3D; dt.ToString\(\);&#x2F;&#x2F;2005-11-5 13:21:25</span><br><span class="line">Label2.Text &#x3D; dt.ToFileTime\(\).ToString\(\);&#x2F;&#x2F;127756416859912816</span><br><span class="line">Label3.Text &#x3D; dt.ToFileTimeUtc\(\).ToString\(\);&#x2F;&#x2F;127756704859912816</span><br><span class="line">Label4.Text &#x3D; dt.ToLocalTime\(\).ToString\(\);&#x2F;&#x2F;2005-11-5 21:21:25</span><br><span class="line">Label5.Text &#x3D; dt.ToLongDateString\(\).ToString\(\);&#x2F;&#x2F;2005年11月5日</span><br><span class="line">Label6.Text &#x3D; dt.ToLongTimeString\(\).ToString\(\);&#x2F;&#x2F;13:21:25</span><br><span class="line">Label7.Text &#x3D; dt.ToOADate\(\).ToString\(\);&#x2F;&#x2F;38661.5565508218</span><br><span class="line">Label8.Text &#x3D; dt.ToShortDateString\(\).ToString\(\);&#x2F;&#x2F;2005-11-5</span><br><span class="line">Label9.Text &#x3D; dt.ToShortTimeString\(\).ToString\(\);&#x2F;&#x2F;13:21</span><br><span class="line">Label10.Text &#x3D; dt.ToUniversalTime\(\).ToString\(\);&#x2F;&#x2F;2005-11-5 5:21:25</span><br><span class="line">    2005-11-5 13:30:28.4412864</span><br><span class="line">Label1.Text &#x3D; dt.Year.ToString\(\);&#x2F;&#x2F;2005</span><br><span class="line">Label2.Text &#x3D; dt.Date.ToString\(\);&#x2F;&#x2F;2005-11-5 0:00:00</span><br><span class="line">Label3.Text &#x3D; dt.DayOfWeek.ToString\(\);&#x2F;&#x2F;Saturday</span><br><span class="line">Label4.Text &#x3D; dt.DayOfYear.ToString\(\);&#x2F;&#x2F;309</span><br><span class="line">Label5.Text &#x3D; dt.Hour.ToString\(\);&#x2F;&#x2F;13</span><br><span class="line">Label6.Text &#x3D; dt.Millisecond.ToString\(\);&#x2F;&#x2F;441</span><br><span class="line">Label7.Text &#x3D; dt.Minute.ToString\(\);&#x2F;&#x2F;30</span><br><span class="line">Label8.Text &#x3D; dt.Month.ToString\(\);&#x2F;&#x2F;11</span><br><span class="line">Label9.Text &#x3D; dt.Second.ToString\(\);&#x2F;&#x2F;28</span><br><span class="line">Label10.Text &#x3D; dt.Ticks.ToString\(\);&#x2F;&#x2F;632667942284412864</span><br><span class="line">Label11.Text &#x3D; dt.TimeOfDay.ToString\(\);&#x2F;&#x2F;13:30:28.4412864</span><br><span class="line">Label1.Text &#x3D; dt.ToString\(\);&#x2F;&#x2F;2005-11-5 13:47:04</span><br><span class="line">Label2.Text &#x3D; dt.AddYears(1).ToString\(\);&#x2F;&#x2F;2006-11-5 13:47:04</span><br><span class="line">Label3.Text &#x3D; dt.AddDays(1.1).ToString\(\);&#x2F;&#x2F;2005-11-6 16:11:04</span><br><span class="line">Label4.Text &#x3D; dt.AddHours(1.1).ToString\(\);&#x2F;&#x2F;2005-11-5 14:53:04</span><br><span class="line">Label5.Text &#x3D; dt.AddMilliseconds(1.1).ToString\(\);&#x2F;&#x2F;2005-11-5 13:47:04</span><br><span class="line">Label6.Text &#x3D; dt.AddMonths(1).ToString\(\);&#x2F;&#x2F;2005-12-5 13:47:04</span><br><span class="line">Label7.Text &#x3D; dt.AddSeconds(1.1).ToString\(\);&#x2F;&#x2F;2005-11-5 13:47:05</span><br><span class="line">Label8.Text &#x3D; dt.AddMinutes(1.1).ToString\(\);&#x2F;&#x2F;2005-11-5 13:48:10</span><br><span class="line">Label9.Text &#x3D; dt.AddTicks(1000).ToString\(\);&#x2F;&#x2F;2005-11-5 13:47:04</span><br><span class="line">Label10.Text &#x3D; dt.CompareTo(dt).ToString\(\);&#x2F;&#x2F;0</span><br><span class="line">Label11.Text &#x3D; dt.Add(?).ToString\(\);&#x2F;&#x2F;问号为一个时间段</span><br><span class="line">Label1.Text &#x3D; dt.Equals(&quot;2005-11-6 16:11:04&quot;).ToString\(\);&#x2F;&#x2F;False</span><br><span class="line">Label2.Text &#x3D; dt.Equals(dt).ToString\(\);&#x2F;&#x2F;True</span><br><span class="line">Label3.Text &#x3D; dt.GetHashCode\(\).ToString\(\);&#x2F;&#x2F;1474088234</span><br><span class="line">Label4.Text &#x3D; dt.GetType\(\).ToString\(\);&#x2F;&#x2F;System.DateTime</span><br><span class="line">Label5.Text &#x3D; dt.GetTypeCode\(\).ToString\(\);&#x2F;&#x2F;DateTime</span><br><span class="line"></span><br><span class="line">Label1.Text &#x3D; dt.GetDateTimeFormats(&#39;s&#39;)[0].ToString\(\);&#x2F;&#x2F;2005-11-05T14:06:25</span><br><span class="line">Label2.Text &#x3D; dt.GetDateTimeFormats(&#39;t&#39;)[0].ToString\(\);&#x2F;&#x2F;14:06</span><br><span class="line">Label3.Text &#x3D; dt.GetDateTimeFormats(&#39;y&#39;)[0].ToString\(\);&#x2F;&#x2F;2005年11月</span><br><span class="line">Label4.Text &#x3D; dt.GetDateTimeFormats(&#39;D&#39;)[0].ToString\(\);&#x2F;&#x2F;2005年11月5日</span><br><span class="line">Label5.Text &#x3D; dt.GetDateTimeFormats(&#39;D&#39;)[1].ToString\(\);&#x2F;&#x2F;2005 11 05</span><br><span class="line">Label6.Text &#x3D; dt.GetDateTimeFormats(&#39;D&#39;)[2].ToString\(\);&#x2F;&#x2F;星期六 2005 11 05</span><br><span class="line">Label7.Text &#x3D; dt.GetDateTimeFormats(&#39;D&#39;)[3].ToString\(\);&#x2F;&#x2F;星期六 2005年11月5日</span><br><span class="line">Label8.Text &#x3D; dt.GetDateTimeFormats(&#39;M&#39;)[0].ToString\(\);&#x2F;&#x2F;11月5日</span><br><span class="line">Label9.Text &#x3D; dt.GetDateTimeFormats(&#39;f&#39;)[0].ToString\(\);&#x2F;&#x2F;2005年11月5日 14:06</span><br><span class="line">Label10.Text &#x3D; dt.GetDateTimeFormats(&#39;g&#39;)[0].ToString\(\);&#x2F;&#x2F;2005-11-5 14:06</span><br><span class="line">Label11.Text &#x3D; dt.GetDateTimeFormats(&#39;r&#39;)[0].ToString\(\);&#x2F;&#x2F;Sat, 05 Nov 2005 14:06:25 GMT</span><br><span class="line">Label1.Text &#x3D;   string.Format(&quot;&#123;0:d&#125;&quot;,dt);&#x2F;&#x2F;2005-11-5</span><br><span class="line">Label2.Text &#x3D;   string.Format(&quot;&#123;0:D&#125;&quot;,dt);&#x2F;&#x2F;2005年11月5日</span><br><span class="line">Label3.Text &#x3D;   string.Format(&quot;&#123;0:f&#125;&quot;,dt);&#x2F;&#x2F;2005年11月5日 14:23</span><br><span class="line">Label4.Text &#x3D;   string.Format(&quot;&#123;0:F&#125;&quot;,dt);&#x2F;&#x2F;2005年11月5日 14:23:23</span><br><span class="line">Label5.Text &#x3D;   string.Format(&quot;&#123;0:g&#125;&quot;,dt);&#x2F;&#x2F;2005-11-5 14:23</span><br><span class="line">Label6.Text &#x3D;   string.Format(&quot;&#123;0:G&#125;&quot;,dt);&#x2F;&#x2F;2005-11-5 14:23:23</span><br><span class="line">Label7.Text &#x3D;   string.Format(&quot;&#123;0:M&#125;&quot;,dt);&#x2F;&#x2F;11月5日</span><br><span class="line">Label8.Text &#x3D;   string.Format(&quot;&#123;0:R&#125;&quot;,dt);&#x2F;&#x2F;Sat, 05 Nov 2005 14:23:23 GMT</span><br><span class="line">Label9.Text &#x3D;   string.Format(&quot;&#123;0:s&#125;&quot;,dt);&#x2F;&#x2F;2005-11-05T14:23:23</span><br><span class="line">Label10.Text &#x3D; string.Format(&quot;&#123;0:t&#125;&quot;,dt);&#x2F;&#x2F;14:23</span><br><span class="line">Label11.Text &#x3D; string.Format(&quot;&#123;0:T&#125;&quot;,dt);&#x2F;&#x2F;14:23:23</span><br><span class="line">Label12.Text &#x3D; string.Format(&quot;&#123;0:u&#125;&quot;,dt);&#x2F;&#x2F;2005-11-05 14:23:23Z</span><br><span class="line">Label13.Text &#x3D; string.Format(&quot;&#123;0:U&#125;&quot;,dt);&#x2F;&#x2F;2005年11月5日 6:23:23</span><br><span class="line">Label14.Text &#x3D; string.Format(&quot;&#123;0:Y&#125;&quot;,dt);&#x2F;&#x2F;2005年11月</span><br><span class="line">Label15.Text &#x3D; string.Format(&quot;&#123;0&#125;&quot;,dt);&#x2F;&#x2F;2005-11-5 14:23:23</span><br><span class="line">Label16.Text &#x3D; string.Format(&quot;&#123;0:yyyyMMddHHmmssffff&#125;&quot;,dt);</span><br></pre></td></tr></table></figure>
       
 
       
@@ -259,8 +523,8 @@ var _hmt = _hmt || [];
       
         <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">if (!Directory.Exists(@&quot;E:ziptest&quot;))</span><br><span class="line">    Directory.CreateDirectory(@&quot;E:ziptest&quot;);</span><br></pre></td></tr></table></figure>
 <p>主要用到了System.IO.<code>Directory</code>类，该类提供了相关操作文件夹的<span style="color:#FF0000;">静态</span>方法。</p>
-<p>删除文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     从指定路径删除空目录。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   path:</span><br><span class="line">//     要移除的空目录的名称。此目录必须为可写或为空。</span><br><span class="line">public static void Delete(string path);</span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     删除指定的目录并（如果指示）删除该目录中的任何子目录。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   path:</span><br><span class="line">//     要移除的目录的名称。</span><br><span class="line">//</span><br><span class="line">//   recursive:</span><br><span class="line">//     若要移除 path 中的目录、子目录和文件，则为 true；否则为 false。</span><br><span class="line">public static void Delete(string path, bool recursive);</span><br></pre></td></tr></table></figure></p>
-<p>移动文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">// 摘要:</span><br><span class="line">//     将文件或目录及其内容移到新位置。</span><br><span class="line">//</span><br><span class="line">// 参数:</span><br><span class="line">//   sourceDirName:</span><br><span class="line">//     要移动的文件或目录的路径。</span><br><span class="line">//</span><br><span class="line">//   destDirName:</span><br><span class="line">//     指向 sourceDirName 的新位置的路径。如果 sourceDirName 是一个文件，则 destDirName 也必须是一个文件名。</span><br><span class="line">public static void Move(string sourceDirName, string destDirName);</span><br></pre></td></tr></table></figure></p>
+<p>删除文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 摘要:</span><br><span class="line">&#x2F;&#x2F;     从指定路径删除空目录。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 参数:</span><br><span class="line">&#x2F;&#x2F;   path:</span><br><span class="line">&#x2F;&#x2F;     要移除的空目录的名称。此目录必须为可写或为空。</span><br><span class="line">public static void Delete(string path);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 摘要:</span><br><span class="line">&#x2F;&#x2F;     删除指定的目录并（如果指示）删除该目录中的任何子目录。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 参数:</span><br><span class="line">&#x2F;&#x2F;   path:</span><br><span class="line">&#x2F;&#x2F;     要移除的目录的名称。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;   recursive:</span><br><span class="line">&#x2F;&#x2F;     若要移除 path 中的目录、子目录和文件，则为 true；否则为 false。</span><br><span class="line">public static void Delete(string path, bool recursive);</span><br></pre></td></tr></table></figure></p>
+<p>移动文件夹：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 摘要:</span><br><span class="line">&#x2F;&#x2F;     将文件或目录及其内容移到新位置。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 参数:</span><br><span class="line">&#x2F;&#x2F;   sourceDirName:</span><br><span class="line">&#x2F;&#x2F;     要移动的文件或目录的路径。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;   destDirName:</span><br><span class="line">&#x2F;&#x2F;     指向 sourceDirName 的新位置的路径。如果 sourceDirName 是一个文件，则 destDirName 也必须是一个文件名。</span><br><span class="line">public static void Move(string sourceDirName, string destDirName);</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -346,7 +610,7 @@ var _hmt = _hmt || [];
 <p>情况二：不知道文件在Zip包中的位置，需求搜索。</p>
 <p>先在项目中引用第三方类库</p>
 <p>在类代码前面插入对类库的引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">using ICSharpCode.SharpZipLib.Zip;</span><br><span class="line">using ICSharpCode.SharpZipLib.Core;</span><br></pre></td></tr></table></figure></p>
-<p>编写对应的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">            ZipInputStream zis = new ZipInputStream(System.IO.File.Open(integralName, FileMode.Open));</span><br><span class="line"></span><br><span class="line">            ZipEntry entry = zis.GetNextEntry\(\);</span><br><span class="line"></span><br><span class="line">            while (entry != null)</span><br><span class="line">            &#123;//这里是情况二</span><br><span class="line">                #region 搜索 search.png</span><br><span class="line">                if (entry.Name.Contains(&quot;search.png&quot;)) </span><br><span class="line">                &#123;</span><br><span class="line">                    FileStream writer = System.IO.File.Create(this.Request.PhysicalApplicationPath + &quot;/Zips/&quot; + datetime + &quot;search.png&quot;); </span><br><span class="line">//解压后的文件</span><br><span class="line"></span><br><span class="line">                        int bufferSize = 1024 * 2; //缓冲区大小</span><br><span class="line">                        int readCount = 0; //读入缓冲区的实际字节</span><br><span class="line">                        byte[] buffer = new byte[bufferSize];</span><br><span class="line">                        readCount = zis.Read(buffer, 0, bufferSize);</span><br><span class="line">                        while (readCount &amp;gt; 0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            writer.Write(buffer, 0, readCount);</span><br><span class="line">                            readCount = zis.Read(buffer, 0, bufferSize);</span><br><span class="line">                        &#125;</span><br><span class="line">                        writer.Close\(\);</span><br><span class="line">                        writer.Dispose\(\);</span><br><span class="line">                &#125;</span><br><span class="line">                #endregion</span><br><span class="line">                entry = zis.GetNextEntry\(\);</span><br><span class="line">            &#125;</span><br><span class="line">            zis.Close\(\);</span><br><span class="line">            zis.Dispose\(\);</span><br><span class="line"></span><br><span class="line">            using (FileStream fs = new FileStream(integralName, FileMode.Open, FileAccess.Read))</span><br><span class="line">            using (ZipFile zf = new ZipFile(fs))</span><br><span class="line">            &#123;</span><br><span class="line">                var ze = zf.GetEntry(&quot;face.png&quot;);//情况一</span><br><span class="line">                if (ze == null)</span><br><span class="line">                &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    #region 指定 face.png</span><br><span class="line">                    using (var s = zf.GetInputStream(ze))</span><br><span class="line">                    &#123;</span><br><span class="line">                        FileStream writer = System.IO.File.Create(this.Request.PhysicalApplicationPath + &quot;/Zips/&quot; + datetime + &quot;face.png&quot;); //解压后的文件</span><br><span class="line"></span><br><span class="line">                        int bufferSize = 1024*2; //缓冲区大小</span><br><span class="line">                        int readCount = 0; //读入缓冲区的实际字节</span><br><span class="line">                        byte[] buffer = new byte[bufferSize];</span><br><span class="line">                        readCount = s.Read(buffer, 0, bufferSize);</span><br><span class="line">                        while (readCount &amp;gt; 0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            writer.Write(buffer, 0, readCount);</span><br><span class="line">                            readCount = s.Read(buffer, 0, bufferSize);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        writer.Close\(\);</span><br><span class="line">                        writer.Dispose\(\);</span><br><span class="line"></span><br><span class="line">                        // do something with ZipInputStream</span><br><span class="line">                    &#125;</span><br><span class="line">                    #endregion</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>编写对应的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">            ZipInputStream zis &#x3D; new ZipInputStream(System.IO.File.Open(integralName, FileMode.Open));</span><br><span class="line"></span><br><span class="line">            ZipEntry entry &#x3D; zis.GetNextEntry\(\);</span><br><span class="line"></span><br><span class="line">            while (entry !&#x3D; null)</span><br><span class="line">            &#123;&#x2F;&#x2F;这里是情况二</span><br><span class="line">                #region 搜索 search.png</span><br><span class="line">                if (entry.Name.Contains(&quot;search.png&quot;)) </span><br><span class="line">                &#123;</span><br><span class="line">                    FileStream writer &#x3D; System.IO.File.Create(this.Request.PhysicalApplicationPath + &quot;&#x2F;Zips&#x2F;&quot; + datetime + &quot;search.png&quot;); </span><br><span class="line">&#x2F;&#x2F;解压后的文件</span><br><span class="line"></span><br><span class="line">                        int bufferSize &#x3D; 1024 * 2; &#x2F;&#x2F;缓冲区大小</span><br><span class="line">                        int readCount &#x3D; 0; &#x2F;&#x2F;读入缓冲区的实际字节</span><br><span class="line">                        byte[] buffer &#x3D; new byte[bufferSize];</span><br><span class="line">                        readCount &#x3D; zis.Read(buffer, 0, bufferSize);</span><br><span class="line">                        while (readCount &gt; 0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            writer.Write(buffer, 0, readCount);</span><br><span class="line">                            readCount &#x3D; zis.Read(buffer, 0, bufferSize);</span><br><span class="line">                        &#125;</span><br><span class="line">                        writer.Close\(\);</span><br><span class="line">                        writer.Dispose\(\);</span><br><span class="line">                &#125;</span><br><span class="line">                #endregion</span><br><span class="line">                entry &#x3D; zis.GetNextEntry\(\);</span><br><span class="line">            &#125;</span><br><span class="line">            zis.Close\(\);</span><br><span class="line">            zis.Dispose\(\);</span><br><span class="line"></span><br><span class="line">            using (FileStream fs &#x3D; new FileStream(integralName, FileMode.Open, FileAccess.Read))</span><br><span class="line">            using (ZipFile zf &#x3D; new ZipFile(fs))</span><br><span class="line">            &#123;</span><br><span class="line">                var ze &#x3D; zf.GetEntry(&quot;face.png&quot;);&#x2F;&#x2F;情况一</span><br><span class="line">                if (ze &#x3D;&#x3D; null)</span><br><span class="line">                &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    #region 指定 face.png</span><br><span class="line">                    using (var s &#x3D; zf.GetInputStream(ze))</span><br><span class="line">                    &#123;</span><br><span class="line">                        FileStream writer &#x3D; System.IO.File.Create(this.Request.PhysicalApplicationPath + &quot;&#x2F;Zips&#x2F;&quot; + datetime + &quot;face.png&quot;); &#x2F;&#x2F;解压后的文件</span><br><span class="line"></span><br><span class="line">                        int bufferSize &#x3D; 1024*2; &#x2F;&#x2F;缓冲区大小</span><br><span class="line">                        int readCount &#x3D; 0; &#x2F;&#x2F;读入缓冲区的实际字节</span><br><span class="line">                        byte[] buffer &#x3D; new byte[bufferSize];</span><br><span class="line">                        readCount &#x3D; s.Read(buffer, 0, bufferSize);</span><br><span class="line">                        while (readCount &gt; 0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            writer.Write(buffer, 0, readCount);</span><br><span class="line">                            readCount &#x3D; s.Read(buffer, 0, bufferSize);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        writer.Close\(\);</span><br><span class="line">                        writer.Dispose\(\);</span><br><span class="line"></span><br><span class="line">                        &#x2F;&#x2F; do something with ZipInputStream</span><br><span class="line">                    &#125;</span><br><span class="line">                    #endregion</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -424,12 +688,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>小猪之前写了这么个代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">AJAX = function (data, url, beforesendfn, onsuccessfn, onerrorfn, oncomplete) &#123;</span><br><span class="line">       $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            url:url</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application/json; charset=utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>小猪之前写了这么个代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">AJAX &#x3D; function (data, url, beforesendfn, onsuccessfn, onerrorfn, oncomplete) &#123;</span><br><span class="line">       $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            url:url</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application&#x2F;json; charset&#x3D;utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这段代码实际上是没有什么问题的。</p>
-<p>但是在调用代码的时候小猪使用了的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var action = url == undefined ? &quot;&quot; : url;</span><br></pre></td></tr></table></figure></p>
+<p>但是在调用代码的时候小猪使用了的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var action &#x3D; url &#x3D;&#x3D; undefined ? &quot;&quot; : url;</span><br></pre></td></tr></table></figure></p>
 <p>这样在没有定义url的情况下url转换成“”。本意是想Post到当前页面地址。</p>
 <p>在Chrome下和FireFox下都是没问题的，但是在IE下却不能post到对应地址。</p>
-<p>所以为了兼容IE 小猪只好写了下述可怜的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">AJAX = function (data, url, beforesendfn, onsuccessfn, onerrorfn, oncomplete) &#123;</span><br><span class="line">    if (url == undefined || url == &quot;&quot;) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application/json; charset=utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            url:url,</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application/json; charset=utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以为了兼容IE 小猪只好写了下述可怜的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">AJAX &#x3D; function (data, url, beforesendfn, onsuccessfn, onerrorfn, oncomplete) &#123;</span><br><span class="line">    if (url &#x3D;&#x3D; undefined || url &#x3D;&#x3D; &quot;&quot;) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application&#x2F;json; charset&#x3D;utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            type: &quot;POST&quot;,</span><br><span class="line">            url:url,</span><br><span class="line">            cache: false,</span><br><span class="line">            data: JSON.stringify(data),</span><br><span class="line">            contentType: &quot;application&#x2F;json; charset&#x3D;utf-8&quot;,</span><br><span class="line">            dataType: &quot;json&quot;,</span><br><span class="line">            beforeSend: beforesendfn,</span><br><span class="line">            success: onsuccessfn,</span><br><span class="line">            error: onerrorfn,</span><br><span class="line">            complete: oncomplete</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -526,7 +790,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">首先要明白它们本身是由什么组成的：</span><br><span class="line"></span><br><span class="line">流：二进制</span><br><span class="line"></span><br><span class="line">字节：无符号整数</span><br><span class="line"></span><br><span class="line">字符：Unicode编码字符</span><br><span class="line"></span><br><span class="line">字符串：多个Unicode编码字符</span><br><span class="line"></span><br><span class="line">那么在.net下它们之间如何转化呢？</span><br><span class="line"></span><br><span class="line">一般是遵守以下规则：</span><br><span class="line"></span><br><span class="line">流-&amp;gt;字节数组-&amp;gt;字符数组-&amp;gt;字符串</span><br><span class="line"></span><br><span class="line">下面就来具体谈谈转化的语法:</span><br><span class="line"></span><br><span class="line">流-&amp;gt;字节数组</span><br><span class="line"></span><br><span class="line">MemoryStream ms = new MemoryStream\(\);</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[ms.Length];</span><br><span class="line"></span><br><span class="line">ms.Read(buffer, 0, (int)ms.Length);</span><br><span class="line"></span><br><span class="line">字节数组-&amp;gt;流</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[10];</span><br><span class="line"></span><br><span class="line">MemoryStream ms = new MemoryStream(buffer);</span><br><span class="line"></span><br><span class="line">字节数组-&amp;gt;字符数组</span><br><span class="line"></span><br><span class="line">1.</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[10];</span><br><span class="line"></span><br><span class="line">char[] ch = new ASCIIEncoding\(\).GetChars(buffer);</span><br><span class="line"></span><br><span class="line">//或者：char[] ch = Encoding.UTF8.GetChars(buffer)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[10];</span><br><span class="line"></span><br><span class="line">char[] ch = new char[10];</span><br><span class="line"></span><br><span class="line">for(int i=0; i&amp;lt;buffer.Length; i++)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    ch[i] = Convert.ToChar(buffer[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">字符数组-&amp;gt;字节数组</span><br><span class="line"></span><br><span class="line">1.</span><br><span class="line"></span><br><span class="line">char[] ch = new char[10];</span><br><span class="line"></span><br><span class="line">byte[] buffer = new ASCIIEncoding\(\).GetBytes(ch);</span><br><span class="line"></span><br><span class="line">//或者：byte[] buffer = Encoding.UTF8.GetBytes(ch)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line"></span><br><span class="line">char[] ch = new char[10];</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[10];</span><br><span class="line"></span><br><span class="line">for(int i=0; i&amp;lt;ch.Length; i++)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    buffer[i] = Convert.ToByte(ch[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">字符数组-&amp;gt;字符串</span><br><span class="line"></span><br><span class="line">char[] ch = new char[10];</span><br><span class="line"></span><br><span class="line">string str = new string(ch);</span><br><span class="line"></span><br><span class="line">字符串-&amp;gt;字符数组</span><br><span class="line"></span><br><span class="line">string str = &quot;abcde&quot;;</span><br><span class="line"></span><br><span class="line">char[] ch=str .ToCharArray\(\);</span><br><span class="line"></span><br><span class="line">字节数组-&amp;gt;字符串</span><br><span class="line"></span><br><span class="line">byte[] buffer = new byte[10];</span><br><span class="line"></span><br><span class="line">string str = System.Text.Encoding.UTF8.GetString(buffer);</span><br><span class="line"></span><br><span class="line">//或者：string str = new ASCIIEncoding\(\).GetString(buffer);</span><br><span class="line"></span><br><span class="line">字符串-&amp;gt;字节数组</span><br><span class="line"></span><br><span class="line">string str = &quot;abcde&quot;;</span><br><span class="line"></span><br><span class="line">byte[] buffer=System.Text.Encoding.UTF8.GetBytes(str);</span><br><span class="line"></span><br><span class="line">//或者：byte[] buffer= new ASCIIEncoding\(\).GetBytes(str);</span><br><span class="line"></span><br><span class="line">说明：主要就是用到了Convert类和System.Text命名空间下的类，Encoding是静态类,ASCIIEncoding是实体类，方法都是一样的！</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">首先要明白它们本身是由什么组成的：</span><br><span class="line"></span><br><span class="line">流：二进制</span><br><span class="line"></span><br><span class="line">字节：无符号整数</span><br><span class="line"></span><br><span class="line">字符：Unicode编码字符</span><br><span class="line"></span><br><span class="line">字符串：多个Unicode编码字符</span><br><span class="line"></span><br><span class="line">那么在.net下它们之间如何转化呢？</span><br><span class="line"></span><br><span class="line">一般是遵守以下规则：</span><br><span class="line"></span><br><span class="line">流-&gt;字节数组-&gt;字符数组-&gt;字符串</span><br><span class="line"></span><br><span class="line">下面就来具体谈谈转化的语法:</span><br><span class="line"></span><br><span class="line">流-&gt;字节数组</span><br><span class="line"></span><br><span class="line">MemoryStream ms &#x3D; new MemoryStream\(\);</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[ms.Length];</span><br><span class="line"></span><br><span class="line">ms.Read(buffer, 0, (int)ms.Length);</span><br><span class="line"></span><br><span class="line">字节数组-&gt;流</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[10];</span><br><span class="line"></span><br><span class="line">MemoryStream ms &#x3D; new MemoryStream(buffer);</span><br><span class="line"></span><br><span class="line">字节数组-&gt;字符数组</span><br><span class="line"></span><br><span class="line">1.</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[10];</span><br><span class="line"></span><br><span class="line">char[] ch &#x3D; new ASCIIEncoding\(\).GetChars(buffer);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;或者：char[] ch &#x3D; Encoding.UTF8.GetChars(buffer)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[10];</span><br><span class="line"></span><br><span class="line">char[] ch &#x3D; new char[10];</span><br><span class="line"></span><br><span class="line">for(int i&#x3D;0; i&lt;buffer.Length; i++)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    ch[i] &#x3D; Convert.ToChar(buffer[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">字符数组-&gt;字节数组</span><br><span class="line"></span><br><span class="line">1.</span><br><span class="line"></span><br><span class="line">char[] ch &#x3D; new char[10];</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new ASCIIEncoding\(\).GetBytes(ch);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;或者：byte[] buffer &#x3D; Encoding.UTF8.GetBytes(ch)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line"></span><br><span class="line">char[] ch &#x3D; new char[10];</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[10];</span><br><span class="line"></span><br><span class="line">for(int i&#x3D;0; i&lt;ch.Length; i++)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    buffer[i] &#x3D; Convert.ToByte(ch[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">字符数组-&gt;字符串</span><br><span class="line"></span><br><span class="line">char[] ch &#x3D; new char[10];</span><br><span class="line"></span><br><span class="line">string str &#x3D; new string(ch);</span><br><span class="line"></span><br><span class="line">字符串-&gt;字符数组</span><br><span class="line"></span><br><span class="line">string str &#x3D; &quot;abcde&quot;;</span><br><span class="line"></span><br><span class="line">char[] ch&#x3D;str .ToCharArray\(\);</span><br><span class="line"></span><br><span class="line">字节数组-&gt;字符串</span><br><span class="line"></span><br><span class="line">byte[] buffer &#x3D; new byte[10];</span><br><span class="line"></span><br><span class="line">string str &#x3D; System.Text.Encoding.UTF8.GetString(buffer);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;或者：string str &#x3D; new ASCIIEncoding\(\).GetString(buffer);</span><br><span class="line"></span><br><span class="line">字符串-&gt;字节数组</span><br><span class="line"></span><br><span class="line">string str &#x3D; &quot;abcde&quot;;</span><br><span class="line"></span><br><span class="line">byte[] buffer&#x3D;System.Text.Encoding.UTF8.GetBytes(str);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;或者：byte[] buffer&#x3D; new ASCIIEncoding\(\).GetBytes(str);</span><br><span class="line"></span><br><span class="line">说明：主要就是用到了Convert类和System.Text命名空间下的类，Encoding是静态类,ASCIIEncoding是实体类，方法都是一样的！</span><br></pre></td></tr></table></figure>
       
 
       
@@ -709,11 +973,11 @@ var _hmt = _hmt || [];
 <p>例子是这样的，我需要一个方法来过滤一个List&lt;&gt;里面相同的元素，“相同的”的这是个模糊的概念，不同类型对“相同的”概念的定义是不同的。</p>
 <p>这样在写这么一个过滤类的方法的时候就不能直接的判断List里面的元素是否==了，从而也就不能够删除达到过滤的效果。那这个怎么办呢？</p>
 <p>可以给这个方法加上一个参数，这个参数是委托的类型。在定义委托的时候需要给其加上返回bool的标签（相同返回true，不同返回false）。</p>
-<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public delegate bool EqualsComparer&amp;lt;T&amp;gt;(T x, T y);</span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 过滤重复数据</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">public class Comparint&amp;lt;T&amp;gt; : IEqualityComparer&amp;lt;T&amp;gt;</span><br><span class="line">&#123;</span><br><span class="line">    private EqualsComparer&amp;lt;T&amp;gt; ec;</span><br><span class="line">    public Comparint\(\) &#123; &#125;</span><br><span class="line">    public Comparint(EqualsComparer&amp;lt;T&amp;gt; e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.ec = e;</span><br><span class="line">    &#125;</span><br><span class="line">    #region IEqualityComparer&amp;lt;BudgetBE&amp;gt; 成员</span><br><span class="line"></span><br><span class="line">    public bool Equals(T x, T y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (null != this.ec)</span><br><span class="line">            return this.ec(x, y);</span><br><span class="line">        else</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(T obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return obj.ToString\(\).GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public delegate bool EqualsComparer&lt;T&gt;(T x, T y);</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 过滤重复数据</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">public class Comparint&lt;T&gt; : IEqualityComparer&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private EqualsComparer&lt;T&gt; ec;</span><br><span class="line">    public Comparint\(\) &#123; &#125;</span><br><span class="line">    public Comparint(EqualsComparer&lt;T&gt; e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.ec &#x3D; e;</span><br><span class="line">    &#125;</span><br><span class="line">    #region IEqualityComparer&lt;BudgetBE&gt; 成员</span><br><span class="line"></span><br><span class="line">    public bool Equals(T x, T y)</span><br><span class="line">    &#123;</span><br><span class="line">        if (null !&#x3D; this.ec)</span><br><span class="line">            return this.ec(x, y);</span><br><span class="line">        else</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int GetHashCode(T obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return obj.ToString\(\).GetHashCode\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这样在使用这个类的比较方法时必须要给这个方法传递一个方法，这个方法用来判断你要比较的类是否相等。(即需要确定是否相等)</p>
 <p>下面给出实现的这个方法，很简单，我拿string类型做示例，如果复杂的类需要自己实现返回的true 或者false</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public bool bijiao(string a , string b)</span><br><span class="line">&#123;</span><br><span class="line">    return a==b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样再配合通用的类这样来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&amp;lt;string&amp;gt; distinceString = TestList.Distinct(new Comparint&amp;lt;string&amp;gt;(bijiao)).ToList\(\);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public bool bijiao(string a , string b)</span><br><span class="line">&#123;</span><br><span class="line">    return a&#x3D;&#x3D;b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样再配合通用的类这样来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;string&gt; distinceString &#x3D; TestList.Distinct(new Comparint&lt;string&gt;(bijiao)).ToList\(\);</span><br></pre></td></tr></table></figure></p>
 <p>代码中的TestList即是含有重复类容的List</p>
 <p>这样我们就把bijiao这个方法传递给了<code>Comparint</code>。</p>
 <p>注意：给委托赋值的时候是对其值是没有括号的，有括号的是方法的调用，没括号是方法的地址。</p>
@@ -808,10 +1072,10 @@ var _hmt = _hmt || [];
         <p>在WEB FORM 里可以写一个通用类继承自Page类，在其Page_Load()事件中对session进行验证。</p>
 <p>而在MVC中可以使用C#的&quot;特性&quot;(或者叫过滤器)来进行身份验证。</p>
 <p>自定义一个过滤器，重写其OnActionExecuting(ActionExecutingContext)方法。该方法是在Action执行之前先进行验证。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class LoginFilter : System.Web.Mvc.ActionFilterAttribute</span><br><span class="line">&#123;</span><br><span class="line">    public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext</span><br><span class="line">       filterContext)</span><br><span class="line">    &#123;</span><br><span class="line">        if (filterContext.HttpContext.Session[&quot;admin&quot;] == null)</span><br><span class="line">        &#123;</span><br><span class="line">            filterContext.HttpContext.Response.Redirect(&quot;/Console/Login&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后在需要登录的Action上面加上该过滤器即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[LoginFilter]</span><br><span class="line">public ActionResult Main\(\)</span><br><span class="line">&#123;</span><br><span class="line">    //do somthing</span><br><span class="line">    return View\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class LoginFilter : System.Web.Mvc.ActionFilterAttribute</span><br><span class="line">&#123;</span><br><span class="line">    public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext</span><br><span class="line">       filterContext)</span><br><span class="line">    &#123;</span><br><span class="line">        if (filterContext.HttpContext.Session[&quot;admin&quot;] &#x3D;&#x3D; null)</span><br><span class="line">        &#123;</span><br><span class="line">            filterContext.HttpContext.Response.Redirect(&quot;&#x2F;Console&#x2F;Login&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在需要登录的Action上面加上该过滤器即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[LoginFilter]</span><br><span class="line">public ActionResult Main\(\)</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;do somthing</span><br><span class="line">    return View\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong><span style="font-size:18px;">Controller的Filter</span></strong>：<br>Monorail中的Filter是可以使用在Controller中的,这给编程者带来了很多方便,那么在Asp.net MVC中可不可以使用Controller级的Filter呢.不言自喻.</p>
-<p>实现方法如下Controller本身也有OnActionExecuting与OnActionExecuted方法 ,将之重写即可,见代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">sing System.Web.Mvc;</span><br><span class="line">    public class EiceController : Controller</span><br><span class="line">    &#123;</span><br><span class="line">        public void Index\(\) &#123;</span><br><span class="line">            this.HttpContext.Session[&quot;temp&quot;] += &quot;Action&quot;;</span><br><span class="line"></span><br><span class="line">            RenderView(&quot;Index&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        public void Index2\(\) &#123;</span><br><span class="line"></span><br><span class="line">            RenderView(&quot;Index&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        protected override void OnActionExecuting(FilterExecutingContext</span><br><span class="line">           filterContext) &#123;</span><br><span class="line">            filterContext.HttpContext.Session[&quot;temp&quot;] += &quot;OnActionExecuting;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected override void OnActionExecuted(FilterExecutedContext</span><br><span class="line">            filterContext) &#123;</span><br><span class="line">            filterContext.HttpContext.Session[&quot;temp&quot;] += &quot;OnActionExecuted&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现方法如下Controller本身也有OnActionExecuting与OnActionExecuted方法 ,将之重写即可,见代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">sing System.Web.Mvc;</span><br><span class="line">    public class EiceController : Controller</span><br><span class="line">    &#123;</span><br><span class="line">        public void Index\(\) &#123;</span><br><span class="line">            this.HttpContext.Session[&quot;temp&quot;] +&#x3D; &quot;Action&quot;;</span><br><span class="line"></span><br><span class="line">            RenderView(&quot;Index&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        public void Index2\(\) &#123;</span><br><span class="line"></span><br><span class="line">            RenderView(&quot;Index&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        protected override void OnActionExecuting(FilterExecutingContext</span><br><span class="line">           filterContext) &#123;</span><br><span class="line">            filterContext.HttpContext.Session[&quot;temp&quot;] +&#x3D; &quot;OnActionExecuting;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected override void OnActionExecuted(FilterExecutedContext</span><br><span class="line">            filterContext) &#123;</span><br><span class="line">            filterContext.HttpContext.Session[&quot;temp&quot;] +&#x3D; &quot;OnActionExecuted&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意两个方法是protected 的签名。</p>
 
       
@@ -878,202 +1142,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-asp.net/asp-net-mvc-e4-b8-ad-e8-a1-a8-e5-8d-95-e7-9a-84encode-e5-8f-8adecode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/203.html">ASP.NET MVC 中表单的Encode及Decode</a>
-    </h1>
-  
-
-        
-        <a href="/203.html" class="archive-article-date">
-  	<time datetime="2013-06-27T06:30:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前端cshtml里面需要decode时使用<br><a href="mailto:`@Html.Raw" target="_blank" rel="noopener">`@Html.Raw</a>(HttpUtility.HtmlDecode(Model.Contents))`</p>
-<p>对应的action里需要encode的地方使用<br><code>HttpUtility.HtmlEncode(collection[&quot;newsContentData&quot;]);</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/203.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-csharp/c-list-e7-9a-84-e5-90-84-e7-a7-8d-e5-8a-a0-e5-87-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/195.html">C# LIST 的各种加减</a>
-    </h1>
-  
-
-        
-        <a href="/195.html" class="archive-article-date">
-  	<time datetime="2013-06-25T01:27:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-06-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现自己的基础还是很薄弱，</p>
-<p>一个List&lt;&gt; 的相减花了一整天的时间，到最后还是选择了折中的方法。</p>
-<p>有时间收集下List&lt;&gt; 资料</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/195.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/27/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/29/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/27/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/29/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1164,11 +1235,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1180,7 +1255,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1188,39 +1263,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1252,6 +1303,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1260,11 +1315,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1280,11 +1367,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1296,18 +1391,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1316,15 +1399,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1352,6 +1443,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1360,19 +1459,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1380,7 +1467,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1388,7 +1475,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1396,11 +1503,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1420,87 +1527,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1512,15 +1539,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1548,10 +1575,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1560,7 +1583,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1611,9 +1686,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

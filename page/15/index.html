@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/15/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -148,6 +147,210 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-python/python-super" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/944.html">Python super\(\)</a>
+    </h1>
+  
+
+        
+        <a href="/944.html" class="archive-article-date">
+  	<time datetime="2015-11-23T06:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般我们在使用类的继承时会用到super()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Animal(object):</span><br><span class="line">    def eat(self,food):</span><br><span class="line">        print(&#39;the animal is eating&#39;,food)</span><br><span class="line"></span><br><span class="line">class Person(Animal):</span><br><span class="line">    def eat(self):</span><br><span class="line">        print(&#39;the person is eating now!&#39;)</span><br><span class="line">        super(Person,self).eat(&#39;meal&#39;)</span><br><span class="line"></span><br><span class="line">person &#x3D; Person\(\)</span><br><span class="line">person.eat\(\)</span><br></pre></td></tr></table></figure><br>该代码在python3.4中输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; the person is eating now!</span><br><span class="line">&gt;   the animal is eating meal</span><br><span class="line">&gt;   [Finished in 0.1s]</span><br></pre></td></tr></table></figure><br>可以看出其使用方法和C#的还是有点区别，C#使用关键字<code>base</code>来调用父类的方法，而在python中使用super。而且需要传递当前类名和self关键字然后再调用具体的方法。我在想这个过程是不是已经将父类给实例化出来了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/944.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Django/reverse-query-name-for-clashes-with-field-name" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/939.html">Reverse query name for &#39;*&#39; clashes with field name &#39;*&#39;</a>
+    </h1>
+  
+
+        
+        <a href="/939.html" class="archive-article-date">
+  	<time datetime="2015-11-19T07:50:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在已经新建的Article模型之后再新建Picture模型，模型中有外键指向Article:</p>
+<pre><code># models
+class Article(models.Model):
+    title = models.CharField(max_length=50)
+    create_time = models.DateTimeField(auto_now_add = True)
+    summary = models.TextField(max_length=200)
+    picture = models.ImageField(max_length=200)
+    media = models.CharField(max_length=200)
+    content = models.TextField\(\) # content of the article
+
+    def __str__(self):
+        return self.title
+
+class Picture(models.Model):
+    title = models.CharField(max_length=200)
+    create_time = models.DateTimeField(auto_now_add = True)
+    update_time = models.DateTimeField(auto_now = True)
+    article = models.ForeignKey(Article)
+
+    def __str__(self):
+        return self.title
+</code></pre><pre><code>
+    运行命令:python manage.py makemigrations 时报错：
+
+    &gt; SystemCehhckError: System check identified some issues:
+&gt; 
+&gt;       Errors:
+&gt;       bulls.Picture.article:(fields.E303) Reverse query name for &apos;picture.article&apos; clashes with field name &apos;Article.picture&apos;.
+&gt;       HINT: Rename field &apos;Article.picture&apos;, or add/change a related_name argument to the definition for field &apos;Picture.article&apos;.
+
+    猜测的原因是因为本身Article中已经有了picture字段，然后在新建的Picture中又定义了外键指向Article。这样会对在查询的时候产生歧义，例如类似代码article.picture就不知道是指本身的picture属性还是指附属在Article中的picture表中的数据，
+    所以在定义picture时添加relate_name属性
+
+</code></pre><p> article = models.ForeignKey(Article,related_name=’append_article’)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/939.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-微信/吐槽TX的开放平台" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -698,16 +901,16 @@ class Choice(models.Model):
     question = models.ForeignKey(Question)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">模型都继承自类`models.Model`,对应的一个属性就对应一个数据库字段。以`Quesiton`为例，其有两个字段`question_text`和`pub_date`，分别为`Char`类型(长度为200)和`DateTime`类型。</span><br><span class="line">最大长度的问题：[max_length](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.CharField.max_length),默认值的问题:[default](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.Field.default),外键的问题:[models.ForeignKey](https://docs.djangoproject.com/en/1.8/ref/models/fields/#django.db.models.ForeignKey)!</span><br><span class="line">值得注意的是上述类型中我们并没有为每一个类定义id字段。</span><br><span class="line">然后将新建的app加入到项目中。`INSTALLED_APPS=( ...,&apos;polls&apos;)`</span><br><span class="line">然后再使用迁移的方法新建数据库</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">模型都继承自类&#96;models.Model&#96;,对应的一个属性就对应一个数据库字段。以&#96;Quesiton&#96;为例，其有两个字段&#96;question_text&#96;和&#96;pub_date&#96;，分别为&#96;Char&#96;类型(长度为200)和&#96;DateTime&#96;类型。</span><br><span class="line">最大长度的问题：[max_length](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.CharField.max_length),默认值的问题:[default](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.Field.default),外键的问题:[models.ForeignKey](https:&#x2F;&#x2F;docs.djangoproject.com&#x2F;en&#x2F;1.8&#x2F;ref&#x2F;models&#x2F;fields&#x2F;#django.db.models.ForeignKey)!</span><br><span class="line">值得注意的是上述类型中我们并没有为每一个类定义id字段。</span><br><span class="line">然后将新建的app加入到项目中。&#96;INSTALLED_APPS&#x3D;( ...,&#39;polls&#39;)&#96;</span><br><span class="line">然后再使用迁移的方法新建数据库</span><br></pre></td></tr></table></figure>
 <p>   python manage.py makemigrations polls</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述模型代码会为我们生成如下的sql语句,通过命令`python manage.py sqlmigrate polls 0001`我们可以参考到</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述模型代码会为我们生成如下的sql语句,通过命令&#96;python manage.py sqlmigrate polls 0001&#96;我们可以参考到</span><br></pre></td></tr></table></figure>
 <p>   BEGIN;<br>    CREATE TABLE “polls_choice” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “choice_text” varchar(200) NOT NULL,<br>        “votes” integer NOT NULL<br>    );<br>    CREATE TABLE “polls_question” (<br>        “id” serial NOT NULL PRIMARY KEY,<br>        “question_text” varchar(200) NOT NULL,<br>        “pub_date” timestamp with time zone NOT NULL<br>    );<br>    ALTER TABLE “polls_choice” ADD COLUMN “question_id” integer NOT NULL;<br>    ALTER TABLE “polls_choice” ALTER COLUMN “question_id” DROP DEFAULT;<br>    CREATE INDEX “polls_choice_7aa0f6ee” ON “polls_choice” (“question_id”);<br>    ALTER TABLE “polls_choice”<br>      ADD CONSTRAINT “polls_choice_question_id_246c99a640fbbd72_fk_polls_question_id”<br>        FOREIGN KEY (“question_id”)<br>        REFERENCES “polls_question” (“id”)<br>        DEFERRABLE INITIALLY DEFERRED;</p>
 <pre><code>COMMIT;
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   可见上述sql语句自动为我们生成了主键id，当然我们也可以自己加上 ,</span><br><span class="line">*   表名称为app名+类名(全小写)！</span><br><span class="line">*   外键的名字默认为外键名+_id!</span><br><span class="line">*   会根据使用的不同数据库来生成符合不同数据库规范的sql语句</span><br><span class="line">*   `sqlmigrate`语句并没有执行，而仅仅是生成了sql.如果想要执行的话就需要运行命令:`python manage.py migrate`</span><br><span class="line"></span><br><span class="line">    #### 本地使用model的api</span><br><span class="line"></span><br><span class="line">    进入脚本模式`python manage.py shell`</span><br><span class="line">    然后可执行一些语句来直接操作数据库了；</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   可见上述sql语句自动为我们生成了主键id，当然我们也可以自己加上 ,</span><br><span class="line">*   表名称为app名+类名(全小写)！</span><br><span class="line">*   外键的名字默认为外键名+_id!</span><br><span class="line">*   会根据使用的不同数据库来生成符合不同数据库规范的sql语句</span><br><span class="line">*   &#96;sqlmigrate&#96;语句并没有执行，而仅仅是生成了sql.如果想要执行的话就需要运行命令:&#96;python manage.py migrate&#96;</span><br><span class="line"></span><br><span class="line">    #### 本地使用model的api</span><br><span class="line"></span><br><span class="line">    进入脚本模式&#96;python manage.py shell&#96;</span><br><span class="line">    然后可执行一些语句来直接操作数据库了；</span><br></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>from polls.models import Question, Choice<br>Question.objects.all()<br>    []<br>from django.utils import timezone<br>q = Question(question_text=”What’s new?”, pub_date=timezone.now())<br>q.save()<br>q.id<br>    1<br>q.question_text<br>    “What’s new?”<br>q.pub_date<br>    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<utc>)</utc></p>
+<p>from polls.models import Question, Choice<br>Question.objects.all()<br>    []<br>from django.utils import timezone<br>q = Question(question_text=”What’s new?”, pub_date=timezone.now())<br>q.save()<br>q.id<br>    1<br>q.question_text<br>    “What’s new?”<br>q.pub_date<br>    datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=<UTC>)</p>
 </blockquote>
 </blockquote>
 </blockquote>
@@ -718,8 +921,8 @@ class Choice(models.Model):
 &gt;&gt;&gt; Question.objects.all\(\)
 [&lt;Question: Question object&gt;]
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 自带的Admin管理后台</span><br><span class="line"></span><br><span class="line">#### 创建一个超级管理员</span><br></pre></td></tr></table></figure>
-<p>   python manage.py createsuperuser<br>    Username:admin<br>    Email address:<a href="mailto:admin@example.com" target="_blank" rel="noopener">admin@example.com</a><br>    password:<br>    Password(again):<br>    Superuser created successfully.</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这样就可以在启动测试服务器之后在网址:hostname/admin中进入后台。</span><br><span class="line">如果过程出错的话确保admin模块配置正确和Url配置正确。系统已经默认生成了用户组合用户模块以及基本的权限控制。</span><br><span class="line">进入polls/admin.py让我们新建的app能够在后台中编辑内容。</span><br></pre></td></tr></table></figure>
+<p>   python manage.py createsuperuser<br>    Username:admin<br>    Email address:<a href="mailto:admin@example.com">admin@example.com</a><br>    password:<br>    Password(again):<br>    Superuser created successfully.</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这样就可以在启动测试服务器之后在网址:hostname&#x2F;admin中进入后台。</span><br><span class="line">如果过程出错的话确保admin模块配置正确和Url配置正确。系统已经默认生成了用户组合用户模块以及基本的权限控制。</span><br><span class="line">进入polls&#x2F;admin.py让我们新建的app能够在后台中编辑内容。</span><br></pre></td></tr></table></figure>
 <p>   from django.contrib import admin<br>    from .models import Question</p>
 <pre><code>admin.site.regitster(Question)
 </code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*   表单是系统根据我们的Question模型生成的。</span><br><span class="line">*   模型的不同字段会生成不同的输入框类型。例如时间格式的会显示成日期选择器。</span><br><span class="line">    后台还会记录用户操作的记录。</span><br><span class="line"></span><br><span class="line">    #### 自定义表单</span><br><span class="line"></span><br><span class="line">    将Question注册到admin的代码修改成：</span><br></pre></td></tr></table></figure>
@@ -742,10 +945,10 @@ admin.site.register(Question,QuestionAdmin)
     inlines = [ChoiceInline]
 
 admin.site.register(Question, QuestionAdmin)
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以将`StackedInline`替换成`TabularInline`来时显示更加简洁，表格化：</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以将&#96;StackedInline&#96;替换成&#96;TabularInline&#96;来时显示更加简洁，表格化：</span><br></pre></td></tr></table></figure>
 <p>   class ChoiceInline(admin.TabularInline):</p>
 <pre><code>#...
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 自定义admin变化列表</span><br><span class="line"></span><br><span class="line">默认的。django会显示模型的`str\(\)`方法作为列表的内容。但是如果我们想要显示更多的内容就需要使用`list_display`选项了.。</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 自定义admin变化列表</span><br><span class="line"></span><br><span class="line">默认的。django会显示模型的&#96;str\(\)&#96;方法作为列表的内容。但是如果我们想要显示更多的内容就需要使用&#96;list_display&#96;选项了.。</span><br></pre></td></tr></table></figure>
 <p>   class QuestionAdmin(admin.ModelAdmin):</p>
 <pre><code># ...
 list_display = (&apos;question_text&apos;, &apos;pub_date&apos;， &apos;was_published_recently&apos;)
@@ -852,12 +1055,11 @@ was_published_recently.short_description = &apos;Published recently?&apos;
       
         <p>我们都知道在生成url链接的时候，官方是推荐使用Url.Action()方法来生成的。框架会自动帮我们生成指定的url而且一般来说不会出错。小猪只从知道有这么个方法之后一直对它相见恨晚，特别是其能够通过优雅的代码生成指定的get参数。</p>
 <p>可是今天小猪却在这个方法上面栽了个跟头……</p>
-<p>原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空间下的HomeController中的Index方法，小猪自然的想到使用代码Url.Action(“Index”,”Home”)来生成。可是生成的却是：/Admin/Home/Index。。为此小猪在area下面的路由注册了下面的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;home&quot;,</span><br><span class="line">    &quot;Home/&#123;action&#125;&quot;,</span><br><span class="line">    new &#123; controller = &quot;Home&quot;, action = &quot;Login&quot; &#125;,</span><br><span class="line">    namespaces: new[] &#123; &quot;ConsoleProject.Controllers&quot; &#125;</span><br><span class="line">    );</span><br></pre></td></tr></table></figure></p>
+<p>原因是这样的：因为要在某个Area的控制器下生成不在该Area下的url。例如在admin的area下生成默认默认命名空间下的HomeController中的Index方法，小猪自然的想到使用代码Url.Action(“Index”,”Home”)来生成。可是生成的却是：/Admin/Home/Index。。为此小猪在area下面的路由注册了下面的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;home&quot;,</span><br><span class="line">    &quot;Home&#x2F;&#123;action&#125;&quot;,</span><br><span class="line">    new &#123; controller &#x3D; &quot;Home&quot;, action &#x3D; &quot;Login&quot; &#125;,</span><br><span class="line">    namespaces: new[] &#123; &quot;ConsoleProject.Controllers&quot; &#125;</span><br><span class="line">    );</span><br></pre></td></tr></table></figure></p>
 <p>这样貌似在该area下面生成Home控制器的url是没问题的。小猪也以为这个需求就这么结束了……</p>
 <p>可是结果却是在原来的默认不在该area的url.action()方法都会生成该area下的url。这下蛋疼了。例如使用代码</p>
 <p>@Url.Action(“Index”, “Console”, new { articleId = 343 })生成的链接竟然是：/Admin/Console/Index?articleId=343</p>
-<p>谷歌了好一会才知道Url.Action()方法会自动使用第一个能够匹配的路由来生成URL。很显然area的路由注册是在本身的default路由之前的。这个可通过Global.asax的部分代码看出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Start\(\)</span><br><span class="line">&#123;</span><br><span class="line">    AreaRegistration.RegisterAllAreas\(\);</span><br><span class="line">    WebApiConfig.Register(GlobalConfiguration.Configuration);</span><br><span class="line">    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">    RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">    ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory\(\));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而在新建area的时候会自动注册路由Admin_default：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;Admin_default&quot;,</span><br><span class="line">    &quot;Admin/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;,</span><br><span class="line">    new &#123; controller = &quot;Console&quot;, action = &quot;Login&quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>谷歌了好一会才知道Url.Action()方法会自动使用第一个能够匹配的路由来生成URL。很显然area的路由注册是在本身的default路由之前的。这个可通过Global.asax的部分代码看出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Start\(\)</span><br><span class="line">&#123;</span><br><span class="line">    AreaRegistration.RegisterAllAreas\(\);</span><br><span class="line">    WebApiConfig.Register(GlobalConfiguration.Configuration);</span><br><span class="line">    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">    RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">    ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory\(\));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>而在新建area的时候会自动注册路由Admin_default：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">context.MapRoute(</span><br><span class="line">    &quot;Admin_default&quot;,</span><br><span class="line">    &quot;Admin&#x2F;&#123;controller&#125;&#x2F;&#123;action&#125;&#x2F;&#123;id&#125;&quot;,</span><br><span class="line">    new &#123; controller &#x3D; &quot;Console&quot;, action &#x3D; &quot;Login&quot;, id &#x3D; UrlParameter.Optional &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
 <p>这个时候使用@Url.Action(“Index”, “Console”, new { articleId = 343 })生成的链接就是：/Admin/Console/Index?articleId=343。因为这个时候首先匹配的就是名称为Admin_default的路由。</p>
 <p>不过有一个问题小猪搞不明白的是为啥只有在注册了home路由的时候才会这个问题。而默认仅有Admin_default的时候就没有这个问题了！</p>
 <p>所以一开始使用注册新路由的方法只会使原来的项目更糟糕，需要修改大量原来使用Url.Action()方法的地方。</p>
@@ -956,7 +1158,7 @@ was_published_recently.short_description = &apos;Published recently?&apos;
 <p>一般因为使用ckeditor的原因，可能这个字段内容比较大，所以会将这个字段的数据库属性设置为text！只要将text类型设置成nvarchar(max)即可！</p>
 <p>而一般为了考虑存储大小，在input里面输入的内容大小会做限制，而在mssql里面对应的字段都会设置成nvarchar。也就解释了上面表现的第二点。</p>
 <p>网络中也建议了使用nvarchar(max)来取代text在mssql中的使用</p>
-<p><a href="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server" title="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server" target="_blank" rel="noopener">http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server</a></p>
+<p><a href="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server" target="_blank" rel="noopener" title="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server">http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server</a></p>
 
       
 
@@ -1026,204 +1228,9 @@ was_published_recently.short_description = &apos;Published recently?&apos;
 
 
   
-    <article id="post-杂谈/万物生长》中秋水白露最终还是没走到一起" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/898.html">《万物生长》中秋水白露最终还是没走到一起</a>
-    </h1>
-  
-
-        
-        <a href="/898.html" class="archive-article-date">
-  	<time datetime="2015-09-17T14:09:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近几年青春片真的是如洪水一样涌入影院.反正各种青春校园的爱情.就像是这篇文章中的作品中的一句话一样:这是个恋爱的季节,空气中充满了情侣的味道~</p>
-<p>很庆幸这部片子我又没去电影院看。这种片子还是适合在电脑上一个人静静的欣赏，看到学校宿舍的疯狂，同学们一起喝酒的场景然后自己能够回想起当年也这么轻狂过，放肆过。可是转眼间已近而立之年。</p>
-<p>引起小猪想写此文的起因还是作品中白露和秋水最终还是没走大一起。所以想对这件事情评论下。</p>
-<p>虽然只是一部小说改编的电影，但是小说通常来源于生活，当秋水在五星级酒店里盯着柳青看时我就想这一定会发生什么事情。可能秋水当时没这么想，但是内心的深处总是会希望发生点什么。自己的女朋友白露是和柳青完全两个极端的人，当然会对眼前这个浓妆艳裹的姑娘产生好奇。学生嘛，有那么点心思也不难理解，最关键的是有没有条件让这件事情发展下去，如果有条件的话那就像作品的名字一样——万物生长！</p>
-<p>所以在巧合的情况下他们在街上碰面，在烧烤摊巧遇。再到一大早柳青不知是故意还是有意的去找他帮忙，他都不会很有戒心的去拒绝别人，而是让这个“万物”生长。生长到一起去蹦极不告诉现任女朋友，生长到一起吃着烛光晚餐喝着红酒。可能他自己都没意识到自己的内心已经生长出一点其他东西，这个东西是他现任的女朋友无法接受的。谁让他在药店的门口说：你怎么“也”怀孕了。</p>
-<p>最终的结果就是两个本来是无缝的感情却生长出了裂痕。</p>
-<p>还有就是喜欢白露的表演方式，其素颜出镜还是能让我对她很是敬佩，相比于范爷浓妆艳裹下的表演，我还是更喜欢她的方式。对了，特地查了下演员的名字叫：齐溪</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/09/b8389b504fc2d562928f8e2de31190ef77c66c6e.jpg" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/09/b8389b504fc2d562928f8e2de31190ef77c66c6e_thumb.jpg" alt="b8389b504fc2d562928f8e2de31190ef77c66c6e" title="b8389b504fc2d562928f8e2de31190ef77c66c6e"></a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">电影</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/898.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-blog/记阿里云ECS服务器搬迁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/893.html">记阿里云ECS服务器搬迁</a>
-    </h1>
-  
-
-        
-        <a href="/893.html" class="archive-article-date">
-  	<time datetime="2015-09-16T06:45:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-09-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前一直使用的是其他账号购买的公司服务器,但是这个其他账号因为开过了别的公司的发票,而现在阿里云的发票一个账号只能对应一个抬头,修改起来非常麻烦,所以只能单独申请一个账号来购买服务器了.正好赶上最近搞活动,经过企业认证的账号购买第一台服务器半价.果断准备这件事.</p>
-<p>首先我想吐槽下阿里云的这次活动,明明说的是第一台半价,我想有这好事为什么不能多买几年,反正这玩意肯定是要买的.结果操作的时候才发现人家最多只让你买一年,超过一年的话连第一年都给你按照原价算.这算不算是欺骗消费者,在线等…挺急的…</p>
-<p>整个搬迁过程中最关键的就是得保证数据不能丢失,这里再吐槽一下阿里云的ECS服务器不能账号间转移!如果可以像域名一样直接将产品转移到其他账户下的话也就不会这么多事了.不过那样的话我们就享受不到企业认证之后第一台半价的优惠了,O(∩_∩)O.</p>
-<p>为了保证数据不丢失,我也是操碎了这颗玻璃心,咨询客服之后发现可以进行镜像分享的操作达到目的!.那真是太好了.这里再赞一下阿里云的客服.提交工单之后很快给出回应,在文字沟通不顺利的情况下还直接打电话过来沟通,包括上次小猪的域名备案过程中.有什么问题直接提交工单,客服都会很认真的对问题进行解答.</p>
-<p>附上与客服的记录:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/09/VVA9B1P7QKU7FWUK3EO_thumb.png" target="_blank" rel="noopener"></a></p>
-<p>然后就是将原来的服务器的数据盘的数据都复制到系统盘,然后登陆阿里云后台制作镜像,分享给新的阿里云账号,新的阿里云账号创建ECS实例,创建时系统选择分享的镜像,然后付钱,进入新的服务器,.哎呀妈呀,一整个服务器和原来的一模一样啊.连之前没删掉的百度云关键都在呢,真是贴心.这样确实是省了很多事.一些基础的软件例如IIS SQLSERVER FTP等软件不需要安装不说,最关键的是我们之前的网站数据也可以完全的克隆过来.整个过程体验我给阿里云95分.还有5分不是对他不满意,而是希望继续给我们惊喜!</p>
-<p>最后的问题就是数据库的问题了.因为当初在复制数据的时候mdf文件没有直接复制过来(没有挺掉数据库服务而无法复制),然后打开新服务器对应的库就是”恢复挂起”的状态.原因我猜就是因为找不到对应的Mdf文件.这时候只好手动将原服务器的mdf文件都下载到新服务器并放到对应的文件夹下,然后到网上找解决方法,看到<a href="http://bbs.csdn.net/topics/390702507" target="_blank" rel="noopener">这里</a>说的可以使用sql语句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter database dbname</span><br><span class="line">set online</span><br></pre></td></tr></table></figure></p>
-<p>来让对应的库恢复,可是我执行了该语句之后却给我了个错误:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">消息 5120，级别 16，状态 101，第 1 行</span><br><span class="line">无法打开物理文件“D:\www\Movies\Movies.mdf”。操作系统错误 5:“5(拒绝访问。)”。</span><br><span class="line">消息 5120，级别 16，状态 101，第 1 行</span><br><span class="line">无法打开物理文件“D:\www\Movies\Movies_log.ldf”。操作系统错误 5:“5(拒绝访问。)”。</span><br><span class="line">消息 5181，级别 16，状态 5，第 1 行</span><br><span class="line">无法重新启动数据库“Movies”。将恢复到以前的状态。</span><br><span class="line">消息 5069，级别 16，状态 1，第 1 行</span><br><span class="line">ALTER DATABASE 语句失败。</span><br></pre></td></tr></table></figure></p>
-<p>最后删除原来的库,使用SQL SERVER的附加数据库功能将mdf文件附加到服务器中.这样整个迁移过程就完成了.</p>
-<p>接下来需要做的就是把对应的域名解析到新的服务器上面咯.!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">阿里云</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/893.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/14/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/16/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1314,11 +1321,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1330,7 +1341,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1338,39 +1349,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1402,6 +1389,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1410,11 +1401,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1430,11 +1453,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1446,18 +1477,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1466,15 +1485,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1502,6 +1529,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1510,19 +1545,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1530,7 +1553,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1538,7 +1561,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1546,11 +1589,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1570,87 +1613,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1662,15 +1625,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1698,10 +1661,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1710,7 +1669,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1761,9 +1772,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

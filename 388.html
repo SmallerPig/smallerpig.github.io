@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="123## 前言：	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的， ##  微信后台生成的网页 那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。  生成的朋友圈中的链接信息对应下图：  [![201301101638](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.">
+  <meta name="description" content="123## 前言：	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的， ##  微信后台生成的网页 那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。  生成的朋友圈中的链接信息对应下图：  [![201301101638](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;uploads&#x2F;2014&#x2F;01&#x2F;201301101638.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要">
 <meta property="og:url" content="http://blog.smallerpig.com/388.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="123## 前言：	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的， ##  微信后台生成的网页 那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。  生成的朋友圈中的链接信息对应下图：  [![201301101638](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-31T05:42:09.175Z">
+<meta property="og:description" content="123## 前言：	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的， ##  微信后台生成的网页 那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。  生成的朋友圈中的链接信息对应下图：  [![201301101638](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;uploads&#x2F;2014&#x2F;01&#x2F;201301101638.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-01-10T09:03:24.000Z">
+<meta property="article:modified_time" content="2023-05-31T05:42:09.175Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要">
-<meta name="twitter:description" content="123## 前言：	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的， ##  微信后台生成的网页 那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。  生成的朋友圈中的链接信息对应下图：  [![201301101638](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -176,17 +176,17 @@ var _hmt = _hmt || [];
 生成的朋友圈中的链接信息对应下图：
 
 [![201301101638](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.jpg)](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.jpg)
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">自己的服务器网页</span><br><span class="line"></span><br><span class="line">	如果用户在微信浏览器中分享出去的是个普通的服务器网页，经过小猪的测试会有如下的规则</span><br><span class="line"></span><br><span class="line">&lt;table border=&quot;1&quot; cellpadding=&quot;1&quot; cellspacing=&quot;1&quot; style=&quot;width: 500px;&quot;&gt;</span><br><span class="line">	&lt;caption&gt;</span><br><span class="line"></span><br><span class="line">			微信浏览器对应的链接类型</span><br><span class="line"></span><br><span class="line">	&lt;/caption&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&amp;nbsp;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Android</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				IOS</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Windows Phone 8</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				分享标题</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Html=&amp;gt;Head=&amp;gt;Titile</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style=&quot;text-align: center;&quot;&gt;Html=&amp;gt;Head=&amp;gt;Titile&lt;/span&gt;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style=&quot;text-align: center;&quot;&gt;Html=&amp;gt;Head=&amp;gt;Titile&lt;/span&gt;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				缩略图</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				body中的第一个img标签</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style=&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;/span&gt;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style=&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;/span&gt;</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				display:none是否影响</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				false</span><br><span class="line">			&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">	&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">	最后一行显示的是第一个Img标签的Css属性display对分享的出去缩略图是否影响</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">自己的服务器网页</span><br><span class="line"></span><br><span class="line">	如果用户在微信浏览器中分享出去的是个普通的服务器网页，经过小猪的测试会有如下的规则</span><br><span class="line"></span><br><span class="line">&lt;table border&#x3D;&quot;1&quot; cellpadding&#x3D;&quot;1&quot; cellspacing&#x3D;&quot;1&quot; style&#x3D;&quot;width: 500px;&quot;&gt;</span><br><span class="line">	&lt;caption&gt;</span><br><span class="line"></span><br><span class="line">			微信浏览器对应的链接类型</span><br><span class="line"></span><br><span class="line">	&lt;&#x2F;caption&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&amp;nbsp;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Android</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				IOS</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Windows Phone 8</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				分享标题</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Html&#x3D;&gt;Head&#x3D;&gt;Titile</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;Html&#x3D;&gt;Head&#x3D;&gt;Titile&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;Html&#x3D;&gt;Head&#x3D;&gt;Titile&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				缩略图</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				body中的第一个img标签</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				display:none是否影响</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				false</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">	&lt;&#x2F;tbody&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br><span class="line"></span><br><span class="line">	最后一行显示的是第一个Img标签的Css属性display对分享的出去缩略图是否影响</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br></pre></td></tr></table></figure>
 <p>## </p>
 <p>自定义</p>
 <pre><code>那如果需求是需要自定义这些参数怎么办呢？答案就是在页面中加入下列代码，代码不复杂。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(function \(\) &#123;</span><br><span class="line">    var onBridgeReady = function \(\) &#123;</span><br><span class="line">        // 分享到朋友圈;</span><br><span class="line">        WeixinJSBridge.on(&amp;#39;menu:share:timeline&amp;#39;, function (argv) &#123;</span><br><span class="line">            WeixinJSBridge.invoke(&amp;#39;shareTimeline&amp;#39;, &#123;</span><br><span class="line">                &amp;quot;img_url&amp;quot;: &amp;quot;http://www.smallerpig.com/wp-content/uploads/2013/12/header.jpg&amp;quot;,</span><br><span class="line">                &amp;quot;img_width&amp;quot;: &amp;quot;120&amp;quot;,</span><br><span class="line">                &amp;quot;img_height&amp;quot;: &amp;quot;120&amp;quot;,</span><br><span class="line">                &amp;quot;link&amp;quot;: &amp;quot;www.smallerpig.com&amp;quot;,</span><br><span class="line">                &amp;quot;desc&amp;quot;: &amp;quot;你大爷的描述&amp;quot;,//经过测试，该值没用 By smallerpig</span><br><span class="line">                &amp;quot;title&amp;quot;: &amp;quot;你大爷的标题&amp;quot;</span><br><span class="line">            &#125;, function \(\) &#123; &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (document.addEventListener) &#123;</span><br><span class="line">        document.addEventListener(&amp;#39;WeixinJSBridgeReady&amp;#39;, onBridgeReady, false);</span><br><span class="line">    &#125; else if (document.attachEvent) &#123;</span><br><span class="line">        document.attachEvent(&amp;#39;WeixinJSBridgeReady&amp;#39;, onBridgeReady);</span><br><span class="line">        document.attachEvent(&amp;#39;onWeixinJSBridgeReady&amp;#39;, onBridgeReady);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)\(\);</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(function \(\) &#123;</span><br><span class="line">    var onBridgeReady &#x3D; function \(\) &#123;</span><br><span class="line">        &#x2F;&#x2F; 分享到朋友圈;</span><br><span class="line">        WeixinJSBridge.on(&#39;menu:share:timeline&#39;, function (argv) &#123;</span><br><span class="line">            WeixinJSBridge.invoke(&#39;shareTimeline&#39;, &#123;</span><br><span class="line">                &quot;img_url&quot;: &quot;http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;uploads&#x2F;2013&#x2F;12&#x2F;header.jpg&quot;,</span><br><span class="line">                &quot;img_width&quot;: &quot;120&quot;,</span><br><span class="line">                &quot;img_height&quot;: &quot;120&quot;,</span><br><span class="line">                &quot;link&quot;: &quot;www.smallerpig.com&quot;,</span><br><span class="line">                &quot;desc&quot;: &quot;你大爷的描述&quot;,&#x2F;&#x2F;经过测试，该值没用 By smallerpig</span><br><span class="line">                &quot;title&quot;: &quot;你大爷的标题&quot;</span><br><span class="line">            &#125;, function \(\) &#123; &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (document.addEventListener) &#123;</span><br><span class="line">        document.addEventListener(&#39;WeixinJSBridgeReady&#39;, onBridgeReady, false);</span><br><span class="line">    &#125; else if (document.attachEvent) &#123;</span><br><span class="line">        document.attachEvent(&#39;WeixinJSBridgeReady&#39;, onBridgeReady);</span><br><span class="line">        document.attachEvent(&#39;onWeixinJSBridgeReady&#39;, onBridgeReady);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)\(\);</span><br></pre></td></tr></table></figure>
 <pre><code>代码中可以看出，微信内置浏览器包含了一个&amp;nbsp;`WeixinJSBridge`&amp;nbsp;对象，对该对象的一系列调用可以实现部分自定义功能。但是由于系统的限制(或者为了朋友圈的宁静)，本来很多的功能都被TX给和谐了。
 
 经过小猪的测试，截至目前为止(2014-01-10)wp8版本的微信（5.0.1）上述代码无效，可能是wp版本的微信浏览器未内置&amp;nbsp;`WeixinJSBridge`&amp;nbsp;对象！
 
 Android版本、Ios版本微信5.0版本通过测试。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">后记：</span><br><span class="line"></span><br><span class="line">	试想一下如果上述的js代码可以自由的由开发者调用的话会发生些什么呢？会不会用只要一点进去网页就被强制的关注某些公众账号？强制的进入到分享到朋友圈界面？看到很多资料微信之前的很多版本确实是这样的。但是目前只能够通过微信内部的按钮来调用 `WeiXinJsBridge `对象了！</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	参考：</span><br><span class="line"></span><br><span class="line">	[http://blog.wpjam.com/m/custom-weixinjsbridge/](http://blog.wpjam.com/m/custom-weixinjsbridge/)</span><br><span class="line"></span><br><span class="line">	[http://www.oschina.net/question/913845_122337](http://www.oschina.net/question/913845_122337)</span><br><span class="line"></span><br><span class="line">	同样方法可自定义分享到微博、好友内容</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">后记：</span><br><span class="line"></span><br><span class="line">	试想一下如果上述的js代码可以自由的由开发者调用的话会发生些什么呢？会不会用只要一点进去网页就被强制的关注某些公众账号？强制的进入到分享到朋友圈界面？看到很多资料微信之前的很多版本确实是这样的。但是目前只能够通过微信内部的按钮来调用 &#96;WeiXinJsBridge &#96;对象了！</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	参考：</span><br><span class="line"></span><br><span class="line">	[http:&#x2F;&#x2F;blog.wpjam.com&#x2F;m&#x2F;custom-weixinjsbridge&#x2F;](http:&#x2F;&#x2F;blog.wpjam.com&#x2F;m&#x2F;custom-weixinjsbridge&#x2F;)</span><br><span class="line"></span><br><span class="line">	[http:&#x2F;&#x2F;www.oschina.net&#x2F;question&#x2F;913845_122337](http:&#x2F;&#x2F;www.oschina.net&#x2F;question&#x2F;913845_122337)</span><br><span class="line"></span><br><span class="line">	同样方法可自定义分享到微博、好友内容</span><br></pre></td></tr></table></figure>
       
 
       
@@ -457,11 +457,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -473,7 +477,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,39 +485,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -545,6 +525,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -553,11 +537,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -573,11 +589,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,18 +613,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -609,15 +621,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -645,6 +665,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -653,19 +681,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -673,7 +689,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -681,7 +697,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -689,11 +725,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -713,87 +749,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -805,15 +761,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -841,10 +797,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -853,7 +805,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -904,9 +908,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

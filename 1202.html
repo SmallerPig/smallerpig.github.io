@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>跟着小猪来做小程序开发吧——分享页面到微信群或者好友 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="今天得到消息小程序开放了分享到微信群的更多功能，正好小猪前一段时间因为特别的忙而把本系列文章给耽搁了一点，期间就在想下面怎么来写这一系列的blog。今天正好就以此来开始吧。 先说点小猪目前用的最多的小程序的分享是在骑行了摩拜单车以后在结算页面有一个分享出去抢免费骑行天数。 其实在此之前公众号的分享已经做的挺成熟了，用户可以根据指引分享自己独特的链接出去，被分享者打开的链接是带着分享者的信息的。这样">
-<meta name="keywords" content="微信,wechat,小程序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跟着小猪来做小程序开发吧——分享页面到微信群或者好友">
 <meta property="og:url" content="http://blog.smallerpig.com/1202.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="今天得到消息小程序开放了分享到微信群的更多功能，正好小猪前一段时间因为特别的忙而把本系列文章给耽搁了一点，期间就在想下面怎么来写这一系列的blog。今天正好就以此来开始吧。 先说点小猪目前用的最多的小程序的分享是在骑行了摩拜单车以后在结算页面有一个分享出去抢免费骑行天数。 其实在此之前公众号的分享已经做的挺成熟了，用户可以根据指引分享自己独特的链接出去，被分享者打开的链接是带着分享者的信息的。这样">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/88e12591gy1ffeybcyfygj21kw0vowl5.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybegcu9j21kw0vojyb.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybgsgz5j21kw0vogtg.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybj2s55j21kw0von5m.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybhzusaj21kw0vok2a.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/88e12591gy1fff3slxctoj20jz0zkq45.jpg">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:published_time" content="2017-05-09T06:42:27.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="wechat">
+<meta property="article:tag" content="小程序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="跟着小猪来做小程序开发吧——分享页面到微信群或者好友">
-<meta name="twitter:description" content="今天得到消息小程序开放了分享到微信群的更多功能，正好小猪前一段时间因为特别的忙而把本系列文章给耽搁了一点，期间就在想下面怎么来写这一系列的blog。今天正好就以此来开始吧。 先说点小猪目前用的最多的小程序的分享是在骑行了摩拜单车以后在结算页面有一个分享出去抢免费骑行天数。 其实在此之前公众号的分享已经做的挺成熟了，用户可以根据指引分享自己独特的链接出去，被分享者打开的链接是带着分享者的信息的。这样">
 <meta name="twitter:image" content="http://wx3.sinaimg.cn/mw690/88e12591gy1ffeybcyfygj21kw0vowl5.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -54,8 +56,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -190,20 +192,20 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>官方文档地址：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/share.html#onshareappmessage" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/wxadoc/dev/api/share.html#onshareappmessage</a></p>
 <h2 id="分享动作-onShareAppMessage"><a href="#分享动作-onShareAppMessage" class="headerlink" title="分享动作 onShareAppMessage"></a>分享动作 onShareAppMessage</h2><p>在公众号的页面里，很久之前程序是可以通过调用接口来直接引导用户分享页面的。后来腾讯对此做了限制，只能通过页面的右上角的目录按钮来点击分享。</p>
-<p>在小程序里同样有该限制，而且必须要在定义了<code>Page</code>对象的<code>onShareAppMessage</code>函数之后，右上角菜单才会显示对应的“分享”按钮。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">onShareAppMessage: function \(\) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        title: &apos;这里是机智life小程序&apos;,</span><br><span class="line">        path: &apos;/page/index/index?id=123&apos;,</span><br><span class="line">        success: function(res) &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;,</span><br><span class="line">      fail: function(res) &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://wx3.sinaimg.cn/mw690/88e12591gy1ffeybcyfygj21kw0vowl5.jpg" alt><br>运行程序结果可看到:<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybegcu9j21kw0vojyb.jpg" alt></p>
+<p>在小程序里同样有该限制，而且必须要在定义了<code>Page</code>对象的<code>onShareAppMessage</code>函数之后，右上角菜单才会显示对应的“分享”按钮。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">onShareAppMessage: function \(\) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        title: &#39;这里是机智life小程序&#39;,</span><br><span class="line">        path: &#39;&#x2F;page&#x2F;index&#x2F;index?id&#x3D;123&#39;,</span><br><span class="line">        success: function(res) &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;,</span><br><span class="line">      fail: function(res) &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://wx3.sinaimg.cn/mw690/88e12591gy1ffeybcyfygj21kw0vowl5.jpg" alt=""><br>运行程序结果可看到:<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybegcu9j21kw0vojyb.jpg" alt=""></p>
 <h2 id="定义返回ticket-：wx-showShareMenu"><a href="#定义返回ticket-：wx-showShareMenu" class="headerlink" title="定义返回ticket ：wx.showShareMenu"></a>定义返回ticket ：wx.showShareMenu</h2><p>使用如下代码，来定义在回调里是否带上shareTicket参数，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.showShareMenu(&#123;</span><br><span class="line">  withShareTicket: true,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    // 分享成功</span><br><span class="line">    console.log(&apos;shareMenu share success&apos;)</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;,</span><br><span class="line">  fail: function (res) &#123;</span><br><span class="line">    // 分享失败</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>如下图，<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybgsgz5j21kw0vogtg.jpg" alt><br>可见ShareTickets是个数组，也就是可以将页面同时分享到多个群，每一个群对应一个<code>shareTicket</code>。使用<code>shareTicket</code>可通过<code>wx.getShareInfo</code>接口获取本次的分享信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.showShareMenu(&#123;</span><br><span class="line">  withShareTicket: true,</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F; 分享成功</span><br><span class="line">    console.log(&#39;shareMenu share success&#39;)</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;,</span><br><span class="line">  fail: function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F; 分享失败</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>如下图，<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybgsgz5j21kw0vogtg.jpg" alt=""><br>可见ShareTickets是个数组，也就是可以将页面同时分享到多个群，每一个群对应一个<code>shareTicket</code>。使用<code>shareTicket</code>可通过<code>wx.getShareInfo</code>接口获取本次的分享信息。</p>
 <h2 id="获取本次分享的群信息：wx-getShareInfo"><a href="#获取本次分享的群信息：wx-getShareInfo" class="headerlink" title="获取本次分享的群信息：wx.getShareInfo"></a>获取本次分享的群信息：wx.getShareInfo</h2><p>使用下列代码来获取群信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">onShareAppMessage: function \(\) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    title: &apos;这里是机智life小程序&apos;,</span><br><span class="line">    path: &apos;/page/index/index?id=123&apos;,</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res.shareTickets[0])</span><br><span class="line">      // console.log</span><br><span class="line">      wx.getShareInfo(&#123;</span><br><span class="line">        shareTicket:res.shareTickets[0],</span><br><span class="line">        success:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">        fail:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">        complete:function(res)&#123;console.log(res)&#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function (res) &#123;</span><br><span class="line">      // 分享失败</span><br><span class="line">      console.log(res)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybj2s55j21kw0von5m.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">onShareAppMessage: function \(\) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    title: &#39;这里是机智life小程序&#39;,</span><br><span class="line">    path: &#39;&#x2F;page&#x2F;index&#x2F;index?id&#x3D;123&#39;,</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res.shareTickets[0])</span><br><span class="line">      &#x2F;&#x2F; console.log</span><br><span class="line">      wx.getShareInfo(&#123;</span><br><span class="line">        shareTicket:res.shareTickets[0],</span><br><span class="line">        success:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">        fail:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">        complete:function(res)&#123;console.log(res)&#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function (res) &#123;</span><br><span class="line">      &#x2F;&#x2F; 分享失败</span><br><span class="line">      console.log(res)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1ffeybj2s55j21kw0von5m.jpg" alt=""></p>
 <p>运行程序，分享到一个测试群(在使用了<code>showShareMenu</code>接口之后，再次点击右上角的分享之后，《微信web开发者工具》为我们建立了几个随即名称的群列表供测试)，可以看到运行结果：</p>
-<p><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybhzusaj21kw0vok2a.jpg" alt><br>从上图中可以看到额外的数据：<code>iv</code>、<code>roomTopic</code>、<code>rawData</code>、<code>signature</code>、<code>encryptedData</code> 其中，roomTopic字段就是分享的群的名称.</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1ffeybhzusaj21kw0vok2a.jpg" alt=""><br>从上图中可以看到额外的数据：<code>iv</code>、<code>roomTopic</code>、<code>rawData</code>、<code>signature</code>、<code>encryptedData</code> 其中，roomTopic字段就是分享的群的名称.</p>
 <p>如果想获取该群的ID，那么可以通过之前小猪介绍的<a href="http://www.smallerpig.com/1186.html" target="_blank" rel="noopener">跟着小猪来做小程序开发吧——解密CryptedData</a> 来解密encryptedData。</p>
 <p>解密完之后可以看到<code>openGId</code>和之前已经存在的<code>roomTopic</code>。</p>
 <p>大功告成。</p>
-<p>在手机上运行查看下效果：<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1fff3slxctoj20jz0zkq45.jpg" alt></p>
+<p>在手机上运行查看下效果：<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1fff3slxctoj20jz0zkq45.jpg" alt=""></p>
 
       
 
@@ -494,11 +496,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,7 +516,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -518,39 +524,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -582,6 +564,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -590,11 +576,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -610,11 +628,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -626,18 +652,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -646,15 +660,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -682,6 +704,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -690,19 +720,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,7 +728,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,7 +736,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -726,11 +764,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,87 +788,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -842,15 +800,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -878,10 +836,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -890,7 +844,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -941,9 +947,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

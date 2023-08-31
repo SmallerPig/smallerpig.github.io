@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/14/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -149,6 +148,193 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/enumerable-all-e6-96-b9-e6-b3-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/986.html">Enumerable.All方法</a>
+    </h1>
+  
+
+        
+        <a href="/986.html" class="archive-article-date">
+  	<time datetime="2016-04-10T08:15:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="定义为"><a href="#定义为" class="headerlink" title="定义为:"></a>定义为:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static bool All&lt;TSource&gt;(    this IEnumerable&lt;TSource&gt; source,   Func&lt;TSource, bool&gt; predicate);</span><br></pre></td></tr></table></figure>
+<p>如果源序列中的每个元素都通过指定谓词中的测试，或者序列为空，则为 true；否则为 false。</p>
+<h3 id="用法举例"><a href="#用法举例" class="headerlink" title="用法举例:"></a>用法举例:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx\(\) </span><br><span class="line">&#123; </span><br><span class="line">    &#x2F;&#x2F; 创建pet数组</span><br><span class="line">    Pet[] pets &#x3D; &#123; new Pet &#123; Name&#x3D;&quot;Barley&quot;, Age&#x3D;10 &#125;, </span><br><span class="line">                    new Pet &#123; Name&#x3D;&quot;Boots&quot;, Age&#x3D;4 &#125;, </span><br><span class="line">                    new Pet &#123; Name&#x3D;&quot;Whiskers&quot;, Age&#x3D;6 &#125; &#125;; </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 判断是否所有pet的名字都以字符“B”开头 </span><br><span class="line">    bool allStartWithB &#x3D; pets.All(pet &#x3D;&gt; </span><br><span class="line">                                        pet.Name.StartsWith(&quot;B&quot;)); </span><br><span class="line"></span><br><span class="line">    Console.WriteLine( </span><br><span class="line">        &quot;&#123;0&#125; pet names start with &#39;B&#39;.&quot;, </span><br><span class="line">        allStartWithB ? &quot;All&quot; : &quot;Not all&quot;); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 上述代码将输出Not all ，并不是所有pet名字都已字符B开头</span><br></pre></td></tr></table></figure>
+<p>该方法也可用于linq查询的where子句中，例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Pet </span><br><span class="line">&#123; </span><br><span class="line">    public string Name &#123; get; set; &#125; </span><br><span class="line">    public int Age &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line">class Person </span><br><span class="line">&#123; </span><br><span class="line">    public string LastName &#123; get; set; &#125; </span><br><span class="line">    public Pet[] Pets &#123; get; set; &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public static void AllEx2\(\) </span><br><span class="line">&#123; </span><br><span class="line">    List&lt;Person&gt; people &#x3D; new List&lt;Person&gt; </span><br><span class="line">        &#123; new Person &#123; LastName &#x3D; &quot;Haas&quot;, </span><br><span class="line">                        Pets &#x3D; new Pet[] &#123; new Pet &#123; Name&#x3D;&quot;Barley&quot;, Age&#x3D;10 &#125;, </span><br><span class="line">                                            new Pet &#123; Name&#x3D;&quot;Boots&quot;, Age&#x3D;14 &#125;, </span><br><span class="line">                                            new Pet &#123; Name&#x3D;&quot;Whiskers&quot;, Age&#x3D;6 &#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName &#x3D; &quot;Fakhouri&quot;, </span><br><span class="line">                        Pets &#x3D; new Pet[] &#123; new Pet &#123; Name &#x3D; &quot;Snowball&quot;, Age &#x3D; 1&#125;&#125;&#125;, </span><br><span class="line">            new Person &#123; LastName &#x3D; &quot;Antebi&quot;, </span><br><span class="line">                        Pets &#x3D; new Pet[] &#123; new Pet &#123; Name &#x3D; &quot;Belle&quot;, Age &#x3D; 8&#125; &#125;&#125;, </span><br><span class="line">            new Person &#123; LastName &#x3D; &quot;Philips&quot;, </span><br><span class="line">                        Pets &#x3D; new Pet[] &#123; new Pet &#123; Name &#x3D; &quot;Sweetie&quot;, Age &#x3D; 2&#125;, </span><br><span class="line">                                            new Pet &#123; Name &#x3D; &quot;Rover&quot;, Age &#x3D; 13&#125;&#125; &#125; </span><br><span class="line">        &#125;; </span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 输出哪些用户的pet的Age都大于5</span><br><span class="line">    IEnumerable&lt;string&gt; names &#x3D; from person in people </span><br><span class="line">                                where person.Pets.All(pet &#x3D;&gt; pet.Age &gt; 5) </span><br><span class="line">                                select person.LastName; </span><br><span class="line"></span><br><span class="line">    foreach (string name in names) </span><br><span class="line">    &#123; </span><br><span class="line">        Console.WriteLine(name); </span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    &#x2F;* 上述代码将输出</span><br><span class="line">        *  </span><br><span class="line">        * Haas </span><br><span class="line">        * Antebi </span><br><span class="line">        *&#x2F; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要特别注意的是如果集合为空，那么不管传入的predicate是什么都将返回true</p>
+<h3 id="与any函数的比较"><a href="#与any函数的比较" class="headerlink" title="与any函数的比较"></a>与any函数的比较</h3><p>同样的上述查询中，如果想要使用Any()方法查询出同样的结果，则需要使用下述代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IEnumerable&lt;string&gt; names &#x3D; from person in people </span><br><span class="line">                            where !person.Pets.Any(pet &#x3D;&gt; pet.Age &lt;&#x3D; 5) </span><br><span class="line">                            select person.LastName; </span><br><span class="line"></span><br><span class="line">foreach (string name in names) </span><br><span class="line">&#123; </span><br><span class="line">    Console.WriteLine(name); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见Any()方法主要用于判断某集合里<strong>是否有</strong>满足条件的元素。<br>而All()方法用户判断某集合里<strong>是否都</strong>满足条件。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/986.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp.net/entity-framework-e7-ad-9b-e9-80-89icollection-e7-b1-bb-e5-9e-8b-e7-9a-84-e5-b1-9e-e6-80-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/982.html">Entity Framework 筛选ICollection类型的属性</a>
+    </h1>
+  
+
+        
+        <a href="/982.html" class="archive-article-date">
+  	<time datetime="2016-03-23T09:16:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小猪尝试解决了这个问题两三天了，具体问题就是数据库中有活动表(Activity)，用户表(User)，用户可以报名参加活动，这样就产生了多对多的报名表(Enroll)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class Activity&#123;</span><br><span class="line">    public int Id &#123;get;set;&#125;</span><br><span class="line">    public string Title &#123;get;set;&#125;</span><br><span class="line">    public string Banner &#123;get;set;&#125;</span><br><span class="line">    public virtual ICollection&lt;User&gt; Enrolls &#123;get;set;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class User&#123;</span><br><span class="line">    public int Id &#123;get;set;&#125;</span><br><span class="line">    public string UserName &#123;get;set;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class UserEnrollActivity&#123;</span><br><span class="line">        public int UserId &#123; get; set; &#125;</span><br><span class="line">        public virtual User User &#123; get; set; &#125;</span><br><span class="line">        public int ActivityId &#123; get; set; &#125;</span><br><span class="line">        public virtual Article Activity &#123; get; set; &#125;</span><br><span class="line">        public int Value &#123;get;set;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在编写API时候需要提供这么一个接口，该接口可接受UserId的参数，来标识当前用户，在用户未登陆的情况下UserId的值为0。接口返回活动的基本信息，并且需要附加上传递过来的UserId所对应的用户的报名信息。</p>
+<p>就是在编写这个接口过程中发现问题。<br>一开始的代码类似：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return</span><br><span class="line">    DbContext.Activity.Take(count)</span><br><span class="line">        .Select(item&#x3D;&gt; new ActivityListViewModel\(\)</span><br><span class="line">        &#123;</span><br><span class="line">            Id&#x3D;item.Id,</span><br><span class="line">            Banner &#x3D; item.Banner,</span><br><span class="line">            Title &#x3D; item.Title,</span><br><span class="line">            Value &#x3D; (item.Enrolls.FirstOrDefault(e &#x3D;&gt; e.ActivityId &#x3D;&#x3D; item.Id &amp;&amp; e.UserId &#x3D;&#x3D; userId) ?? new UserEnrollActivity &#123; Value &#x3D; -1&#125;).Value</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>发现报错信息为：<code>The entity or complex type &#39;UserEnrollActivity&#39; cannot be constructed in a LINQ to Entities query.</code>。大概意思为不能在Linq To Entities查询中实例化复杂类型 UserEnrollActivity&gt;。Google一通之后发现有人提出了在select调用之前先调用ToList()方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return</span><br><span class="line">    DbContext.Activity.Take(count).ToList\(\)</span><br><span class="line">        .Select(item&#x3D;&gt; new ActivityListViewModel\(\)</span><br><span class="line">        &#123;</span><br><span class="line">            Id&#x3D;item.Id,</span><br><span class="line">            Banner &#x3D; item.Banner,</span><br><span class="line">            Title &#x3D; item.Title,</span><br><span class="line">            Value &#x3D; (item.Enrolls.FirstOrDefault(e &#x3D;&gt; e.ActivityId &#x3D;&#x3D; item.Id &amp;&amp; e.UserId &#x3D;&#x3D; userId) ?? new UserEnrollActivity &#123; Value &#x3D; -1&#125;).Value</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>尝试了之后代码确实能够正常运行了。<br>但是这个代码却有着很严重的性能问题，也就是其实该方法将活动的所有报名信息都加载到了内存中，如果某一活动有成千上万甚至上亿人报名的话那这些数据同样都被加载到内存中之后才开始筛选当前用户的报名信息。<br>意识到这个性能问题之后小猪一直在想怎么优化这段代码。在重复尝试之后终于查找到了<a href="http://stackoverflow.com/questions/7753039/entity-framework-querying-child-entities" target="_blank" rel="noopener">类似这样的提问</a>.经过提示，小猪最终优化了代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return</span><br><span class="line">    DbContext.Activity.Take(count).ToList\(\)</span><br><span class="line">        .Select(item&#x3D;&gt; new</span><br><span class="line">        &#123;</span><br><span class="line">            Id&#x3D;item.Id,</span><br><span class="line">            Banner &#x3D; item.Banner,</span><br><span class="line">            Title &#x3D; item.Title,</span><br><span class="line">            Enroll &#x3D; item.Enrolls.FirstOrDefault(e &#x3D;&gt; e.UserId &#x3D;&#x3D; userId)</span><br><span class="line">        &#125;).ToList\(\)</span><br><span class="line">        .Select(item&#x3D;&gt; new ActivityListViewModel\(\)</span><br><span class="line">        &#123;</span><br><span class="line">            Id&#x3D;item.Id,</span><br><span class="line">            Banner &#x3D; item.Banner,</span><br><span class="line">            Title &#x3D; item.Title,</span><br><span class="line">            Value &#x3D; (item.Enroll ?? new UserEnrollActivity &#123;Value &#x3D; -1&#125;).Value</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<p>上述代码中使用了两次select方法，第一次select只将当前用户的报名信息保存到一个临时的匿名对象中，然后对这个列表进行ToList()操作，这样其实只将一条报名信息保存到内存，然后对数据进行筛选。<br>这样既避免了复杂类型无法实例化的问题，也解决了性能的问题。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/982.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp.net/在ASP.NET MVC项目中使用极验验证(geetest)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -174,22 +360,22 @@ var _hmt = _hmt || [];
 <p>极验官方提供了C#版本的服务端<a href="http://www.geetest.com/install/sections/idx-server-sdk.html#csharp" target="_blank" rel="noopener">SDK</a>。并且提供了一个简单的<a href="https://github.com/GeeTeam/gt-csharp-sdk" target="_blank" rel="noopener">DEMO</a>。可惜该DEMO是Web Form版本的。而目前大家使用的比较多的是ASP.NET MVC项目，所以今天小猪就在其官方DEMO的基础上改成了ASP.NET MVC项目。</p>
 <ul>
 <li>新建ASP.NET MVC项目，并在项目中引用C#版本的SDK。</li>
-<li>申请极验账号并添加验证。如图：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1io9e7f96j20qz0ivwj0.jpg" alt="极验后台添加验证"><br>成功添加后我们可以看到对应的ID和KEY。<p></p></li>
+<li>申请极验账号并添加验证。如图：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1io9e7f96j20qz0ivwj0.jpg" alt="极验后台添加验证"><br>成功添加后我们可以看到对应的ID和KEY。</p></li>
 <li><p>新建测试控制器 AccountController</p>
 </li>
 <li><p>在控制器中随意添加一个Action，例如Login</p>
 </li>
-<li>在对应的View里添加代码（例如Login.cshtml）：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;geetest-container&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;http://static.geetest.com/static/tools/gt.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    window.addEventListener(&apos;load&apos;,processGeeTest);</span><br><span class="line"></span><br><span class="line">    function processGeeTest\(\) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            // 获取id，challenge，success（是否启用failback）</span><br><span class="line">            url: &quot;/Account/GeekTest&quot;,</span><br><span class="line">            type: &quot;get&quot;,</span><br><span class="line">            dataType: &quot;json&quot;, // 使用jsonp格式</span><br><span class="line">            success: function (data) &#123;</span><br><span class="line">                // 使用initGeetest接口</span><br><span class="line">                // 参数1：配置参数，与创建Geetest实例时接受的参数一致</span><br><span class="line">                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</span><br><span class="line">                initGeetest(&#123;</span><br><span class="line">                    gt: data.gt,</span><br><span class="line">                    challenge: data.challenge,</span><br><span class="line">                    product: &quot;float&quot;, // 产品形式</span><br><span class="line">                    offline: !data.success</span><br><span class="line">                &#125;, handler);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var handler = function (captchaObj) &#123;</span><br><span class="line">        // 将验证码加到id为captcha的元素里</span><br><span class="line">        captchaObj.appendTo(&quot;#geetest-container&quot;);</span><br><span class="line"></span><br><span class="line">        captchaObj.onSuccess = function(e) &#123;</span><br><span class="line">            console.log(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<li>在对应的View里添加代码（例如Login.cshtml）：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;geetest-container&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;http:&#x2F;&#x2F;static.geetest.com&#x2F;static&#x2F;tools&#x2F;gt.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    window.addEventListener(&#39;load&#39;,processGeeTest);</span><br><span class="line"></span><br><span class="line">    function processGeeTest\(\) &#123;</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            &#x2F;&#x2F; 获取id，challenge，success（是否启用failback）</span><br><span class="line">            url: &quot;&#x2F;Account&#x2F;GeekTest&quot;,</span><br><span class="line">            type: &quot;get&quot;,</span><br><span class="line">            dataType: &quot;json&quot;, &#x2F;&#x2F; 使用jsonp格式</span><br><span class="line">            success: function (data) &#123;</span><br><span class="line">                &#x2F;&#x2F; 使用initGeetest接口</span><br><span class="line">                &#x2F;&#x2F; 参数1：配置参数，与创建Geetest实例时接受的参数一致</span><br><span class="line">                &#x2F;&#x2F; 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</span><br><span class="line">                initGeetest(&#123;</span><br><span class="line">                    gt: data.gt,</span><br><span class="line">                    challenge: data.challenge,</span><br><span class="line">                    product: &quot;float&quot;, &#x2F;&#x2F; 产品形式</span><br><span class="line">                    offline: !data.success</span><br><span class="line">                &#125;, handler);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var handler &#x3D; function (captchaObj) &#123;</span><br><span class="line">        &#x2F;&#x2F; 将验证码加到id为captcha的元素里</span><br><span class="line">        captchaObj.appendTo(&quot;#geetest-container&quot;);</span><br><span class="line"></span><br><span class="line">        captchaObj.onSuccess &#x3D; function(e) &#123;</span><br><span class="line">            console.log(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>上述代码中使用了JQuery库，需要同时引用。<br>其中我们使用Ajax来动态请求后台AccountController的GeeTest方法，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GeekTest\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        string result = getCaptcha\(\);</span><br><span class="line"></span><br><span class="line">        return Content(result, &quot;application/json&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String getCaptcha\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">        Byte gtServerStatus = geetest.preProcess\(\);</span><br><span class="line">        Session[GeetestLib.gtServerStatusSessionKey] = gtServerStatus;</span><br><span class="line">        return geetest.getResponseStr\(\);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GeekTest\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        string result &#x3D; getCaptcha\(\);</span><br><span class="line"></span><br><span class="line">        return Content(result, &quot;application&#x2F;json&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String getCaptcha\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        GeetestLib geetest &#x3D; new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">        Byte gtServerStatus &#x3D; geetest.preProcess\(\);</span><br><span class="line">        Session[GeetestLib.gtServerStatusSessionKey] &#x3D; gtServerStatus;</span><br><span class="line">        return geetest.getResponseStr\(\);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码中的<code>geetest_publicKey</code>和<code>geetest_privateKey</code>分别对应极验后台申请到的ID和KEY。</p>
 <p>这样我们就可以运行程序看到效果。接下来的工作就是确认用户在提交对应的表单的时候有没有通过极验的验证了。</p>
 <p>在接受表单提交的POST地址里面输入代码，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> //</span><br><span class="line">// POST: /Account/Login</span><br><span class="line">[HttpPost]</span><br><span class="line">[AllowAnonymous]</span><br><span class="line">[ValidateAntiForgeryToken]</span><br><span class="line">public async Task&lt;ActionResult&gt; Login(LoginViewModel model, string returnUrl)</span><br><span class="line">&#123;</span><br><span class="line">    if (!CheckGeeTestResult\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        ModelState.AddModelError(&quot;&quot;, &quot;请先完成验证操作。&quot;);</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line">    if (!ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //其他验证逻辑</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool CheckGeeTestResult\(\)</span><br><span class="line">&#123;</span><br><span class="line">    GeetestLib geetest = new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">    Byte gt_server_status_code = (Byte)Session[GeetestLib.gtServerStatusSessionKey];</span><br><span class="line">    String userID = (String)Session[&quot;userID&quot;];</span><br><span class="line"></span><br><span class="line">    int result = 0;</span><br><span class="line">    String challenge = Request.Form.Get(GeetestLib.fnGeetestChallenge);</span><br><span class="line">    String validate = Request.Form.Get(GeetestLib.fnGeetestValidate);</span><br><span class="line">    String seccode = Request.Form.Get(GeetestLib.fnGeetestSeccode);</span><br><span class="line">    if (gt_server_status_code == 1) result = geetest.enhencedValidateRequest(challenge, validate, seccode, userID);</span><br><span class="line">    else result = geetest.failbackValidateRequest(challenge, validate, seccode);</span><br><span class="line">    if (result != 1) return false;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; POST: &#x2F;Account&#x2F;Login</span><br><span class="line">[HttpPost]</span><br><span class="line">[AllowAnonymous]</span><br><span class="line">[ValidateAntiForgeryToken]</span><br><span class="line">public async Task&lt;ActionResult&gt; Login(LoginViewModel model, string returnUrl)</span><br><span class="line">&#123;</span><br><span class="line">    if (!CheckGeeTestResult\(\))</span><br><span class="line">    &#123;</span><br><span class="line">        ModelState.AddModelError(&quot;&quot;, &quot;请先完成验证操作。&quot;);</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line">    if (!ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        return View(model);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;其他验证逻辑</span><br><span class="line">    ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool CheckGeeTestResult\(\)</span><br><span class="line">&#123;</span><br><span class="line">    GeetestLib geetest &#x3D; new GeetestLib(geetest_publicKey, geetest_privateKey);</span><br><span class="line">    Byte gt_server_status_code &#x3D; (Byte)Session[GeetestLib.gtServerStatusSessionKey];</span><br><span class="line">    String userID &#x3D; (String)Session[&quot;userID&quot;];</span><br><span class="line"></span><br><span class="line">    int result &#x3D; 0;</span><br><span class="line">    String challenge &#x3D; Request.Form.Get(GeetestLib.fnGeetestChallenge);</span><br><span class="line">    String validate &#x3D; Request.Form.Get(GeetestLib.fnGeetestValidate);</span><br><span class="line">    String seccode &#x3D; Request.Form.Get(GeetestLib.fnGeetestSeccode);</span><br><span class="line">    if (gt_server_status_code &#x3D;&#x3D; 1) result &#x3D; geetest.enhencedValidateRequest(challenge, validate, seccode, userID);</span><br><span class="line">    else result &#x3D; geetest.failbackValidateRequest(challenge, validate, seccode);</span><br><span class="line">    if (result !&#x3D; 1) return false;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码中大部分引用了极验官方DEMO的代码。<br>这样我们在前台view中可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationSummary(true, &quot;&quot;, new &#123; @class = &quot;text-danger&quot; &#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.ValidationSummary(true, &quot;&quot;, new &#123; @class &#x3D; &quot;text-danger&quot; &#125;)</span><br></pre></td></tr></table></figure>
 <p>来提示用户首先需要通过滑块验证才能继续操作。</p>
 <p>这样我们就完成了将极验验证集成到我们的ASP.NET MVC项目中。并且可以在极验的后台中查看具体的数据报表：<br><img src="http://ww1.sinaimg.cn/large/88e12591gw1f1ioqpc0pnj2154090t9v.jpg" alt="极验后台报表"></p>
 <p>整个产品的使用我们并没有编写太多的代码，而且将复杂的验证过程交给了第三方，而我们自己只需要关心自己的业务逻辑。</p>
@@ -292,7 +478,7 @@ var _hmt = _hmt || [];
         <p>SQL SERVER2008以后提供了<a href="https://msdn.microsoft.com/zh-cn/ch/library/bb677290.aspx" target="_blank" rel="noopener">HierarchyId的数据类型</a>.利用该类型我们可以方便的使用’/‘(默认的)来构建树形结构的数据,典型的结构包括文章类型(category),人员关系(emplloy),评论盖楼(comment)等.</p>
 <p>SQL SERVER提供了该数据类型,EF自然也需要提供对应的数据类型来支持该数据库类型与C#类型的映射.很可惜默认的EF6是不支持该数据类型的.如果想使用EF的HierarchyId类型就需要使用<code>EntityFrameworkWithHierarchyId</code>替换原来的EntityFramework了.<br>安装方法”<br>可以使用Nugget管理器搜索安装<br>或者在程序包管理器里输入下列代码</p>
 <pre><code>install-package EntityFrameworkWithHierarchyId
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间`System.Data.Entity.Hierarchy`中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然直接下载dll然后手动引用也可以.</span><br><span class="line"></span><br><span class="line">安装后之后我们可以在命名空间&#96;System.Data.Entity.Hierarchy&#96;中找到HierarchyId的定义.</span><br><span class="line">我们就可以定义如下的模型来对应数据库的hierarchyid类型.</span><br></pre></td></tr></table></figure>
 <p> public class Category<br>    {<br>        public int Id { get; set; }</p>
 <pre><code>    public string Title { get; set; }
 
@@ -442,7 +628,7 @@ class Client
         strategy.DoSomething\(\);
     }
 }
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口`IStrategy`,其中有一个方法是`DoSomething\(\)`.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的`SomeThing\(\)`方法,调用策略接口的`DoSomeThing`方法.</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口&#96;IStrategy&#96;,其中有一个方法是&#96;DoSomething\(\)&#96;.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的&#96;SomeThing\(\)&#96;方法,调用策略接口的&#96;DoSomeThing&#96;方法.</span><br></pre></td></tr></table></figure>
 <p> static void Main(string[] args)<br>    {<br>        Client c1 = new Client(new StrategyA());<br>        c1.SomeThing();//A do something<br>        Client c2 = new Client(new StrategyB());<br>        c2.SomeThing();//B do something<br>        Console.ReadLine();<br>    }</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行上述代码我们可得到运行结果.</span><br><span class="line">以上为策略模式的基本概念.</span><br><span class="line"></span><br><span class="line">### 在ASP.NET MVC中使用策略模式</span><br><span class="line"></span><br><span class="line">试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:</span><br></pre></td></tr></table></figure>
 <p> public class PostController : Controller<br>    {<br>        private PostServer server = new PostServer();<br>        // GET: Post<br>        public ActionResult Index()<br>        {<br>            var models = server.GetList();<br>            return View(models);<br>        }<br>    }</p>
@@ -453,7 +639,7 @@ class Client
         throw new NotImplementedException\(\);
     }
 }
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟`PostServer`类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该`PostServer`无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对`PostServer`抽象出接口`IPostServer`,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用`IPostServer`的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量`IPostServer`进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原`PostServer`实例化`IPostServer`接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟&#96;PostServer&#96;类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该&#96;PostServer&#96;无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对&#96;PostServer&#96;抽象出接口&#96;IPostServer&#96;,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用&#96;IPostServer&#96;的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量&#96;IPostServer&#96;进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原&#96;PostServer&#96;实例化&#96;IPostServer&#96;接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
 <p> public class PostController : Controller<br>    {<br>        private IPostServer server;</p>
 <pre><code>    public PostController\(\)
     {
@@ -597,9 +783,9 @@ public ActionResult Edit(Article model)
     }
     return RedirectToAction(&quot;Index&quot;);
 }
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这样的代码完全能够符合我们的要求，能够顺利的修改我们想要修改的数据。</span><br><span class="line">    但是其中却有一个问题：例如说文章的创建时间字段`Create_Time`是由文章创建的时候生成的，其值不应该随着文章的编辑而变化，为了使这个值不变，我们就需要在前台的html代码里加上一个隐藏的name属性为Create_Time的input并且设置其值为文章的创建时间。这样做也能成功但是不保险，如果编辑人员有能力修改input里的值的话还是能够修改数据库中的数据的。所以我们应该从代码的层面上来解决这个问题。</span><br><span class="line">    再举个例子，用户在修改密码的时候我们只希望单单的修改密码字段，而不需要将原来的用户模型全都加载进来，然后再修改密码，再保存。这样做感觉上是已经多走了好多的路。</span><br><span class="line">    而如果我们直接手写sql语句的话我们可以直接执行SQL语句：</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"> update userinfo set password = &apos;123456&apos;</span><br></pre></td></tr></table></figure>
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这样的代码完全能够符合我们的要求，能够顺利的修改我们想要修改的数据。</span><br><span class="line">    但是其中却有一个问题：例如说文章的创建时间字段&#96;Create_Time&#96;是由文章创建的时候生成的，其值不应该随着文章的编辑而变化，为了使这个值不变，我们就需要在前台的html代码里加上一个隐藏的name属性为Create_Time的input并且设置其值为文章的创建时间。这样做也能成功但是不保险，如果编辑人员有能力修改input里的值的话还是能够修改数据库中的数据的。所以我们应该从代码的层面上来解决这个问题。</span><br><span class="line">    再举个例子，用户在修改密码的时候我们只希望单单的修改密码字段，而不需要将原来的用户模型全都加载进来，然后再修改密码，再保存。这样做感觉上是已经多走了好多的路。</span><br><span class="line">    而如果我们直接手写sql语句的话我们可以直接执行SQL语句：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"> update userinfo set password &#x3D; &#39;123456&#39;</span><br></pre></td></tr></table></figure>
 <pre><code>很显然如果我们类似使用dbContext的执行sql语句就有点本末倒置了：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.Database.ExecuteSqlCommand(&quot;update userinfo set password = &apos;123456&apos;&quot;);</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.Database.ExecuteSqlCommand(&quot;update userinfo set password &#x3D; &#39;123456&#39;&quot;);</span><br></pre></td></tr></table></figure>
 <pre><code>### 解决办法
 
 使用类似下列代码：也就是只设置模型的某些特定的字段来告诉EF我们希望修改哪些字段。
@@ -899,11 +1085,11 @@ print(c)
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>setting 部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CACHES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;BACKEND&apos;: &apos;django.core.cache.backends.filebased.FileBasedCache&apos;,</span><br><span class="line">        &apos;LOCATION&apos;: os.path.join(BASE_DIR, &apos;cache&apos;),</span><br><span class="line">        &apos;TIMEOUT&apos;: 60,</span><br><span class="line">        &apos;OPTIONS&apos;: &#123;</span><br><span class="line">            &apos;MAX_ENTRIES&apos;: 1000</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <p>setting 部分代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CACHES &#x3D; &#123;</span><br><span class="line">    &#39;default&#39;: &#123;</span><br><span class="line">        &#39;BACKEND&#39;: &#39;django.core.cache.backends.filebased.FileBasedCache&#39;,</span><br><span class="line">        &#39;LOCATION&#39;: os.path.join(BASE_DIR, &#39;cache&#39;),</span><br><span class="line">        &#39;TIMEOUT&#39;: 60,</span><br><span class="line">        &#39;OPTIONS&#39;: &#123;</span><br><span class="line">            &#39;MAX_ENTRIES&#39;: 1000</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <pre><code>### 缓存视图
 
 view部分代码
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@cache_page(60 * 15, key_prefix=&quot;site1&quot;)</span><br><span class="line">def index(request):</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@cache_page(60 * 15, key_prefix&#x3D;&quot;site1&quot;)</span><br><span class="line">def index(request):</span><br></pre></td></tr></table></figure>
 <pre><code>### 缓存模板
 
 html部分代码：
@@ -911,7 +1097,7 @@ html部分代码：
 <pre><code>### 缓存指定数据
 
 view 代码
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from django.core.cache import cache</span><br><span class="line">cache.set(&apos;key&apos;,&apos;hello,world!&apos;,30)</span><br><span class="line">value = cache.get(&apos;key&apos;) # hello,world!</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from django.core.cache import cache</span><br><span class="line">cache.set(&#39;key&#39;,&#39;hello,world!&#39;,30)</span><br><span class="line">value &#x3D; cache.get(&#39;key&#39;) # hello,world!</span><br></pre></td></tr></table></figure>
 
       
 
@@ -1044,7 +1230,7 @@ view 代码
 ##### 用例1： 只用七牛托管动态生成的文件（例如用户上传的文件）
 
 在 settings.py 里设置 `DEFAULT_FILE_STORAGE` :
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DEFAULT_FILE_STORAGE = &apos;qiniustorage.backends.QiniuStorage&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   这样设置以后每个使用到Storage的地方都会默认的使用七牛的配置。</span><br><span class="line"></span><br><span class="line">   ##### 用例2： 用七牛托管动态生成的文件以及站点自身的静态文件</span><br><span class="line"></span><br><span class="line">   首先，检查你的INSTALLED_APPS setting， 确保安装了django.contrib.staticfiles这个 app。</span><br><span class="line">   staticfiles提供了一个名为collectstatic的命令。它会收集各个 app 的根目录下的static子目录下的文件， 并汇总到一个地方。如果将 django settings 里的STATICFILES_STORAGE设置为QiniuStorage，收集到的静态文件就会被统一上传到七牛。</span><br><span class="line"></span><br><span class="line">   ## Documentation</span><br><span class="line"></span><br><span class="line">   It&apos;s hosted on the [Read The Doc](http://django-qiniu-storage.readthedocs.org/zh_CN/latest/).</span><br><span class="line"></span><br><span class="line">   #### 源码：</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DEFAULT_FILE_STORAGE &#x3D; &#39;qiniustorage.backends.QiniuStorage&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   这样设置以后每个使用到Storage的地方都会默认的使用七牛的配置。</span><br><span class="line"></span><br><span class="line">   ##### 用例2： 用七牛托管动态生成的文件以及站点自身的静态文件</span><br><span class="line"></span><br><span class="line">   首先，检查你的INSTALLED_APPS setting， 确保安装了django.contrib.staticfiles这个 app。</span><br><span class="line">   staticfiles提供了一个名为collectstatic的命令。它会收集各个 app 的根目录下的static子目录下的文件， 并汇总到一个地方。如果将 django settings 里的STATICFILES_STORAGE设置为QiniuStorage，收集到的静态文件就会被统一上传到七牛。</span><br><span class="line"></span><br><span class="line">   ## Documentation</span><br><span class="line"></span><br><span class="line">   It&#39;s hosted on the [Read The Doc](http:&#x2F;&#x2F;django-qiniu-storage.readthedocs.org&#x2F;zh_CN&#x2F;latest&#x2F;).</span><br><span class="line"></span><br><span class="line">   #### 源码：</span><br></pre></td></tr></table></figure>
 <p> import datetime<br>    import os<br>    import warnings<br>    from inspect import getargspec</p>
 <pre><code>from django import forms
 from django.core import checks
@@ -1601,215 +1787,9 @@ class ImageField(FileField):
 
 
   
-    <article id="post-python/python-super" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/944.html">Python super\(\)</a>
-    </h1>
-  
-
-        
-        <a href="/944.html" class="archive-article-date">
-  	<time datetime="2015-11-23T06:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一般我们在使用类的继承时会用到super()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Animal(object):</span><br><span class="line">    def eat(self,food):</span><br><span class="line">        print(&apos;the animal is eating&apos;,food)</span><br><span class="line"></span><br><span class="line">class Person(Animal):</span><br><span class="line">    def eat(self):</span><br><span class="line">        print(&apos;the person is eating now!&apos;)</span><br><span class="line">        super(Person,self).eat(&apos;meal&apos;)</span><br><span class="line"></span><br><span class="line">person = Person\(\)</span><br><span class="line">person.eat\(\)</span><br></pre></td></tr></table></figure></p>
-<p>该代码在python3.4中输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; the person is eating now!</span><br><span class="line">&gt;   the animal is eating meal</span><br><span class="line">&gt;   [Finished in 0.1s]</span><br></pre></td></tr></table></figure></p>
-<p>可以看出其使用方法和C#的还是有点区别，C#使用关键字<code>base</code>来调用父类的方法，而在python中使用super。而且需要传递当前类名和self关键字然后再调用具体的方法。我在想这个过程是不是已经将父类给实例化出来了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/944.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Django/reverse-query-name-for-clashes-with-field-name" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/939.html">Reverse query name for &#39;*&#39; clashes with field name &#39;*&#39;</a>
-    </h1>
-  
-
-        
-        <a href="/939.html" class="archive-article-date">
-  	<time datetime="2015-11-19T07:50:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在已经新建的Article模型之后再新建Picture模型，模型中有外键指向Article:</p>
-<pre><code># models
-class Article(models.Model):
-    title = models.CharField(max_length=50)
-    create_time = models.DateTimeField(auto_now_add = True)
-    summary = models.TextField(max_length=200)
-    picture = models.ImageField(max_length=200)
-    media = models.CharField(max_length=200)
-    content = models.TextField\(\) # content of the article
-
-    def __str__(self):
-        return self.title
-
-class Picture(models.Model):
-    title = models.CharField(max_length=200)
-    create_time = models.DateTimeField(auto_now_add = True)
-    update_time = models.DateTimeField(auto_now = True)
-    article = models.ForeignKey(Article)
-
-    def __str__(self):
-        return self.title
-</code></pre><pre><code>
-    运行命令:python manage.py makemigrations 时报错：
-
-    &gt; SystemCehhckError: System check identified some issues:
-&gt; 
-&gt;       Errors:
-&gt;       bulls.Picture.article:(fields.E303) Reverse query name for &apos;picture.article&apos; clashes with field name &apos;Article.picture&apos;.
-&gt;       HINT: Rename field &apos;Article.picture&apos;, or add/change a related_name argument to the definition for field &apos;Picture.article&apos;.
-
-    猜测的原因是因为本身Article中已经有了picture字段，然后在新建的Picture中又定义了外键指向Article。这样会对在查询的时候产生歧义，例如类似代码article.picture就不知道是指本身的picture属性还是指附属在Article中的picture表中的数据，
-    所以在定义picture时添加relate_name属性
-
-</code></pre><p> article = models.ForeignKey(Article,related_name=’append_article’)</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/939.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/13/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/15/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1900,11 +1880,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1916,7 +1900,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1924,39 +1908,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1988,6 +1948,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1996,11 +1960,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2016,11 +2012,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2032,18 +2036,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -2052,15 +2044,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2088,6 +2088,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -2096,19 +2104,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2116,7 +2112,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2124,7 +2120,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2132,11 +2148,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2156,87 +2172,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2248,15 +2184,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2284,10 +2220,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -2296,7 +2228,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -2347,9 +2331,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/20/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -148,6 +147,255 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-php/使用CodeIgniter的购物车类 二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/570.html">使用CodeIgniter的购物车类 二</a>
+    </h1>
+  
+
+        
+        <a href="/570.html" class="archive-article-date">
+  	<time datetime="2015-04-19T08:08:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前一篇博客中,小猪给大家分享了<a href="http://www.smallerpig.com/554.html" target="_blank" rel="noopener">如何在CI中使用购物车类</a>的一些基础.但是没有结合数据库中的具体数据来进行演示.今天我就来结合数据库中的数据来进一步演示CI的购物车类的一些高级用法.</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先在数据库表中新建我们的商品表.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> CREATE TABLE IF NOT EXISTS &#96;products&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(255) NOT NULL,</span><br><span class="line">  &#96;price&#96; decimal(13,2) NOT NULL,</span><br><span class="line">  &#96;image&#96; varchar(255) NOT NULL,</span><br><span class="line">  &#96;option_name&#96; varchar(255) NOT NULL,</span><br><span class="line">  &#96;option_values&#96; varchar(255) NOT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB  DEFAULT CHARSET&#x3D;latin1 AUTO_INCREMENT&#x3D;1 ;</span><br></pre></td></tr></table></figure><br>其中,id作为上面的表示,name为商品的名称,price为商品的价格.image为商品的图片地址,option_name为商品的属性,例如颜色,尺码等.option_values为商品的属性值.</p>
+<p>作为演示,这边的商品属性只设置成一个.不能像淘宝那样为每一个商品动态的随意添加属性.</p>
+<p>然后插入三条演示数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> INSERT INTO &#96;products&#96; (&#96;id&#96;, &#96;name&#96;, &#96;price&#96;, &#96;image&#96;, &#96;option_name&#96;, &#96;option_values&#96;) VALUES</span><br><span class="line">(1, &#39;Rubber Ducky&#39;, &#39;2.99&#39;, &#39;ducky.jpg&#39;, &#39;&#39;, &#39;&#39;),</span><br><span class="line">(2, &#39;Horse&#39;, &#39;4500.00&#39;, &#39;horse.jpg&#39;, &#39;Color&#39;, &#39;white,black,brown&#39;),</span><br><span class="line">(3, &#39;T-Shirt&#39;, &#39;12.99&#39;, &#39;tshirt.jpg&#39;, &#39;Size&#39;, &#39;small,medium,large&#39;);</span><br></pre></td></tr></table></figure><br>其中第一条数据没有属性,第二条商品对应的属性为color,属性值为white,black,brown 三个值之间以因为逗号(,)隔开.第三条数据的属性值为尺码(size),分别对应值为大中小.同样以逗号隔开.为了提高用户体验,我们分别给每个商品配了一幅图片,放在网站根目录的images文件夹下.</p>
+<h2 id="编写controller代码"><a href="#编写controller代码" class="headerlink" title="编写controller代码"></a>编写controller代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function index\(\) &#123;</span><br><span class="line"></span><br><span class="line">	$this-&gt;load-&gt;model(&#39;Products_model&#39;);</span><br><span class="line"></span><br><span class="line">	$data[&#39;products&#39;] &#x3D; $this-&gt;Products_model-&gt;get_all\(\);</span><br><span class="line"></span><br><span class="line">	$this-&gt;load-&gt;view(&#39;products&#39;, $data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中加载了Products_model模型,并调用了其get_all()方法.然后加载了视图products文件.</p>
+<p>所以在models文件夹中新建model类文件Products_model.php.编写方法get_all():</p>
+<h2 id="编写模型类"><a href="#编写模型类" class="headerlink" title="编写模型类"></a>编写模型类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &lt;?php</span><br><span class="line">class Products_model extends CI_Model &#123;</span><br><span class="line"></span><br><span class="line">	function get_all\(\) &#123;</span><br><span class="line"></span><br><span class="line">		$results &#x3D; $this-&gt;db-&gt;get(&#39;products&#39;)-&gt;result\(\);</span><br><span class="line"></span><br><span class="line">		foreach ($results as &amp;$result) &#123;</span><br><span class="line"></span><br><span class="line">			if ($result-&gt;option_values) &#123;</span><br><span class="line">				$result-&gt;option_values &#x3D; explode(&#39;,&#39;,$result-&gt;option_values);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return $results;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上述代码中,我们判断了商品是否包含option_valus属性,如果有的话,使用explode函数将其转化成一个数组,这样可以在前台页面直接使用数组的方式来访问商品的属性值.</p>
+<p>编写视图文件:在view文件夹中新建products.php视图文件用来展示页面:</p>
+<h2 id="编写视图文件"><a href="#编写视图文件" class="headerlink" title="编写视图文件"></a>编写视图文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> &lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en-US&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Shop&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;style type&#x3D;&quot;text&#x2F;css&quot;&gt;</span><br><span class="line">        body &#123;</span><br><span class="line">            font: 13px Arial;</span><br><span class="line">        &#125;</span><br><span class="line">        #products &#123;</span><br><span class="line">            text-align: center; float: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #products ul &#123;</span><br><span class="line">            list-style-type: none; margin: 0px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products li &#123;</span><br><span class="line">            width: 150px; padding: 4px; margin: 8px;</span><br><span class="line">            border: 1px solid #ddd; background-color: #eee;</span><br><span class="line">            -moz-border-radius: 4px; -webkit-border-radius: 4px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .name &#123;</span><br><span class="line">            font-size: 15px; margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .price &#123;</span><br><span class="line">            margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line">        #products .option &#123;</span><br><span class="line">            margin: 5px;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #cart &#123;</span><br><span class="line">            padding: 4px; margin: 8px; float: left;</span><br><span class="line">            border: 1px solid #ddd; background-color: #eee;</span><br><span class="line">            -moz-border-radius: 4px; -webkit-border-radius: 4px;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart table &#123;</span><br><span class="line">            width: 320px; border-collapse: collapse;</span><br><span class="line">            text-align: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart th &#123;</span><br><span class="line">            border-bottom: 1px solid #aaa;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart caption &#123;</span><br><span class="line">            font-size: 15px; height: 30px; text-align: left;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart .total &#123;</span><br><span class="line">            height: 40px;</span><br><span class="line">        &#125;</span><br><span class="line">        #cart .remove a &#123;</span><br><span class="line">            color: red;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div id&#x3D;&quot;products&quot;&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;?php foreach ($products as $product): ?&gt;</span><br><span class="line">            &lt;li&gt;</span><br><span class="line">                &lt;?php echo form_open(&#39;cart&#x2F;add&#39;); ?&gt;</span><br><span class="line">                &lt;div class&#x3D;&quot;name&quot;&gt;&lt;?php echo $product-&gt;name; ?&gt;&lt;&#x2F;div&gt;</span><br><span class="line">                &lt;div class&#x3D;&quot;thumb&quot;&gt;</span><br><span class="line">                    &lt;?php echo img(array(</span><br><span class="line">                        &#39;src&#39; &#x3D;&gt; &#39;images&#x2F;&#39; . $product-&gt;image,</span><br><span class="line">                        &#39;class&#39; &#x3D;&gt; &#39;thumb&#39;,</span><br><span class="line">                        &#39;alt&#39; &#x3D;&gt; $product-&gt;name</span><br><span class="line">                    )); ?&gt;</span><br><span class="line">                &lt;&#x2F;div&gt;</span><br><span class="line">                &lt;div class&#x3D;&quot;price&quot;&gt;$&lt;?php echo $product-&gt;price; ?&gt;&lt;&#x2F;div&gt;</span><br><span class="line">                &lt;div class&#x3D;&quot;option&quot;&gt;</span><br><span class="line">                    &lt;?php if ($product-&gt;option_name): ?&gt;</span><br><span class="line">                        &lt;?php echo form_label($product-&gt;option_name, &#39;option_&#39;. $product-&gt;id); ?&gt;</span><br><span class="line">                        &lt;?php echo form_dropdown(</span><br><span class="line">                            $product-&gt;option_name,</span><br><span class="line">                            $product-&gt;option_values,</span><br><span class="line">                            NULL,</span><br><span class="line">                            &#39;id&#x3D;&quot;option_&#39;. $product-&gt;id.&#39;&quot;&#39;</span><br><span class="line">                        ); ?&gt;</span><br><span class="line">                    &lt;?php endif; ?&gt;</span><br><span class="line">                &lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">                &lt;?php echo form_hidden(&#39;id&#39;, $product-&gt;id); ?&gt;</span><br><span class="line">                &lt;?php echo form_submit(&#39;action&#39;, &#39;Add to Cart&#39;); ?&gt;</span><br><span class="line">                &lt;?php echo form_close\(\); ?&gt;</span><br><span class="line">            &lt;&#x2F;li&gt;</span><br><span class="line">        &lt;?php endforeach; ?&gt;</span><br><span class="line">    &lt;&#x2F;ul&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php if ($cart &#x3D; $this-&gt;cart-&gt;contents\(\)): ?&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;cart&quot;&gt;</span><br><span class="line">        &lt;table&gt;</span><br><span class="line">            &lt;caption&gt;Shopping Cart&lt;&#x2F;caption&gt;</span><br><span class="line">            &lt;thead&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;th&gt;Item Name&lt;&#x2F;th&gt;</span><br><span class="line">                &lt;th&gt;Option&lt;&#x2F;th&gt;</span><br><span class="line">                &lt;th&gt;Price&lt;&#x2F;th&gt;</span><br><span class="line">                &lt;th&gt;&lt;&#x2F;th&gt;</span><br><span class="line">            &lt;&#x2F;tr&gt;</span><br><span class="line">            &lt;&#x2F;thead&gt;</span><br><span class="line">            &lt;?php foreach ($cart as $item): ?&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;&lt;?php echo $item[&#39;name&#39;]; ?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">                    &lt;td&gt;</span><br><span class="line">                        &lt;?php if ($this-&gt;cart-&gt;has_options($item[&#39;rowid&#39;])) &#123;</span><br><span class="line">                            foreach ($this-&gt;cart-&gt;product_options($item[&#39;rowid&#39;]) as $option &#x3D;&gt; $value) &#123;</span><br><span class="line">                                echo $option . &quot;: &lt;em&gt;&quot; . $value . &quot;&lt;&#x2F;em&gt;&quot;;</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                        &#125; ?&gt;</span><br><span class="line">                    &lt;&#x2F;td&gt;</span><br><span class="line">                    &lt;td&gt;$&lt;?php echo $item[&#39;subtotal&#39;]; ?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">                    &lt;td class&#x3D;&quot;remove&quot;&gt;</span><br><span class="line">                        &lt;?php echo anchor(&#39;cart&#x2F;remove&#x2F;&#39;.$item[&#39;rowid&#39;],&#39;X&#39;); ?&gt;</span><br><span class="line">                    &lt;&#x2F;td&gt;</span><br><span class="line">                &lt;&#x2F;tr&gt;</span><br><span class="line">            &lt;?php endforeach; ?&gt;</span><br><span class="line">            &lt;tr class&#x3D;&quot;total&quot;&gt;</span><br><span class="line">                &lt;td colspan&#x3D;&quot;2&quot;&gt;&lt;strong&gt;Total&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;</span><br><span class="line">                &lt;td&gt;$&lt;?php echo $this-&gt;cart-&gt;total\(\); ?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">            &lt;&#x2F;tr&gt;</span><br><span class="line">        &lt;&#x2F;table&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;?php endif; ?&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<p>注意上述视图文件中使用了部分表单辅助函数.</p>
+<p>打开浏览器访问index方法.我们可以看到页面效果:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image4.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb3.png" alt="image" title="image"></a></p>
+<p>其中第一个商品没有属性,第二个和第三个商品因为有属性,所以我们生成了一个下拉框来给用户选择,每一个商品都有一个对应的按钮将当前选择的商品以及属性加入到购物车.</p>
+<p>但是我们现在暂时还没有增加到购物车的代码.所以我们完善controller代码:增加一个添加到购物车的函数:</p>
+<h2 id="编写添加方法"><a href="#编写添加方法" class="headerlink" title="编写添加方法"></a>编写添加方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function add\(\) &#123;</span><br><span class="line"></span><br><span class="line">	$this-&gt;load-&gt;model(&#39;Products_model&#39;);</span><br><span class="line"></span><br><span class="line">	$product &#x3D; $this-&gt;Products_model-&gt;get($this-&gt;input-&gt;post(&#39;id&#39;));</span><br><span class="line"></span><br><span class="line">	$insert &#x3D; array(</span><br><span class="line">		&#39;id&#39; &#x3D;&gt; $this-&gt;input-&gt;post(&#39;id&#39;),</span><br><span class="line">		&#39;qty&#39; &#x3D;&gt; 1,</span><br><span class="line">		&#39;price&#39; &#x3D;&gt; $product-&gt;price,</span><br><span class="line">		&#39;name&#39; &#x3D;&gt; $product-&gt;name</span><br><span class="line">	);</span><br><span class="line">	if ($product-&gt;option_name) &#123;</span><br><span class="line">		$insert[&#39;options&#39;] &#x3D; array(</span><br><span class="line">			$product-&gt;option_name &#x3D;&gt; $product-&gt;option_values[$this-&gt;input-&gt;post($product-&gt;option_name)]</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	$this-&gt;cart-&gt;insert($insert);</span><br><span class="line"></span><br><span class="line">	redirect(&#39;cart&#39;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中用到了模型类中的根据id来获取一条商品信息的方法:我们在model类中新增函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function get($id) &#123;</span><br><span class="line"></span><br><span class="line">	$results &#x3D; $this-&gt;db-&gt;get_where(&#39;products&#39;, array(&#39;id&#39; &#x3D;&gt; $id))-&gt;result\(\);</span><br><span class="line">	$result &#x3D; $results[0];</span><br><span class="line"></span><br><span class="line">	if ($result-&gt;option_values) &#123;</span><br><span class="line">		$result-&gt;option_values &#x3D; explode(&#39;,&#39;,$result-&gt;option_values);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>和上面一样的,我们判断了商品是否含有属性值,如果有将其转化成数组.并返回</p>
+<p>重新运行程序并尝试点击添加按钮!</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image5.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb4.png" alt="image" title="image"></a></p>
+<p>可以看到我们成功的将商品加入到了购物车类.</p>
+<p>如果要删除购物车中的某商品,我们需要将该条<span style="color: #ff0000;">购物车商品</span>的rowid的数量转成0即可,这里一定要注意的就是rowid而不是商品本身的id,这个我们在第一篇中已经有过具体的介绍.</p>
+<p>在控制器中添加方法remove</p>
+<h2 id="编写删除方法"><a href="#编写删除方法" class="headerlink" title="编写删除方法"></a>编写删除方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function remove($rowid) &#123;</span><br><span class="line"></span><br><span class="line">    $this-&gt;cart-&gt;update(array(</span><br><span class="line">        &#39;rowid&#39; &#x3D;&gt; $rowid,</span><br><span class="line">        &#39;qty&#39; &#x3D;&gt; 0</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    redirect(&#39;cart&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后点击某条数据的删除按钮:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image6.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb5.png" alt="image" title="image"></a></p>
+<p>可以看到我们的商品已经从购物车中删除.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>接下来的工作可能就是需要处理支付的场景了!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/570.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-php/使用CodeIgniter的购物车类  一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/554.html">使用CodeIgniter的购物车类  一</a>
+    </h1>
+  
+
+        
+        <a href="/554.html" class="archive-article-date">
+  	<time datetime="2015-04-17T07:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相关文章:</p>
+<ul>
+<li><a href="http://www.smallerpig.com/554.html" target="_blank" rel="noopener" title="使用CodeIgniter的购物车类  一">使用CodeIgniter的购物车类 一</a></li>
+<li><a href="http://www.smallerpig.com/570.html" target="_blank" rel="noopener" title="使用CodeIgniter的购物车类 二">使用CodeIgniter的购物车类 二</a><br>CI框架本身提供了很多类库来帮助我们简化网站的开发.今天我来分享在项目中使用购物车类的过程.希望对后来者有用!</li>
+</ul>
+<p>购物车类允许项目被添加到session中，session在用户浏览你的网站期间都保持有效状态。这些项目能够以标准的 “购物车” 格式被检索和显示，并允许用户更新数量或者从购物车中移除项目。</p>
+<p>请注意购物车类只提供核心的”购物车”功能。它不提供配送、信用卡授权或者其它处理组件.</p>
+<p>因为购物车类利用了CI的session类把购物车信息保存到数据库中,所以在使用购物车类之前,你必须根据session类文档中的说明来创建数据库表,并且在application/config/config.php 文件中把session相关参数设置为使用数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $config[&#39;sess_use_database&#39;]	&#x3D; TRUE;</span><br><span class="line">$config[&#39;sess_table_name&#39;]	&#x3D; &#39;ci_sessions&#39;;</span><br></pre></td></tr></table></figure><br>创建数据库表的sql语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> CREATE TABLE IF NOT EXISTS  &#96;ci_sessions&#96; (</span><br><span class="line">  session_id varchar(40) DEFAULT &#39;0&#39; NOT NULL,</span><br><span class="line">  ip_address varchar(45) DEFAULT &#39;0&#39; NOT NULL,</span><br><span class="line">  user_agent varchar(120) NOT NULL,</span><br><span class="line">  last_activity int(10) unsigned DEFAULT 0 NOT NULL,</span><br><span class="line">  user_data text DEFAULT &#39;&#39; NOT NULL,</span><br><span class="line">  PRIMARY KEY (session_id),</span><br><span class="line">  KEY &#96;last_activity_idx&#96; (&#96;last_activity&#96;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>为了在你的控制器构造函数中初始化购物车类,请使用$this-&gt;load-&gt;library函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$this-&gt;load-&gt;library(&#39;cart&#39;);</span><br></pre></td></tr></table></figure><br>说明: 购物车类会自动加载和初始化Session类，因此除非你在别处要用到session，否则你不需要再次加载Session类。</p>
+<h3 id="将一个项目添加到购物车"><a href="#将一个项目添加到购物车" class="headerlink" title="将一个项目添加到购物车"></a>将一个项目添加到购物车</h3><p>要添加项目到购物车,只需将一个包含了商品信息的数组传递给$this-&gt;cart-&gt;insert()函数即可,就像下面这样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> $data &#x3D; array(</span><br><span class="line">               &#39;id&#39;      &#x3D;&gt; &#39;sku_123ABC&#39;,</span><br><span class="line">               &#39;qty&#39;     &#x3D;&gt; 1,</span><br><span class="line">               &#39;price&#39;   &#x3D;&gt; 39.95,</span><br><span class="line">               &#39;name&#39;    &#x3D;&gt; &#39;T-Shirt&#39;,</span><br><span class="line">               &#39;options&#39; &#x3D;&gt; array(&#39;Size&#39; &#x3D;&gt; &#39;L&#39;, &#39;Color&#39; &#x3D;&gt; &#39;Red&#39;)</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">$this-&gt;cart-&gt;insert($data);</span><br></pre></td></tr></table></figure><br>五个保留的索引分别是:</p>
+<ul>
+<li>id - 你的商店里的每件商品都必须有一个唯一的标识符(identifier)。典型的标识符是 “sku”(译者注：库存量单位) 或者其它类似的标识符。</li>
+<li>qty - 购买的数量(quantity)。</li>
+<li>price - 商品的价格(price)。</li>
+<li>name - 商品的名称(name)。</li>
+<li>options - 标识商品的任何附加属性。必须通过数组来传递。<br>除以上五个索引外，还有两个保留字：rowid 和 subtotal。它们是购物车类内部使用的，因此，往购物车中插入数据时，请不要使用这些词作为索引。</li>
+</ul>
+<p>你的数组可能包含附加的数据。你的数组中包含的所有数据都会被存储到session中。然而，最好的方式是标准化你所有商品的数据，这样更方便你在表格中显示它们。</p>
+<p>如果成功的插入一条数据后，insert()方法将会返回一个id值（$rowid）</p>
+<p>完整的php代码如下.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> class Cart extends CI_Controller&#123;</span><br><span class="line">    public  function Add\(\)&#123;</span><br><span class="line">        $this-&gt;load-&gt;library(&quot;cart&quot;);</span><br><span class="line">        $data &#x3D; array(</span><br><span class="line">            &#39;id&#39;      &#x3D;&gt; &#39;sku_123ABC&#39;,</span><br><span class="line">            &#39;qty&#39;     &#x3D;&gt; 1,</span><br><span class="line">            &#39;price&#39;   &#x3D;&gt; 39.95,</span><br><span class="line">            &#39;name&#39;    &#x3D;&gt; &#39;T-Shirt&#39;,</span><br><span class="line">            &#39;options&#39; &#x3D;&gt; array(&#39;Size&#39; &#x3D;&gt; &#39;L&#39;, &#39;Color&#39; &#x3D;&gt; &#39;Red&#39;)</span><br><span class="line">        );</span><br><span class="line">        $this-&gt;cart-&gt;insert($data);</span><br><span class="line"></span><br><span class="line">        echo &quot;add\(\) called&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>在浏览器中访问地址:<a href="http://127.0.0.1/cart/add" target="_blank" rel="noopener" title="http://127.0.0.1/cart/add">http://127.0.0.1/cart/add</a> 我们可以看到正确的调用:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb.png" alt="image" title="image"></a></p>
+<p>.为了查看先有购物车的数据,我们编写一个单独的方法来显示数据.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  </span><br><span class="line">public function show\(\)&#123;</span><br><span class="line">    $data &#x3D; $this-&gt;cart-&gt;contents\(\);</span><br><span class="line">    echo &quot;&gt;pre&gt;&quot;;</span><br><span class="line">    print_r($data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>在浏览器里查看地址<a href="http://127.0.0.1/cart/show" target="_blank" rel="noopener" title="http://127.0.0.1/cart/show">http://127.0.0.1/cart/show</a>,可以看到我们的刚才的数据已经在里面</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image3.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image3_thumb.png" alt="image" title="image"></a></p>
+<p>如果你可以查看数据库的话,打开数据库你也可以在表ci_session中看到已经插入了一条数据</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image2.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb2.png" alt="image" title="image"></a></p>
+<p>&nbsp;</p>
+<p><strong>什么是 Row ID?</strong>  当一个项目被添加到购物车时，程序所生成的那个唯一的标识符就是row ID。创建唯一ID的理由是，当购物车中相同的商品有不同的选项时，购物车就能够对它们进行管理。</p>
+<p>比如说，有人购买了两件相同的T-shirt (相同的商品ID)，但是尺寸不同。商品ID(以及其它属性)都会完全一样，因为它们是相同的T-shirt。它们唯一的差别就是尺寸不同。因此购物车必须想办法来区分它们，这样才能独立地管理这两件尺寸不同的T-shirt。而基于商品ID和其它相关选项信息来创建一个唯一的 “row ID” 就能解决这个问题。</p>
+<p>在几乎所有情况下，更新购物车都将是用户通过 “查看购物车” 页面来实现的，因此对开发者来说，不必太担心”row ID”，只要保证你的 “查看购物车” 页面中的一个隐藏表单字段包含了这个信息，并且确保它能被传递给表单提交时所调用的更新函数就行了。请仔细分析上面的 “查看购物车” 页面的结构以获取更多信息。</p>
+<p>#### </p>
+<h3 id="将多个项目添加到购物车"><a href="#将多个项目添加到购物车" class="headerlink" title="将多个项目添加到购物车"></a>将多个项目添加到购物车</h3><p>通过下面这种多维数组的方式，可以一次性添加多个产品到购物车中。当你希望允许用户选择同一页面中的多个项目时，这就非常有用了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data &#x3D; array(</span><br><span class="line">              array(</span><br><span class="line">                      &#39;id&#39;      &#x3D;&gt; &#39;sku_123ABC&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 1,</span><br><span class="line">                      &#39;price&#39;   &#x3D;&gt; 39.95,</span><br><span class="line">                      &#39;name&#39;    &#x3D;&gt; &#39;T-Shirt&#39;,</span><br><span class="line">                      &#39;options&#39; &#x3D;&gt; array(&#39;Size&#39; &#x3D;&gt; &#39;L&#39;, &#39;Color&#39; &#x3D;&gt; &#39;Red&#39;)</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &#39;id&#39;      &#x3D;&gt; &#39;sku_567ZYX&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 1,</span><br><span class="line">                      &#39;price&#39;   &#x3D;&gt; 9.95,</span><br><span class="line">                      &#39;name&#39;    &#x3D;&gt; &#39;Coffee Mug&#39;</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &#39;id&#39;      &#x3D;&gt; &#39;sku_965QRS&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 1,</span><br><span class="line">                      &#39;price&#39;   &#x3D;&gt; 29.95,</span><br><span class="line">                      &#39;name&#39;    &#x3D;&gt; &#39;Shot Glass&#39;</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&gt;cart-&gt;insert($data);</span><br></pre></td></tr></table></figure></p>
+<h3 id="更新购物车"><a href="#更新购物车" class="headerlink" title="更新购物车"></a>更新购物车</h3><p>为了更新购物车中的信息，你必须将一个包含了 Row ID 和数量(quantity)的数组传递给 $this-&gt;cart-&gt;update() 函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data &#x3D; array(</span><br><span class="line">              &#39;rowid&#39; &#x3D;&gt; &#39;b99ccdf16028f015540f341130b6d8ec&#39;,</span><br><span class="line">              &#39;qty&#39;   &#x3D;&gt; 3</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&gt;cart-&gt;update($data); </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 或者是一个多维数组</span><br><span class="line"></span><br><span class="line">$data &#x3D; array(</span><br><span class="line">              array(</span><br><span class="line">                      &#39;rowid&#39;   &#x3D;&gt; &#39;b99ccdf16028f015540f341130b6d8ec&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 3</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &#39;rowid&#39;   &#x3D;&gt; &#39;xw82g9q3r495893iajdh473990rikw23&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 4</span><br><span class="line">                   ),</span><br><span class="line">              array(</span><br><span class="line">                      &#39;rowid&#39;   &#x3D;&gt; &#39;fh4kdkkkaoe30njgoe92rkdkkobec333&#39;,</span><br><span class="line">                      &#39;qty&#39;     &#x3D;&gt; 2</span><br><span class="line">                   )</span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">$this-&gt;cart-&gt;update($data);</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除购物车条目"><a href="#删除购物车条目" class="headerlink" title="删除购物车条目"></a>删除购物车条目</h3><p>删除购物车条目其实就是将某一条数据的qty置为0,例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	$data &#x3D; array(</span><br><span class="line">              &#39;rowid&#39; &#x3D;&gt; &#39;b99ccdf16028f015540f341130b6d8ec&#39;,</span><br><span class="line">              &#39;qty&#39;   &#x3D;&gt; 0</span><br><span class="line">           );</span><br><span class="line">$this-&gt;cart-&gt;update($data);</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/554.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-php/phpstorm-e8-ae-be-e7-bd-aectrly-e5-bf-ab-e6-8d-b7-e9-94-ae-e4-b8-ba-e9-87-8d-e5-81-9a" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -265,10 +513,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先数据为自包含结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Category</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int Father &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    private Category parentCategory;</span><br><span class="line"></span><br><span class="line">    public Category ParentCategory &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return Father!=0 ? new Category(new DictCategoryServer\(\).GetById(Father)) : null;</span><br><span class="line">        &#125;</span><br><span class="line">        set &#123; parentCategory = value; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Category(DictCategory dict)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Id = dict.Id;</span><br><span class="line">        Name = dict.Name;</span><br><span class="line">        Father = dict.FatherCategory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其用到的数据库实体类为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class DictCategory </span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string  Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Note &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int  FatherCategory &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样在对应的控制器里可以直接返回想要的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GetDictionaryItem(int id)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    Category category = new Category(new DictCategoryServer\(\).GetById(id));</span><br><span class="line"></span><br><span class="line">    return Json(new</span><br><span class="line">    &#123;</span><br><span class="line">        Result = new Result\(\)&#123;Success =  true,Note = &quot;&quot;&#125;,</span><br><span class="line">        DictionaryItem = new</span><br><span class="line">        &#123;</span><br><span class="line">            id = result.Id,</span><br><span class="line">            name = result.Name,</span><br><span class="line">            thumbnailUrl = result.ThumbnailUrl,</span><br><span class="line">            unitPrice = result.Price,</span><br><span class="line">            measurementUnits = result.MeasurementUnit,</span><br><span class="line">            category = new</span><br><span class="line">            &#123;</span><br><span class="line">                id = category.Id,</span><br><span class="line">                name = category.Name,</span><br><span class="line">                parentCategory = category.ParentCategory</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>最终的结果就是能够给前台递归直到father为0的 <code>DictCategory</code></p>
+        <p>首先数据为自包含结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Category</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int Father &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    private Category parentCategory;</span><br><span class="line"></span><br><span class="line">    public Category ParentCategory &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return Father!&#x3D;0 ? new Category(new DictCategoryServer\(\).GetById(Father)) : null;</span><br><span class="line">        &#125;</span><br><span class="line">        set &#123; parentCategory &#x3D; value; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Category(DictCategory dict)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Id &#x3D; dict.Id;</span><br><span class="line">        Name &#x3D; dict.Name;</span><br><span class="line">        Father &#x3D; dict.FatherCategory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>其用到的数据库实体类为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class DictCategory </span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string  Name &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public string Note &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public int  FatherCategory &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这样在对应的控制器里可以直接返回想要的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult GetDictionaryItem(int id)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    Category category &#x3D; new Category(new DictCategoryServer\(\).GetById(id));</span><br><span class="line"></span><br><span class="line">    return Json(new</span><br><span class="line">    &#123;</span><br><span class="line">        Result &#x3D; new Result\(\)&#123;Success &#x3D;  true,Note &#x3D; &quot;&quot;&#125;,</span><br><span class="line">        DictionaryItem &#x3D; new</span><br><span class="line">        &#123;</span><br><span class="line">            id &#x3D; result.Id,</span><br><span class="line">            name &#x3D; result.Name,</span><br><span class="line">            thumbnailUrl &#x3D; result.ThumbnailUrl,</span><br><span class="line">            unitPrice &#x3D; result.Price,</span><br><span class="line">            measurementUnits &#x3D; result.MeasurementUnit,</span><br><span class="line">            category &#x3D; new</span><br><span class="line">            &#123;</span><br><span class="line">                id &#x3D; category.Id,</span><br><span class="line">                name &#x3D; category.Name,</span><br><span class="line">                parentCategory &#x3D; category.ParentCategory</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure><br>最终的结果就是能够给前台递归直到father为0的 <code>DictCategory</code></p>
 
       
 
@@ -467,7 +712,7 @@ var _hmt = _hmt || [];
 <p>当客户端需要进行网络下载操作时如果只是简单的用多线程这么一个操作而不给用户知道当前的下载进度的话那么用户将不知道已经下载了多少，甚至有可能直接关闭了主应用程序。那就杯具了。</p>
 <p>这时候就涉及到在另外的线程中来更新UI，但是WPF却明确的规定：UI元素只能由其主线程来操作，其他任何线程都不可以直接操作UI。而实时的下载进度又不能通过调用某个回调函数来完成更新UI。<br> WPF中的UI控件，如果我们探究本质，他们都是从DispatcherObject继承，所以都必须由UI线程进行调度和使用，如果我们在其他的后台线程中操作界面相关的元素时，就会出现如下的异常信息：调用线程无法访问此对象，因为另一个线程拥有该对象。</p>
 <p>这时候就是Dispatcher.Invoke方法上场的时间了<br>在 WPF 中，只有创建 DispatcherObject 的线程才能访问该对象。 例如，一个从主 UI 线程派生的后台线程不能更新在该 UI 线程上创建的 Button 的内容。 为了使该后台线程能够访问 Button 的 Content 属性，该后台线程必须将此工作委托给与该 UI 线程关联的 Dispatcher。使用 Invoke 或 BeginInvoke 来完成此操作。 Invoke 是同步操作，而 BeginInvoke 是异步操作。 该操作将按指定的 DispatcherPriority 添加到 Dispatcher 的事件队列中。 </p>
-<p>下面代码实现了我们想要的功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">private delegate void SetTipsValue_dg(long solength, long stlength);</span><br><span class="line">private void SetTipsValue(long solength, long stlength)</span><br><span class="line">&#123;</span><br><span class="line">    block_Tips.Text = &quot;下载中....&quot; + solength + &quot;/&quot; + stlength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool DownloadFile(string URL, string filename)</span><br><span class="line">&#123;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        System.Net.HttpWebRequest Myrq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(URL);</span><br><span class="line">        System.Net.HttpWebResponse myrp = (System.Net.HttpWebResponse)Myrq.GetResponse\(\);</span><br><span class="line">        System.IO.Stream st = myrp.GetResponseStream\(\);</span><br><span class="line">        long stll = myrp.ContentLength;</span><br><span class="line">        System.IO.Stream so = new System.IO.FileStream(filename, System.IO.FileMode.Create);</span><br><span class="line">        byte[] by = new byte[1024];</span><br><span class="line">        int osize = st.Read(by, 0, (int)by.Length);</span><br><span class="line">        while (osize &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            long sol = so.Length;</span><br><span class="line">            long stl = stll;</span><br><span class="line">            this.block_Tips.Dispatcher.Invoke(new SetTipsValue_dg(SetTipsValue), sol, stl);</span><br><span class="line">            so.Write(by, 0, osize);</span><br><span class="line">            osize = st.Read(by, 0, (int)by.Length);</span><br><span class="line">        &#125;</span><br><span class="line">        so.Close\(\);</span><br><span class="line">        st.Close\(\);</span><br><span class="line">        myrp.Close\(\);</span><br><span class="line">        Myrq.Abort\(\);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    catch (System.Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面代码实现了我们想要的功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">private delegate void SetTipsValue_dg(long solength, long stlength);</span><br><span class="line">private void SetTipsValue(long solength, long stlength)</span><br><span class="line">&#123;</span><br><span class="line">    block_Tips.Text &#x3D; &quot;下载中....&quot; + solength + &quot;&#x2F;&quot; + stlength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private bool DownloadFile(string URL, string filename)</span><br><span class="line">&#123;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        System.Net.HttpWebRequest Myrq &#x3D; (System.Net.HttpWebRequest)System.Net.WebRequest.Create(URL);</span><br><span class="line">        System.Net.HttpWebResponse myrp &#x3D; (System.Net.HttpWebResponse)Myrq.GetResponse\(\);</span><br><span class="line">        System.IO.Stream st &#x3D; myrp.GetResponseStream\(\);</span><br><span class="line">        long stll &#x3D; myrp.ContentLength;</span><br><span class="line">        System.IO.Stream so &#x3D; new System.IO.FileStream(filename, System.IO.FileMode.Create);</span><br><span class="line">        byte[] by &#x3D; new byte[1024];</span><br><span class="line">        int osize &#x3D; st.Read(by, 0, (int)by.Length);</span><br><span class="line">        while (osize &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            long sol &#x3D; so.Length;</span><br><span class="line">            long stl &#x3D; stll;</span><br><span class="line">            this.block_Tips.Dispatcher.Invoke(new SetTipsValue_dg(SetTipsValue), sol, stl);</span><br><span class="line">            so.Write(by, 0, osize);</span><br><span class="line">            osize &#x3D; st.Read(by, 0, (int)by.Length);</span><br><span class="line">        &#125;</span><br><span class="line">        so.Close\(\);</span><br><span class="line">        st.Close\(\);</span><br><span class="line">        myrp.Close\(\);</span><br><span class="line">        Myrq.Abort\(\);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    catch (System.Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>上面代码首先定义了一个委托：该委托接受两个参数分别代表当前下载量和总下载量，然后定义了一个具体的实现该委托的方法，该方法调用UI来显示数据。</p>
 <p>在下载数据的主函数DownloadFile中调用了this.block_Tips.Dispatcher.Invoke方法并将实现了委托的方法SetTipsValue方法和当前下载量及总下载量的数值传进去我们就完成了整个操作。这样我们在下载数据的时候用另外的线程开启了DownloadFile方法就可以实时的显当前的下载进度了。</p>
 
@@ -555,16 +800,13 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>以前小猪为了累加一个集合中的类容通常会写出类似这样的C#代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> string result =&quot;&quot;:</span><br><span class="line">foreach (var item in items)</span><br><span class="line">&#123;</span><br><span class="line">     result+=item.centent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>大概意思就是遍历集合中的每一项来累加其中的一个值。今天小猪才发现其实.NET的集合已经提供了该功能：那就是小猪现在讲的IEnumerable&lt;T&gt;接口的Aggregate方法:</p>
+        <p>以前小猪为了累加一个集合中的类容通常会写出类似这样的C#代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> string result &#x3D;&quot;&quot;:</span><br><span class="line">foreach (var item in items)</span><br><span class="line">&#123;</span><br><span class="line">     result+&#x3D;item.centent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>大概意思就是遍历集合中的每一项来累加其中的一个值。今天小猪才发现其实.NET的集合已经提供了该功能：那就是小猪现在讲的IEnumerable&lt;T&gt;接口的Aggregate方法:</p>
 <p>该方法提供了两个重载版本</p>
 <p>版本1：<a href="http://msdn.microsoft.com/zh-cn/library/bb548651(v=vs.110" target="_blank" rel="noopener">Aggregate&lt;TSource&gt;(Func&lt;TSource, TSource, TSource&gt;)</a>.aspx)：已重载。 对序列应用累加器函数。 （由 <a href="http://msdn.microsoft.com/zh-cn/library/system.linq.enumerable(v=vs.110" target="_blank" rel="noopener">Enumerable</a>.aspx) 定义。）</p>
-<p>版本2：<a href="http://msdn.microsoft.com/zh-cn/library/bb549218(v=vs.110" target="_blank" rel="noopener">Aggregate&lt;TSource, TAccumulate&gt;(TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;)</a>.aspx)已重载。 对序列应用累加器函数。 将指定的种子值用作累加器初始值。 （由<a href="http://msdn.microsoft.com/zh-cn/library/system.linq.enumerable(v=vs.110" target="_blank" rel="noopener">Enumerable</a>.aspx) 定义。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> public static TAccumulate Aggregate&amp;lt;TSource, TAccumulate&amp;gt;(</span><br><span class="line">	this IEnumerable&amp;lt;TSource&amp;gt; source,</span><br><span class="line">	TAccumulate seed,</span><br><span class="line">	Func&amp;lt;TAccumulate, TSource, TAccumulate&amp;gt; func</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>由定义可以看出该方法是个拓展方法，所以在使用时不需要传递第一个参数。</p>
+<p>版本2：<a href="http://msdn.microsoft.com/zh-cn/library/bb549218(v=vs.110" target="_blank" rel="noopener">Aggregate&lt;TSource, TAccumulate&gt;(TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;)</a>.aspx)已重载。 对序列应用累加器函数。 将指定的种子值用作累加器初始值。 （由<a href="http://msdn.microsoft.com/zh-cn/library/system.linq.enumerable(v=vs.110" target="_blank" rel="noopener">Enumerable</a>.aspx) 定义。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> public static TAccumulate Aggregate&lt;TSource, TAccumulate&gt;(</span><br><span class="line">	this IEnumerable&lt;TSource&gt; source,</span><br><span class="line">	TAccumulate seed,</span><br><span class="line">	Func&lt;TAccumulate, TSource, TAccumulate&gt; func</span><br><span class="line">)</span><br></pre></td></tr></table></figure><br>由定义可以看出该方法是个拓展方法，所以在使用时不需要传递第一个参数。</p>
 <p>此方法的工作原理是对 source 中的每个元素调用一次 func。 每次调用 func 时，Aggregate&lt;TSource, TAccumulate&gt;(IEnumerable&lt;TSource&gt;, TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;) 都将传递序列中的元素和聚合值（作为 func 的第一个参数）。 将 seed 参数的值用作聚合的初始值。 用 func 的结果替换以前的聚合值。Aggregate&lt;TSource, TAccumulate&gt;(IEnumerable&lt;TSource&gt;, TAccumulate, Func&lt;TAccumulate, TSource, TAccumulate&gt;) 返回 func 的最终结果。</p>
 <p>若要简化一般的聚合运算，标准查询运算符还可以包含一个通用的计数方法（即 Count）和四个数值聚合方法（即 Min、Max、Sum 和 Average）。</p>
-<p>下面的代码示例演示如何使用 Aggregate 应用累加器函数和使用种子值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> int[] ints = &#123; 4, 8, 8, 3, 9, 0, 7, 8, 2 &#125;;</span><br><span class="line"></span><br><span class="line">// Count the even numbers in the array, using a seed value of 0.</span><br><span class="line">int numEven = ints.Aggregate(0, (total, next) =&amp;gt;next % 2 == 0 ? total + 1 : total);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;The number of even integers is: &#123;0&#125;&quot;, numEven);</span><br><span class="line"></span><br><span class="line">// This code produces the following output:</span><br><span class="line">//</span><br><span class="line">// The number of even integers is: 6</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
+<p>下面的代码示例演示如何使用 Aggregate 应用累加器函数和使用种子值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> int[] ints &#x3D; &#123; 4, 8, 8, 3, 9, 0, 7, 8, 2 &#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Count the even numbers in the array, using a seed value of 0.</span><br><span class="line">int numEven &#x3D; ints.Aggregate(0, (total, next) &#x3D;&gt;next % 2 &#x3D;&#x3D; 0 ? total + 1 : total);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;The number of even integers is: &#123;0&#125;&quot;, numEven);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This code produces the following output:</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; The number of even integers is: 6</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
 <p>&nbsp;</p>
 
       
@@ -734,8 +976,8 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="窗体大小"><a href="#窗体大小" class="headerlink" title="窗体大小"></a>窗体大小</h2><p>调整Windows下的ResizeMode属性： ResizeMode = NoResize  </p>
-<p>Resize属性是控制Windows是否可以改变大小，怎样改变大小的属性。ResizeMode的所有枚举如下：   <table id="memberList" class="members" style="border-top: silver 1px solid; font-family: ; border-right: silver 1px solid; white-space: normal; border-collapse: collapse; border-bottom: silver 1px solid; text-transform: none; word-spacing: 0px; color: ; border-left: silver 1px solid; letter-spacing: normal; line-height: 19px; width: auto; text-indent: 0px; -webkit-text-stroke-width: 0px" cellpadding="2" frame="lhs"> <tbody style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <th class="iconColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="10" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></th> <th class="nameColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="134" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">成员名称</font></th> <th class="descriptionColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">说明</font></th></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">NoResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">无法调整窗口的大小。标题栏中不显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanMinimize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">只能最小化和还原窗口。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，但只有<strong>“最小化”</strong>按钮处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResizeWithGrip</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"> <p style="color: ; margin: 10px auto; line-height: 19px; text-indent: 0px"><font face="Verdana"></font><font color="#cccccc"><span><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。窗口的右下角显示一个大小调整手柄。</font></span></font><font style="font-size: 9.8pt">&nbsp;</font><br></p></td></tr></tbody></table> </p>
-<h2 id="任务栏"><a href="#任务栏" class="headerlink" title="任务栏"></a>任务栏</h2><p> </p><p></p>
+<p>Resize属性是控制Windows是否可以改变大小，怎样改变大小的属性。ResizeMode的所有枚举如下：   <table id="memberList" class="members" style="border-top: silver 1px solid; font-family: ; border-right: silver 1px solid; white-space: normal; border-collapse: collapse; border-bottom: silver 1px solid; text-transform: none; word-spacing: 0px; color: ; border-left: silver 1px solid; letter-spacing: normal; line-height: 19px; width: auto; text-indent: 0px; -webkit-text-stroke-width: 0px" cellpadding="2" frame="lhs"> <tbody style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <th class="iconColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="10" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></th> <th class="nameColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" width="134" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">成员名称</font></th> <th class="descriptionColumn" style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; line-height: 19px; padding-right: 3px" align="center"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">说明</font></th></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">NoResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">无法调整窗口的大小。标题栏中不显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanMinimize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">只能最小化和还原窗口。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，但只有<strong>“最小化”</strong>按钮处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResize</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。</font></span></td></tr> <tr style="border-left-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-width: 1px"> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="10"><span><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">&nbsp;</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px" width="134"><span class="selflink"><font face="Verdana"></font><font style="font-size: 9.8pt" color="#000000">CanResizeWithGrip</font></span></td> <td style="border-top: silver 1px solid; border-right: silver 1px solid; border-collapse: collapse; border-bottom: silver 1px solid; padding-bottom: 3px; padding-top: 3px; padding-left: 3px; border-left: silver 1px solid; padding-right: 3px"> <p style="color: ; margin: 10px auto; line-height: 19px; text-indent: 0px"><font face="Verdana"></font><font color="#cccccc"><span><font style="font-size: 9.8pt" color="#000000">可以调整窗口的大小。同时显示<strong>“最小化”</strong>和<strong>“最大化”</strong>按钮，并且两个按钮均处于启用状态。窗口的右下角显示一个大小调整手柄。</font></span></font><font style="font-size: 9.8pt">&nbsp;</font><br></td></tr></tbody></table> </p>
+<h2 id="任务栏"><a href="#任务栏" class="headerlink" title="任务栏"></a>任务栏</h2><p> </p></p>
 <p>调整Windows下的ShowInTaskbar属性可设置该窗口是否在任务栏上显示！可选值为true或者false</p>
 
       
@@ -815,16 +1057,11 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前一直使用苏飞的HttpHelper类来访问网络，用起来一直感觉很爽。使用其工具直接生成访问代码很是方便。直到昨天下午做到需要使用wpf来post两个字段数据到服务器,服务器使用ASP.NET MVC来接收表单数据时出现了问题。</p>
-<p>首先：按照正常使用习惯来生成的代码是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HttpHelper http = new HttpHelper\(\);</span><br><span class="line">HttpItem item = new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">   URL = &quot;http://localhost:2250/api/login&quot;,//URL     必需项    </span><br><span class="line">    Method = &quot;post&quot;,//URL     可选项 默认为Get   </span><br><span class="line">    IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">    Cookie = &quot;&quot;,//字符串Cookie     可选项   </span><br><span class="line">    Referer =&quot;&quot;,//来源URL     可选项   </span><br><span class="line">    Postdata = &quot;username=1@1.com&amp;amp;password=123456&quot;,//Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout = 100000,//连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   </span><br><span class="line">    UserAgent = &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)&quot;,//用户的浏览器类型，版本，操作系统     可选项有默认值   </span><br><span class="line">    ContentType = &quot;text/html&quot;,//返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect = false,//是否根据301跳转     可选项   </span><br><span class="line">    //CerPath = &quot;d:123.cer&quot;,//证书绝对路径     可选项不需要证书时可以不写这个参数   </span><br><span class="line">    //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    </span><br><span class="line">    ProxyIp = &quot;&quot;,//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    </span><br><span class="line">    //ProxyPwd = &quot;123456&quot;,//代理服务器密码     可选项    </span><br><span class="line">    //ProxyUserName = &quot;administrator&quot;,//代理服务器账户名     可选项   </span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result = http.GetHtml(item);</span><br><span class="line">string html = result.Html;</span><br><span class="line">string cookie = result.Cookie;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>服务器来接受到请求，但是接受到的username 和password字段都是null。 小猪捣鼓了一个下午一直认为是post数据的问题。尝试将其改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=123&amp;amp;password=123&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>甚至是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData = &quot;&#123;username=&apos;123&apos;&amp;amp;password=&apos;123&apos;&#125;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>问题依旧啊！害得我昨天晚上一生气玩dota到12点~:-)</p>
-<p>期间自己编写html代码来测试数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;form action=&quot;http://localhost:2250/api/login&quot; method =&quot;Post&quot;&gt;</span><br><span class="line">    &lt;input type = &quot;text&quot; name = &quot;username&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;password&quot; name = &quot;password&quot;/&gt;</span><br><span class="line">    &lt;input type = &quot;submit&quot; &gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<p>这样测试是能够接受到数据的。各种百度、谷歌、官方论坛找到下列结果<a href="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" title="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" target="_blank" rel="noopener">http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5</a></p>
-<p>原来需要将请求的ContenType，这样HttpWebRequest类会将post数据当成表单数据来处理，这样在ASP.NET MVC后台就可以成功接受到数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContentType = &quot;application/x-www-form-urlencoded&quot;,</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
+<p>首先：按照正常使用习惯来生成的代码是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HttpHelper http &#x3D; new HttpHelper\(\);</span><br><span class="line">HttpItem item &#x3D; new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">   URL &#x3D; &quot;http:&#x2F;&#x2F;localhost:2250&#x2F;api&#x2F;login&quot;,&#x2F;&#x2F;URL     必需项    </span><br><span class="line">    Method &#x3D; &quot;post&quot;,&#x2F;&#x2F;URL     可选项 默认为Get   </span><br><span class="line">    IsToLower &#x3D; false,&#x2F;&#x2F;得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">    Cookie &#x3D; &quot;&quot;,&#x2F;&#x2F;字符串Cookie     可选项   </span><br><span class="line">    Referer &#x3D;&quot;&quot;,&#x2F;&#x2F;来源URL     可选项   </span><br><span class="line">    Postdata &#x3D; &quot;username&#x3D;1@1.com&amp;password&#x3D;123456&quot;,&#x2F;&#x2F;Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout &#x3D; 100000,&#x2F;&#x2F;连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout &#x3D; 30000,&#x2F;&#x2F;写入Post数据超时时间     可选项默认为30000   </span><br><span class="line">    UserAgent &#x3D; &quot;Mozilla&#x2F;5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident&#x2F;5.0)&quot;,&#x2F;&#x2F;用户的浏览器类型，版本，操作系统     可选项有默认值   </span><br><span class="line">    ContentType &#x3D; &quot;text&#x2F;html&quot;,&#x2F;&#x2F;返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect &#x3D; false,&#x2F;&#x2F;是否根据301跳转     可选项   </span><br><span class="line">    &#x2F;&#x2F;CerPath &#x3D; &quot;d:123.cer&quot;,&#x2F;&#x2F;证书绝对路径     可选项不需要证书时可以不写这个参数   </span><br><span class="line">    &#x2F;&#x2F;Connectionlimit &#x3D; 1024,&#x2F;&#x2F;最大连接数     可选项 默认为1024    </span><br><span class="line">    ProxyIp &#x3D; &quot;&quot;,&#x2F;&#x2F;代理服务器ID     可选项 不需要代理 时可以不设置这三个参数    </span><br><span class="line">    &#x2F;&#x2F;ProxyPwd &#x3D; &quot;123456&quot;,&#x2F;&#x2F;代理服务器密码     可选项    </span><br><span class="line">    &#x2F;&#x2F;ProxyUserName &#x3D; &quot;administrator&quot;,&#x2F;&#x2F;代理服务器账户名     可选项   </span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result &#x3D; http.GetHtml(item);</span><br><span class="line">string html &#x3D; result.Html;</span><br><span class="line">string cookie &#x3D; result.Cookie;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>服务器来接受到请求，但是接受到的username 和password字段都是null。 小猪捣鼓了一个下午一直认为是post数据的问题。尝试将其改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData &#x3D; &quot;&#123;username&#x3D;123&amp;password&#x3D;123&#125;&quot;</span><br></pre></td></tr></table></figure><br>甚至是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string postData &#x3D; &quot;&#123;username&#x3D;&#39;123&#39;&amp;password&#x3D;&#39;123&#39;&#125;&quot;</span><br></pre></td></tr></table></figure><br>问题依旧啊！害得我昨天晚上一生气玩dota到12点~:-)</p>
+<p>期间自己编写html代码来测试数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;form action&#x3D;&quot;http:&#x2F;&#x2F;localhost:2250&#x2F;api&#x2F;login&quot; method &#x3D;&quot;Post&quot;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;text&quot; name &#x3D; &quot;username&quot;&#x2F;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;password&quot; name &#x3D; &quot;password&quot;&#x2F;&gt;</span><br><span class="line">    &lt;input type &#x3D; &quot;submit&quot; &gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
+<p>这样测试是能够接受到数据的。各种百度、谷歌、官方论坛找到下列结果<a href="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5" target="_blank" rel="noopener" title="http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5">http://www.sufeinet.com/forum.php?mod=viewthread&amp;tid=7497&amp;highlight=post%2B%B1%ED%B5%A5</a></p>
+<p>原来需要将请求的ContenType，这样HttpWebRequest类会将post数据当成表单数据来处理，这样在ASP.NET MVC后台就可以成功接受到数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ContentType &#x3D; &quot;application&#x2F;x-www-form-urlencoded&quot;,</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
 
       
 
@@ -890,173 +1127,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-csharp/使用Linq快速的操作XML" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/425.html">使用Linq快速的操作XML</a>
-    </h1>
-  
-
-        
-        <a href="/425.html" class="archive-article-date">
-  	<time datetime="2014-02-21T08:06:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="开始内容之前先分享一段话"><a href="#开始内容之前先分享一段话" class="headerlink" title="开始内容之前先分享一段话"></a>开始内容之前先分享一段话</h3><p>有时候，当你知道要做什么的时候就做的很快，比如你要实现个功能，码字的活儿不算很难，做个检索也不会有什么难倒你的。<br>但是，做着做着，你发现好像世界上的工作都在重复，于是你有种心要飞起来的感觉，但总觉得脚步速度太慢，你开始抱怨进度，公司也对你充满期待，于是会给你配备助手，一来二去，你成为了小领导，你不再自己编码了，而且要做什么也都告诉你的助手们了，这时，你陷入了沉思，我该干什么呢？<br>偶然的，你发现某些事情朝着错误的方向发展，用户开始抱怨了，你跳出来，指出助手们的错误，然后事情过去了，你却停不下来，你怕这样的事情再次发生，于是你开始更深的沉思，这次你学会了思考，我要做的就是保持优秀的团队力量，如何保持呢？古板不是个办法，因为古板会使你的团队成员走你的老路，他们会感到单一、重复、枯燥。。。<br>你不能再去写代码以逃避无休无止的思考，因为你写的那点代码也起不到作用，还冷不丁的出个意外需要你公关，你很想突破，突破思维的限制，你发现突破不仅是你的挑战，更是你唯一的出路。 </p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;Columns&gt;</span><br><span class="line">  &lt;column id=&quot;序号&quot;&gt;</span><br><span class="line">    &lt;name&gt;序号&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验项目&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验项目&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;单位&quot;&gt;</span><br><span class="line">    &lt;name&gt;单位&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;标准要求&quot;&gt;</span><br><span class="line">    &lt;name&gt;标准要求&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;检验结果&quot;&gt;</span><br><span class="line">    &lt;name&gt;检验结果&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">  &lt;column id=&quot;结论&quot;&gt;</span><br><span class="line">    &lt;name&gt;结论&lt;/name&gt;</span><br><span class="line">  &lt;/column&gt;</span><br><span class="line">&lt;/Columns&gt;</span><br></pre></td></tr></table></figure>
-<p>以上就是一个Xml文件，我们知道，Xml文件是用来存储数据的，那么我们如何遍历这些数据呢？<br>其实最简单的方法，就是使用Linq：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iTestResultXml=new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;testResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">          iTestResultXml.Add(node.Value);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就可以获得&lt;column/&gt;标签里所有的数据了，并把他们存储到列表iTestResultXml中。<br>在testResult.xml文件中，我们看到，&lt;column/&gt;标签设置了本身的id,而此id并不是他的数据，而是他的一个属性，那么如果我们想获得他的属性而不是他标签里的内容该如何获得呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void GetTestResultXml\(\)</span><br><span class="line">  &#123;</span><br><span class="line">      List&lt;string&gt; iXmlID = new List&lt;string&gt;\(\);</span><br><span class="line">      //定义并从xml文件中加载节点（根节点）</span><br><span class="line">      XElement rootNode = XElement.Load(@&quot;....XmltestResult.xml&quot;);   </span><br><span class="line">      //查询语句: 获得根节点下name子节点（此时的子节点可以跨层次：孙节点、重孙节点......）</span><br><span class="line">      IEnumerable&lt;XElement&gt; targetNodes = from target in rootNode.Descendants(&quot;column&quot;)</span><br><span class="line">                                          select target;</span><br><span class="line">      foreach (XElement node in targetNodes)</span><br><span class="line">      &#123;</span><br><span class="line">            iXmlID.Add(node.Attribute(&quot;id&quot;).Value);   //获取指定属性的方法</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就获取了&lt;column/&gt;标签里id属性的列表iXmlID。</p>
-<p>参考地址：<a href="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" title="http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN" target="_blank" rel="noopener">http://docs.google.com/fileview?id=0B9T0APtVi1fyNjNhM2I4NmEtMTdmOS00NTUzLTljZTUtMDdhZjM4NzIzMGEz&amp;hl=zh_CN</a></p>
-<p><a href="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" title="http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html" target="_blank" rel="noopener">http://www.cnblogs.com/jiajiayuan/archive/2012/02/09/2343512.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/425.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-杂谈/再也不相信”红米”了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/423.html">再也不相信”红米”了</a>
-    </h1>
-  
-
-        
-        <a href="/423.html" class="archive-article-date">
-  	<time datetime="2014-02-15T09:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>尼玛的，作为一个电信吊死档真心不容易，一如电信深似海，从此好手机如路人啊，凡是新出来的或者关注度比较高的小猪不需要卖肾能买的都不支持CDMA制势啊。之前的Nexus5、小猪关注好久结果不能用。另外一方面自己却舍不得这个号码。换号码很麻烦的说。好不容易等到红米电信版出来了。结果又搞了什么抢码。那玩意都是毫秒级的抢法。小猪只是点了一下就得知抢光了~~~</p>
-<p>像什么魅族MX3之类的压根就没有电信版、然后想跟小米争风头的华为荣耀3C也没电信版的。如果华为出电信的小猪会毫不犹豫的去抢啊。毕竟华为的品质小猪还是有底的啊！！</p>
-<p>可怜小猪想买手机的欲望一点一点的被这些奸商给磨灭。最后就让我的lumia 822陪我度余生吧。什么乱七八糟的小猪都不管了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/423.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/19/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/21/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/19/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/21/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1147,11 +1220,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1163,7 +1240,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1171,39 +1248,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1235,6 +1288,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1243,11 +1300,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1263,11 +1352,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1279,18 +1376,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1299,15 +1384,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,6 +1428,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1343,19 +1444,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1363,7 +1452,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1371,7 +1460,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1379,11 +1488,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1403,87 +1512,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1495,15 +1524,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1531,10 +1560,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1543,7 +1568,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1594,9 +1671,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

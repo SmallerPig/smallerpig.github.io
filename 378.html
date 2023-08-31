@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>在ASP.NET MVC中使用Area | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,11 +14,11 @@
 <meta property="og:url" content="http://blog.smallerpig.com/378.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="12345## 前言：	这段时间小猪花了不少功夫在研究ASP.NET MVC的源码上面，可谓思想是了解了不少，用的上用不上却是另外一回事了。！ ##  应用场景： ASP.NET MVC中,是依靠某些文件夹以及类的固定命名规则去组织model实体层，views视图层和控制层的。如果是大规模的应用程序，经常会由不同功能的模块组成，而每个功能模块都由MVC中的三层所构成，因此，随着应用程序规模的增大，">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-30T12:09:55.923Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-12-30T06:47:44.000Z">
+<meta property="article:modified_time" content="2023-05-30T12:09:55.923Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在ASP.NET MVC中使用Area">
-<meta name="twitter:description" content="12345## 前言：	这段时间小猪花了不少功夫在研究ASP.NET MVC的源码上面，可谓思想是了解了不少，用的上用不上却是另外一回事了。！ ##  应用场景： ASP.NET MVC中,是依靠某些文件夹以及类的固定命名规则去组织model实体层，views视图层和控制层的。如果是大规模的应用程序，经常会由不同功能的模块组成，而每个功能模块都由MVC中的三层所构成，因此，随着应用程序规模的增大，">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -176,17 +176,29 @@ var _hmt = _hmt || [];
 另一个问题就是Controller不允許有相同命名的存在，偏偏模块中常有父子关系，有时子模块命名相同就会造成错误。
 
 幸运的是，ASP.NET MVC允许开发者将应用划分为&amp;ldquo;区域&amp;rdquo;(Area)的概念。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Area(区域)简介：</span><br><span class="line"></span><br><span class="line">	每个区域都是按照asp.net mvc的规定对文件目录结构和类的命名规则进行命名。添加方法也很简单，右击项目，点击添加区域，在弹出框里写上Area的名称点击确定即可。</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1、新建&amp;nbsp;Area：右键&amp;nbsp;-&amp;gt;&amp;nbsp;Add&amp;nbsp;-&amp;gt;&amp;nbsp;Area...</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2、继承&amp;nbsp;AreaRegistration，配置对应此&amp;nbsp;Area&amp;nbsp;的路由</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3、在&amp;nbsp;Global&amp;nbsp;中通过&amp;nbsp;AreaRegistration.RegisterAllAreas\(\);&amp;nbsp;注册此&amp;nbsp;Area</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4、有了&amp;nbsp;Area，就一定要配置路由的命名空间</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">Area(区域)简介：</span><br><span class="line"></span><br><span class="line">	每个区域都是按照asp.net mvc的规定对文件目录结构和类的命名规则进行命名。添加方法也很简单，右击项目，点击添加区域，在弹出框里写上Area的名称点击确定即可。</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1、新建&amp;nbsp;Area：右键&amp;nbsp;-&gt;&amp;nbsp;Add&amp;nbsp;-&gt;&amp;nbsp;Area...</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2、继承&amp;nbsp;AreaRegistration，配置对应此&amp;nbsp;Area&amp;nbsp;的路由</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3、在&amp;nbsp;Global&amp;nbsp;中通过&amp;nbsp;AreaRegistration.RegisterAllAreas\(\);&amp;nbsp;注册此&amp;nbsp;Area</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;*&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4、有了&amp;nbsp;Area，就一定要配置路由的命名空间</span><br></pre></td></tr></table></figure>
 <p>## </p>
 <p>Area的路由</p>
 <pre><code>在添加好了区域之后，vs会自动帮我们注册Area的路由信息：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public class AdminAreaRegistration : AreaRegistration</span><br><span class="line">&#123;</span><br><span class="line">    public override string AreaName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return &amp;quot;Admin&amp;quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void RegisterArea(AreaRegistrationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        context.MapRoute(</span><br><span class="line">            &amp;quot;Admin_default&amp;quot;,</span><br><span class="line">            &amp;quot;Admin/&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">            new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">问题</span><br><span class="line"></span><br><span class="line">	试想如果这时候有这样的情形：</span><br><span class="line"></span><br><span class="line">	如果有一个Area叫Database，在它的下面有一个Controller名字叫做Browse。</span><br><span class="line"></span><br><span class="line">	另外我在顶层也有一个Controller，名字也叫Browse。</span><br><span class="line"></span><br><span class="line">	那么我们在&lt;span style=&quot;font-size: 13px; line-height: 1.6em;&quot;&gt;输入http://localhost/Browse，我们得到的将是一个异常:&amp;nbsp;Multiple types were found that match the controller named &amp;#39;Browse&amp;#39;.&amp;nbsp;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">	而输入http://localhost/Database/Browse，我们却能够正常地访问到 MvcApplication.Areas.Database.Controllers.BrowseController。</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public class AdminAreaRegistration : AreaRegistration</span><br><span class="line">&#123;</span><br><span class="line">    public override string AreaName</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return &quot;Admin&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void RegisterArea(AreaRegistrationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        context.MapRoute(</span><br><span class="line">            &quot;Admin_default&quot;,</span><br><span class="line">            &quot;Admin&#x2F;&#123;controller&#125;&#x2F;&#123;action&#125;&#x2F;&#123;id&#125;&quot;,</span><br><span class="line">            new &#123; controller &#x3D; &quot;Console&quot;, action &#x3D; &quot;Login&quot;, id &#x3D; UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#<code>`</code></p>
+<p>## </p>
+<p>问题</p>
+<pre><code>试想如果这时候有这样的情形：
+
+如果有一个Area叫Database，在它的下面有一个Controller名字叫做Browse。
+
+另外我在顶层也有一个Controller，名字也叫Browse。
+
+那么我们在&lt;span style=&quot;font-size: 13px; line-height: 1.6em;&quot;&gt;输入http://localhost/Browse，我们得到的将是一个异常:&amp;nbsp;Multiple types were found that match the controller named &amp;#39;Browse&amp;#39;.&amp;nbsp;&lt;/span&gt;
+
+而输入http://localhost/Database/Browse，我们却能够正常地访问到 MvcApplication.Areas.Database.Controllers.BrowseController。
+</code></pre><p>#<code>`</code></p>
 <p>## </p>
 <p>原来：</p>
 <pre><code>在注册Area的路由时，如果没有填写命名空间的话，则会默认使用Area所在的命名空间。如此一来，使用Area的路由在寻找Controller时，只会在Area所在的空间下寻找相应的Controller，那就不存在与顶层Controller的冲突问题了，可是顶层的同名Controller问题如何解决呢，这个好办，在顶层路由映射的时候主动加上命名空间吧，这样子就皆大欢喜，你用你的Browse，我用我的Browse，互不相干。
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">     routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">     routes.MapRoute(</span><br><span class="line">        &amp;quot;Default&amp;quot;, // Route name</span><br><span class="line">        &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;, // URL with parameters</span><br><span class="line">        new &#123; controller = &amp;quot;Home&amp;quot;, action = &amp;quot;Index&amp;quot;, id = UrlParameter.Optional &#125;,// Parameter defaults</span><br><span class="line">        new[] &#123; &amp;quot;Web.Controllers&amp;quot; &#125;// Namespaces 引入默认的命名空间</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">让起始页为某Area的页面：</span><br><span class="line"></span><br><span class="line">	修改RoutConfig代码：</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">    routes.IgnoreRoute(&amp;quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&amp;quot;);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: &amp;quot;Default&amp;quot;,</span><br><span class="line">        url: &amp;quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&amp;quot;,</span><br><span class="line">        defaults: new &#123; controller = &amp;quot;Console&amp;quot;, action = &amp;quot;Login&amp;quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">    ).DataTokens.Add(&amp;quot;area&amp;quot;,&amp;quot;Admin&amp;quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">     routes.IgnoreRoute(&quot;&#123;resource&#125;.axd&#x2F;&#123;*pathInfo&#125;&quot;);</span><br><span class="line"></span><br><span class="line">     routes.MapRoute(</span><br><span class="line">        &quot;Default&quot;, &#x2F;&#x2F; Route name</span><br><span class="line">        &quot;&#123;controller&#125;&#x2F;&#123;action&#125;&#x2F;&#123;id&#125;&quot;, &#x2F;&#x2F; URL with parameters</span><br><span class="line">        new &#123; controller &#x3D; &quot;Home&quot;, action &#x3D; &quot;Index&quot;, id &#x3D; UrlParameter.Optional &#125;,&#x2F;&#x2F; Parameter defaults</span><br><span class="line">        new[] &#123; &quot;Web.Controllers&quot; &#125;&#x2F;&#x2F; Namespaces 引入默认的命名空间</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">让起始页为某Area的页面：</span><br><span class="line"></span><br><span class="line">	修改RoutConfig代码：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">public static void RegisterRoutes(RouteCollection routes)</span><br><span class="line">&#123;</span><br><span class="line">    routes.IgnoreRoute(&quot;&#123;resource&#125;.axd&#x2F;&#123;*pathInfo&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    routes.MapRoute(</span><br><span class="line">        name: &quot;Default&quot;,</span><br><span class="line">        url: &quot;&#123;controller&#125;&#x2F;&#123;action&#125;&#x2F;&#123;id&#125;&quot;,</span><br><span class="line">        defaults: new &#123; controller &#x3D; &quot;Console&quot;, action &#x3D; &quot;Login&quot;, id &#x3D; UrlParameter.Optional &#125;</span><br><span class="line">    ).DataTokens.Add(&quot;area&quot;,&quot;Admin&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <pre><code>注意后面的DataTokens.Add方法！
 
 Done！
@@ -469,11 +481,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -485,7 +501,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,39 +509,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -557,6 +549,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -565,11 +561,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,11 +613,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -601,18 +637,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -621,15 +645,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -657,6 +689,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -665,19 +705,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -685,7 +713,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -693,7 +721,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -701,11 +749,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -725,87 +773,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -817,15 +785,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -853,10 +821,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -865,7 +829,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -916,9 +932,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/24/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -149,6 +148,276 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-csharp/visual-studio-2012-e4-b8-ad-e7-9a-84-e4-b8-ba-e5-88-9b-e5-bb-ba-e7-b1-bb-e6-97-b6-e7-9a-84-e6-b7-bb-e5-8a-a0-e6-b3-a8-e9-87-8a-e6-a8-a1-e6-9d-bf" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/351.html">Visual Studio 2012中的为创建类时的添加注释模板</a>
+    </h1>
+  
+
+        
+        <a href="/351.html" class="archive-article-date">
+  	<time datetime="2013-11-27T07:54:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>我们往往需要给类添加注释，我们可以把注释块复制出来，放到文件中，然后在需要的时候，复制、粘贴。这样的重复劳动增加了程序员的体力劳动，而VS中给我们提供了项模版，我们只需要在其中修改一点点模版就能达到这样的效果。
+
+&amp;nbsp;
+
+首先，找到类模版的位置：C:Program Files (x86)Microsoft Visual Studio 11.0Common7IDEItemTemplatesCSharpCode2052Class，打开Class.cs，为其添加头注释：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> </span><br><span class="line">&#x2F;* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">* 类名称：$safeitemrootname$</span><br><span class="line">* 类描述：</span><br><span class="line">* 创建人：$username$</span><br><span class="line">* 创建时间：$time$</span><br><span class="line">* 修改人：</span><br><span class="line">* 修改时间：</span><br><span class="line">* 修改备注：</span><br><span class="line">* @version 1.0</span><br><span class="line">* &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;*&#x2F;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">$if$ ($targetframeworkversion$ &gt;&#x3D; 3.5)using System.Linq;</span><br><span class="line">$endif$using System.Text;</span><br><span class="line">$if$ ($targetframeworkversion$ &gt;&#x3D; 4.5)using System.Threading.Tasks;</span><br><span class="line">$endif$</span><br><span class="line">namespace $rootnamespace$</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; $safeitemrootname$</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public class $safeitemrootname$</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>这里的$safeitemrootname$和$username$是由系统提供给我们的，还有一些其他参数：
+
+参数 说明
+
+clrversion 公共语言运行库 (CLR) 的当前版本。
+
+itemname 用户在添加新项对话框中提供的名称。
+
+machinename 当前的计算机名称（例如，Computer01）。
+
+projectname 用户在新建项目对话框中提供的名称。
+
+registeredorganization HKLMSoftwareMicrosoftWindows NTCurrentVersionRegisteredOrganization 中的注册表项值。
+
+rootnamespace 当前项目的根命名空间。此参数用于替换正向项目中添加的项中的命名空间。
+
+safeitemname 用户在&amp;ldquo;添加新项&amp;rdquo;对话框中提供的名称，名称中移除了所有不安全的字符和空格。
+
+safeprojectname 用户在&amp;ldquo;新建项目&amp;rdquo;对话框中提供的名称，名称中移除了所有不安全的字符和空格。
+
+time 以 DD/MM/YYYY 00:00:00 格式表示的当前时间。
+
+userdomain 当前的用户域。
+
+username 当前的用户名。
+
+year 以 YYYY 格式表示的当前年份。
+
+&amp;nbsp;
+
+&amp;nbsp;
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/IDE//" class="article-tag-list-link color4">IDE</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/351.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp.net/设置ASP.NET MVC站点默认页为html页" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/346.html">设置ASP.NET MVC站点默认页为html页</a>
+    </h1>
+  
+
+        
+        <a href="/346.html" class="archive-article-date">
+  	<time datetime="2013-11-15T03:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#<br>    问题由来</p>
+<pre><code>部署了一个Asp.Net MVC的站点,其功能只是作为移动端的服务器，服务器空间里面除了CMS以外就没有其他的页面了。这对于我们来说确实是有点浪费了。
+
+可以放点静态的啥小东西放在上面玩一玩。
+
+&amp;nbsp;
+
+所以就出现了标题中出现的问题。
+</code></pre><p>#<br>    解决方案：</p>
+<p>#<code>`</code></p>
+<p>## </p>
+<p>方法1：</p>
+<pre><code>在Global.asax文件中增加
+
+protected void Application_BeginRequest(object sender, EventArgs e)
+
+{
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if (Context.Request.FilePath == &amp;quot;/&amp;quot;) Context.RewritePath(&amp;quot;index.html&amp;quot;);
+
+}
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>方法2：</p>
+<pre><code>新建一个路由DefaultController，并把它设置为默认路由，在Action中增加
+
+Redirect(Url.Content(&amp;quot;~/index.html&amp;quot;));
+
+此方法需要修改web.config配置
+
+在Web.config文件中的&amp;lt;compilation&amp;gt;节点中增加：
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;buildProviders&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;add extension=&amp;quot;.htm&amp;quot; type=&amp;quot;System.Web.Compilation.PageBuildProvider&amp;quot; /&amp;gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/buildProviders&amp;gt;
+
+&amp;nbsp;&amp;nbsp;
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>方法3：</p>
+<pre><code>1)站点根目录增加了default.html;
+
+2)修改Global.asax默认的路由注册，去掉默认controller：
+
+routes.MapRoute(
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;Default&amp;quot;, // 路由名称
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;{controller}/{action}/{id}&amp;quot;, // 带有参数的 URL
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;new {action = &amp;quot;Index&amp;quot;, id = UrlParameter.Optional } // 参数默认值
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;);&amp;nbsp;
+
+&amp;nbsp;
+
+将iis中的默认文档配置为index.html
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/346.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-asp.net/在ASP.NET MVC 中获取当前URL、controller、action" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -175,7 +444,15 @@ var _hmt = _hmt || [];
 <pre><code>string&amp;nbsp;url=Request.Url.ToString\(\);
 
 &amp;nbsp;
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">【2】获取&amp;nbsp;虚拟目录名+页面名+参数：&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	string&amp;nbsp;url=Request.RawUrl;</span><br><span class="line"></span><br><span class="line">	(或&amp;nbsp;string&amp;nbsp;url=Request.Url.PathAndQuery;)</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>【2】获取&nbsp;虚拟目录名+页面名+参数：&nbsp;</p>
+<pre><code>string&amp;nbsp;url=Request.RawUrl;
+
+(或&amp;nbsp;string&amp;nbsp;url=Request.Url.PathAndQuery;)
+
+&amp;nbsp;
+</code></pre><p>#<code>`</code></p>
 <p>## </p>
 <p>【3】获取&nbsp;虚拟目录名+页面名：</p>
 <pre><code>string&amp;nbsp;url=HttpContext.Current.Request.Url.AbsolutePath;
@@ -183,13 +460,25 @@ var _hmt = _hmt || [];
 (或&amp;nbsp;string&amp;nbsp;url=&amp;nbsp;HttpContext.Current.Request.Path;)
 
 &amp;nbsp;
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">【4】获取&amp;nbsp;域名：</span><br><span class="line"></span><br><span class="line">	string&amp;nbsp;url=HttpContext.Current.Request.Url.Host;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure></p>
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>【4】获取&nbsp;域名：</p>
+<pre><code>string&amp;nbsp;url=HttpContext.Current.Request.Url.Host;
+
+&amp;nbsp;
+</code></pre><p>#<code>`</code></p>
 <p>## </p>
 <p>【5】获取&nbsp;参数：&nbsp;</p>
 <pre><code>string&amp;nbsp;url=&amp;nbsp;HttpContext.Current.Request.Url.Query;&amp;nbsp;
 
 &amp;nbsp;
-</code></pre><p>#<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">【6】获取&amp;nbsp;端口：</span><br><span class="line"></span><br><span class="line">	Request.Url.Port</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br></pre></td></tr></table></figure></p>
+</code></pre><p>#<code>`</code></p>
+<p>## </p>
+<p>【6】获取&nbsp;端口：</p>
+<pre><code>Request.Url.Port
+
+&amp;nbsp;
+</code></pre><p><code>`</code></p>
 <p>## </p>
 <p>二、当前controller、action的获取&nbsp;</p>
 <pre><code>RouteData.Route.GetRouteData(this.HttpContext).Values[&quot;controller&quot;]&amp;nbsp;
@@ -409,12 +698,12 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 <p>后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。</p>
 <p>反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题;</p>
 <p>但小于30M又是一切OK，难道是上传的文件大小有所限制？</p>
-<p>检查web.config的httpRuntime ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;httpRuntime maxRequestLength=&quot;2097151&quot; executionTimeout=&quot;50000&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>检查web.config的httpRuntime ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;httpRuntime maxRequestLength&#x3D;&quot;2097151&quot; executionTimeout&#x3D;&quot;50000&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure></p>
 <p>已经是很大值了。</p>
 <p>因为无法正确得到详细的错误信息，就用一个普通的FORM提交一个FileUpload测试，原来真是web.config的设置问题：</p>
 <h1 id="报错信息："><a href="#报错信息：" class="headerlink" title="报错信息："></a>报错信息：</h1><p>最可能的原因: Web 服务器上的请求筛选被配置为拒绝该请求，因为内容长度超过配置的值。 可尝试的操作: 确认 applicationhost.config 或 web.config 文件中的 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。 </p>
 <p>链接和更多信息<br>这是一项安全功能。请不要更改此功能，除非您完全清楚更改的影响范围。您可以配置 IIS 7.0 服务器以拒绝内容长度大于指定值的请求。如果请求的内容长度大于所配置的长度，便会返回此错误。如果需要增加内容长度，请修改 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>原来IIS7的上传文件大小，即便是在经典模式下，也一定要在system.webServer里设置，加上去就OK了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;security&gt;</span><br><span class="line"></span><br><span class="line">    &lt;requestFiltering &gt;</span><br><span class="line"></span><br><span class="line">      &lt;requestLimits maxAllowedContentLength=&quot;1073741824&quot; &gt;&lt;/requestLimits&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/requestFiltering&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/security&gt;</span><br><span class="line"></span><br><span class="line">&lt;/system.webServer&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>原来IIS7的上传文件大小，即便是在经典模式下，也一定要在system.webServer里设置，加上去就OK了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;security&gt;</span><br><span class="line"></span><br><span class="line">    &lt;requestFiltering &gt;</span><br><span class="line"></span><br><span class="line">      &lt;requestLimits maxAllowedContentLength&#x3D;&quot;1073741824&quot; &gt;&lt;&#x2F;requestLimits&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;requestFiltering&gt;</span><br><span class="line"></span><br><span class="line">  &lt;&#x2F;security&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;system.webServer&gt;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -901,119 +1190,6 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
 
 
   
-    <article id="post-设计模式/小猪学设计模式之——装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/323.html">小猪学设计模式之—装饰者模式</a>
-    </h1>
-  
-
-        
-        <a href="/323.html" class="archive-article-date">
-  	<time datetime="2013-10-09T09:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>装饰者模式</strong></p>
-<p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
-<p><strong>装饰者模式的工作原理：</strong></p>
-<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
-<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
-<p><strong>装饰者模式UML图</strong></p>
-<p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
-<p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
-<p>Decorator：具有特定装饰功能的类，用来装饰ConcreteComponent类。</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><strong>装饰者模式的应用场景：</strong></p>
-<p>1、  想透明并且动态地给对象增加新的职责的时候。</p>
-<p>2、  给对象增加的职责，在未来存在增加或减少可能。</p>
-<p>3、  用继承扩展功能不太现实的情况下，应该考虑用组合的方式。</p>
-<p><strong>装饰者模式的优点：</strong></p>
-<p>1、  通过组合而非继承的方式，实现了动态扩展对象的功能的能力。</p>
-<p>2、  有效避免了使用继承的方式扩展对象功能而带来的灵活性差，子类无限制扩张的问题。</p>
-<p>3、  充分利用了继承和组合的长处和短处，在灵活性和扩展性之间找到完美的平衡点。</p>
-<p>4、  装饰者和被装饰者之间虽然都是同一类型，但是它们彼此是完全独立并可以各自独立任意改变的。</p>
-<p>5、  遵守大部分GRASP原则和常用设计原则，高内聚、低偶合。</p>
-<p><strong>装饰者模式的缺点：</strong></p>
-<p>1、  装饰链不能过长，否则会影响效率。</p>
-<p>2、  因为所有对象都是继承于Component,所以如果Component内部结构发生改变，则不可避免地影响所有子类(装饰者和被装饰者)，也就是说，通过继承建立的关系总是脆弱地，如果基类改变，势必影响对象的内部，而通过组合(Decoator HAS A Component)建立的关系只会影响被装饰对象的外部特征。</p>
-<p>3、只在必要的时候使用装饰者模式，否则会提高程序的复杂性，增加系统维护难度。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/323.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-设计模式/小猪学设计模式之—装饰者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1037,8 +1213,7 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
         <p><strong>装饰者模式</strong></p>
 <p>动态地给一个对象添加一些额外的职责，就增加功能来说，Decorator模式比生成子类更为灵活。</p>
 <p><strong>装饰者模式的工作原理：</strong></p>
-<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=&gt;装饰=&gt;B=&gt;装饰=&gt;C=&gt;装饰=&gt;D=&gt;装饰=&gt;实体</span><br></pre></td></tr></table></figure></p>
-<p>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
+<p>可以创建始于Decorator对象（负责新的功能的对象）终于原对象的一个对象“链”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A&#x3D;&gt;装饰&#x3D;&gt;B&#x3D;&gt;装饰&#x3D;&gt;C&#x3D;&gt;装饰&#x3D;&gt;D&#x3D;&gt;装饰&#x3D;&gt;实体</span><br></pre></td></tr></table></figure><br>装饰者模式隐含的是通过一条条装饰链去实现具体对象，每一条装饰链都始于一个Componet对象，每个装饰者对象后面紧跟着另一个装饰者对象，而对象链终于ConcreteComponet对象。</p>
 <p><strong>装饰者模式UML图</strong></p>
 <p>ConcreteComponent：让Decorator对象为自己添加功能。有时候使用ConcreteComponent的派生类提供核心功能，在这种情况就是用ConcreteComponent替代了Component的功能，而且装饰者是继承于ConcreteComponent的子类。</p>
 <p>Component：定义ConcreteComponent和Decorator类要实现的方法，简单来说如果一个类继承于该类就具有装饰或被装饰能力。</p>
@@ -1094,101 +1269,6 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
       
         <p class="article-more-link">
           <a class="article-more-a" href="/323.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-设计模式/小猪学设计模式-设计原则—依赖倒转原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/321.html">设计原则—依赖倒转原则</a>
-    </h1>
-  
-
-        
-        <a href="/321.html" class="archive-article-date">
-  	<time datetime="2013-10-09T06:39:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>1：高层模块不应该依赖低层模块，两者都应该依赖其抽象；<br>2：抽象不应该依赖细节；<br>3：细节应该依赖抽象。</p>
-<p>更加精简的定义就是“面向接口编程”——OOD（Object-Oriented Design，面向对象设计）的精髓之一。</p>
-<h2 id="为什么要倒转？"><a href="#为什么要倒转？" class="headerlink" title="为什么要倒转？"></a>为什么要倒转？</h2><p>原因：面向过程的开发时，为了使常用代码可以复用，一般都会把这些常用代码写成许多函数的程序库，这样我们在做新项目的时候，去调用这些底层的函数就可以了，比如，我们做的项目大多需要访问数据库，所以就把访问数据库的代码写成了函数，这也叫做高层模块依赖底层模块，但问题也就出在这里，我们要做新的项目，发现业务逻辑的高层模块都是一样的，但客户端希望使用不同的数据库或存储信息方式，这时就出现麻烦了，我们希望能够再次使用这些高层模块，但发现这些高层模块都是与底层的访问数据库绑定在一起的，没有办法复用这些高层模块，这样显然不合理，而如果不管高层模块还是底层模块都是依赖于抽象，具体一点就是接口或抽象类，只要接口是稳定的，那么任何一个的更改都不会影响到其它方面，这就使得无论是高层模块还是底层模块都可以很容易的被复用，这才是最好的办法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">依赖倒转</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">IOC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/321.html">展开全文 >></a>
         </p>
       
 
@@ -1224,7 +1304,7 @@ IE下，event对象有 srcElement 属性，没有target属性；firefox下，eve
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/23/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/25/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/23/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/25/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1315,11 +1395,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1331,7 +1415,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1339,39 +1423,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1403,6 +1463,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1411,11 +1475,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1431,11 +1527,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1447,18 +1551,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1467,15 +1559,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1503,6 +1603,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1511,19 +1619,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1531,7 +1627,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1539,7 +1635,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1547,11 +1663,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1571,87 +1687,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1663,15 +1699,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1699,10 +1735,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1711,7 +1743,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1762,9 +1846,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

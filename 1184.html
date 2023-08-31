@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>跟着小猪来做小程序开发吧——获取用户openid | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="休息了一个周末之后我们今天继续来小程序的开发。 在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。 其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。 研究下他的代码，主要在app.js文件中。123456789101112131415161718192021222324252627282930//app.jsApp(&amp;#123;  onLaunch: f">
-<meta name="keywords" content="微信,wechat,小程序">
+  <meta name="description" content="休息了一个周末之后我们今天继续来小程序的开发。 在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。 其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。 研究下他的代码，主要在app.js文件中。123456789101112131415161718192021222324252627282930&#x2F;&#x2F;app.jsApp(&amp;#123;  o">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跟着小猪来做小程序开发吧——获取用户openid">
 <meta property="og:url" content="http://blog.smallerpig.com/1184.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="休息了一个周末之后我们今天继续来小程序的开发。 在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。 其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。 研究下他的代码，主要在app.js文件中。123456789101112131415161718192021222324252627282930//app.jsApp(&amp;#123;  onLaunch: f">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="休息了一个周末之后我们今天继续来小程序的开发。 在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。 其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。 研究下他的代码，主要在app.js文件中。123456789101112131415161718192021222324252627282930&#x2F;&#x2F;app.jsApp(&amp;#123;  o">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/88e12591gy1fehnn69xyvj21kw0td10l.jpg">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/88e12591gy1fehnn7j46kj21kw0vo0yv.jpg">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:published_time" content="2017-04-10T08:21:31.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="wechat">
+<meta property="article:tag" content="小程序">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="跟着小猪来做小程序开发吧——获取用户openid">
-<meta name="twitter:description" content="休息了一个周末之后我们今天继续来小程序的开发。 在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。 其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。 研究下他的代码，主要在app.js文件中。123456789101112131415161718192021222324252627282930//app.jsApp(&amp;#123;  onLaunch: f">
 <meta name="twitter:image" content="http://wx2.sinaimg.cn/mw690/88e12591gy1fehnn69xyvj21kw0td10l.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -50,8 +52,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -175,18 +177,18 @@ var _hmt = _hmt || [];
         <p>休息了一个周末之后我们今天继续来小程序的开发。</p>
 <p>在上一篇的介绍中，小猪向大家简单介绍了微信小程序的默认demo。</p>
 <p>其中有一段是涉及到用户的用户信息的，我们在小程序里也看到了我的头像和昵称信息。</p>
-<p>研究下他的代码，主要在<code>app.js</code>文件中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">//app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    //调用API从本地缓存中获取数据</span><br><span class="line">    var logs = wx.getStorageSync(&apos;logs&apos;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&apos;logs&apos;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  getUserInfo:function(cb)&#123;</span><br><span class="line">    var that = this</span><br><span class="line">    if(this.globalData.userInfo)&#123;</span><br><span class="line">      typeof cb == &quot;function&quot; &amp;amp;&amp;amp; cb(this.globalData.userInfo)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      //调用登录接口</span><br><span class="line">      wx.login(&#123;</span><br><span class="line">        success: function \(\) &#123;</span><br><span class="line">          wx.getUserInfo(&#123;</span><br><span class="line">            success: function (res) &#123;</span><br><span class="line">              that.globalData.userInfo = res.userInfo</span><br><span class="line">              typeof cb == &quot;function&quot; &amp;amp;&amp;amp; cb(that.globalData.userInfo)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>研究下他的代码，主要在<code>app.js</code>文件中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    &#x2F;&#x2F;调用API从本地缓存中获取数据</span><br><span class="line">    var logs &#x3D; wx.getStorageSync(&#39;logs&#39;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&#39;logs&#39;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  getUserInfo:function(cb)&#123;</span><br><span class="line">    var that &#x3D; this</span><br><span class="line">    if(this.globalData.userInfo)&#123;</span><br><span class="line">      typeof cb &#x3D;&#x3D; &quot;function&quot; &amp;&amp; cb(this.globalData.userInfo)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      &#x2F;&#x2F;调用登录接口</span><br><span class="line">      wx.login(&#123;</span><br><span class="line">        success: function \(\) &#123;</span><br><span class="line">          wx.getUserInfo(&#123;</span><br><span class="line">            success: function (res) &#123;</span><br><span class="line">              that.globalData.userInfo &#x3D; res.userInfo</span><br><span class="line">              typeof cb &#x3D;&#x3D; &quot;function&quot; &amp;&amp; cb(that.globalData.userInfo)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 <p>上述代码从15行开始涉及到调用登录接口。这里调用了小程序的api：<code>wx.login</code>。这里说明下，小程序给开发者封装好的API都是直接使用js的方法来调用，开发者直接使用类似<code>wx.login\(\)</code>的方法就可以与微信的服务器进行交互，开发者不需要知道小程序框架到底调用了哪个地址，传了哪些参数。<br>紧接着调用<code>wx.getUserInfo</code>接口，该接口可直接返回用户数据.具体调用方法可参考<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject" target="_blank" rel="noopener">官方文档</a></p>
 <p>为了查看返回结果，我们在代码18行位置插入两句打印日志代码，可以查看具体的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getUserInfo(&#123;</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">          console.log(res.userInfo)</span><br><span class="line">          console.log(res.encryptedData)</span><br><span class="line">          that.globalData.userInfo = res.userInfo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getUserInfo(&#123;</span><br><span class="line">      success: function (res) &#123;</span><br><span class="line">          console.log(res.userInfo)</span><br><span class="line">          console.log(res.encryptedData)</span><br><span class="line">          that.globalData.userInfo &#x3D; res.userInfo</span><br></pre></td></tr></table></figure>
 <p>可以看到控制台中打印出了对应的结果。<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1fehnn69xyvj21kw0td10l.jpg" alt="图片地址"></p>
 <h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>接下来的例子小猪将使用官方hello world的例子，一般在我们的程序中不会将用户的标识直接展示给用户，作为演示，我们将本来显示昵称的位置的下方显示出该小程序对应该用户的openid。</p>
 <h2 id="获取用户的openid"><a href="#获取用户的openid" class="headerlink" title="获取用户的openid"></a>获取用户的openid</h2><p>这里我们看到通过上述接口获取的信息都是一些比较基本的信息，包括：昵称、头像地址、性别等公开的数据。这些数据可以方便的显示在用户界面上，可是有时候我们需要系统的识别出该用户，也就是需要该用户的辨识。</p>
 <p>在小程序的代码中，服务器端代码有两种方式来获取到用户的openID。</p>
 <h3 id="方式一，通过wx-login接口"><a href="#方式一，通过wx-login接口" class="headerlink" title="方式一，通过wx.login接口"></a>方式一，通过wx.login接口</h3><p>直接调用<code>wx.login</code>接口，该接口会返回一个code字段，利用该code值可以向微信服务器开放的API请求用户的openid，例如下列flask代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from flask import Flask, request</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">appid = &apos;wx8fa41e5f33e*****&apos;</span><br><span class="line">secret = &apos;47d4ed43a683f800e66169c09dd*****&apos;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/user/getuserinfo&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">def getuserinfo\(\):</span><br><span class="line">    code = request.data</span><br><span class="line">    print code</span><br><span class="line">    url = &apos;https://api.weixin.qq.com/sns/jscode2session?appid=%s&amp;amp;secret=%s&amp;amp;js_code=%s&amp;amp;grant_type=authorization_code&apos; % (appid, secret, code)</span><br><span class="line">    r = requests.get(url)</span><br><span class="line">    result = r.text</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(debug=True)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">from flask import Flask, request</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line">appid &#x3D; &#39;wx8fa41e5f33e*****&#39;</span><br><span class="line">secret &#x3D; &#39;47d4ed43a683f800e66169c09dd*****&#39;</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;user&#x2F;getuserinfo&#39;, methods&#x3D;[&#39;GET&#39;, &#39;POST&#39;])</span><br><span class="line">def getuserinfo\(\):</span><br><span class="line">    code &#x3D; request.data</span><br><span class="line">    print code</span><br><span class="line">    url &#x3D; &#39;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;sns&#x2F;jscode2session?appid&#x3D;%s&amp;secret&#x3D;%s&amp;js_code&#x3D;%s&amp;grant_type&#x3D;authorization_code&#39; % (appid, secret, code)</span><br><span class="line">    r &#x3D; requests.get(url)</span><br><span class="line">    result &#x3D; r.text</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(debug&#x3D;True)</span><br></pre></td></tr></table></figure>
 <p>配合小程序的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    //调用API从本地缓存中获取数据</span><br><span class="line">    var logs = wx.getStorageSync(&apos;logs&apos;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&apos;logs&apos;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  getUserInfo:function(cb)&#123;</span><br><span class="line">    var that = this</span><br><span class="line">    if(this.globalData.userInfo)&#123;</span><br><span class="line">      typeof cb == &quot;function&quot; &amp;amp;&amp;amp; cb(this.globalData.userInfo)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      //调用登录接口</span><br><span class="line">      wx.login(&#123;</span><br><span class="line">        success: function (r) &#123;</span><br><span class="line">          console.log(r)</span><br><span class="line">              wx.request(&#123;</span><br><span class="line">                url: &apos;https://***.smallerpig.com/user/getuserinfo&apos;,</span><br><span class="line">                data: r.code,</span><br><span class="line">                method: &apos;POST&apos;, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT</span><br><span class="line">                // header: &#123;&#125;, // 设置请求的 header</span><br><span class="line">                success: function(res)&#123;</span><br><span class="line">                  console.log(&apos;success&apos;)</span><br><span class="line">                  that.globalData.openid = res.data.openid</span><br><span class="line">                  console.log(res.data.openid)</span><br><span class="line">                  // success</span><br><span class="line">                &#125;,</span><br><span class="line">                fail: function(res) &#123;</span><br><span class="line">                  console.log(&apos;fail&apos;)</span><br><span class="line">                  console.log(res)</span><br><span class="line">                  // fail</span><br><span class="line">                &#125;,</span><br><span class="line">                complete: function(res) &#123;</span><br><span class="line">                  console.log(&apos;complete&apos;)</span><br><span class="line">                  console.log(res)</span><br><span class="line">                  // complete</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;)</span><br><span class="line">          wx.getUserInfo(&#123;</span><br><span class="line">            success: function (res) &#123;</span><br><span class="line">              that.globalData.userInfo = res.userInfo</span><br><span class="line">              typeof cb == &quot;function&quot; &amp;amp;&amp;amp; cb(that.globalData.userInfo)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null,</span><br><span class="line">    openid:null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F;app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    &#x2F;&#x2F;调用API从本地缓存中获取数据</span><br><span class="line">    var logs &#x3D; wx.getStorageSync(&#39;logs&#39;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&#39;logs&#39;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  getUserInfo:function(cb)&#123;</span><br><span class="line">    var that &#x3D; this</span><br><span class="line">    if(this.globalData.userInfo)&#123;</span><br><span class="line">      typeof cb &#x3D;&#x3D; &quot;function&quot; &amp;&amp; cb(this.globalData.userInfo)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      &#x2F;&#x2F;调用登录接口</span><br><span class="line">      wx.login(&#123;</span><br><span class="line">        success: function (r) &#123;</span><br><span class="line">          console.log(r)</span><br><span class="line">              wx.request(&#123;</span><br><span class="line">                url: &#39;https:&#x2F;&#x2F;***.smallerpig.com&#x2F;user&#x2F;getuserinfo&#39;,</span><br><span class="line">                data: r.code,</span><br><span class="line">                method: &#39;POST&#39;, &#x2F;&#x2F; OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT</span><br><span class="line">                &#x2F;&#x2F; header: &#123;&#125;, &#x2F;&#x2F; 设置请求的 header</span><br><span class="line">                success: function(res)&#123;</span><br><span class="line">                  console.log(&#39;success&#39;)</span><br><span class="line">                  that.globalData.openid &#x3D; res.data.openid</span><br><span class="line">                  console.log(res.data.openid)</span><br><span class="line">                  &#x2F;&#x2F; success</span><br><span class="line">                &#125;,</span><br><span class="line">                fail: function(res) &#123;</span><br><span class="line">                  console.log(&#39;fail&#39;)</span><br><span class="line">                  console.log(res)</span><br><span class="line">                  &#x2F;&#x2F; fail</span><br><span class="line">                &#125;,</span><br><span class="line">                complete: function(res) &#123;</span><br><span class="line">                  console.log(&#39;complete&#39;)</span><br><span class="line">                  console.log(res)</span><br><span class="line">                  &#x2F;&#x2F; complete</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;)</span><br><span class="line">          wx.getUserInfo(&#123;</span><br><span class="line">            success: function (res) &#123;</span><br><span class="line">              that.globalData.userInfo &#x3D; res.userInfo</span><br><span class="line">              typeof cb &#x3D;&#x3D; &quot;function&quot; &amp;&amp; cb(that.globalData.userInfo)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null,</span><br><span class="line">    openid:null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>上述js的小程序代码大致逻辑为：<br>在调用<code>wx.login</code>并且执行成功之后将请求到的code值post到我们自己的服务器上面，在服务器上请求微信服务器的API，微信服务器得到正确值之后会得给到openid和session_key。<br>如下图：<br><img src="http://wx4.sinaimg.cn/mw690/88e12591gy1fehnn7j46kj21kw0vo0yv.jpg" alt="成功获取到用户的openId"></p>
 <h3 id="方式二，通过wx-getUserInfo接口"><a href="#方式二，通过wx-getUserInfo接口" class="headerlink" title="方式二，通过wx.getUserInfo接口"></a>方式二，通过wx.getUserInfo接口</h3><p>在之前的公众号开发时，我们可以直接使用openId来作为用户的标识，在小程序中我们同样可以使用该字段。只是该字段没有显式的表示出来，而是通过res.encryptedData里。<br>通过之前的截图可以看出，encryptedData是通过加密的数据，根据<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/signature.html" target="_blank" rel="noopener">官方文档</a>解释，我们只要使用指定的算法来解密就可以得到我们想要的openID。</p>
 <p>解密算法如下：</p>
@@ -203,7 +205,7 @@ var _hmt = _hmt || [];
 <p>最后，从安全性来将当然方式二更安全一点。</p>
 <hr>
 <p>下面附上小程序的index.js和index.wxml：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">//index.js</span><br><span class="line">//获取应用实例</span><br><span class="line">var app = getApp\(\)</span><br><span class="line">Page(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    motto: &apos;Hello World&apos;,</span><br><span class="line">    userInfo: &#123;&#125;,</span><br><span class="line">    openid:null</span><br><span class="line">  &#125;,</span><br><span class="line">  //事件处理函数</span><br><span class="line">  bindViewTap: function\(\) &#123;</span><br><span class="line">    wx.navigateTo(&#123;</span><br><span class="line">      url: &apos;../logs/logs&apos;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad: function \(\) &#123;</span><br><span class="line">    console.log(&apos;onLoad&apos;)</span><br><span class="line">    var that = this</span><br><span class="line">    //调用应用实例的方法获取全局数据</span><br><span class="line">    app.getUserInfo(function(userInfo)&#123;</span><br><span class="line">      //更新数据</span><br><span class="line">      that.setData(&#123;</span><br><span class="line">        userInfo:userInfo,</span><br><span class="line">        openid:app.globalData.openid</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;!--index.wxml--&gt;</span><br><span class="line">&lt;view class=&quot;container&quot;&gt;</span><br><span class="line">  &lt;view  bindtap=&quot;bindViewTap&quot; class=&quot;userinfo&quot;&gt;</span><br><span class="line">    &lt;image class=&quot;userinfo-avatar&quot; src=&quot;&#123;&#123;userInfo.avatarUrl&#125;&#125;&quot; background-size=&quot;cover&quot;&gt;&lt;/image&gt;</span><br><span class="line">    &lt;text class=&quot;userinfo-nickname&quot;&gt;&#123;&#123;userInfo.nickName&#125;&#125;&lt;/text&gt;</span><br><span class="line">    &lt;text class=&quot;userinfo-nickname&quot;&gt;&#123;&#123;openid&#125;&#125;&lt;/text&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">  &lt;view class=&quot;usermotto&quot;&gt;</span><br><span class="line">    &lt;text class=&quot;user-motto&quot;&gt;&#123;&#123;motto&#125;&#125;&lt;/text&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;index.js</span><br><span class="line">&#x2F;&#x2F;获取应用实例</span><br><span class="line">var app &#x3D; getApp\(\)</span><br><span class="line">Page(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    motto: &#39;Hello World&#39;,</span><br><span class="line">    userInfo: &#123;&#125;,</span><br><span class="line">    openid:null</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;事件处理函数</span><br><span class="line">  bindViewTap: function\(\) &#123;</span><br><span class="line">    wx.navigateTo(&#123;</span><br><span class="line">      url: &#39;..&#x2F;logs&#x2F;logs&#39;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad: function \(\) &#123;</span><br><span class="line">    console.log(&#39;onLoad&#39;)</span><br><span class="line">    var that &#x3D; this</span><br><span class="line">    &#x2F;&#x2F;调用应用实例的方法获取全局数据</span><br><span class="line">    app.getUserInfo(function(userInfo)&#123;</span><br><span class="line">      &#x2F;&#x2F;更新数据</span><br><span class="line">      that.setData(&#123;</span><br><span class="line">        userInfo:userInfo,</span><br><span class="line">        openid:app.globalData.openid</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;!--index.wxml--&gt;</span><br><span class="line">&lt;view class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">  &lt;view  bindtap&#x3D;&quot;bindViewTap&quot; class&#x3D;&quot;userinfo&quot;&gt;</span><br><span class="line">    &lt;image class&#x3D;&quot;userinfo-avatar&quot; src&#x3D;&quot;&#123;&#123;userInfo.avatarUrl&#125;&#125;&quot; background-size&#x3D;&quot;cover&quot;&gt;&lt;&#x2F;image&gt;</span><br><span class="line">    &lt;text class&#x3D;&quot;userinfo-nickname&quot;&gt;&#123;&#123;userInfo.nickName&#125;&#125;&lt;&#x2F;text&gt;</span><br><span class="line">    &lt;text class&#x3D;&quot;userinfo-nickname&quot;&gt;&#123;&#123;openid&#125;&#125;&lt;&#x2F;text&gt;</span><br><span class="line">  &lt;&#x2F;view&gt;</span><br><span class="line">  &lt;view class&#x3D;&quot;usermotto&quot;&gt;</span><br><span class="line">    &lt;text class&#x3D;&quot;user-motto&quot;&gt;&#123;&#123;motto&#125;&#125;&lt;&#x2F;text&gt;</span><br><span class="line">  &lt;&#x2F;view&gt;</span><br><span class="line">&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这一篇介绍了获取用户openid的两种方式，并使用第一种方式结合flask框架写了一个demo程序。<br>其中还用到了小程序API当中的一个非常重要的接口，就是<code>wx.request</code>。也就是通过该接口向我们自身的业务服务器请求数据，有点类似js中的ajax的作用，从《微信web开发者工具》的调试界面也可以看出其实际上就是通过xhr的方式来请求我们的业务服务器。</p>
 <p>另外需要说明的是微信的小程序本身禁止使用ajax来请求网络资源。</p>
 <p>下一篇小猪将重点介绍使用方式二来解密用户的数据，服务器端代码同样使用flask来实现。</p>
@@ -497,11 +499,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,7 +519,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -521,39 +527,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -585,6 +567,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -593,11 +579,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -613,11 +631,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,18 +655,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -649,15 +663,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -685,6 +707,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -693,19 +723,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -713,7 +731,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -721,7 +739,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -729,11 +767,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -753,87 +791,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -845,15 +803,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -881,10 +839,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -893,7 +847,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -944,9 +950,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

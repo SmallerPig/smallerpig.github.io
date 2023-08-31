@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>跟着小猪来做小程序开发吧——体验模板消息 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="官方文档地址：https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html#使用说明 前言在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。 但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使">
-<meta name="keywords" content="微信,wechat,小程序,模板消息">
+  <meta name="description" content="官方文档地址：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;debug&#x2F;wxadoc&#x2F;dev&#x2F;api&#x2F;notice.html#使用说明 前言在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。 但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跟着小猪来做小程序开发吧——体验模板消息">
 <meta property="og:url" content="http://blog.smallerpig.com/1194.html">
 <meta property="og:site_name" content="朱启的个人博客">
-<meta property="og:description" content="官方文档地址：https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html#使用说明 前言在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。 但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="官方文档地址：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;debug&#x2F;wxadoc&#x2F;dev&#x2F;api&#x2F;notice.html#使用说明 前言在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。 但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/88e12591gy1feqmskfbsyj21cg0kewgy.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/88e12591gy1feqmsl78mwj216k0bktcn.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/88e12591gy1feqmsjkg1wj20jz0zkdgs.jpg">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:published_time" content="2017-04-18T03:02:37.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="wechat">
+<meta property="article:tag" content="小程序">
+<meta property="article:tag" content="模板消息">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="跟着小猪来做小程序开发吧——体验模板消息">
-<meta name="twitter:description" content="官方文档地址：https://mp.weixin.qq.com/debug/wxadoc/dev/api/notice.html#使用说明 前言在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。 但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使">
 <meta name="twitter:image" content="http://wx3.sinaimg.cn/mw690/88e12591gy1feqmskfbsyj21cg0kewgy.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -51,8 +54,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -177,21 +180,21 @@ var _hmt = _hmt || [];
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在上一篇结束时小猪本打算这一篇使用falsk来做后端存储formId然后走标准的小程序开发流程来实现模板消息的功能。</p>
 <p>但是后来仔细想想，如果读者本身自是想做小程序开发，对后端开发并不感兴趣，或者后端框架也不一定是基于Python的Flask，那其实对是否使用flask来做后端是并不关心的。</p>
 <p>所以小猪这一篇开始，能不用后端的就不用后端，因为小程序框架本身已经为我们封装了<code>wx.request</code>接口来访问网络了。我们可以方便的使用这个接口来代替服务器来做请求。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="设置微信后台的request合法域名"><a href="#设置微信后台的request合法域名" class="headerlink" title="设置微信后台的request合法域名"></a>设置微信后台的request合法域名</h3><p>这个设置是用来限制我们的小程序中使用<code>wx.request</code>接口时可以调用哪些域名来进行访问，一般而言我们配置我们自己的域名。<br>因为本篇文章需要在小程序内部调用发送模板消息的接口，所以需要将<code>https://api.weixin.qq.com/</code>加入到合法域名里。<br><img src="http://wx3.sinaimg.cn/mw690/88e12591gy1feqmskfbsyj21cg0kewgy.jpg" alt><br>然后到微信《微信web开发者工具》里面的项目tag里刷新配置信息，如果不刷新的话可能会出现下述情况：<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1feqmsl78mwj216k0bktcn.jpg" alt></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="设置微信后台的request合法域名"><a href="#设置微信后台的request合法域名" class="headerlink" title="设置微信后台的request合法域名"></a>设置微信后台的request合法域名</h3><p>这个设置是用来限制我们的小程序中使用<code>wx.request</code>接口时可以调用哪些域名来进行访问，一般而言我们配置我们自己的域名。<br>因为本篇文章需要在小程序内部调用发送模板消息的接口，所以需要将<code>https://api.weixin.qq.com/</code>加入到合法域名里。<br><img src="http://wx3.sinaimg.cn/mw690/88e12591gy1feqmskfbsyj21cg0kewgy.jpg" alt=""><br>然后到微信《微信web开发者工具》里面的项目tag里刷新配置信息，如果不刷新的话可能会出现下述情况：<br><img src="http://wx2.sinaimg.cn/mw690/88e12591gy1feqmsl78mwj216k0bktcn.jpg" alt=""></p>
 <h3 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a>获取access_token</h3><p>获取access_token的方法小猪很久之前就有单独的文章介绍过。<a href="http://www.smallerpig.com/366.html" target="_blank" rel="noopener">和小猪一起搞微信公众号开发—获取Access_token</a></p>
 <p>不过这里我们使用的是<code>wx.request</code>接口来请求，所以我们直接使用调试的方法：<br>1. 打开网址<a href="https://mp.weixin.qq.com/debug/，确认选择的调试接口为获取access_token" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/，确认选择的调试接口为获取access_token</a><br>2. 属于我们的appid 和secret值。<br>3. 点击调试,获取数据，在下面的返回框里找到对应的access_token值，并取出，这个值在两个小时之内是有效的。</p>
 <h3 id="获取openid"><a href="#获取openid" class="headerlink" title="获取openid"></a>获取openid</h3><p>直接使用<a href="http://www.smallerpig.com/1184.html" target="_blank" rel="noopener">跟着小猪来做小程序开发吧——获取用户Openid</a>的方法来获取openid。</p>
 <h3 id="使用模板消息id"><a href="#使用模板消息id" class="headerlink" title="使用模板消息id"></a>使用模板消息id</h3><p>在微信小程序后台的模板消息栏里添加合适的模板消息，并记录其对应的模板ID。</p>
-<h2 id="开始编写代码"><a href="#开始编写代码" class="headerlink" title="开始编写代码"></a>开始编写代码</h2><p>因为我们只是为了体验下小程序的模板消息，所以我们把上面获取的信息先临时的保存在小程序的全局环境里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    //调用API从本地缓存中获取数据</span><br><span class="line">    var logs = wx.getStorageSync(&apos;logs&apos;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&apos;logs&apos;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  //…… 省略了其他代码</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null,</span><br><span class="line">    openid:&apos;oWv370DkivlAs-LPrxKKvQ9KP98w&apos;,</span><br><span class="line">    appid:&apos;wx8fa41e5f33e****&apos;,</span><br><span class="line">    access_token:&apos;********&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="开始编写代码"><a href="#开始编写代码" class="headerlink" title="开始编写代码"></a>开始编写代码</h2><p>因为我们只是为了体验下小程序的模板消息，所以我们把上面获取的信息先临时的保存在小程序的全局环境里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function \(\) &#123;</span><br><span class="line">    &#x2F;&#x2F;调用API从本地缓存中获取数据</span><br><span class="line">    var logs &#x3D; wx.getStorageSync(&#39;logs&#39;) || []</span><br><span class="line">    logs.unshift(Date.now\(\))</span><br><span class="line">    wx.setStorageSync(&#39;logs&#39;, logs)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#x2F;&#x2F;…… 省略了其他代码</span><br><span class="line">  globalData:&#123;</span><br><span class="line">    userInfo:null,</span><br><span class="line">    openid:&#39;oWv370DkivlAs-LPrxKKvQ9KP98w&#39;,</span><br><span class="line">    appid:&#39;wx8fa41e5f33e****&#39;,</span><br><span class="line">    access_token:&#39;********&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 <p>然后在对应的表单页的逻辑代码里sform.js：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var app = getApp\(\)</span><br><span class="line">Page(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    formId:null,</span><br><span class="line">    template_id:null,</span><br><span class="line">    openId:null,</span><br><span class="line">    msg:null</span><br><span class="line">  &#125;,</span><br><span class="line">  formSubmit: function(e) &#123;</span><br><span class="line">    console.log(&apos;form发生了submit事件，携带数据为：&apos;, e.detail.formId)</span><br><span class="line">    this.orderSign(e)</span><br><span class="line">  &#125;,</span><br><span class="line">  formReset: function\(\) &#123;</span><br><span class="line">    console.log(&apos;form发生了reset事件&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad:function\(\)&#123;</span><br><span class="line">      console.log(&apos;sform load&apos;)</span><br><span class="line">  &#125;,orderSign: function (e) &#123;</span><br><span class="line">    var fId = e.detail.formId;</span><br><span class="line">    var that = this;</span><br><span class="line"></span><br><span class="line">    var l = &apos;https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=&apos; + app.globalData.access_token;</span><br><span class="line">    var d = &#123;</span><br><span class="line">      touser: app.globalData.openid,</span><br><span class="line">      template_id: &apos;quFqMrHJnAHiVwyfCXrK_EGbHAvtOy9UdIDhP-1l5xY&apos;,//模板消息id，</span><br><span class="line">      page: &apos;/pages/index/index&apos;,</span><br><span class="line">      form_id: fId,</span><br><span class="line">      data: &#123;</span><br><span class="line">          &quot;keyword1&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;主题1111&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#4a4a4a&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword2&quot;: &#123;</span><br><span class="line">          &quot;value&quot;:new Date\(\).getDate\(\),</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword3&quot;: &#123;</span><br><span class="line">          &quot;value&quot;:&quot;地点是……&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword4&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;描述一下这这是测试代码&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword5&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;备注信息。&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;red&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      color: &apos;#ccc&apos;,</span><br><span class="line">      emphasis_keyword: &apos;keyword1.DATA&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    wx.request(&#123;</span><br><span class="line">      url: l,</span><br><span class="line">      data: d,</span><br><span class="line">      method: &apos;POST&apos;,</span><br><span class="line">      success: function(res)&#123;</span><br><span class="line">        that.setData(&#123;&apos;formId&apos;:fId,&apos;openId&apos;:app.globalData.openid,&apos;template_id&apos;:d.template_id&#125;)</span><br><span class="line"></span><br><span class="line">        that.setData(&#123;&apos;msg&apos;:res&#125;)</span><br><span class="line">        console.log(&quot;push msg&quot;);</span><br><span class="line">        console.log(res);</span><br><span class="line">      &#125;,</span><br><span class="line">      fail: function(err) &#123;</span><br><span class="line">        // fail</span><br><span class="line">        console.log(&quot;push err&quot;)</span><br><span class="line">        console.log(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var app &#x3D; getApp\(\)</span><br><span class="line">Page(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    formId:null,</span><br><span class="line">    template_id:null,</span><br><span class="line">    openId:null,</span><br><span class="line">    msg:null</span><br><span class="line">  &#125;,</span><br><span class="line">  formSubmit: function(e) &#123;</span><br><span class="line">    console.log(&#39;form发生了submit事件，携带数据为：&#39;, e.detail.formId)</span><br><span class="line">    this.orderSign(e)</span><br><span class="line">  &#125;,</span><br><span class="line">  formReset: function\(\) &#123;</span><br><span class="line">    console.log(&#39;form发生了reset事件&#39;)</span><br><span class="line">  &#125;,</span><br><span class="line">  onLoad:function\(\)&#123;</span><br><span class="line">      console.log(&#39;sform load&#39;)</span><br><span class="line">  &#125;,orderSign: function (e) &#123;</span><br><span class="line">    var fId &#x3D; e.detail.formId;</span><br><span class="line">    var that &#x3D; this;</span><br><span class="line"></span><br><span class="line">    var l &#x3D; &#39;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;cgi-bin&#x2F;message&#x2F;wxopen&#x2F;template&#x2F;send?access_token&#x3D;&#39; + app.globalData.access_token;</span><br><span class="line">    var d &#x3D; &#123;</span><br><span class="line">      touser: app.globalData.openid,</span><br><span class="line">      template_id: &#39;quFqMrHJnAHiVwyfCXrK_EGbHAvtOy9UdIDhP-1l5xY&#39;,&#x2F;&#x2F;模板消息id，</span><br><span class="line">      page: &#39;&#x2F;pages&#x2F;index&#x2F;index&#39;,</span><br><span class="line">      form_id: fId,</span><br><span class="line">      data: &#123;</span><br><span class="line">          &quot;keyword1&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;主题1111&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#4a4a4a&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword2&quot;: &#123;</span><br><span class="line">          &quot;value&quot;:new Date\(\).getDate\(\),</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword3&quot;: &#123;</span><br><span class="line">          &quot;value&quot;:&quot;地点是……&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword4&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;描述一下这这是测试代码&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;keyword5&quot;: &#123;</span><br><span class="line">          &quot;value&quot;: &quot;备注信息。&quot;,</span><br><span class="line">          &quot;color&quot;: &quot;red&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      color: &#39;#ccc&#39;,</span><br><span class="line">      emphasis_keyword: &#39;keyword1.DATA&#39;</span><br><span class="line">    &#125;</span><br><span class="line">    wx.request(&#123;</span><br><span class="line">      url: l,</span><br><span class="line">      data: d,</span><br><span class="line">      method: &#39;POST&#39;,</span><br><span class="line">      success: function(res)&#123;</span><br><span class="line">        that.setData(&#123;&#39;formId&#39;:fId,&#39;openId&#39;:app.globalData.openid,&#39;template_id&#39;:d.template_id&#125;)</span><br><span class="line"></span><br><span class="line">        that.setData(&#123;&#39;msg&#39;:res&#125;)</span><br><span class="line">        console.log(&quot;push msg&quot;);</span><br><span class="line">        console.log(res);</span><br><span class="line">      &#125;,</span><br><span class="line">      fail: function(err) &#123;</span><br><span class="line">        &#x2F;&#x2F; fail</span><br><span class="line">        console.log(&quot;push err&quot;)</span><br><span class="line">        console.log(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>对应的页面代码sform.wxml：<br><code>`</code>  </p>
-<form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+<form bindsubmit="formSubmit" bindreset="formReset" report-submit = "true">
 
-  <view class="section section_gap"><br>    <view class="section__title">checkbox</view><br>    <checkbox-group name="checkbox"><br>      <label><checkbox value="checkbox1">checkbox1</checkbox></label><br>      <label><checkbox value="checkbox2">checkbox2</checkbox></label><br>    </checkbox-group><br>  </view><br>  <view class="btn-area"><br>    <button formtype="submit">Submit</button><br>    <button formtype="reset">Reset</button><br>  </view><br></form><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view>
+  <view class="section section_gap"><br>    <view class="section__title">checkbox</view><br>    <checkbox-group name="checkbox"><br>      <label><checkbox value="checkbox1"/>checkbox1</label><br>      <label><checkbox value="checkbox2"/>checkbox2</label><br>    </checkbox-group><br>  </view><br>  <view class="btn-area"><br>    <button formType="submit">Submit</button><br>    <button formType="reset">Reset</button><br>  </view><br></form><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view><br><view class="section section_gap"><br>    <view class="section_title"></view><br></view>
 
 <p>页面代码里为了方便调试我们加上了一些调试信息。<br>上述代码逻辑很简单，根据主要就是获取到formid之后组装调用模板消息的必要信息，然后调用微信模板消息API，调用成功之后将信息反馈到小程序界面。</p>
-<p>代码编写完成之后，转到《微信web开发者工具》的项目tag，点击预览按钮，编译上传完成之后微信扫描二维码就可以体验。<br>点击提交表单时可看到我们的<code>服务通知</code>窗口里有了消息推送:<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1feqmsjkg1wj20jz0zkdgs.jpg" alt></p>
+<p>代码编写完成之后，转到《微信web开发者工具》的项目tag，点击预览按钮，编译上传完成之后微信扫描二维码就可以体验。<br>点击提交表单时可看到我们的<code>服务通知</code>窗口里有了消息推送:<br><img src="http://wx1.sinaimg.cn/mw690/88e12591gy1feqmsjkg1wj20jz0zkdgs.jpg" alt=""></p>
 
       
 
@@ -486,11 +489,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -502,7 +509,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,39 +517,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -574,6 +557,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -582,11 +569,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -602,11 +621,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -618,18 +645,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -638,15 +653,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -674,6 +697,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -682,19 +713,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -702,7 +721,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,7 +729,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,11 +757,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -742,87 +781,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -834,15 +793,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -870,10 +829,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -882,7 +837,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -933,9 +940,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,10 +14,9 @@
 <meta property="og:url" content="http://blog.smallerpig.com/page/26/index.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="朱启的个人博客">
-<meta name="twitter:description" content="这个站点是小猪的hexo博客站点，前面部分内容都是从原来的Wordpress站点转过来的。">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -45,8 +44,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -149,6 +148,257 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-设计模式/小猪学设计模式——工厂模式之工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/304.html">小猪学设计模式——工厂模式之工厂方法模式</a>
+    </h1>
+  
+
+        
+        <a href="/304.html" class="archive-article-date">
+  	<time datetime="2013-09-12T02:35:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>还记得上一篇的简单工厂模式吗？<br>我们举了个例子，使用加减乘除的方法来解释简单工厂，而如果我们有一天需要做科学计算器，那两个数之间的运算关系可不止加减乘除了，这时候如果我们的工厂类需要在不同的运算符之间做判断然后再给出具体的运算规则的话，那这些代码将非常的丑陋。</p>
+<p>如果出现这种情况，就需要我们的工厂方法模式了：</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>工厂方法模式代码：</p>
+<pre><code>interface IProduct {  
+    public void productMethod\(\);  
+}  
+
+class Product implements IProduct {  
+    public void productMethod\(\) {  
+        System.out.println(&quot;产品&quot;);  
+    }  
+}  
+
+interface IFactory {  
+    public IProduct createProduct\(\);  
+}  
+
+class Factory implements IFactory {  
+    public IProduct createProduct\(\) {  
+        return new Product\(\);  
+    }  
+}  
+
+public class Client {  
+    public static void main(String[] args) {  
+        IFactory factory = new Factory\(\);  
+        IProduct prodect = factory.createProduct\(\);  
+        prodect.productMethod\(\);  
+    }  
+}  
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    从上述代码中我们可以看出，实现工厂方法模式需要4个元素</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 四个要素</span><br><span class="line"></span><br><span class="line">    **工厂接口**。工厂接口是工厂方法模式的核心，与调用者直接交互用来提供产品。在实际编程中，有时候也会使用一个抽象类来作为与调用者交互的接口，其本质上是一样的。</span><br><span class="line">    **工厂实现**。在编程中，工厂实现决定如何实例化产品，是实现扩展的途径，需要有多少种产品，就需要有多少个具体的工厂实现。</span><br><span class="line">    **产品接口**。产品接口的主要目的是定义产品的规范，所有的产品实现都必须遵循产品接口定义的规范。产品接口是调用者最为关心的，产品接口定义的优劣直接决定了调用者代码的稳定性。同样，产品接口也可以用抽象类来代替，但要注意最好不要违反里氏替换原则。</span><br><span class="line">    **产品实现**。实现产品接口的具体类，决定了产品在客户端中的具体行为。</span><br><span class="line">    上一篇提到的简单工厂模式跟工厂方法模式极为相似，区别是：简单工厂只有三个要素，他没有工厂接口，并且得到产品的方法一般是静态的。因为没有工厂接口，所以在工厂实现的扩展性方面稍弱，可以算所工厂方法模式的简化版，关于简单工厂模式，可参考上一篇:[小猪学设计模式——工厂模式之简单工厂(静态工厂)](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;303.html)。</span><br><span class="line"></span><br><span class="line">    回到一开始提出的问题上来，我们需要在原来的简单工厂上面抽象出来一个抽象工厂的类：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"> public class OperationFactory</span><br><span class="line">    &#123;</span><br><span class="line">        public static Operation createOperate(string operate)</span><br><span class="line">        &#123;</span><br><span class="line">            Operation oper &#x3D; null;</span><br><span class="line">            switch (operate)</span><br><span class="line">            &#123;</span><br><span class="line">                case &quot;+&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper &#x3D; new OperationAdd\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;-&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper &#x3D; new OperationSub\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;*&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper &#x3D; new OperationMul\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                case &quot;&#x2F;&quot;:</span><br><span class="line">                    &#123;</span><br><span class="line">                        oper &#x3D; new OperationDiv\(\);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return oper;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>抽象出来的类为：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public interface IOperationFactory&#123;</span><br><span class="line">       IOperation createOperation\(\);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;具体实现的工厂类</span><br><span class="line">   public class AddOperationFactory  implements IOperationFactory&#123;</span><br><span class="line">       @Override</span><br><span class="line">       public IOperation createOperation\(\) &#123;</span><br><span class="line">           return new AddOperation\(\);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>然后每一个操作符都新建一个实现了IOperationFactory接口的类。
+看上述代码修改的好像并没有太大的意义，那是因为我们的适用场景。
+
+想象下如果我们不是加减乘除，而是生产汽车的过程。一开始我们需要各种零件：轮胎，发动机，方向盘等等，我们使用了简单工厂模式直接给到调用者这些零件。这时候简单工厂模式是能够满足我们的需求的。
+但是我们的汽车品牌变了(之前可是只有零件可能发生变化的)，我们之前开的奥拓不满足需求了，我们需要奥迪宝马奔驰了，也就是工厂变了，这个时候就需要将原来的工厂进行抽象。调用者直接使用抽象工厂类来进行调用车，而将零件的具体组装过程放到不同的工厂类里面。客户端拿到的就是一辆实实在在的车，且客户端并不关心具体工厂内部是怎么组件车的，客户端只是希望能实现我开车的目的就可以了。
+</code></pre><p><code>`</code>  </p>
+<p> interface IFactory {<br>        public ICar createCar();<br>    }<br>    class Factory implements IFactory {<br>        public ICar createCar() {<br>            Engine engine = new Engine();<br>            Underpan underpan = new Underpan();<br>            Wheel wheel = new Wheel();<br>            ICar car = new Car(underpan, wheel, engine);<br>            return car;<br>        }<br>    }<br>    public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new Factory();<br>            ICar car = factory.createCar();<br>            car.show();<br>        }<br>    }  </p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单工厂模式一般用在产品变化多而工厂变化少的情况。<br>工厂方法模式一般用在工厂也可能出现过多的变动的情况。这个时候我们就需要为每一个产品都创建一个工厂。而将具体需要实例化哪一个产品交给客户端来处理。也就是用官方的话来讲：<strong>定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使用一个类的实例化延迟到其子类。</strong>。而这个也将导致另外一个问题。选择判断的问题还是存在的，也就是说，工厂方法把简单工厂的内部逻辑判断一到了客户端代码来进行。在新增功能的时候，本来是改工厂类，现在是修改客户端了。<br>当然，这只是个人拙见。可能随着个人代码量的增加，对工厂方法的认识也会逐渐的改变。</p>
+<hr>
+<p>更新于2016年9月16日</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/304.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-设计模式/小猪学设计模式——工厂模式之简单工厂(静态工厂)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/303.html">小猪学设计模式——工厂模式之简单工厂(静态工厂)</a>
+    </h1>
+  
+
+        
+        <a href="/303.html" class="archive-article-date">
+  	<time datetime="2013-09-12T02:31:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>在我们写代码过程中，经常使用类似这样的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">ClassA a &#x3D; new ClassA\(\);</span><br></pre></td></tr></table></figure></p>
+<p>严格意义上来讲这段代码已经依赖具体的实现了。当使用&quot;new&quot;关键字创建一个对象时，此时该类就依赖与这个对象，也就是他们之间的耦合度高，当需求变化时，我们就不得不去修改此类的源码。这违反了编程的原则里的“依赖抽象”“开放—关闭”等等一系列原则。</p>
+<p><strong>简单工厂</strong></p>
+<p>此时我们可以运用面向对象（OO）的很重要的原则去解决这一的问题，该原则就是——封装改变。</p>
+<p>针对接口编程，可以隔离掉以后系统可能发生的一大堆改变。入股代码是针对接口而写，那么可以通过多态，它可以与任何新类实现该接口。但是，当代码使用一大堆的具体类时，等于是自找麻烦，因为一旦加入新的具体类，就必须要改变代码。在这里我们希望能够调用一个简单的方法，我传递一个参数过去，就可以返回给我一个相应的具体对象。</p>
+<p><strong>定义</strong></p>
+<p>简单工厂模式又称之为静态工厂方法，属于创建型模式。在简单工厂模式中，可以根据传递的参数不同，返回不同类的实例。简单工厂模式定义了一个类，这个类专门用于创建其他类的实例，这些被创建的类都有一个共同的父类。</p>
+<p><strong>分析分析</strong></p>
+<p> &nbsp; &nbsp; &nbsp; &nbsp;Factory：工厂角色。专门用于创建实例类的工厂，提供一个方法，该方法根据传递的参数不同返回不同类的具体实例。<br> &nbsp; &nbsp; &nbsp; &nbsp;Product：抽象产品角色。为所有产品的父类。<br> &nbsp; &nbsp; &nbsp; &nbsp;ConcreteProduct：具体的产品角色。</p>
+<p><span style="color:#002060;">简单工厂模式将对象的创建和对象本身业务处理分离了，可以降低系统的耦合度，使得两者修改起来都相对容易些。当以后实现改变时，只需要修改工厂类即可。</span></p>
+<p><span style="color:#002060;"></span></p>
+<p>下面以计算器的例子来说明简单工厂方法</p>
+<p>基类：操作符(product)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public class Operation</span><br><span class="line">&#123;</span><br><span class="line">    private double _numberA &#x3D; 0;</span><br><span class="line">    private double _numberB &#x3D; 0;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 数字A</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public double NumberA</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _numberA;</span><br><span class="line">        &#125;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            _numberA &#x3D; value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 数字B</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public double NumberB</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _numberB;</span><br><span class="line">        &#125;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            _numberB &#x3D; value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 得到运算结果</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">    public virtual double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result &#x3D; 0;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 检查输入的字符串是否准确</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;currentNumber&quot;&gt;&lt;&#x2F;param&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;inputString&quot;&gt;&lt;&#x2F;param&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">    public static string checkNumberInput(string currentNumber, string inputString)</span><br><span class="line">    &#123;</span><br><span class="line">        string result &#x3D; &quot;&quot;;</span><br><span class="line">        if (inputString &#x3D;&#x3D; &quot;.&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            if (currentNumber.IndexOf(&quot;.&quot;) &lt; 0)</span><br><span class="line">            &#123;</span><br><span class="line">                if (currentNumber.Length &#x3D;&#x3D; 0)</span><br><span class="line">                    result &#x3D; &quot;0&quot; + inputString;</span><br><span class="line">                else</span><br><span class="line">                    result &#x3D; currentNumber + inputString;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else if (currentNumber &#x3D;&#x3D; &quot;0&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            result &#x3D; inputString;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            result &#x3D; currentNumber + inputString;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体操作(加减乘除)类:(ConcreteProduct)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 加法类</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">class OperationAdd : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result &#x3D; 0;</span><br><span class="line">        result &#x3D; NumberA + NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 减法类</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">class OperationSub : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result &#x3D; 0;</span><br><span class="line">        result &#x3D; NumberA - NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 乘法类</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">class OperationMul : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result &#x3D; 0;</span><br><span class="line">        result &#x3D; NumberA * NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 除法类</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">class OperationDiv : Operation</span><br><span class="line">&#123;</span><br><span class="line">    public override double GetResult\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        double result &#x3D; 0;</span><br><span class="line">        if (NumberB &#x3D;&#x3D; 0)</span><br><span class="line">            throw new Exception(&quot;除数不能为0。&quot;);</span><br><span class="line">        result &#x3D; NumberA &#x2F; NumberB;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运算工厂类：(Factory)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; 运算类工厂</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">public class OperationFactory</span><br><span class="line">&#123;</span><br><span class="line">    public static Operation createOperate(string operate)</span><br><span class="line">    &#123;</span><br><span class="line">        Operation oper &#x3D; null;</span><br><span class="line">        switch (operate)</span><br><span class="line">        &#123;</span><br><span class="line">            case &quot;+&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper &#x3D; new OperationAdd\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;-&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper &#x3D; new OperationSub\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;*&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper &#x3D; new OperationMul\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            case &quot;&#x2F;&quot;:</span><br><span class="line">                &#123;</span><br><span class="line">                    oper &#x3D; new OperationDiv\(\);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return oper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就创建了简单工厂里面的三个角色、</p>
+<p>然后在客户端需要具体操作时使用下列代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">static void Main(string[] args)</span><br><span class="line">&#123;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        Console.Write(&quot;请输入数字A：&quot;);</span><br><span class="line">        string strNumberA &#x3D; Console.ReadLine\(\);</span><br><span class="line">        Console.Write(&quot;请选择运算符号(+、-、*、&#x2F;)：&quot;);</span><br><span class="line">        string strOperate &#x3D; Console.ReadLine\(\);</span><br><span class="line">        Console.Write(&quot;请输入数字B：&quot;);</span><br><span class="line">        string strNumberB &#x3D; Console.ReadLine\(\);</span><br><span class="line">        string strResult &#x3D; &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        Operation oper;</span><br><span class="line">        oper &#x3D; OperationFactory.createOperate(strOperate);</span><br><span class="line">        oper.NumberA &#x3D; Convert.ToDouble(strNumberA);</span><br><span class="line">        oper.NumberB &#x3D; Convert.ToDouble(strNumberB);</span><br><span class="line">        strResult &#x3D; oper.GetResult\(\).ToString\(\);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(&quot;结果是：&quot; + strResult);</span><br><span class="line"></span><br><span class="line">        Console.ReadLine\(\);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;您的输入有错：&quot; + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><span style="color:#002060;"></span></p>
+<p><span style="color:#ff0000;">优点</span><br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、简单工厂模式实现了对责任的分割，提供了专门的工厂类用于创建对象。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、客户端无须知道所创建的具体产品类的类名，只需要知道具体产品类所对应的参数即可，对于一些复杂的类名，通过简单工厂模式可以减少使用者的记忆量。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3、通过引入配置文件，可以在不修改任何客户端代码的情况下更换和增加新的具体产品类，在一定程度上提高了系统的灵活性。</p>
+<p><span style="color:#ff0000;">缺点</span><br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、由于工厂类集中了所有产品创建逻辑，一旦不能正常工作，整个系统都要受到影响。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、使用简单工厂模式将会增加系统中类的个数，在一定程序上增加了系统的复杂度和理解难度。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3、系统扩展困难，一旦添加新产品就不得不修改工厂逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和维护。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;4、简单工厂模式由于使用了静态工厂方法，造成工厂角色无法形成基于继承的等级结构。<br><strong>五、简单工厂模式的使用场景 </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、 &nbsp;工厂类负责创建的对象比较少。<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2、 &nbsp;客户端只知道传入工厂类的参数，对于如何创建对象不关心。</p>
+<p><strong>六、总结 </strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp; 1、 &nbsp;简单工厂模式的要点就在于当你需要什么，只需要传入一个正确的参数，就可以获取你所需要的对象，而无须知道其创建细节。<br> &nbsp; &nbsp; &nbsp; &nbsp; 2、 &nbsp;简单工厂模式最大的优点在于实现对象的创建和对象的使用分离，但是如果产品过多时，会导致工厂代码非常复杂。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/303.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-web/html5-server-sent-events-asp-net-e5-90-91web-e5-ae-a2-e6-88-b7-e7-ab-af-e6-8e-a8-e9-80-81-e4-bf-a1-e6-81-af" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -189,13 +439,13 @@ var _hmt = _hmt || [];
 </ul>
 <p>在代码清单 1 中，第一个事件只包含数据“first event”，会产生默认的事件；第二个事件的标识符是 100，数据为“second event”；第三个事件会产生类型为“myevent”的事件；最后一个事件的数据为“fourth eventnfourth event continue”。当有多行数据时，实际的数据由每行数据以换行符连接而成。<br>如果服务器端返回的数据中包含了事件的标识符，浏览器会记录最近一次接收到的事件的标识符。如果与服务器端的连接中断，当浏览器端再次进行连接时，会通过 HTTP 头“Last-Event-ID”来声明最后一次接收到的事件的标识符。服务器端可以通过浏览器端发送的事件标识符来确定从哪个事件开始来继续连接。<br>对于服务器端返回的响应，浏览器端需要在 JavaScript 中使用 EventSource 对象来进行处理。EventSource 使用的是标准的事件监听器方式，只需要在对象上添加相应的事件处理方法即可。EventSource 提供了三个标准事件(open, message, error )，</p>
 <p>如之前所述，服务器端可以返回自定义类型的事件。对于这些事件，可以使用 addEventListener 方法来添加相应的事件处理方法。代码清单 2 给出了 EventSource 对象的使用示例。</p>
-<p>清单 2. EventSource 对象的使用示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vares = newEventSource(&apos;events&apos;);</span><br><span class="line">es.onmessage = function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">es.addEventListener(&apos;myevent&apos;, function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>清单 2. EventSource 对象的使用示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vares &#x3D; newEventSource(&#39;events&#39;);</span><br><span class="line">es.onmessage &#x3D; function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">es.addEventListener(&#39;myevent&#39;, function(e) &#123;</span><br><span class="line">    console.log(e.data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>如代码清单 2 所示，在指定 URL 创建出 EventSource 对象之后，可以通过 onmessage 和 addEventListener 方法来添加事件处理方法。当服务器端有新的事件产生，相应的事件处理方法会被调用。EventSource 对象的 onmessage 属性的作用类似于 addEventListener( ‘ message ’ )，不过 onmessage 属性只支持一个事件处理方法。<br>在介绍完服务器推送事件的规范内容之后，下面介绍服务器端的实现。</p>
 <hr>
 <p><strong>服务器端和浏览器端实现</strong></p>
 <p>从上一节中对通讯协议的描述可以看出，服务器端推送事件是一个比较简单的协议。服务器端的实现也相对比较简单，只需要按照协议规定的格式，返回响应内容即可。在开源社区可以找到各种不同的服务器端技术相对应的实现。自己开发的难度也不大。</p>
 <p>代码清单3：服务器端对应代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">publicvoidEvents\(\)</span><br><span class="line">&#123;</span><br><span class="line">    Response.ContentType = &quot;text/event-stream&quot;;</span><br><span class="line">    Response.Expires = -1;</span><br><span class="line">    while(Response.IsClientConnected)</span><br><span class="line">    &#123;</span><br><span class="line">        //Response.Write(&quot;event: add&quot;);</span><br><span class="line">        Response.Write(string.Format(&quot;event: testeventndata: &#123;0&#125;nn&quot;, DateTime.Now.ToString\(\)));</span><br><span class="line">        Response.Flush\(\);</span><br><span class="line">        Thread.Sleep(1000);</span><br><span class="line">    &#125;</span><br><span class="line">    Response.Close\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">publicvoidEvents\(\)</span><br><span class="line">&#123;</span><br><span class="line">    Response.ContentType &#x3D; &quot;text&#x2F;event-stream&quot;;</span><br><span class="line">    Response.Expires &#x3D; -1;</span><br><span class="line">    while(Response.IsClientConnected)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;Response.Write(&quot;event: add&quot;);</span><br><span class="line">        Response.Write(string.Format(&quot;event: testeventndata: &#123;0&#125;nn&quot;, DateTime.Now.ToString\(\)));</span><br><span class="line">        Response.Flush\(\);</span><br><span class="line">        Thread.Sleep(1000);</span><br><span class="line">    &#125;</span><br><span class="line">    Response.Close\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如代码清单3所示：在ASP.NET MVC中实现，该代码在对应的Controller中定义一个方法，定期返回服务器时间。如果不定义事件类型则默认事件名为：message。当客户端持续链接未断开时可以看到控制台在输出对应的信息。</p>
 <p>参考链接：<a href="http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/index.html" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/index.html</a></p>
 <p>该文章中使用了java作为后台语言实现同样的推送功能。</p>
@@ -316,11 +566,11 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）压缩，减小体积。比如jQuery 1.9的源码，压缩前是252KB，压缩后是32KB。</span><br><span class="line">（2）多个文件合并，减少HTTP请求数。</span><br><span class="line">（3）其他语言编译成JavaScript。</span><br></pre></td></tr></table></figure>
 <p>这三种情况，都使得实际运行的代码不同于开发代码，除错（debug）变得困难重重。<br>通常，JavaScript的解释器会告诉你，第几行第几列代码出错。但是，这对于转换后的代码毫无用处。举例来说，jQuery 1.9压缩后只有3行，每行3万个字符，所有内部变量都改了名字。你看着报错信息，感到毫无头绪，根本不知道它所对应的原始位置。<br><strong>这就是Source map想要解决的问题。</strong></p>
 <p>简单说，Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。<br>有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码。这无疑给开发者带来了很大方便。（下图中，上面的图是经过压缩后的js，下面的图是在调试时浏览器根据对应的map文件将压缩后的js文件还原后的结果）</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/82921378178807.png" alt></p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/82921378178807.png" alt=""></p>
 <p>目前，暂时只有Chrome浏览器支持这个功能。在Developer Tools的Setting设置中，确认选中&quot;Enable source maps&quot;。</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/23071378178807.png" alt></p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/23071378178807.png" alt=""></p>
 <p>你可以在你的js文件里面找到类似对应行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//@ sourceMappingURL=jquery.min.ma</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;@ sourceMappingURL&#x3D;jquery.min.ma</span><br></pre></td></tr></table></figure>
 <p><strong>现在知道原因了来看看解决方案：</strong></p>
 <ol>
 <li><p>直接删除jquery库的对应行文件，即<code>//@ sourceMappingURL=jquery.min.ma</code>，这个方法最简单也最直接了。哈哈。</p>
@@ -414,17 +664,17 @@ var _hmt = _hmt || [];
         <p>在IIS中，磁盘路径对应的文件是可以直接下载的，而原生的IIS并不需要额外的配置就可以进行断点续传。而在小猪的项目中使用到的文件下载地址不对应磁盘路径的文件地址，而是需要验证用户是否有权限进行下载然后使用<a href="http://www.smallerpig.com/archives/272" target="_blank" rel="noopener">使用fileresult提供文件下载</a>。这样整个下载过程都需要自己动手写代码完成。为了使客户端的体验更佳，所以必须要提供断点续传的功能。</p>
 <p><strong>断点续传的原理</strong></p>
 <p>其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 </p>
-<p>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下：<br>假设服务器域名为 w<a href="http://www.smallerpig.com，文件名为" target="_blank" rel="noopener">www.smallerpig.com，文件名为</a> down.zip。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /down.zip HTTP/1.1  </span><br><span class="line">Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-   </span><br><span class="line">excel, application/msword, application/vnd.ms-powerpoint, */*   </span><br><span class="line">Accept-Language: zh-cn   </span><br><span class="line">Accept-Encoding: gzip, deflate   </span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)   </span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<p>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下：<br>假设服务器域名为 w<a href="http://www.smallerpig.com，文件名为" target="_blank" rel="noopener">www.smallerpig.com，文件名为</a> down.zip。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;down.zip HTTP&#x2F;1.1  </span><br><span class="line">Accept: image&#x2F;gif, image&#x2F;x-xbitmap, image&#x2F;jpeg, image&#x2F;pjpeg, application&#x2F;vnd.ms-   </span><br><span class="line">excel, application&#x2F;msword, application&#x2F;vnd.ms-powerpoint, *&#x2F;*   </span><br><span class="line">Accept-Language: zh-cn   </span><br><span class="line">Accept-Encoding: gzip, deflate   </span><br><span class="line">User-Agent: Mozilla&#x2F;4.0 (compatible; MSIE 5.01; Windows NT 5.0)   </span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
 <p>服务器收到请求后，按要求寻找请求的文件，提取文件的信息，然后返回给浏览器，返回信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">200  </span><br><span class="line">Content-Length=106786028  </span><br><span class="line">Accept-Ranges=bytes   </span><br><span class="line">Date=Mon, 30 Apr 2001 12:56:11 GMT   </span><br><span class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type=application/octet-stream   </span><br><span class="line">Server=Microsoft-IIS/5.0  </span><br><span class="line">Last-Modified=Mon, 30 Apr 2001 12:56:11 GMT</span><br></pre></td></tr></table></figure>
-<p>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。<br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /down.zip HTTP/1.0  </span><br><span class="line">User-Agent: NetFox   </span><br><span class="line">RANGE: bytes=2000070-   </span><br><span class="line">Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2</span><br></pre></td></tr></table></figure></p>
-<p>仔细看一下就会发现多了一行 RANGE: bytes=2000070-<br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。<br>服务器收到这个请求以后，返回的信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">206  </span><br><span class="line">Content-Length=106786028  </span><br><span class="line">Content-Range=bytes 2000070-106786027/106786028  </span><br><span class="line">Date=Mon, 30 Apr 2001 12:55:20 GMT   </span><br><span class="line">ETag=W/&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type=application/octet-stream   </span><br><span class="line">Server=Microsoft-IIS/5.0  </span><br><span class="line">Last-Modified=Mon, 30 Apr 2001 12:55:20 GMT</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">200  </span><br><span class="line">Content-Length&#x3D;106786028  </span><br><span class="line">Accept-Ranges&#x3D;bytes   </span><br><span class="line">Date&#x3D;Mon, 30 Apr 2001 12:56:11 GMT   </span><br><span class="line">ETag&#x3D;W&#x2F;&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type&#x3D;application&#x2F;octet-stream   </span><br><span class="line">Server&#x3D;Microsoft-IIS&#x2F;5.0  </span><br><span class="line">Last-Modified&#x3D;Mon, 30 Apr 2001 12:56:11 GMT</span><br></pre></td></tr></table></figure>
+<p>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。<br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;down.zip HTTP&#x2F;1.0  </span><br><span class="line">User-Agent: NetFox   </span><br><span class="line">RANGE: bytes&#x3D;2000070-   </span><br><span class="line">Accept: text&#x2F;html, image&#x2F;gif, image&#x2F;jpeg, *; q&#x3D;.2, *&#x2F;*; q&#x3D;.2</span><br></pre></td></tr></table></figure></p>
+<p>仔细看一下就会发现多了一行 RANGE: bytes=2000070-<br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。<br>服务器收到这个请求以后，返回的信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">206  </span><br><span class="line">Content-Length&#x3D;106786028  </span><br><span class="line">Content-Range&#x3D;bytes 2000070-106786027&#x2F;106786028  </span><br><span class="line">Date&#x3D;Mon, 30 Apr 2001 12:55:20 GMT   </span><br><span class="line">ETag&#x3D;W&#x2F;&quot;02ca57e173c11:95b&quot;  </span><br><span class="line">Content-Type&#x3D;application&#x2F;octet-stream   </span><br><span class="line">Server&#x3D;Microsoft-IIS&#x2F;5.0  </span><br><span class="line">Last-Modified&#x3D;Mon, 30 Apr 2001 12:55:20 GMT</span><br></pre></td></tr></table></figure></p>
 <p>和前面服务器返回的信息比较一下，就会发现增加了一行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Range=bytes 2000070-106786027/106786028</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Range&#x3D;bytes 2000070-106786027&#x2F;106786028</span><br></pre></td></tr></table></figure>
 <p>返回的代码也改为 206 了，而不再是 200 了。</p>
 <p>知道了以上原理，就可以进行断点续传的编程了。</p>
 <p><strong>C#实现断点续传</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/// &amp;lt;summary&amp;gt;</span><br><span class="line">/// 支持断点续传</span><br><span class="line">/// &amp;lt;/summary&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;httpContext&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;filePath&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;param name=&quot;speed&quot;&amp;gt;&amp;lt;/param&amp;gt;</span><br><span class="line">/// &amp;lt;returns&amp;gt;&amp;lt;/returns&amp;gt;</span><br><span class="line">public static bool DownloadFile(HttpContext httpContext, string filePath, long speed)</span><br><span class="line">&#123;</span><br><span class="line">    bool ret = true;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        #region--验证：HttpMethod，请求的文件是否存在</span><br><span class="line">        switch (httpContext.Request.HttpMethod.ToUpper\(\))</span><br><span class="line">        &#123; //目前只支持GET和HEAD方法   </span><br><span class="line">            case &quot;GET&quot;:</span><br><span class="line">            case &quot;HEAD&quot;:</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                httpContext.Response.StatusCode = 501;</span><br><span class="line">                return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!System.IO.File.Exists(filePath))</span><br><span class="line">        &#123;</span><br><span class="line">            httpContext.Response.StatusCode = 404;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region 定义局部变量</span><br><span class="line">        long startBytes = 0;</span><br><span class="line">        int packSize = 1024 * 40; //分块读取，每块40K bytes   </span><br><span class="line">        string fileName = Path.GetFileName(filePath);</span><br><span class="line">        FileStream myFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);</span><br><span class="line">        BinaryReader br = new BinaryReader(myFile);</span><br><span class="line">        long fileLength = myFile.Length;</span><br><span class="line"></span><br><span class="line">        int sleep = (int)Math.Ceiling(1000.0 * packSize / speed);//毫秒数：读取下一数据块的时间间隔   </span><br><span class="line">        string lastUpdateTiemStr = System.IO.File.GetLastWriteTimeUtc(filePath).ToString(&quot;r&quot;);</span><br><span class="line">        string eTag = HttpUtility.UrlEncode(fileName, Encoding.UTF8) + lastUpdateTiemStr;//便于恢复下载时提取请求头;   </span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region--验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修</span><br><span class="line">        if (myFile.Length &amp;gt; Int32.MaxValue)</span><br><span class="line">        &#123;//-------文件太大了-------   </span><br><span class="line">            httpContext.Response.StatusCode = 413;//请求实体太大   </span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (httpContext.Request.Headers[&quot;If-Range&quot;] != null)//对应响应头ETag：文件名+文件最后修改时间   </span><br><span class="line">        &#123;</span><br><span class="line">            //----------上次被请求的日期之后被修改过--------------   </span><br><span class="line">            if (httpContext.Request.Headers[&quot;If-Range&quot;].Replace(&quot;&quot;&quot;, &quot;&quot;) != eTag)</span><br><span class="line">            &#123;//文件修改过   </span><br><span class="line">                httpContext.Response.StatusCode = 412;//预处理失败   </span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            #region -------添加重要响应头、解析请求头、相关验证-------------------</span><br><span class="line">            httpContext.Response.Clear\(\);</span><br><span class="line">            httpContext.Response.Buffer = false;</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-MD5&quot;,Common.ASE.GetMD5Hash(filePath));//用于验证文件</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);//重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;ETag&quot;, &quot;&quot;&quot; + eTag + &quot;&quot;&quot;);//重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;Last-Modified&quot;, lastUpdateTiemStr);//把最后修改日期写入响应                   </span><br><span class="line">            httpContext.Response.ContentType = &quot;application/octet-stream&quot;;//MIME类型：匹配任意文件类型   </span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot; + HttpUtility.UrlEncode(fileName, Encoding.UTF8).Replace(&quot;+&quot;, &quot;%20&quot;));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Length&quot;, (fileLength - startBytes).ToString\(\));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</span><br><span class="line">            httpContext.Response.ContentEncoding = Encoding.UTF8;</span><br><span class="line">            if (httpContext.Request.Headers[&quot;Range&quot;] != null)</span><br><span class="line">            &#123;//------如果是续传请求，则获取续传的起始位置，即已经下载到客户端的字节数------   </span><br><span class="line">                httpContext.Response.StatusCode = 206;//重要：续传必须，表示局部范围响应。初始下载时默认为200   </span><br><span class="line">                string[] range = httpContext.Request.Headers[&quot;Range&quot;].Split(new char[] &#123; &apos;=&apos;, &apos;-&apos; &#125;);//&quot;bytes=1474560-&quot;   </span><br><span class="line">                startBytes = Convert.ToInt64(range[1]);//已经下载的字节数，即本次下载的开始位置     </span><br><span class="line">                if (startBytes &amp;lt; 0 || startBytes &amp;gt;= fileLength)</span><br><span class="line">                &#123;//无效的起始位置   </span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (startBytes &amp;gt; 0)</span><br><span class="line">            &#123;//------如果是续传请求，告诉客户端本次的开始字节数，总长度，以便客户端将续传数据追加到startBytes位置后----------   </span><br><span class="line">                httpContext.Response.AddHeader(&quot;Content-Range&quot;, string.Format(&quot; bytes &#123;0&#125;-&#123;1&#125;/&#123;2&#125;&quot;, startBytes, fileLength - 1, fileLength));</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line"></span><br><span class="line">            #region -------向客户端发送数据块-------------------</span><br><span class="line">            br.BaseStream.Seek(startBytes, SeekOrigin.Begin);</span><br><span class="line">            int maxCount = (int)Math.Ceiling((fileLength - startBytes + 0.0) / packSize);//分块下载，剩余部分可分成的块数   </span><br><span class="line">            for (int i = 0; i &amp;lt; maxCount &amp;amp;&amp;amp; httpContext.Response.IsClientConnected; i++)</span><br><span class="line">            &#123;//客户端中断连接，则暂停   </span><br><span class="line">                httpContext.Response.BinaryWrite(br.ReadBytes(packSize));</span><br><span class="line">                httpContext.Response.Flush\(\);</span><br><span class="line">                if (sleep &amp;gt; 1) Thread.Sleep(sleep);</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line">        &#125;</span><br><span class="line">        catch</span><br><span class="line">        &#123;</span><br><span class="line">            ret = false;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            br.Close\(\);</span><br><span class="line">            myFile.Close\(\);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    catch</span><br><span class="line">    &#123;</span><br><span class="line">        ret = false;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 支持断点续传</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;httpContext&quot;&gt;&lt;&#x2F;param&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;filePath&quot;&gt;&lt;&#x2F;param&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;speed&quot;&gt;&lt;&#x2F;param&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">public static bool DownloadFile(HttpContext httpContext, string filePath, long speed)</span><br><span class="line">&#123;</span><br><span class="line">    bool ret &#x3D; true;</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        #region--验证：HttpMethod，请求的文件是否存在</span><br><span class="line">        switch (httpContext.Request.HttpMethod.ToUpper\(\))</span><br><span class="line">        &#123; &#x2F;&#x2F;目前只支持GET和HEAD方法   </span><br><span class="line">            case &quot;GET&quot;:</span><br><span class="line">            case &quot;HEAD&quot;:</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                httpContext.Response.StatusCode &#x3D; 501;</span><br><span class="line">                return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!System.IO.File.Exists(filePath))</span><br><span class="line">        &#123;</span><br><span class="line">            httpContext.Response.StatusCode &#x3D; 404;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region 定义局部变量</span><br><span class="line">        long startBytes &#x3D; 0;</span><br><span class="line">        int packSize &#x3D; 1024 * 40; &#x2F;&#x2F;分块读取，每块40K bytes   </span><br><span class="line">        string fileName &#x3D; Path.GetFileName(filePath);</span><br><span class="line">        FileStream myFile &#x3D; new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);</span><br><span class="line">        BinaryReader br &#x3D; new BinaryReader(myFile);</span><br><span class="line">        long fileLength &#x3D; myFile.Length;</span><br><span class="line"></span><br><span class="line">        int sleep &#x3D; (int)Math.Ceiling(1000.0 * packSize &#x2F; speed);&#x2F;&#x2F;毫秒数：读取下一数据块的时间间隔   </span><br><span class="line">        string lastUpdateTiemStr &#x3D; System.IO.File.GetLastWriteTimeUtc(filePath).ToString(&quot;r&quot;);</span><br><span class="line">        string eTag &#x3D; HttpUtility.UrlEncode(fileName, Encoding.UTF8) + lastUpdateTiemStr;&#x2F;&#x2F;便于恢复下载时提取请求头;   </span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        #region--验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修</span><br><span class="line">        if (myFile.Length &gt; Int32.MaxValue)</span><br><span class="line">        &#123;&#x2F;&#x2F;-------文件太大了-------   </span><br><span class="line">            httpContext.Response.StatusCode &#x3D; 413;&#x2F;&#x2F;请求实体太大   </span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (httpContext.Request.Headers[&quot;If-Range&quot;] !&#x3D; null)&#x2F;&#x2F;对应响应头ETag：文件名+文件最后修改时间   </span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;----------上次被请求的日期之后被修改过--------------   </span><br><span class="line">            if (httpContext.Request.Headers[&quot;If-Range&quot;].Replace(&quot;&quot;&quot;, &quot;&quot;) !&#x3D; eTag)</span><br><span class="line">            &#123;&#x2F;&#x2F;文件修改过   </span><br><span class="line">                httpContext.Response.StatusCode &#x3D; 412;&#x2F;&#x2F;预处理失败   </span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            #region -------添加重要响应头、解析请求头、相关验证-------------------</span><br><span class="line">            httpContext.Response.Clear\(\);</span><br><span class="line">            httpContext.Response.Buffer &#x3D; false;</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-MD5&quot;,Common.ASE.GetMD5Hash(filePath));&#x2F;&#x2F;用于验证文件</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);&#x2F;&#x2F;重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;ETag&quot;, &quot;&quot;&quot; + eTag + &quot;&quot;&quot;);&#x2F;&#x2F;重要：续传必须   </span><br><span class="line">            httpContext.Response.AppendHeader(&quot;Last-Modified&quot;, lastUpdateTiemStr);&#x2F;&#x2F;把最后修改日期写入响应                   </span><br><span class="line">            httpContext.Response.ContentType &#x3D; &quot;application&#x2F;octet-stream&quot;;&#x2F;&#x2F;MIME类型：匹配任意文件类型   </span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename&#x3D;&quot; + HttpUtility.UrlEncode(fileName, Encoding.UTF8).Replace(&quot;+&quot;, &quot;%20&quot;));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Content-Length&quot;, (fileLength - startBytes).ToString\(\));</span><br><span class="line">            httpContext.Response.AddHeader(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</span><br><span class="line">            httpContext.Response.ContentEncoding &#x3D; Encoding.UTF8;</span><br><span class="line">            if (httpContext.Request.Headers[&quot;Range&quot;] !&#x3D; null)</span><br><span class="line">            &#123;&#x2F;&#x2F;------如果是续传请求，则获取续传的起始位置，即已经下载到客户端的字节数------   </span><br><span class="line">                httpContext.Response.StatusCode &#x3D; 206;&#x2F;&#x2F;重要：续传必须，表示局部范围响应。初始下载时默认为200   </span><br><span class="line">                string[] range &#x3D; httpContext.Request.Headers[&quot;Range&quot;].Split(new char[] &#123; &#39;&#x3D;&#39;, &#39;-&#39; &#125;);&#x2F;&#x2F;&quot;bytes&#x3D;1474560-&quot;   </span><br><span class="line">                startBytes &#x3D; Convert.ToInt64(range[1]);&#x2F;&#x2F;已经下载的字节数，即本次下载的开始位置     </span><br><span class="line">                if (startBytes &lt; 0 || startBytes &gt;&#x3D; fileLength)</span><br><span class="line">                &#123;&#x2F;&#x2F;无效的起始位置   </span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (startBytes &gt; 0)</span><br><span class="line">            &#123;&#x2F;&#x2F;------如果是续传请求，告诉客户端本次的开始字节数，总长度，以便客户端将续传数据追加到startBytes位置后----------   </span><br><span class="line">                httpContext.Response.AddHeader(&quot;Content-Range&quot;, string.Format(&quot; bytes &#123;0&#125;-&#123;1&#125;&#x2F;&#123;2&#125;&quot;, startBytes, fileLength - 1, fileLength));</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line"></span><br><span class="line">            #region -------向客户端发送数据块-------------------</span><br><span class="line">            br.BaseStream.Seek(startBytes, SeekOrigin.Begin);</span><br><span class="line">            int maxCount &#x3D; (int)Math.Ceiling((fileLength - startBytes + 0.0) &#x2F; packSize);&#x2F;&#x2F;分块下载，剩余部分可分成的块数   </span><br><span class="line">            for (int i &#x3D; 0; i &lt; maxCount &amp;&amp; httpContext.Response.IsClientConnected; i++)</span><br><span class="line">            &#123;&#x2F;&#x2F;客户端中断连接，则暂停   </span><br><span class="line">                httpContext.Response.BinaryWrite(br.ReadBytes(packSize));</span><br><span class="line">                httpContext.Response.Flush\(\);</span><br><span class="line">                if (sleep &gt; 1) Thread.Sleep(sleep);</span><br><span class="line">            &#125;</span><br><span class="line">            #endregion</span><br><span class="line">        &#125;</span><br><span class="line">        catch</span><br><span class="line">        &#123;</span><br><span class="line">            ret &#x3D; false;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            br.Close\(\);</span><br><span class="line">            myFile.Close\(\);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    catch</span><br><span class="line">    &#123;</span><br><span class="line">        ret &#x3D; false;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -517,14 +767,14 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在前面的文章中，小猪分享过如何将json字符串转换成js对象，具体请看<a href="http://www.smallerpig.com/archives/283" title="传送门" target="_blank" rel="noopener">传送门</a>。</p>
+        <p>在前面的文章中，小猪分享过如何将json字符串转换成js对象，具体请看<a href="http://www.smallerpig.com/archives/283" target="_blank" rel="noopener" title="传送门">传送门</a>。</p>
 <p>那如果是前台通过js等其他东东发送过来的json字符串我们要如何将其转换成C#对象呢？</p>
 <p>如果是post过来的json数组的话我们可以直接使用Request.Form[&quot;&quot;]的方式获取值。</p>
 <p>今天小猪分享的是如何将json数组转换成C#对象。</p>
 <p><strong>首先引用，</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">using System.Web.Script.Serialization;</span><br></pre></td></tr></table></figure></p>
 <p><strong>第二部：定义实体类</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">class Entity</span><br><span class="line">&#123;</span><br><span class="line">    public int status &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>第三部：定义泛型转换</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public static T JSONToObject&amp;lt;T&amp;gt;(string jsonText)</span><br><span class="line">&#123;</span><br><span class="line">    JavaScriptSerializer jss = new JavaScriptSerializer\(\);</span><br><span class="line">    return jss.Deserialize&amp;lt;T&amp;gt;(jsonText);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>第四部：使用</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">Entity entity= JSONToObject&amp;lt;Entity&amp;gt;(JsonString);</span><br></pre></td></tr></table></figure></p>
+<p><strong>第三部：定义泛型转换</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public static T JSONToObject&lt;T&gt;(string jsonText)</span><br><span class="line">&#123;</span><br><span class="line">    JavaScriptSerializer jss &#x3D; new JavaScriptSerializer\(\);</span><br><span class="line">    return jss.Deserialize&lt;T&gt;(jsonText);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>第四部：使用</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">Entity entity&#x3D; JSONToObject&lt;Entity&gt;(JsonString);</span><br></pre></td></tr></table></figure></p>
 <p><strong>特别注意：</strong></p>
 <p>使用的json字符串中的数据字段必须大于等于实体类中的属性。也就是实体类中有的属性则json字符串中也有，否则可能保存，相反，json字符串中有的则实体类中不一定要有。</p>
 
@@ -613,7 +863,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>使用的是Visual Studio2012 ULT 控制台项目按ctrl+F5可以运行，不可以直接按F5调试，出现“尝试运行项目时出错(项目地址)Windows Web服务框架中出现了无法识别的错误”。可是调试ASP.NET程序却没有问题。</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/1771377249614.png" alt title="QQ截图20130823171351.png"></p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/1771377249614.png" alt="" title="QQ截图20130823171351.png"></p>
 <p>小猪遇到这个问题很是郁闷，不知道是什么地方出现了问题，百度了好久都没有个正式的解决方案，例如</p>
 <p><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="noopener"></a><a href="http://bbs.csdn.net/topics/390511663" target="_blank" rel="noopener">http://bbs.csdn.net/topics/390511663</a></p>
 <p>只好谷歌了一下。</p>
@@ -623,7 +873,7 @@ var _hmt = _hmt || [];
 <p>This is happening because Visual Studio is a 32-bit application. &nbsp;Only 64-bit applications are able to debug other 64-bit applications, so Visual Studio creates a fake remote connection to a 64-bit debugger when debugging 64-bit apps. &nbsp;If you select the prefer 32-bit option, then this is unnecessary.</p>
 <p>虽然小猪英文不太好，但是看到32-bit、64-bit也就大差不差的了解人家在说什么了。小猪这才恍然大悟，可能是系统装的是64位系统，某些指令集支持的不够好。</p>
 <p> 按照这个提示，把需要调试的程序改成X86。</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/39891377249614.jpg" alt title="QQ图片20130823171439.jpg"></p>
+<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/39891377249614.jpg" alt="" title="QQ图片20130823171439.jpg"></p>
 <p>再点调试，……完美运行……</p>
 <p>另外有些同志说需要把类似防火墙的东东关掉，这个我就不太清楚了。</p>
 
@@ -703,7 +953,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <div id="cnblogs_post_body"><br><br>        工欲善其事，必先利其器。虽然说Vim和Emacs是神器，但是对于使用Visual Studio的程序员来说，我们也可以通过一些快捷键和潜在的一些功能实现脱离鼠标写代码，提高工作效率，像使用Vim一样使用Visual Studio。<br><br>        当然，如果想真正像使用Vim一样使用Visual Studio可以安装这个插件：<a href="http://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/" target="_blank" rel="noopener">VsVim</a>，只支持VS2010+。<br><br>        <span style="font-size:14px;line-height:1.5;">下面我会总结一些我觉得大家平时可能不怎么知道的但是又很好用的一些VS的快捷键和使用技巧。如果您是大牛那不需要看了，哈哈。个人知识有限如果大家还有什么比较实用的快捷键，欢迎分享。因为不像Vim有Normal，Insert两种模式，所以VS快捷键的特点就是需要很多Ctrl, Shift, Alt的参与。这个缺点就是很可能会跟你电脑上某一些程序的快捷键冲突了。而且不知道为什么Visual Studio在不同电脑上的某一些快捷键有可能是不一样的，所以可能文中会有一些快捷键在你的电脑上无法使用，Google it。我目前用的办法就是将我熟悉的配置同步到所有我使用的Visual Studio中来保证我自己用的各个版本之间的快捷键是一样的。</span><br><br>        这些快捷键咋一看挺难记的，但是我的方法是先将觉得有用的记下来，然后下次要使用到这个功能的时候克制住不要用鼠标，去查一下使用快捷键。这么几次以后你就记住了。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**一、主题**</span><br><span class="line"></span><br><span class="line">		你可能会很奇怪为什么第一个居然是这么一个东西。当然是这个啦！我们要整天对着VS写代码，debug，面对VS默认的配色你看久了很无聊有木有？眼睛很难受有木有？选择一个合适自己的主题，既可以保护视力，又可以让自己的心情愉悦，心情好了顺便连工作效率也一起提高了不是很好么！</span><br><span class="line"></span><br><span class="line">		如果你还在用默认的主题，赶紧换掉吧。下面推荐一个提供VS配色方案的一个网站：StudioStyles，域名和网站同名：[http://studiostyl.es/](http://studiostyl.es/)。下面是[我使用的主题](http://studiostyl.es/schemes/humane-studio)，我觉得看着很舒服，很和谐。</span><br><span class="line"></span><br><span class="line">		![My Visual Studio Theme](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/91461377227869.jpg)</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>二、更有效得使用编辑器</strong><br><br>        这里指的编辑器就是也就是大家写代码的地方。<br><br>        <span style="text-decoration:underline;">更有效的剪切板</span><br><br>        1. 循环剪切板: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd> 。在VS中多次复制，其实VS都会保存下来，只需要调用这个快捷键就可以把之前多次的复制记录都粘贴出来。<br><br>        2. 整行剪切：<kbd>Ctrl</kbd> + <kbd>X</kbd>。光标不要选中任何文字，然后按这个快捷键就可以把整行剪切下来。 <kbd>Ctrl</kbd> + <kbd>L</kbd> 同样可以实现整行剪切，使用方法也是一样，区别在于使用Ctrl + X后光标会落于下一行的行尾，二使用<kbd>Ctrl</kbd> + <kbd>L</kbd>光标则会停在下一行的行首。<br><br>        3. 整行复制：<kbd>Ctrl</kbd> + <kbd>C</kbd>。这个和<kbd>Ctrl</kbd> + <kbd>X</kbd>的使用方法一样。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的选择：</span><br><br>        1. 基本选择：<kbd>Shift</kbd> + 光标（<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>） &nbsp;。基于光标所在的地点，按住<kbd>Shift</kbd>然后使用上下左右光标可以自由选择。<br><br>        2. 基于单词选择：<kbd>Shift</kbd> + <kbd>Ctrl</kbd>+（<kbd>&rarr;</kbd><kbd>&larr;</kbd>）。使用这个可以跳跃单词的选，也可配合<kbd>Home</kbd>/<kbd>End</kbd>选择整行<br><br>        3. 基于&ldquo;方块&rdquo;选择：<kbd>Shift</kbd> + <kbd>Alt</kbd> + (<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>) 或者<kbd>Alt</kbd> + 鼠标。<br><br>        4. 选择一个整个单词：<kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>W</kbd>。把光标放在某个单词中的时候按快捷键即可。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的编辑：</span><br><br>        1. 整行删除：<kbd>Shift</kbd> + <kbd>Delete</kbd>。<br><br>        2. 删除下一个单词：<kbd>Ctrl</kbd> + <kbd>Delete</kbd>。<br><br>        3. 删除上一个单词：<kbd>Ctrl</kbd> + 退格（<kbd>Backspace</kbd>）<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的位置跳转：</span><br><br>        1. 基于单词的跳转：<kbd>Ctrl</kbd> + (<kbd>&larr;</kbd><kbd>&rarr;</kbd>)。此快捷键可以让光标以单词为单位左右进行跳转。<br><br>        2. 跳到上一个本单词： &nbsp; <kbd>Shift</kbd> + <kbd>Ctrl</kbd> +（<kbd>&darr;</kbd><kbd>&uarr;</kbd>） &nbsp;。这个功能比较有用，可以将光标移动到光标所在的那个单词上次或者下次在文中出现的地方。<br><br>        3. 跳到上一个光标停留的地方： &nbsp; <kbd>Ctrl</kbd> + <kbd>-</kbd>（往前）；<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> &nbsp;（往后）<br><br>        4. 快速跳转到某一行： <kbd>Ctrl</kbd> + <kbd>G</kbd><br><br>        5. 快速跳到文件头尾：<kbd>Ctrl</kbd> + <kbd>Home</kbd>/<kbd>End</kbd><br><br>        6. 快速跳转到本行第一个非空格开头：<kbd>Home</kbd>。如果要到本行最开头则按两下<kbd>Home</kbd>即可。<br><br>        7. 快速跳转到本行结尾：<kbd>End</kbd><br><br>        8. 匹配括号移动：<kbd>Ctrl</kbd> + <kbd>]</kbd>，适用于 <kbd>(</kbd><kbd>)</kbd>, <kbd>{</kbd><kbd>}</kbd>, <kbd>[</kbd><kbd>]</kbd>, <kbd>&ldquo;</kbd><kbd>&rdquo;</kbd> 。将光标放在需要匹配的括号然后按这个快捷键，光标会跳转到其相对于那个的括号上去。这个功能比较有用，但是我还有一个建议。Visual Studio本来就会将相对应的括号给特别标识出来，只是一般默认的那个颜色和背景颜色比较类似看不出来，建议将其在Font And Colors中设置成醒目的颜色。那个括号匹配设置如图，中文不知道是什么，大家找一下应该就可以找到了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33521377227869.jpg" alt="Color Setting"><br><br>        设置好以后效果如下，是不是很醒目了？这样就可以在括号群中迅速找到和它对应的那一个了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/74281377227869.jpg" alt="Brace"><br><br>        &nbsp;<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**三、继续更有效率的编辑器**</span><br><span class="line"></span><br><span class="line">		3.1 更有效的编辑（补充）</span><br><span class="line"></span><br><span class="line">		a. 注释代码：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;C&lt;/kbd&gt;(Comment)， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt;（Comment）。打开文件类型不同行为可能不同，在cs文件类型中会将选中行的代码注释，cpp中会将选中的内容进行注释。</span><br><span class="line"></span><br><span class="line">		&amp;nbsp; 反注释代码：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;U&lt;/kbd&gt;(Uncomment)， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;U&lt;/kbd&gt;(Uncomment)</span><br><span class="line"></span><br><span class="line">		b. 调整格式选中代码格式：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;F&lt;/kbd&gt;(Format)。&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 13px;&quot;&gt;Ctrl + K +F&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">		c. 调整整个文档代码格式：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;E&lt;/kbd&gt;(Edit) + &lt;kbd&gt;D&lt;/kbd&gt;(Document Format)。 &lt;span style=&quot;color:#FF0000;&quot;&gt;Ctrl+K +D&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">		3.2 更有效率的搜索：</span><br><span class="line"></span><br><span class="line">		a. Incremental Search（增量搜索，不知道翻译得恰不恰当）：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;(Incremental) (移动到下一个匹配按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;, 移动到上一个&lt;kbd&gt;Shift&lt;/kbd&gt; + &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;I&lt;/kbd&gt;)。按住快捷键然后输入要查询的字符串，VS会马上定位到而不需要想&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;那种确认的过程，可以通过我截的图中看到效果。我一般如果只是想在当前文档进行简单搜索的话一般会使用这个搜索，遇到是一些比较复杂的搜索条件才去动用弹框搜索。</span><br><span class="line"></span><br><span class="line">		![Incremental Search](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/70001377227869.gif &quot;Incremental Search&quot;)</span><br><span class="line"></span><br><span class="line">		b. &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;(Find)：在Visual Studio 2012中其实这个功能已经和Increment Search很相似了，你会发现在VS2012+里使用&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;和上面的效果是一样的，都是输入即可看到搜索结果。不过与Increment Search不同的是，这个搜索可以指定更多的条件，如是否匹配大小写、是否整词搜索、是否用正则表达式以及搜索的范围。</span><br><span class="line"></span><br><span class="line">		c. 在文件中查找：&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Shift&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt;，这个可以实现的搜索功能与&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt; 一模一样，唯一不同就是这个可以将你搜索的结果输出到查找结果窗口中，而不是一个一个显示出来。这个比较合适搜一些比较多匹配的东西，然后在输出的结果窗口中在肉眼筛选。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>四、更有效的导航：</strong><br><br>        1. 快速打开Solution Explorer：<kbd>Ctrl</kbd> + <kbd>W</kbd>(Windows)+ <kbd>S</kbd>(Solution)、<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>。当你在写代码想打开工程中另一个文件时就可以用这个快速打开解决方案窗口选择文件。<br><br>        2. 打开当前打开文件列表：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd>。这个很好用，但是这个快捷键在很多电脑上都会翻转屏幕，囧。如果实在要用这个功能，可以通过自定义快捷键来实现。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/2961377227869.png" alt="File List"><br><br>        3. 快速将焦点移到类列表(这个名词纯属YY，见图便知我指的是啥)：<kbd>Ctrl</kbd> +<kbd>F2</kbd>。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/44921377227869.png" alt="Class list"><br><br>        4. 内部文件切换：<kbd>Ctrl</kbd> + <kbd>Tab</kbd>。这个不仅在VS中，很多软件中都是这个功能。<br><br>        5. 全屏：<kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Enter</kbd>。可以让你进入全屏无干扰模式，本人很喜欢这个功能。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**五、更有效的智能感知**</span><br><span class="line"></span><br><span class="line">		智能感知本来就很智能，但是很多时候我们想强制的调出一些提示来看一下的时候这些功能就爽。很多功能语言描述可能比较累，而且由于我语文不好很可能你还看不懂，所以我会附图。</span><br><span class="line"></span><br><span class="line">		1\. 列出成员。&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;K&lt;/kbd&gt; + &lt;kbd&gt;L&lt;/kbd&gt;（List Member）， &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;J&lt;/kbd&gt;。我们知道当我们需要访问对象方法的时候按.VS会自动提示出有哪些方法，但是有时候我们需要在.操作符已经存在的情况下再查看。以前我会把点删掉然后再点一次，我承认我当时很傻，后来知道这个快捷键以后就好多了。</span><br><span class="line"></span><br><span class="line">		![List Member](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/76911377227869.gif)</span><br><span class="line"></span><br><span class="line">		2\. 列出选项（表述不明确，具体看后面描述）。&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;.&lt;/kbd&gt; 或者&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Shift&lt;/kbd&gt; +&lt;kbd&gt;F10&lt;/kbd&gt;。当我们用到一些类型在我们工程引用的程序集里但是没有在当前当前文件引用的命名空间内时，或者我们写了一个不存在的函数时，那行代码会有错误提示，并且在左下角有一个小符号。如图：![UnknowType](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/87461377227869.png)。我们鼠标移到符号附近会出现一些帮助，可以自动帮助我们添加引用或者生成函数。这个快捷键就是在不移动鼠标的情况下让其出现这个提示。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    <strong>六、其他</strong><br><br>        1. 任务列表（Task List），可以通过View-&gt;Task List打开这个窗口。很多人可能不知道这个功能，我觉得挺有用。写代码的时候我往往会遇到这种情况，某一些代码我现在不确定需求或者觉得可能会有问题将来需要改善，我会加上注释：//TODO：reason。相信很多人会有同样的习惯，这个任务列表的功能就是让我们可以看到我们当前工程中有多少个TODO项。当然不局限于TODO这个词，可以自定义词汇。我一般会在commit之前看一下这个列表看看还有没有需要改的地方。这个还可以直接添加一些任务，具体使用自己用一下就知道了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33351377227869.jpg" alt="Task List"><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	七、插件</span><br><span class="line"></span><br><span class="line">		这里在推荐两个插件：C# outline 和Smart Paster。</span><br><span class="line"></span><br><span class="line">		1\. [C# Outline](http://visualstudiogallery.msdn.microsoft.com/bc07ec7e-abfa-425f-bb65-2411a260b926)</span><br><span class="line"></span><br><span class="line">		Visual Studio默认的outline是只有在函数级别的，但是很多时候有一些循环条件很长也需要缩起来看比较方便。于是就有了这个插件。效果如下：</span><br><span class="line"></span><br><span class="line">		Before outline-&amp;gt;![Before outline](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/26341377227870.jpg)</span><br><span class="line"></span><br><span class="line">		After outline-&amp;gt; ![After outline](http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/78081377227870.jpg)</span><br><span class="line"></span><br><span class="line">		2\. [Smart Paster](http://smartpaster2010.codeplex.com/)</span><br><span class="line"></span><br><span class="line">		这个插件可以将文字粘帖为注释、和string字符串和StringBuilder。特别是对于粘贴多行的文字的时候很有用。</span><br></pre></td></tr></table></figure><br><br>##<br><br>    八、推荐资料<br><br>        1. <a href="http://stackoverflow.com/questions/98606/favorite-visual-studio-keyboard-shortcuts" target="_blank" rel="noopener">Favorite Visual Studio keyboard shortcuts</a>：Stackoverflow 上一群人在讨论自己最喜欢的快捷键，可以去里面看看或许你会看到一些你意想不到的快捷键。<br><br>        2. <a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">Visual Studio</a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener"> </a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">程序员箴言</a>：这本书介绍了很多关于VS方面的知识。<br><br>        3. 可以多看看VS菜单栏上那些没用过东西，或许你会发现一些对你很有用的东西。<br><br>        &nbsp;<br><br><code>`</code><br>##<br><br>    使用注释生成XML注释文档<br><br>        实际上该方法适合于所有版本的Visual studio，方法很简单，设置一下Visual studio的项目属性和工具选项即可。<br><br>        1.在菜单栏的&ldquo;Project&rdquo;中选择当前项目的&ldquo;<strong>* Properties&rdquo;，然后在&ldquo;Build&rdquo;标签页中找到&ldquo;Output&rdquo;一栏，在&ldquo;XML documentation files&rdquo;复选框中打上勾勾，在自定义输出的XML文档的文件名即可。<br><br>        2.检查菜单栏上的&ldquo;Tools&rdquo;中选择&ldquo;Options&rdquo;菜单项，然后在&ldquo;Text Editor&rdquo;支点中找到&ldquo;C#&rdquo;，在其子项中找到&ldquo;Advanced&rdquo;，然后在&ldquo;XML Documentation Comments&nbsp;&rdquo;下的&ldquo;Generate Xml documentation comments for///&rdquo;复选框是否已被选中，如果没被选中就选上它。<br><br>        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一切工作完成之后就可以生成相应的注释XML文档了。Build一下自己的工程，看看生成的文件吧^^<br><br>        &nbsp;<br><br>        &nbsp;
+        <div id="cnblogs_post_body"><br><br>        工欲善其事，必先利其器。虽然说Vim和Emacs是神器，但是对于使用Visual Studio的程序员来说，我们也可以通过一些快捷键和潜在的一些功能实现脱离鼠标写代码，提高工作效率，像使用Vim一样使用Visual Studio。<br><br>        当然，如果想真正像使用Vim一样使用Visual Studio可以安装这个插件：<a href="http://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/" target="_blank" rel="noopener">VsVim</a>，只支持VS2010+。<br><br>        <span style="font-size:14px;line-height:1.5;">下面我会总结一些我觉得大家平时可能不怎么知道的但是又很好用的一些VS的快捷键和使用技巧。如果您是大牛那不需要看了，哈哈。个人知识有限如果大家还有什么比较实用的快捷键，欢迎分享。因为不像Vim有Normal，Insert两种模式，所以VS快捷键的特点就是需要很多Ctrl, Shift, Alt的参与。这个缺点就是很可能会跟你电脑上某一些程序的快捷键冲突了。而且不知道为什么Visual Studio在不同电脑上的某一些快捷键有可能是不一样的，所以可能文中会有一些快捷键在你的电脑上无法使用，Google it。我目前用的办法就是将我熟悉的配置同步到所有我使用的Visual Studio中来保证我自己用的各个版本之间的快捷键是一样的。</span><br><br>        这些快捷键咋一看挺难记的，但是我的方法是先将觉得有用的记下来，然后下次要使用到这个功能的时候克制住不要用鼠标，去查一下使用快捷键。这么几次以后你就记住了。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**一、主题**</span><br><span class="line"></span><br><span class="line">		你可能会很奇怪为什么第一个居然是这么一个东西。当然是这个啦！我们要整天对着VS写代码，debug，面对VS默认的配色你看久了很无聊有木有？眼睛很难受有木有？选择一个合适自己的主题，既可以保护视力，又可以让自己的心情愉悦，心情好了顺便连工作效率也一起提高了不是很好么！</span><br><span class="line"></span><br><span class="line">		如果你还在用默认的主题，赶紧换掉吧。下面推荐一个提供VS配色方案的一个网站：StudioStyles，域名和网站同名：[http:&#x2F;&#x2F;studiostyl.es&#x2F;](http:&#x2F;&#x2F;studiostyl.es&#x2F;)。下面是[我使用的主题](http:&#x2F;&#x2F;studiostyl.es&#x2F;schemes&#x2F;humane-studio)，我觉得看着很舒服，很和谐。</span><br><span class="line"></span><br><span class="line">		![My Visual Studio Theme](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;91461377227869.jpg)</span><br></pre></td></tr></table></figure><br>##<br><br>    <strong>二、更有效得使用编辑器</strong><br><br>        这里指的编辑器就是也就是大家写代码的地方。<br><br>        <span style="text-decoration:underline;">更有效的剪切板</span><br><br>        1. 循环剪切板: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd> 。在VS中多次复制，其实VS都会保存下来，只需要调用这个快捷键就可以把之前多次的复制记录都粘贴出来。<br><br>        2. 整行剪切：<kbd>Ctrl</kbd> + <kbd>X</kbd>。光标不要选中任何文字，然后按这个快捷键就可以把整行剪切下来。 <kbd>Ctrl</kbd> + <kbd>L</kbd> 同样可以实现整行剪切，使用方法也是一样，区别在于使用Ctrl + X后光标会落于下一行的行尾，二使用<kbd>Ctrl</kbd> + <kbd>L</kbd>光标则会停在下一行的行首。<br><br>        3. 整行复制：<kbd>Ctrl</kbd> + <kbd>C</kbd>。这个和<kbd>Ctrl</kbd> + <kbd>X</kbd>的使用方法一样。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的选择：</span><br><br>        1. 基本选择：<kbd>Shift</kbd> + 光标（<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>） &nbsp;。基于光标所在的地点，按住<kbd>Shift</kbd>然后使用上下左右光标可以自由选择。<br><br>        2. 基于单词选择：<kbd>Shift</kbd> + <kbd>Ctrl</kbd>+（<kbd>&rarr;</kbd><kbd>&larr;</kbd>）。使用这个可以跳跃单词的选，也可配合<kbd>Home</kbd>/<kbd>End</kbd>选择整行<br><br>        3. 基于&ldquo;方块&rdquo;选择：<kbd>Shift</kbd> + <kbd>Alt</kbd> + (<kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd>) 或者<kbd>Alt</kbd> + 鼠标。<br><br>        4. 选择一个整个单词：<kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>W</kbd>。把光标放在某个单词中的时候按快捷键即可。<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的编辑：</span><br><br>        1. 整行删除：<kbd>Shift</kbd> + <kbd>Delete</kbd>。<br><br>        2. 删除下一个单词：<kbd>Ctrl</kbd> + <kbd>Delete</kbd>。<br><br>        3. 删除上一个单词：<kbd>Ctrl</kbd> + 退格（<kbd>Backspace</kbd>）<br><br>        &nbsp;<br><br>        <span style="text-decoration:underline;">更有效的位置跳转：</span><br><br>        1. 基于单词的跳转：<kbd>Ctrl</kbd> + (<kbd>&larr;</kbd><kbd>&rarr;</kbd>)。此快捷键可以让光标以单词为单位左右进行跳转。<br><br>        2. 跳到上一个本单词： &nbsp; <kbd>Shift</kbd> + <kbd>Ctrl</kbd> +（<kbd>&darr;</kbd><kbd>&uarr;</kbd>） &nbsp;。这个功能比较有用，可以将光标移动到光标所在的那个单词上次或者下次在文中出现的地方。<br><br>        3. 跳到上一个光标停留的地方： &nbsp; <kbd>Ctrl</kbd> + <kbd>-</kbd>（往前）；<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> &nbsp;（往后）<br><br>        4. 快速跳转到某一行： <kbd>Ctrl</kbd> + <kbd>G</kbd><br><br>        5. 快速跳到文件头尾：<kbd>Ctrl</kbd> + <kbd>Home</kbd>/<kbd>End</kbd><br><br>        6. 快速跳转到本行第一个非空格开头：<kbd>Home</kbd>。如果要到本行最开头则按两下<kbd>Home</kbd>即可。<br><br>        7. 快速跳转到本行结尾：<kbd>End</kbd><br><br>        8. 匹配括号移动：<kbd>Ctrl</kbd> + <kbd>]</kbd>，适用于 <kbd>(</kbd><kbd>)</kbd>, <kbd>{</kbd><kbd>}</kbd>, <kbd>[</kbd><kbd>]</kbd>, <kbd>&ldquo;</kbd><kbd>&rdquo;</kbd> 。将光标放在需要匹配的括号然后按这个快捷键，光标会跳转到其相对于那个的括号上去。这个功能比较有用，但是我还有一个建议。Visual Studio本来就会将相对应的括号给特别标识出来，只是一般默认的那个颜色和背景颜色比较类似看不出来，建议将其在Font And Colors中设置成醒目的颜色。那个括号匹配设置如图，中文不知道是什么，大家找一下应该就可以找到了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33521377227869.jpg" alt="Color Setting"><br><br>        设置好以后效果如下，是不是很醒目了？这样就可以在括号群中迅速找到和它对应的那一个了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/74281377227869.jpg" alt="Brace"><br><br>        &nbsp;<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**三、继续更有效率的编辑器**</span><br><span class="line"></span><br><span class="line">		3.1 更有效的编辑（补充）</span><br><span class="line"></span><br><span class="line">		a. 注释代码：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;E&lt;&#x2F;kbd&gt;(Edit) + &lt;kbd&gt;C&lt;&#x2F;kbd&gt;(Comment)， &lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;K&lt;&#x2F;kbd&gt; + &lt;kbd&gt;C&lt;&#x2F;kbd&gt;（Comment）。打开文件类型不同行为可能不同，在cs文件类型中会将选中行的代码注释，cpp中会将选中的内容进行注释。</span><br><span class="line"></span><br><span class="line">		&amp;nbsp; 反注释代码：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;E&lt;&#x2F;kbd&gt;(Edit) + &lt;kbd&gt;U&lt;&#x2F;kbd&gt;(Uncomment)， &lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;K&lt;&#x2F;kbd&gt; + &lt;kbd&gt;U&lt;&#x2F;kbd&gt;(Uncomment)</span><br><span class="line"></span><br><span class="line">		b. 调整格式选中代码格式：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;E&lt;&#x2F;kbd&gt;(Edit) + &lt;kbd&gt;F&lt;&#x2F;kbd&gt;(Format)。&lt;span style&#x3D;&quot;color: rgb(255, 0, 0); font-size: 13px;&quot;&gt;Ctrl + K +F&lt;&#x2F;span&gt;</span><br><span class="line"></span><br><span class="line">		c. 调整整个文档代码格式：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;E&lt;&#x2F;kbd&gt;(Edit) + &lt;kbd&gt;D&lt;&#x2F;kbd&gt;(Document Format)。 &lt;span style&#x3D;&quot;color:#FF0000;&quot;&gt;Ctrl+K +D&lt;&#x2F;span&gt;</span><br><span class="line"></span><br><span class="line">		3.2 更有效率的搜索：</span><br><span class="line"></span><br><span class="line">		a. Incremental Search（增量搜索，不知道翻译得恰不恰当）：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;I&lt;&#x2F;kbd&gt;(Incremental) (移动到下一个匹配按&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;I&lt;&#x2F;kbd&gt;, 移动到上一个&lt;kbd&gt;Shift&lt;&#x2F;kbd&gt; + &lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;I&lt;&#x2F;kbd&gt;)。按住快捷键然后输入要查询的字符串，VS会马上定位到而不需要想&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;F&lt;&#x2F;kbd&gt;那种确认的过程，可以通过我截的图中看到效果。我一般如果只是想在当前文档进行简单搜索的话一般会使用这个搜索，遇到是一些比较复杂的搜索条件才去动用弹框搜索。</span><br><span class="line"></span><br><span class="line">		![Incremental Search](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;70001377227869.gif &quot;Incremental Search&quot;)</span><br><span class="line"></span><br><span class="line">		b. &lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;F&lt;&#x2F;kbd&gt;(Find)：在Visual Studio 2012中其实这个功能已经和Increment Search很相似了，你会发现在VS2012+里使用&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;F&lt;&#x2F;kbd&gt;和上面的效果是一样的，都是输入即可看到搜索结果。不过与Increment Search不同的是，这个搜索可以指定更多的条件，如是否匹配大小写、是否整词搜索、是否用正则表达式以及搜索的范围。</span><br><span class="line"></span><br><span class="line">		c. 在文件中查找：&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;Shift&lt;&#x2F;kbd&gt; + &lt;kbd&gt;F&lt;&#x2F;kbd&gt;，这个可以实现的搜索功能与&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;F&lt;&#x2F;kbd&gt; 一模一样，唯一不同就是这个可以将你搜索的结果输出到查找结果窗口中，而不是一个一个显示出来。这个比较合适搜一些比较多匹配的东西，然后在输出的结果窗口中在肉眼筛选。</span><br></pre></td></tr></table></figure><br>##<br><br>    <strong>四、更有效的导航：</strong><br><br>        1. 快速打开Solution Explorer：<kbd>Ctrl</kbd> + <kbd>W</kbd>(Windows)+ <kbd>S</kbd>(Solution)、<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>。当你在写代码想打开工程中另一个文件时就可以用这个快速打开解决方案窗口选择文件。<br><br>        2. 打开当前打开文件列表：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd>。这个很好用，但是这个快捷键在很多电脑上都会翻转屏幕，囧。如果实在要用这个功能，可以通过自定义快捷键来实现。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/2961377227869.png" alt="File List"><br><br>        3. 快速将焦点移到类列表(这个名词纯属YY，见图便知我指的是啥)：<kbd>Ctrl</kbd> +<kbd>F2</kbd>。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/44921377227869.png" alt="Class list"><br><br>        4. 内部文件切换：<kbd>Ctrl</kbd> + <kbd>Tab</kbd>。这个不仅在VS中，很多软件中都是这个功能。<br><br>        5. 全屏：<kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Enter</kbd>。可以让你进入全屏无干扰模式，本人很喜欢这个功能。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	**五、更有效的智能感知**</span><br><span class="line"></span><br><span class="line">		智能感知本来就很智能，但是很多时候我们想强制的调出一些提示来看一下的时候这些功能就爽。很多功能语言描述可能比较累，而且由于我语文不好很可能你还看不懂，所以我会附图。</span><br><span class="line"></span><br><span class="line">		1\. 列出成员。&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;K&lt;&#x2F;kbd&gt; + &lt;kbd&gt;L&lt;&#x2F;kbd&gt;（List Member）， &lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;J&lt;&#x2F;kbd&gt;。我们知道当我们需要访问对象方法的时候按.VS会自动提示出有哪些方法，但是有时候我们需要在.操作符已经存在的情况下再查看。以前我会把点删掉然后再点一次，我承认我当时很傻，后来知道这个快捷键以后就好多了。</span><br><span class="line"></span><br><span class="line">		![List Member](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;76911377227869.gif)</span><br><span class="line"></span><br><span class="line">		2\. 列出选项（表述不明确，具体看后面描述）。&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;.&lt;&#x2F;kbd&gt; 或者&lt;kbd&gt;Ctrl&lt;&#x2F;kbd&gt; + &lt;kbd&gt;Shift&lt;&#x2F;kbd&gt; +&lt;kbd&gt;F10&lt;&#x2F;kbd&gt;。当我们用到一些类型在我们工程引用的程序集里但是没有在当前当前文件引用的命名空间内时，或者我们写了一个不存在的函数时，那行代码会有错误提示，并且在左下角有一个小符号。如图：![UnknowType](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;87461377227869.png)。我们鼠标移到符号附近会出现一些帮助，可以自动帮助我们添加引用或者生成函数。这个快捷键就是在不移动鼠标的情况下让其出现这个提示。</span><br></pre></td></tr></table></figure><br>##<br><br>    <strong>六、其他</strong><br><br>        1. 任务列表（Task List），可以通过View-&gt;Task List打开这个窗口。很多人可能不知道这个功能，我觉得挺有用。写代码的时候我往往会遇到这种情况，某一些代码我现在不确定需求或者觉得可能会有问题将来需要改善，我会加上注释：//TODO：reason。相信很多人会有同样的习惯，这个任务列表的功能就是让我们可以看到我们当前工程中有多少个TODO项。当然不局限于TODO这个词，可以自定义词汇。我一般会在commit之前看一下这个列表看看还有没有需要改的地方。这个还可以直接添加一些任务，具体使用自己用一下就知道了。<br><br>        <img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/33351377227869.jpg" alt="Task List"><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">	七、插件</span><br><span class="line"></span><br><span class="line">		这里在推荐两个插件：C# outline 和Smart Paster。</span><br><span class="line"></span><br><span class="line">		1\. [C# Outline](http:&#x2F;&#x2F;visualstudiogallery.msdn.microsoft.com&#x2F;bc07ec7e-abfa-425f-bb65-2411a260b926)</span><br><span class="line"></span><br><span class="line">		Visual Studio默认的outline是只有在函数级别的，但是很多时候有一些循环条件很长也需要缩起来看比较方便。于是就有了这个插件。效果如下：</span><br><span class="line"></span><br><span class="line">		Before outline-&gt;![Before outline](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;26341377227870.jpg)</span><br><span class="line"></span><br><span class="line">		After outline-&gt; ![After outline](http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;plugins&#x2F;wp-ueditor&#x2F;ueditor&#x2F;php&#x2F;upload&#x2F;78081377227870.jpg)</span><br><span class="line"></span><br><span class="line">		2\. [Smart Paster](http:&#x2F;&#x2F;smartpaster2010.codeplex.com&#x2F;)</span><br><span class="line"></span><br><span class="line">		这个插件可以将文字粘帖为注释、和string字符串和StringBuilder。特别是对于粘贴多行的文字的时候很有用。</span><br></pre></td></tr></table></figure><br>##<br><br>    八、推荐资料<br><br>        1. <a href="http://stackoverflow.com/questions/98606/favorite-visual-studio-keyboard-shortcuts" target="_blank" rel="noopener">Favorite Visual Studio keyboard shortcuts</a>：Stackoverflow 上一群人在讨论自己最喜欢的快捷键，可以去里面看看或许你会看到一些你意想不到的快捷键。<br><br>        2. <a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">Visual Studio</a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener"> </a><a href="http://book.douban.com/subject/4224471/" target="_blank" rel="noopener">程序员箴言</a>：这本书介绍了很多关于VS方面的知识。<br><br>        3. 可以多看看VS菜单栏上那些没用过东西，或许你会发现一些对你很有用的东西。<br><br>        &nbsp;<br><br><code>`</code><br>##<br><br>    使用注释生成XML注释文档<br><br>        实际上该方法适合于所有版本的Visual studio，方法很简单，设置一下Visual studio的项目属性和工具选项即可。<br><br>        1.在菜单栏的&ldquo;Project&rdquo;中选择当前项目的&ldquo;<strong>* Properties&rdquo;，然后在&ldquo;Build&rdquo;标签页中找到&ldquo;Output&rdquo;一栏，在&ldquo;XML documentation files&rdquo;复选框中打上勾勾，在自定义输出的XML文档的文件名即可。<br><br>        2.检查菜单栏上的&ldquo;Tools&rdquo;中选择&ldquo;Options&rdquo;菜单项，然后在&ldquo;Text Editor&rdquo;支点中找到&ldquo;C#&rdquo;，在其子项中找到&ldquo;Advanced&rdquo;，然后在&ldquo;XML Documentation Comments&nbsp;&rdquo;下的&ldquo;Generate Xml documentation comments for///&rdquo;复选框是否已被选中，如果没被选中就选上它。<br><br>        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一切工作完成之后就可以生成相应的注释XML文档了。Build一下自己的工程，看看生成的文件吧^^<br><br>        &nbsp;<br><br>        &nbsp;
 
         </strong>总结<strong><br><br>        这些只是对我来说最有用的一些技巧，强烈推荐大家可以去看看我推荐的那些资料去探索一些更加适合你的习惯的一些功能。因为当你不知道有这个功能的存在的情况下你根本就想不到要去找这么一个功能。<br><br>        如果你需要找一个你不知道的快捷键，可以通过在菜单栏上去看，一般常用的都会将快捷键放在菜单边上。或者你可以去MSDN上去查一下：<a href="http://msdn.microsoft.com/en-us/library/vstudio/dd576362.aspx" target="_blank" rel="noopener">http://msdn.microsoft.com/en-us/library/vstudio/dd576362.aspx</a> 。我觉得非常有必要去看一些类似于高效使用VS的资料，因为很多时候如果你不知道某一些功能的存在，你根本就不会想到去用更别说去搜这个功能。<br><br>        <em>编辑器中还有很多其他的技巧，先写一部分吧，这只是很小的一部分，还有很多其他的技巧以后慢慢道来</em>。以后可能还会总结一些关于搜索、编辑、调试、导航、Intellisense等等的内容。<br><br>        没想到上一篇文章有这么多人喜欢，多谢大家支持。继续～<br><br>        很多比较通用的快捷键的默认设置其实是有一些缩写在里面的，这个估计也是MS帮助我们记忆。比如说注释代码的快捷键是<kbd>Ctrl</kbd> + <kbd>E</kbd> + <kbd>C</kbd>，我们如果知道它是 <kbd>Ctrl</kbd> + Edit + Comment Code 的缩写不是更好记么？我也会尽量YY把快捷键和功能联系起来来帮助我自己记忆。另外很多功能在VS中有多个快捷键可以实现，我猜是为了防止一些快捷键冲突所设计的吧，我一般只会去记好记的，冲突了再说。<br><br>        &nbsp;<br><br>        容我再罗嗦几句。我们绝对没有必要去死记硬背很多很多快捷键然后装逼，因为并非所有的快捷键所有人都需要。很大程度上一些功能的使用是取决于你的工作习惯，同时我也不推荐你去记一些你觉得你都不会用到的快捷键，没意义，浪费时间。这也就是为什么我只列出一些对我工作效率有切身帮助的一些快捷键，而不是把Visual Studio中所有的快捷键都列出来，因为那样子的话就没意义了！
 
@@ -897,9 +1147,9 @@ var _hmt = _hmt || [];
 <p>这个就是背景图片显示的起始位置。那这个数字怎么设定呢？<br>哈哈，我是不是在卖关子？<br>呵呵，不卖关子，你咋能记得住。<br>还有这可是我经验的积累，过程，分享。<br>说正题，图片在背景的显示坐标(我们就当他是坐标)，为从图片的左上角算起为原点(0,0),<br>向右则为负(跟一般的横坐标相反),向下也为负(跟纵坐标一样),那么单位(px，当然也可以是其他的)则为刻度，好了，图片定位完成。<br>接下来就是你想要显示这个背景图片的哪个小图标，请按坐标标记下小图片的起始位置，那么<br>这就是你想要的background-position的结果了，至于怎么只显示这个小图片，就回到上面的讲的，需要对背景图片布局了，以及实际需求(比如div的高度宽度也觉得使用小图片的大小),<br>当然你会想，为什么不直接通过background来设置高度和宽度呢？我告诉你，是不行的。<br>所以你要对控制项div来设置高度和宽度，让小图片刚好显示出来，说了这么多，请看以下样式:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div.myDiv &#123;width:40px;height:30px&#125;</span><br><span class="line">div.myDiv&#123;background-image:url(test.jpg);&#125;</span><br><span class="line">div.normal&#123;background-position:-5px -10px;&#125;</span><br><span class="line">div.over&#123;&#123;background-position:-20px -30px;&#125;</span><br></pre></td></tr></table></figure>
 <p>然后是html:<br>普通情况如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;div class=&quot;myDiv normal&quot; &amp;gt;&amp;lt;/div&amp;gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv normal&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>当发生onmouseover事件的时候(当然是你自己添加的事件,不过标签是&lt;a&gt;的话就用样式A:over设置了),修改div的样式变成如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;div class=&quot;myDiv over&quot; &amp;gt;&amp;lt;/div&amp;gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv over&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 <p>那么实际情况我只是对position的位置做了调整，也就是相当于修改了背景图片的显示区域。<br>而这个显示区域的变化就是2张小图片的位置罢了~<br>好了，讲是讲完了，该你实践了~<br>实践才是进步的唯一稳步~</p>
 
       
@@ -966,237 +1216,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-csharp/c-e5-92-8cjs-e7-9a-84-e6-97-a5-e6-9c-9f-e6-a0-bc-e5-bc-8f-e8-bd-ac-e6-8d-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/286.html">C#和JS的日期格式转换</a>
-    </h1>
-  
-
-        
-        <a href="/286.html" class="archive-article-date">
-  	<time datetime="2013-08-19T06:04:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>C#和JS的日期格式互相转换遇到了问题，我们从.NET服务器端序列化一个DateTime对象的结果是一个字符串格式，如 <span style="color:#FF0000;">&#39;/Date(1335258540000)/&#39;</span> 这样的字符串。</p>
-<p>整数1335258540000实际上是一个<span style="color:#FF0000;">1970 年1月1日00:00:00</span>至这个DateTime中间间隔的毫秒数。通过javascript用eval函数可以把这个日期字符串转换为一个带有时区的Date对象，如下</p>
-<p>用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var date = eval(&apos;new &apos; + eval(&apos;/Date(1335258540000)/&apos;).source)</span><br></pre></td></tr></table></figure></p>
-<p>这样即可得到一个JS对象</p>
-<p>通过alert(date)查看比较清楚。</p>
-<p><span style="color:#FF0000;">Tue Apr 24 17:09:00 UTC+0800 2012 </span></p>
-<p>然后通过js的时间函数可对其进行格式化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var myDate = new Date\(\);</span><br><span class="line">myDate.getYear\(\);        //获取当前年份(2位)</span><br><span class="line">myDate.getFullYear\(\);    //获取完整的年份(4位,1970-????)</span><br><span class="line">myDate.getMonth\(\);       //获取当前月份(0-11,0代表1月)</span><br><span class="line">myDate.getDate\(\);        //获取当前日(1-31)</span><br><span class="line">myDate.getDay\(\);         //获取当前星期X(0-6,0代表星期天)</span><br><span class="line">myDate.getTime\(\);        //获取当前时间(从1970.1.1开始的毫秒数)</span><br><span class="line">myDate.getHours\(\);       //获取当前小时数(0-23)</span><br><span class="line">myDate.getMinutes\(\);     //获取当前分钟数(0-59)</span><br><span class="line">myDate.getSeconds\(\);     //获取当前秒数(0-59)</span><br><span class="line">myDate.getMilliseconds\(\);    //获取当前毫秒数(0-999)</span><br><span class="line">myDate.toLocaleDateString\(\);     //获取当前日期</span><br><span class="line">var mytime=myDate.toLocaleTimeString\(\);     //获取当前时间 上午12:00:00</span><br><span class="line">myDate.toLocaleString&amp;#40; &amp;#41;;        //获取日期与时间 2012年12月12日 上午12:00:00</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/JS//" class="article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/286.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-web/https协议基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/285.html">HTTPS协议基础</a>
-    </h1>
-  
-
-        
-        <a href="/285.html" class="archive-article-date">
-  	<time datetime="2013-08-19T03:20:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>“HTTPS协议的工作原理是什么？”这是我在数天前工作项目中需要解决的问题。作为一名Web开发者，我当然知道 HTTPS 协议是保障用户敏感数据的好办法，但并不知道这种协议的内在工作机制。它怎么保护数据？有人监听线路的情况下，服务器与客户端之间如何建立安全的连接？安全证书又是什么，为什么还要花钱买呢？</p>
-<p><strong>一系列通道</strong></p>
-<p>在深入讲解原理细节之前，让我们首先简单了解下HTTPS所防范的的问题，以及安全连接为何如此重要吧。在你访问自己喜欢的站点时，从你的电脑发送的请求会在各个不同的网络之间传递——这些网络很有可能是用来偷听，甚至篡改你的信息。</p>
-<p>局域网中，信息从你的电脑传输到其他电脑，传输到接入点，到ISP的路由器、交换机，最后到达骨干网线路。这样的一个过程中，有许多不同的组织在传送着你的请求。这时，如果不怀好意的用户侵入这条线路之中的任何一个系统中时，他们将很有可能看到线路中传送的内容。而一般情况下，Web请求和相应都经由普通的HTTP协议明文传送。HTTP协议默认不使用加密协议，都是由于这些原因：</p>
-<ul>
-<li>加密消耗了很多计算资源。</li>
-<li>加密占用了更多的传输带宽。</li>
-<li>加密后缓存机制会失效。<br>不过，Web开发者会时不时遇到在连接中传送密码、信用卡号等敏感信息的情况。所以，有必要为这些页面做好防嗅探的准备措施。</li>
-</ul>
-<p><strong>传输层安全协议（TLS）</strong></p>
-<p>虽然下面讲解的内容和密码学有关，但是这里只是一个简单的介绍，不熟悉相关知识也应该看得懂。在实践中，是密码学算法确保了通信过程的安全，同时也抵御了潜在的信息黑手——干扰通信和监听的人。</p>
-<p>SSL协议的继任者——TLS协议，常被用来实现安全HTTP连接（HTTPS）协议。在OSI网络模型中，TLS协议比HTTP协议的工作更加底层。确切来说，就是TLS的那部分连接发生在HTTP的连接之前。TLS是一种混合的加密机制。它具有多种范式，接下来所看到的是对于这两种范式（用于共享秘密信息和身份认证（确保声称的身份和实际身份一致）的公钥算法和用于加密请求与回应机密信息的对称式算法）的说明：</p>
-<p><strong>公钥加密机制</strong></p>
-<p>使用公钥加密机制，双方各自拥有一份公钥和一份私钥，公钥和私钥通过数学演算联系在一起。公钥用于将明文转化为密文（变成了一堆乱码），私钥用来解密这一堆乱码般的信息。一旦信息被公钥加密，它将只能由相应的私钥解密。两者缺一不可，而且也不能反过来使用。公钥可以自由传播，无需担心系统安全性降低；但私钥应妥善保管，不可将其泄露给未经授权解密的信息的用户，这就是公钥和私钥这两个名称的由来。公钥机制相当酷的地方在于，通信双方可以在最初不安全的通道上建立起安全可靠的通信连接。客户端和服务器都可以使用各自的私钥，只要共享了一部分公开信息，也就是共用了同一个公钥的情况下，就可以建立起相应的会话。这意味着即使有人坐在客户端或者服务器前查看连接过程，他们也不会知道客户端或者服务的的私钥，也不会知道会话所共享的密码。</p>
-<p>这得靠什么实现？靠数学！</p>
-<p><strong>Diffie-Hellman</strong></p>
-<p>这种密钥交换最常使用是Diffie-Hellman的密钥交换法。这项过程允许服务器和客户端双方商定共同的保密信息，而不需要在传输过程中交换这个信息。这样一来，即使嗅探者查看每个数据包，也不能确定连接上传输的共享密码是什么。</p>
-<p>在最初的DH式密钥交换发生之后所生成的共享信息，可以在会话接下来的通信中使用更简洁的对称式加密法，我们之后就会看到对称式加密法的说明。</p>
-<p><strong>一点点数学</strong></p>
-<p>公钥算法的特点就是很容易由算子计算出结果，而基本上不可能作逆向运算。这也就是使用了两个质数的所要达到的目的。</p>
-<p>现在假设Alice和Bob分别是参与DH式密钥交换过程的两方，他们一开始会商议确定一个小质数（一般是2,3,5这样的小数字）和一个大质数（有300位以上）作为加密的原始信息。小质数和大质数都可以直接传输，不必担心交换过程中的不安全。需要明白的是，Alice和Bob各自都持有着自己的私钥（100多位的数），而且也永远不应该共享自己的私钥。不光是两人之间，也包括其他不相关的人都不应该拥有这两组私钥。网络中传输的是他们的私钥、小质数和大质数混合运算得到的结果。更确切来说，就是：</p>
-<ul>
-<li>Alice的结果 = （小质数<sup>Alice的密码</sup>）% 大质数</li>
-<li>Bob的结果 = （小质数<sup>Bob的密码</sup>）% 大质数</li>
-<li>（“%” 符号表示取模运算，即取得除法运算的余数）<br>所以Alice使用大质数和小质数加上自己的私钥运算，就会得出结果，而Bob做同样的计算，也能得到相同的结果。当他们接收到对方的运算结果时，他们可以由数学计算导出会话中所要传输的信息，也就是说：</li>
-</ul>
-<p>Alice计算的是</p>
-<ul>
-<li>（Bob的结果<sup>Alice的密码</sup>）% 大质数</li>
-</ul>
-<p>而Bob则计算</p>
-<ul>
-<li>（Alice的结果<sup>Bob的密码</sup>）% 大质数<br>Alice和Bob得出来的数字相同，这个数字也就是会话中所要共享的密码。请注意，双方都没有向对方传输各自的私钥，而连接过程中也没有明文传递保密信息。这一点真是太棒了！对数学不好的人而言，维基百科上有一张混合颜料的图可以用来说明情况：</li>
-</ul>
-<p>请注意图中一开始的颜色（黄色）最后都会有Alice和Bob的颜色参与计算。这就是双方会得到同样结果的原因。对于观看中间过程的人来说，唯一在连接中发送的半合成信息是毫无意义的。</p>
-<p><strong>对称式加密机制</strong></p>
-<p>每次会话中只需要产生一次公钥交换的过程。在接受了同一个共享保密信息以后，服务器和客户端之间会使用更为高效的对称式加密机制进行通信，省去了来回交换的额外花销。在接受了之前的共享保密信息之后，还会使用一套密码机制（一般是一组加密算法），使用共享的密码安全地通信，加密解密各自的信息。而窃听者只会看到一堆乱码在传来传去。</p>
-<p><strong>身份认证</strong></p>
-<p>DH式密钥交换允许双方创建私有的，共有的密码，但通信双方怎么确保是真正想要对话的人呢？这里就涉及到了身份认证的问题。假设我拿起电话，跟我的朋友进行DH式密钥交换，在电话已经被干扰的情况，实际上是在跟其他人交换信息。在使用共享密码了以后，我仍然可以安全地与“朋友”交换信息，没有人可以解密我们的通信信息，但是“朋友”并不真的是我的朋友，这可是十分不安全的！要解决身份认证问题，需要有配套的公钥基本设施，来核实用户的真实身份。这些设施用来创建，管理，发布，收回数字证书。而数字证书正是你需要为站点使用HTTPS协议付费的恼人事项。但是，什么是数字证书，数字证书又是如何保证信息更加安全的呢？</p>
-<p><strong>证书</strong></p>
-<p>从更高的层次来讲，数字证书是将机器上的公钥和身份信息绑在一起的数字签名。数字签名担保某份公钥属于某个特定的组织和机构。证书将域名（身份信息）和特定公钥关联起来。这就避免了窃听者将自己的服务器伪装成用户将要连接的服务器，并进行攻击的行为。在上面打电话的例子中，攻击者可以尝试展示自己的公钥，装作是你的“朋友”，但是证书上面的签名信息便显示出：这份证书不是来自我信任的人的。要受到一般浏览器的信任，证书本身还应当受到CA的信任。CA公司对认证会进行人工核查，确定申请主体满足以下两个条件：</p>
-<ol>
-<li>在公共记录中存在着这个人/这家公司。</li>
-<li>需要签名的证书上标明的域名的确由申请主体实际控制。<br>当CA查证，得出申请人属实，并且的确拥有这个域名的结果，CA便会为证书颁发签证，盖上“已核准”的戳记，表明网站的公钥属于这个网站，而且可以信任。你的浏览器中会内置一系列受信任的CA列表。如果服务器返回的是未经过受信任CA签证的证书，浏览器会弹出大大的警告，这就在系统中多了一层安全措施，如果不然，任何人都可以四处签售伪造的证书。</li>
-</ol>
-<p>这样一来，即使攻击者将自己的公钥拿出来，生成这份密钥，声称自己的伪造服务器就是“facebook.com”，浏览器也会因为检查到“未经受信任CA签名的证书”而弹出提示。</p>
-<p><strong>一些关于证书的其他事项</strong></p>
-<p><strong>增强式认证</strong></p>
-<p>在常规的X.509 证书之外，增强式认证证书提供了更强力的认证。要授予增强式认证证书，CA会对域名持有着做更加深入的查验（通常需要提供护照和水电费账单等信息）。这种类型的证书，浏览器中大锁图标的显示位置背景也会变成绿色。</p>
-<p><strong>在同一台服务器上运行的多个网站</strong></p>
-<p>在HTTP协议连接开始之前进行的TLS协议握手流程，很有可能存在着多个网站存放在同一个服务器，使用相同IP地址的情况。虚拟主机的Web路由是由Web服务器分发，但是TCP握手的过程，却是发生在连接之前。整个系统的单张证书会被发送到服务器的所有请求之中，这种流程会在共享主机的环境中发生问题。如果你正在使用Web主机上提供的服务，他们会在你使用HTTPS协议之前要求使用独立的IP地址。不然主体提供商就需要每次在服务器上有新站点的时候，取得新证书（并且向CA重新申请认证）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/285.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/25/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/27/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/25/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/27/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1287,11 +1309,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1303,7 +1329,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1311,39 +1337,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1375,6 +1377,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -1383,11 +1389,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1403,11 +1441,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1419,18 +1465,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -1439,15 +1473,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1475,6 +1517,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -1483,19 +1533,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1503,7 +1541,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1511,7 +1549,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1519,11 +1577,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1543,87 +1601,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1635,15 +1613,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1671,10 +1649,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -1683,7 +1657,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1734,9 +1760,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

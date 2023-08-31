@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>删除了文章列表的评论数项 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。 所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。 所以决定自己动手丰衣足食了。 找到主题">
-<meta name="keywords" content="wordpress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="删除了文章列表的评论数项">
 <meta property="og:url" content="http://blog.smallerpig.com/1060.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。 所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。 所以决定自己动手丰衣足食了。 找到主题">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg">
-<meta property="og:updated_time" content="2023-05-30T12:01:59.829Z">
+<meta property="article:published_time" content="2016-08-12T09:41:02.000Z">
+<meta property="article:modified_time" content="2023-05-30T12:01:59.829Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="wordpress">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="删除了文章列表的评论数项">
-<meta name="twitter:description" content="由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。 所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。 所以决定自己动手丰衣足食了。 找到主题">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -49,8 +49,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -174,7 +174,7 @@ var _hmt = _hmt || [];
         <p>由于定位的原因，小猪的blog访问量很少。就更别提有人来评论了。除了几篇比较热门的文章之外，其他文章基本上都是0评论，这样在列表页显示评论数似乎是一件很尴尬的事情。毕竟一进站发现所有文章的评论数都是0确实会给人很“荒凉”的感觉。<br><img src="http://ww1.sinaimg.cn/mw690/88e12591gw1f6r3mzgqv9j20au0f10u2.jpg" alt="都是评论数为0的文章"></p>
 <p>所谓家丑不外扬，所以小猪决定把这项给去掉。可惜的是小猪使用wordpress自带的Advent主题貌似不提供对这项的自由编辑选项。</p>
 <p>所以决定自己动手丰衣足食了。</p>
-<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list = get_the_category_list(&apos;,&apos;,&apos;&apos;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list = get_the_tag_list(&apos;&apos;, &apos;,&apos; );</span><br><span class="line"></span><br><span class="line">$advent_author= ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url= esc_url( get_author_posts_url( get_the_author_meta( &apos;ID&apos; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments = wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date = sprintf(&apos;发表于 :&lt;time datetime=&quot;%1$s&quot;&gt;%2$s&lt;/time&gt;&apos;, esc_attr(get_the_date(&apos;c&apos;)), esc_html(get_the_date(&apos;y,m,d&apos;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel=&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;发表在 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&apos;标签 : &apos;, &apos;advent&apos;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;/li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment = comments_number(__(&apos;No Comments&apos;, &apos;advent&apos;), __(&apos;1 Comment&apos;, &apos;advent&apos;), __(&apos;% Comments&apos;, &apos;advent&apos;)); ?&gt;&lt;/li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找到主题的函数模板文件function.php 发现这段的代码是放在另外一个文件里的：文件名为：<code>theme-default-setup.php</code><br>找到他可以找到下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function advent_entry_meta\(\) &#123;</span><br><span class="line"></span><br><span class="line">$advent_categories_list &#x3D; get_the_category_list(&#39;,&#39;,&#39;&#39;);</span><br><span class="line"></span><br><span class="line">$advent_tag_list &#x3D; get_the_tag_list(&#39;&#39;, &#39;,&#39; );</span><br><span class="line"></span><br><span class="line">$advent_author&#x3D; ucfirst(get_the_author\(\));</span><br><span class="line"></span><br><span class="line">$advent_author_url&#x3D; esc_url( get_author_posts_url( get_the_author_meta( &#39;ID&#39; ) ) );</span><br><span class="line"></span><br><span class="line">$advent_comments &#x3D; wp_count_comments(get_the_ID\(\));     </span><br><span class="line"></span><br><span class="line">$advent_date &#x3D; sprintf(&#39;发表于 :&lt;time datetime&#x3D;&quot;%1$s&quot;&gt;%2$s&lt;&#x2F;time&gt;&#39;, esc_attr(get_the_date(&#39;c&#39;)), esc_html(get_the_date(&#39;y,m,d&#39;)));</span><br><span class="line">?&gt;  </span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;a href&#x3D;&quot;&lt;?php echo $advent_author_url; ?&gt;&quot; rel&#x3D;&quot;tag&quot;&gt;&lt;?php echo $advent_author; ?&gt;&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;li&gt;&lt;?php echo $advent_date; ?&gt;&lt;&#x2F;li&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_categories_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&#39;发表在 : &#39;, &#39;advent&#39;); ?&gt;&lt;?php echo $advent_categories_list; ?&gt;&lt;&#x2F;li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">            &lt;?php if(!empty($advent_tag_list)) &#123; ?&gt;&lt;li&gt;&lt;?php _e(&#39;标签 : &#39;, &#39;advent&#39;); ?&gt;&lt;?php echo $advent_tag_list; ?&gt;&lt;&#x2F;li&gt;&lt;?php &#125; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;li&gt;&lt;?php $advent_comment &#x3D; comments_number(__(&#39;No Comments&#39;, &#39;advent&#39;), __(&#39;1 Comment&#39;, &#39;advent&#39;), __(&#39;% Comments&#39;, &#39;advent&#39;)); ?&gt;&lt;&#x2F;li&gt; </span><br><span class="line"></span><br><span class="line">&lt;?php   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看到上面代码是在获取并展示了文章的元数据，我们将想要删除的数据删除。也就是获取评论数的代码：</p>
 <p><code>`</code>  </p>
 <p>function advent_entry_meta() {</p>
@@ -478,11 +478,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -494,7 +498,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -502,39 +506,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -566,6 +546,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -574,11 +558,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -594,11 +610,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -610,18 +634,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -630,15 +642,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -666,6 +686,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -674,19 +702,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -694,7 +710,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -702,7 +718,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,11 +746,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -734,87 +770,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -826,15 +782,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -862,10 +818,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -874,7 +826,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -925,9 +929,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

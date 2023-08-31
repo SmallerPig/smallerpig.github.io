@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>springboot源码学习-程序启动流程-part2 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
-<meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot源码学习-程序启动流程-part2">
 <meta property="og:url" content="http://blog.smallerpig.com/20181206.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx3fm0axrj31hk0cawg5.jpg">
-<meta property="og:updated_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:published_time" content="2018-12-05T14:53:35.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="springboot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springboot源码学习-程序启动流程-part2">
-<meta name="twitter:description" content="还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：  在context的refresh方法中，需要注册bean definition，实例化bean.在加载bean defintion的时候使用ConfigurationClassParser类来解析我们的主类。然后在解析主类的时候发现了@EnableAutoConfiguratio注解中的@Import注解，就去处理@Im">
 <meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
@@ -50,8 +50,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -184,17 +184,16 @@ var _hmt = _hmt || [];
 <h3 id="配置headless模式"><a href="#配置headless模式" class="headerlink" title="配置headless模式"></a>配置headless模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// configureHeadlessProperty(); //设置headless模式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_PROPERTY_JAVA_AWT_HEADLESS = <span class="string">"java.awt.headless"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">configureHeadlessProperty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, System.getProperty(</span><br><span class="line">      SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, Boolean.toString(<span class="keyword">this</span>.headless)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="创建了应用的监听器SpringApplicationRunListeners并开始监听"><a href="#创建了应用的监听器SpringApplicationRunListeners并开始监听" class="headerlink" title="创建了应用的监听器SpringApplicationRunListeners并开始监听"></a>创建了应用的监听器SpringApplicationRunListeners并开始监听</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SpringApplicationRunListeners listeners = getRunListeners(args);</span></span><br><span class="line"><span class="comment">// listeners.starting();// 启动监听器</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> SpringApplicationRunListeners <span class="title">getRunListeners</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  Class&lt;?&gt;[] types = new Class&lt;?&gt;[] &#123; SpringApplication.class, String[].class &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> SpringApplicationRunListeners(logger, getSpringFactoriesInstances(</span><br><span class="line">      SpringApplicationRunListener<span class="class">.<span class="keyword">class</span>, <span class="title">types</span>, <span class="title">this</span>, <span class="title">args</span>))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="加载SpringBoot配置环境-ConfigurableEnvironment"><a href="#加载SpringBoot配置环境-ConfigurableEnvironment" class="headerlink" title="加载SpringBoot配置环境(ConfigurableEnvironment)"></a>加载SpringBoot配置环境(ConfigurableEnvironment)</h3><p>如果是通过web容器发布，会加载StandardEnvironment，其最终也是继承了ConfigurableEnvironment，类图如下</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg" alt><br>可以看出，*Environment最终都实现了PropertyResolver接口，我们平时通过environment对象获取配置文件中指定Key对应的value方法时，就是调用了propertyResolver接口的getProperty方法</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx2ri5joij30q20m6402.jpg" alt=""><br>可以看出，*Environment最终都实现了PropertyResolver接口，我们平时通过environment对象获取配置文件中指定Key对应的value方法时，就是调用了propertyResolver接口的getProperty方法</p>
 <p>然后配置环境(Environment)加入到监听器对象中(SpringApplicationRunListeners)</p>
 <h3 id="创建run方法的返回对象：-ConfigurableApplicationContext-应用配置上下文-通过方法createApplicationContext创建："><a href="#创建run方法的返回对象：-ConfigurableApplicationContext-应用配置上下文-通过方法createApplicationContext创建：" class="headerlink" title="创建run方法的返回对象： ConfigurableApplicationContext(应用配置上下文), 通过方法createApplicationContext创建："></a>创建run方法的返回对象： ConfigurableApplicationContext(应用配置上下文), 通过方法<code>createApplicationContext</code>创建：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> ConfigurableApplicationContext <span class="title">createApplicationContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  Class&lt;?&gt; contextClass = <span class="keyword">this</span>.applicationContextClass;</span><br><span class="line">  <span class="keyword">if</span> (contextClass == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      contextClass = Class.forName(<span class="keyword">this</span>.webEnvironment</span><br><span class="line">          ? DEFAULT_WEB_CONTEXT_CLASS : DEFAULT_CONTEXT_CLASS);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (ClassNotFoundException ex) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(</span><br><span class="line">          <span class="string">"Unable create a default ApplicationContext, "</span></span><br><span class="line">              + <span class="string">"please specify an ApplicationContextClass"</span>,</span><br><span class="line">          ex);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (ConfigurableApplicationContext) BeanUtils.instantiate(contextClass);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>方法会先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回，ConfigurableApplicationContext类图如下：<br><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx3fm0axrj31hk0cawg5.jpg" alt></p>
+<p>方法会先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回，ConfigurableApplicationContext类图如下：<br><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fxx3fm0axrj31hk0cawg5.jpg" alt=""></p>
 <p>主要看其继承的两个方向：</p>
 <p>LifeCycle：生命周期类，定义了start启动、stop结束、isRunning是否运行中等生命周期空值方法</p>
 <p>ApplicationContext：应用上下文类，其主要继承了beanFactory(bean的工厂类)</p>
 <h3 id="prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联"><a href="#prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联" class="headerlink" title="prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联"></a>prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Banner printedBanner = printBanner(environment); <span class="comment">// banner对象</span></span><br><span class="line">context = createApplicationContext();</span><br><span class="line">analyzers = <span class="keyword">new</span> FailureAnalyzers(context);</span><br><span class="line">prepareContext(context, environment, listeners, applicationArguments,</span><br><span class="line">    printedBanner);</span><br></pre></td></tr></table></figure>
 <p>准备好了之后就可以进入最重要的部分：</p>
-<h3 id="refreshContext-context"><a href="#refreshContext-context" class="headerlink" title="refreshContext(context)"></a>refreshContext(context)</h3><p>refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshContext</span><span class="params">(ConfigurableApplicationContext context)</span> </span>&#123;</span><br><span class="line">  refresh(context);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.registerShutdownHook) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      context.registerShutdownHook();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (AccessControlException ex) &#123;</span><br><span class="line">      <span class="comment">// Not allowed in some environments.</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">(ApplicationContext applicationContext)</span> </span>&#123;</span><br><span class="line">  Assert.isInstanceOf(AbstractApplicationContext<span class="class">.<span class="keyword">class</span>, <span class="title">applicationContext</span>)</span>;</span><br><span class="line">  ((AbstractApplicationContext) applicationContext).refresh();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>下面代码为抽象类<code>AbstractApplicationContext</code>的refresh方法代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">    <span class="comment">// Prepare this context for refreshing.</span></span><br><span class="line">    prepareRefresh();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Tell the subclass to refresh the internal bean factory.</span></span><br><span class="line">    ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prepare the bean factory for use in this context.</span></span><br><span class="line">    prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">      postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">      invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">      registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize message source for this context.</span></span><br><span class="line">      initMessageSource();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">      initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">      onRefresh();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">      registerListeners();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">      finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">      finishRefresh();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="refreshContext-context"><a href="#refreshContext-context" class="headerlink" title="refreshContext(context)"></a>refreshContext(context)</h3><p>refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshContext</span><span class="params">(ConfigurableApplicationContext context)</span> </span>&#123;</span><br><span class="line">  refresh(context);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.registerShutdownHook) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      context.registerShutdownHook();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (AccessControlException ex) &#123;</span><br><span class="line">      <span class="comment">// Not allowed in some environments.</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">(ApplicationContext applicationContext)</span> </span>&#123;</span><br><span class="line">  Assert.isInstanceOf(AbstractApplicationContext<span class="class">.<span class="keyword">class</span>, <span class="title">applicationContext</span>)</span>;</span><br><span class="line">  ((AbstractApplicationContext) applicationContext).refresh();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>下面代码为抽象类<code>AbstractApplicationContext</code>的refresh方法代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">  <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">    <span class="comment">// Prepare this context for refreshing.</span></span><br><span class="line">    prepareRefresh();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Tell the subclass to refresh the internal bean factory.</span></span><br><span class="line">    ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prepare the bean factory for use in this context.</span></span><br><span class="line">    prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">      postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">      invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">      registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize message source for this context.</span></span><br><span class="line">      initMessageSource();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">      initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">      onRefresh();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">      registerListeners();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">      finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">      finishRefresh();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>配置结束后，Springboot做了一些基本的收尾工作，返回了应用环境上下文。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">afterRefresh(context, applicationArguments);</span><br><span class="line">listeners.finished(context, <span class="keyword">null</span>);</span><br><span class="line">stopWatch.stop();</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回顾整体流程，Springboot的启动，主要创建了配置环境(environment)、事件监听(listeners)、应用上下文(applicationContext)，并基于以上条件，在容器中开始实例化我们需要的Bean，至此，通过SpringBoot启动的程序已经构造完成</p>
 <p>到这里，加载就完成了，最核心的部分就是refresh(context)的部分了，其中包括sprig-boot-*-start系列的自动配置部分。</p>
@@ -481,11 +480,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,7 +500,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,39 +508,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -569,6 +548,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -577,11 +560,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,11 +612,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -613,18 +636,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -633,15 +644,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -669,6 +688,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -677,19 +704,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -697,7 +712,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -705,7 +720,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -713,11 +748,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -737,87 +772,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -829,15 +784,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -865,10 +820,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -877,7 +828,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -928,9 +931,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

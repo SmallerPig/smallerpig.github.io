@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>在Django中使用logging | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言我们在编写程序过程中，很难免的会出现一些问题，程序并非按照我们预想的那样运行，这个时候我们通常会对程序进行调试，来看看到底是哪边出了问题。而程序日志是来帮助我们记录程序运行过程的帮手，善用日志的程序员也就能很快找出自己程序的问题所在从而快速解决问题。在服务器级别的组件中都有对应的日志文件，例如nginx、uWSGI都会在运行过程中将一些信息写到日志文件中。django同样提供了类似功能，在默认">
-<meta name="keywords" content="Django,logging">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Django中使用logging">
 <meta property="og:url" content="http://blog.smallerpig.com/1022.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="前言我们在编写程序过程中，很难免的会出现一些问题，程序并非按照我们预想的那样运行，这个时候我们通常会对程序进行调试，来看看到底是哪边出了问题。而程序日志是来帮助我们记录程序运行过程的帮手，善用日志的程序员也就能很快找出自己程序的问题所在从而快速解决问题。在服务器级别的组件中都有对应的日志文件，例如nginx、uWSGI都会在运行过程中将一些信息写到日志文件中。django同样提供了类似功能，在默认">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-30T12:06:53.005Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-05-13T09:48:45.000Z">
+<meta property="article:modified_time" content="2023-05-30T12:06:53.005Z">
+<meta property="article:author" content="smallerpig">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="logging">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Django中使用logging">
-<meta name="twitter:description" content="前言我们在编写程序过程中，很难免的会出现一些问题，程序并非按照我们预想的那样运行，这个时候我们通常会对程序进行调试，来看看到底是哪边出了问题。而程序日志是来帮助我们记录程序运行过程的帮手，善用日志的程序员也就能很快找出自己程序的问题所在从而快速解决问题。在服务器级别的组件中都有对应的日志文件，例如nginx、uWSGI都会在运行过程中将一些信息写到日志文件中。django同样提供了类似功能，在默认">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -47,8 +48,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -192,10 +193,10 @@ var _hmt = _hmt || [];
 <h4 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h4><p>Filter(过滤器):提供了传递给handler之前的附加功能。在通常情况下，一条日志信息只要达到logger的级别之后就会传递给handler处理，但是我们可以通过使用filter来对日志进行额外的过滤。例如我们可以使用某个filter来控制只允许某个特定的源的ERROR级别的日志。<br>Filter还运行咱们在处理之前修改日志，例如降低或者提高日志的级别。<br>Filter可以在logger和handler中同时使用，而且多个filter会同时工作。</p>
 <h4 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters"></a>Formatters</h4><p>Formatter(格式化):定义了怎么显示内容，因为最终的日志都会是以文本的形式展现，formatter就是描述怎么来做这件事。formatter通常都是使用python格式化字符串的方法来对日志进行格式化，具体的属性列表可参考<a href="https://docs.python.org/3/library/logging.html#logrecord-attributes" target="_blank" rel="noopener">官方文档</a></p>
 <hr>
-<h2 id="使用logging"><a href="#使用logging" class="headerlink" title="使用logging"></a>使用logging</h2><p>一旦我们配置好对应的loggers, handlers, filters,和formatters之后，我们就可以在我们的代码中使用logging了，使用logging非常的简单，例如下面的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># import the logging library</span><br><span class="line">import logging</span><br><span class="line"></span><br><span class="line"># Get an instance of a logger</span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line">def my_view(request, arg1, arg):</span><br><span class="line">...</span><br><span class="line">if condition:</span><br><span class="line"># Log an error message</span><br><span class="line">logger.error(&apos;Something went wrong!&apos;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用logging"><a href="#使用logging" class="headerlink" title="使用logging"></a>使用logging</h2><p>一旦我们配置好对应的loggers, handlers, filters,和formatters之后，我们就可以在我们的代码中使用logging了，使用logging非常的简单，例如下面的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># import the logging library</span><br><span class="line">import logging</span><br><span class="line"></span><br><span class="line"># Get an instance of a logger</span><br><span class="line">logger &#x3D; logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line">def my_view(request, arg1, arg):</span><br><span class="line">...</span><br><span class="line">if condition:</span><br><span class="line"># Log an error message</span><br><span class="line">logger.error(&#39;Something went wrong!&#39;)</span><br></pre></td></tr></table></figure></p>
 <p>如上代码，只要condition条件成立，就会调用名为<strong>name</strong>的记录器并且记录一条错误日志。</p>
 <h3 id="给loggers命名"><a href="#给loggers命名" class="headerlink" title="给loggers命名"></a>给loggers命名</h3><p>我们可以使用代码<code>logging.getlogger\(\)</code>来生成一个具体名称的logger，所以我们有必要给每一个logger命名。合理的命名logger会给我们带来很大的方便。<br>为了方便起见，默认情况下python会使用当前模块的<strong>name</strong>命名当前logger，这样我们就可以利用filter根据不同的模块进行处理。我们也可以自己配置自己的logger名称，例如使用符号<code>.</code>来组织我们的logger</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#get an instance of a specific named logger</span><br><span class="line">logger = logging.getlogger(&apos;project.smallerpig.app&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#get an instance of a specific named logger</span><br><span class="line">logger &#x3D; logging.getlogger(&#39;project.smallerpig.app&#39;)</span><br></pre></td></tr></table></figure>
 <p>我们使用符号<code>.</code>来标示logger的层次结构，名称为project.smallerpig的logger通常表示为project.smallerpig.app的上级logger、名称为project的logger表示project.smallerpig和project.smallerpig.app的上级。利用这个特性，我们可以定义一个树结构的logger层，例如定义一个名称为project的根logger，然后在其节点下分别定义smallerpig或者bigerpig的logger，然后再拓展下去。这样我们就可以使用一个project的logger获取该节点下的所有日志信息，并且也可以使用具体的logger只获取部分我们想要的信息。<br>当然，如果我们不想使用这些设置，我们可以将其关闭。</p>
 <h3 id="调用logging"><a href="#调用logging" class="headerlink" title="调用logging"></a>调用logging</h3><p>每一个logger实例拥有与之对应级别的方法，调用这些方法就可以传递对应级别的日志信息。</p>
 <ul>
@@ -213,12 +214,12 @@ var _hmt = _hmt || [];
 <hr>
 <h2 id="配置logging"><a href="#配置logging" class="headerlink" title="配置logging"></a>配置logging</h2><p>除了仅仅在代码中调用logger的几个产生日志条目的方法，我们还可以对loggers, handlers, filters和formatters进行配置以确保输出的数据是我们想要的。<br>python的默认logging模块提供了很多种方式来配置，django默认使用字典方式来配置logging。在配置文件中，我们使用变量LOGGING设置具体的loggers, handlers, filters和formatters。并且在缺省值时，默认提供了<a href="https://docs.djangoproject.com/en/1.9/topics/logging/#default-logging-configuration" target="_blank" rel="noopener">默认日志设置</a><br>logging设置是在Django的setup()方法中进行的，所以当我们在项目的setting.py文件中设置好之后可确认我们所设置的logger在django程序运行过程中是随时可用的。</p>
 <h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p><a href="https://docs.python.org/3/library/logging.config.html#logging-config-dictschema" target="_blank" rel="noopener">dictConfig format的官方文档</a>中我们可以查阅到所有可设置的项，但在这里小猪使用django官网的例子来说明怎么配置logging。<br>代码1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING = &#123;</span><br><span class="line">    &apos;version&apos;: 1,</span><br><span class="line">    &apos;disable_existing_loggers&apos;: False,</span><br><span class="line">    &apos;handlers&apos;: &#123;</span><br><span class="line">        &apos;file&apos;: &#123;</span><br><span class="line">            &apos;level&apos;: &apos;DEBUG&apos;,</span><br><span class="line">            &apos;class&apos;: &apos;logging.FileHandler&apos;,</span><br><span class="line">            &apos;filename&apos;: &apos;/path/to/django/debug.log&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;loggers&apos;: &#123;</span><br><span class="line">        &apos;django&apos;: &#123;</span><br><span class="line">            &apos;handlers&apos;: [&apos;file&apos;],</span><br><span class="line">            &apos;level&apos;: &apos;DEBUG&apos;,</span><br><span class="line">            &apos;propagate&apos;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;file&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;DEBUG&#39;,</span><br><span class="line">            &#39;class&#39;: &#39;logging.FileHandler&#39;,</span><br><span class="line">            &#39;filename&#39;: &#39;&#x2F;path&#x2F;to&#x2F;django&#x2F;debug.log&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;file&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;DEBUG&#39;,</span><br><span class="line">            &#39;propagate&#39;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>将上述代码中的filename项的值设置成对应的值之后我们就可以使用了。</p>
 <p>代码2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">LOGGING = &#123;</span><br><span class="line">    &apos;version&apos;: 1,</span><br><span class="line">    &apos;disable_existing_loggers&apos;: False,</span><br><span class="line">    &apos;handlers&apos;: &#123;</span><br><span class="line">        &apos;console&apos;: &#123;</span><br><span class="line">            &apos;class&apos;: &apos;logging.StreamHandler&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;loggers&apos;: &#123;</span><br><span class="line">        &apos;django&apos;: &#123;</span><br><span class="line">            &apos;handlers&apos;: [&apos;console&apos;],</span><br><span class="line">            &apos;level&apos;: os.getenv(&apos;DJANGO_LOG_LEVEL&apos;, &apos;DEBUG&apos;),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;console&#39;: &#123;</span><br><span class="line">            &#39;class&#39;: &#39;logging.StreamHandler&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;],</span><br><span class="line">            &#39;level&#39;: os.getenv(&#39;DJANGO_LOG_LEVEL&#39;, &#39;DEBUG&#39;),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用上述配置之后并且在环境变量DEBUG=True时，我们可以在控制台中看到所有调试信息，包括django的ORM生存的SQL语句。这在我们调试程序时是非常有用的。<br>稍微复杂点的例子，代码3:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING = &#123;</span><br><span class="line">    &apos;version&apos;: 1,</span><br><span class="line">    &apos;disable_existing_loggers&apos;: False,</span><br><span class="line">    &apos;formatters&apos;: &#123;</span><br><span class="line">        &apos;verbose&apos;: &#123;</span><br><span class="line">            &apos;format&apos;: &apos;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;simple&apos;: &#123;</span><br><span class="line">            &apos;format&apos;: &apos;%(levelname)s %(message)s&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;filters&apos;: &#123;</span><br><span class="line">        &apos;special&apos;: &#123;</span><br><span class="line">            &apos;\(\)&apos;: &apos;project.logging.SpecialFilter&apos;,</span><br><span class="line">            &apos;foo&apos;: &apos;bar&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;require_debug_true&apos;: &#123;</span><br><span class="line">            &apos;\(\)&apos;: &apos;django.utils.log.RequireDebugTrue&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;handlers&apos;: &#123;</span><br><span class="line">        &apos;console&apos;: &#123;</span><br><span class="line">            &apos;level&apos;: &apos;INFO&apos;,</span><br><span class="line">            &apos;filters&apos;: [&apos;require_debug_true&apos;],</span><br><span class="line">            &apos;class&apos;: &apos;logging.StreamHandler&apos;,</span><br><span class="line">            &apos;formatter&apos;: &apos;simple&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;mail_admins&apos;: &#123;</span><br><span class="line">            &apos;level&apos;: &apos;ERROR&apos;,</span><br><span class="line">            &apos;class&apos;: &apos;django.utils.log.AdminEmailHandler&apos;,</span><br><span class="line">            &apos;filters&apos;: [&apos;special&apos;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;loggers&apos;: &#123;</span><br><span class="line">        &apos;django&apos;: &#123;</span><br><span class="line">            &apos;handlers&apos;: [&apos;console&apos;],</span><br><span class="line">            &apos;propagate&apos;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;django.request&apos;: &#123;</span><br><span class="line">            &apos;handlers&apos;: [&apos;mail_admins&apos;],</span><br><span class="line">            &apos;level&apos;: &apos;ERROR&apos;,</span><br><span class="line">            &apos;propagate&apos;: False,</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;myproject.custom&apos;: &#123;</span><br><span class="line">            &apos;handlers&apos;: [&apos;console&apos;, &apos;mail_admins&apos;],</span><br><span class="line">            &apos;level&apos;: &apos;INFO&apos;,</span><br><span class="line">            &apos;filters&apos;: [&apos;special&apos;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;formatters&#39;: &#123;</span><br><span class="line">        &#39;verbose&#39;: &#123;</span><br><span class="line">            &#39;format&#39;: &#39;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;simple&#39;: &#123;</span><br><span class="line">            &#39;format&#39;: &#39;%(levelname)s %(message)s&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;filters&#39;: &#123;</span><br><span class="line">        &#39;special&#39;: &#123;</span><br><span class="line">            &#39;\(\)&#39;: &#39;project.logging.SpecialFilter&#39;,</span><br><span class="line">            &#39;foo&#39;: &#39;bar&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;require_debug_true&#39;: &#123;</span><br><span class="line">            &#39;\(\)&#39;: &#39;django.utils.log.RequireDebugTrue&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;console&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;INFO&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;require_debug_true&#39;],</span><br><span class="line">            &#39;class&#39;: &#39;logging.StreamHandler&#39;,</span><br><span class="line">            &#39;formatter&#39;: &#39;simple&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;mail_admins&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;ERROR&#39;,</span><br><span class="line">            &#39;class&#39;: &#39;django.utils.log.AdminEmailHandler&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;special&#39;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;],</span><br><span class="line">            &#39;propagate&#39;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;django.request&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;mail_admins&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;ERROR&#39;,</span><br><span class="line">            &#39;propagate&#39;: False,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;myproject.custom&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;, &#39;mail_admins&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;INFO&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;special&#39;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码中分别对了logging做了一下的设置</p>
 <ul>
 <li>定义配置信息使用dictConfigversion 1格式。</li>
@@ -541,11 +542,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -557,7 +562,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,39 +570,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,6 +610,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -637,11 +622,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -657,11 +674,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -673,18 +698,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -693,15 +706,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -729,6 +750,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -737,19 +766,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -757,7 +774,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -765,7 +782,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -773,11 +810,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -797,87 +834,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -889,15 +846,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -925,10 +882,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -937,7 +890,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -988,9 +993,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     

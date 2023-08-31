@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://blog.smallerpig.com">
   <title>编写自己的Windows Live Writer插件 | 朱启的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,11 +14,11 @@
 <meta property="og:url" content="http://blog.smallerpig.com/420.html">
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="起因自从小猪使用Windows Live Writer(wlw)来写博客之后就很少打开网站的后台编辑器了，这真是个写博客的好东西啊，但是任何东西都是不完美的。索契冬奥会开幕式都会把五环弄成四环呢！对于写博一个很简单的情景：小猪需要从别的网站上面引用一段话，我希望引用的这端话有独立的标签好定义其样式，就这么个简单的需求在原生的wlw里面却束手无策了。好在现在的软件都强调对其自身的拓展，wlw也不例外">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2023-05-30T12:07:12.060Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-02-10T04:34:19.000Z">
+<meta property="article:modified_time" content="2023-05-30T12:07:12.060Z">
+<meta property="article:author" content="smallerpig">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编写自己的Windows Live Writer插件">
-<meta name="twitter:description" content="起因自从小猪使用Windows Live Writer(wlw)来写博客之后就很少打开网站的后台编辑器了，这真是个写博客的好东西啊，但是任何东西都是不完美的。索契冬奥会开幕式都会把五环弄成四环呢！对于写博一个很简单的情景：小猪需要从别的网站上面引用一段话，我希望引用的这端话有独立的标签好定义其样式，就这么个简单的需求在原生的wlw里面却束手无策了。好在现在的软件都强调对其自身的拓展，wlw也不例外">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -46,8 +46,8 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -175,7 +175,7 @@ var _hmt = _hmt || [];
 <h3 id="第二步：对官方API库的引用"><a href="#第二步：对官方API库的引用" class="headerlink" title="第二步：对官方API库的引用"></a>第二步：对官方API库的引用</h3><p>库在哪里？不需要去下载，只要电脑上安装了wlw，这个库就静静的躺在你的电脑里wlw的安装文件目录下，例如：C:Program Files (x86)Windows LiveWriterSystem.Windows.Forms.dll。当然因为需要新建一个输入代码的窗口，所以需要对System.Windows.Forms库的引用。</p>
 <h3 id="第三步：设置生成路径"><a href="#第三步：设置生成路径" class="headerlink" title="第三步：设置生成路径"></a>第三步：设置生成路径</h3><p>因为我们很多时候需要实时预览我们的插件，避免每次编译好了都自己安装的麻烦我们设置生成路径，让VS编译的时候直接帮我们生成的DLL文件放到指定的文件夹下。</p>
 <p>打开项目属性设置生成事件，在“后期生成事件命令行:”一栏中输入:XCOPY /D /Y /R “$(TargetPath)” “C:Program Files (x86)Windows LiveWriterPlugins”。保存并退出！</p>
-<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl = &quot;http://www.smallerpig.com&quot;, </span><br><span class="line">    Description = &quot;This is an Test plugin.&quot;, Name = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText = &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content = ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第四步：编写自己的类实现ContentSource类的方法"><a href="#第四步：编写自己的类实现ContentSource类的方法" class="headerlink" title="第四步：编写自己的类实现ContentSource类的方法"></a>第四步：编写自己的类实现ContentSource类的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[WriterPlugin(&quot;72371eef-e350-4aae-af28-91613a9137e3&quot;, &quot;smallerpig&quot;,</span><br><span class="line">    PublisherUrl &#x3D; &quot;http:&#x2F;&#x2F;www.smallerpig.com&quot;, </span><br><span class="line">    Description &#x3D; &quot;This is an Test plugin.&quot;, Name &#x3D; &quot;smallerpigPlugin&quot;)]</span><br><span class="line">[InsertableContentSource(&quot;smallerpigPlugin&quot;, SidebarText &#x3D; &quot;smallerpigPlugin&quot;)]</span><br><span class="line">public class smallerpigPlugin : ContentSource</span><br><span class="line">&#123;</span><br><span class="line">    public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)</span><br><span class="line">    &#123;</span><br><span class="line">        new AddFrom\(\).ShowDialog\(\);</span><br><span class="line">        content &#x3D; ContentProcessor.ProcessedContent;</span><br><span class="line">        return (!String.IsNullOrEmpty(content) ? DialogResult.OK : DialogResult.No);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>第一个参数为一个Guid，我们可以用Visual Studio自动生成，其标识的作用。</li>
 <li>第二个参数为该插件的名称，将在Windows Live Writer的插件管理器中看到。</li>
@@ -183,13 +183,13 @@ var _hmt = _hmt || [];
 <li>ImagePath为插件的图标文件路径，注意该图标应为18*16大小，且一定以Embedded Resource形式编译在程序集中。</li>
 <li>Description为插件的一小段描述介绍。</li>
 </ol>
-<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// End the process.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="第五步：新建窗口"><a href="#第五步：新建窗口" class="headerlink" title="第五步：新建窗口"></a>第五步：新建窗口</h3><p>因为需要在点击插件按钮时弹出对话框让用户输入对应内容，所以新建一个Form窗体拖上两个控件写上事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public partial class AddFrom : Form</span><br><span class="line">&#123;</span><br><span class="line">    public AddFrom\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; End the process.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    private void EndProcess\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Close\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Ok_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        ContentProcessor.Process(this.Txt_From.Text, this.contentTextBox.Text);</span><br><span class="line"></span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Btn_Cancle_Click(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">        this.EndProcess\(\);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void contentTextBox_TextChanged(object sender, EventArgs e)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>再新建一个类来单独处理加标签的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The processed content.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// The process function.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;/param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent = (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href=&quot;&#123;0&#125;&quot;&gt;引用:&lt;/a&gt;&lt;/legend&gt;&lt;div style=&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;/div&gt;&lt;/fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ublic class ContentProcessor</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; The processed content.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public static string ProcessedContent &#123; get; private set; &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; The process function.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;originalContent&quot;&gt;Original content which needs to be processed.&lt;&#x2F;param&gt;</span><br><span class="line">    public static void Process(string originalFrom,string originalContent)</span><br><span class="line">    &#123;</span><br><span class="line">        ProcessedContent &#x3D; (!String.IsNullOrEmpty(originalContent)</span><br><span class="line">            ? String.Format(&quot;&lt;fieldset&gt;&lt;legend&gt;&lt;a href&#x3D;&quot;&#123;0&#125;&quot;&gt;引用:&lt;&#x2F;a&gt;&lt;&#x2F;legend&gt;&lt;div style&#x3D;&quot;padding:5px 10px;color:#666666;text-align: justify;&quot;&gt;&#123;1&#125;&lt;&#x2F;div&gt;&lt;&#x2F;fieldset&gt;&quot;, originalFrom, originalContent)</span><br><span class="line">            : String.Empty);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个时候这个简单控件的完整代码就已经完成。编译后重新打开wlw就可以在插件栏里发现它。</p>
-<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
+<p>参考：<a href="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html" target="_blank" rel="noopener" title="http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html">http://www.cnblogs.com/dflying/archive/2006/12/03/580602.html</a></p>
 <blockquote>
-<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
+<p><a href="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html" target="_blank" rel="noopener" title="http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html">http://www.cnblogs.com/yjf512/archive/2012/05/13/2498400.html</a></p>
 </blockquote>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>小猪写完这个简单的插件之后发现wlw不仅仅可以这么用，我们自己写的新闻发布页、博客等等程序其实都可以使用wlw来发布，如果需要一定自定义的格式或者要求我们完全可以使用插件来完成。这样我们就不需要在网页端使用富文本编辑器来编辑发布。有时间小猪好好研究研究者块内容。如果发现这个思路确实可行的话那么以后可以在项目中实施。</p>
 
@@ -479,11 +479,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">mac</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -495,7 +499,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">mac</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,39 +507,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Django</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+                <a href="javascript:void(0)" class="js-tag color3">logging</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">评论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vps</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">博客</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,6 +547,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">SQL SERVER</a>
               </li>
              
@@ -575,11 +559,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">MarkDown</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wordpress</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">评论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">微信</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vps</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Jetpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -595,11 +611,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">visual studio</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -611,18 +635,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">HtmlAgilityPack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shiro</a>
               </li>
              
@@ -631,15 +643,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Django</a>
+                <a href="javascript:void(0)" class="js-tag color3">CI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">logging</a>
+                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二级联动</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -667,6 +687,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">clickhouse</a>
               </li>
              
@@ -675,19 +703,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">DataX</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ceph</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">flink</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -695,7 +711,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+                <a href="javascript:void(0)" class="js-tag color1">hbase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -703,7 +719,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color4">SQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">transational</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">root</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -711,11 +747,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">开放平台</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -735,87 +771,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">chrome</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">dota</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">switch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">链表</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">UML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">transational</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dynamic-datasource</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">root</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">phpstrom</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -827,15 +783,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">书评</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">MIUI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">推送</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">书评</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -863,10 +819,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">围城</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">支付宝</a>
               </li>
              
@@ -875,7 +827,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">围城</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">团队</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">dota</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游戏</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">switch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">工厂模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代理模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">依赖倒转</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IOC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UML</a>
               </li>
             
             <div class="clearfix"></div>
@@ -926,9 +930,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;
- 这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;
- 茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">&#34;我是小猪.2012年硕士毕业后一直从事软件开发工作,先后从事互联网应用开发,IOT平台开发,目前在上海从事医疗大数据行业. &lt;br&gt;&lt;br&gt;\n
+这个站点作为个人站点,不定期更新自己的一些技术笔记,技术教程,生活感悟. &lt;br&gt;&lt;br&gt;\n
+茫茫互联网,我不会主动在任何社区推广本站,如果缘分至此,有幸得到您的拜访,何不为这份缘分留下一些印记.&#34;
+</div>
   	  	
     	</section>
     
