@@ -148,6 +148,135 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-设计模式/小猪学设计模式——工厂模式之抽象工厂" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/305.html">小猪学设计模式——工厂模式之抽象工厂</a>
+    </h1>
+  
+
+        
+        <a href="/305.html" class="archive-article-date">
+  	<time datetime="2013-09-12T02:36:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇是工厂模式系列的最后一篇</p>
+<p>在上一篇的工厂方法模式中，我们使用了汽车的例子来说明。其中我们为不同的品牌车新建了各自的类来实现创建车的过程。<br>工厂方法模式代码：</p>
+<pre><code>interface IFactory {  
+    ICar createCar\(\);  
+}  
+class AudiFactory implements IFactory {  
+    public ICar createCar\(\) {  
+        Engine engine = new Engine\(\);  
+        Underpan underpan = new Underpan\(\);  
+        Wheel wheel = new Wheel\(\);  
+        ICar car = new Car(underpan, wheel, engine);  
+        return car;  
+    }  
+}  
+public class Client {  
+    public static void main(String[] args) {  
+        IFactory factory = new AudiFactory\(\);  
+        ICar car = factory.createCar\(\);  
+        car.show\(\);  
+    }  
+}  
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    随着程序的演进，功能要求变的更加复杂，我们本来只是要创建车就可以了。但是现在我们需要根据车的类型不同来生成不同的车，例如SUV车系、运动车系、商务车系等。而不同的汽车厂商都会根据自己车的定位和品牌价值来生产这些车系。这时候如果我们使用工厂方法模式的话就需要为不同的车系、不同的厂商分别新建工厂类。这显然是不太合理的。</span><br><span class="line">    这个场景就需要抽象工厂模式了。</span><br><span class="line"></span><br><span class="line">    * * *</span><br><span class="line"></span><br><span class="line">    ## 抽象工厂模式</span><br><span class="line"></span><br><span class="line">    &gt; 提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。</span><br><span class="line"></span><br><span class="line">    根据上面关于车的描述，我们可以对车的概念进行一个概括：将车根据类型和厂商进行划分，也就是说如果我们知道了车的类型以及厂商，我们就能够确定车的型号。</span><br><span class="line"></span><br><span class="line">    我们将原来工厂方法模式的接口进行升级。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"> interface IFactory &#123;  </span><br><span class="line">        ICar createSUVCar\(\);</span><br><span class="line"></span><br><span class="line">        ICar CreateSportsCar\(\);</span><br><span class="line"></span><br><span class="line">        ICar CreateBussinessCar\(\);        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>而我们的奥拓工厂就实现了这个接口。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AoTuoFactory implements IFactory&#123;</span><br><span class="line">       public ICar createSUVCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       public ICar CreateSportsCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       public ICar CreateBussinessCar\(\)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>在客户端，我们就可以这样来调用了：
+</code></pre><p><code>`</code>  </p>
+<p> public class Client {<br>        public static void main(String[] args) {<br>            IFactory factory = new AoTuoFactory();<br>            ICar car = factory.createSUVCar();<br>            car.show();<br>        }  </p>
+<p>这样，我们创建car的时候，并不需要理会factory到底是哪个工厂。</p>
+<h2 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h2><p>产品族与产品等级<br>所谓产品族，是指位于不同产品等级结构中，功能相关联的产品组成的家族，例如车的厂商。<br>而产品等级就可以理解成车的车系了。</p>
+<p>显然，每一个产品族中含有产品的数目，与产品等级结构的数目是相等的。产品的等级结构与产品族将产品按照不同方向划分，形成一个二维的坐标系。只要指明一个产品所处的产品族以及它所属的等级结构，就可以唯一的确定这个产品。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li>一个系统要独立于它的产品的创建、组合和表示时。</li>
+<li>一个系统要由多个产品系列中的一个来配置时。</li>
+<li>当你要强调一系列相关的产品对象的设计以便进行联合使用时。</li>
+<li>当你提供一个产品类库，而只想显示他们的接口而不是具体实现时。</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>前面的例子当中，如果我们需要新增一个车系时，变动将会很大。也就是说产品等级一旦发生变化，那抽象工厂模式的使用会给程序代码的改动带来很大的影响。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">工厂模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/305.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-设计模式/小猪学设计模式——工厂模式之工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1120,102 +1249,6 @@ public class Client {
 
 
   
-    <article id="post-web/css-e4-b8-80-e5-9b-be-e5-a4-9a-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/288.html">CSS一图多用</a>
-    </h1>
-  
-
-        
-        <a href="/288.html" class="archive-article-date">
-  	<time datetime="2013-08-20T08:32:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在很多时间做web开发都需要使用图标，网页中各种丰富的内容很多都是由图标完成的。</p>
-<p>这些图标有些都是一个图标对应一个图片文件，虽然这可以实现其功能，但是深究的话并不是好的解决方案，毫无意义的增加了访问服务器的次数。</p>
-<p>今天小猪就来分享如何“一图多用”。即把很多图标放在一张图片上面，而利用css来实现不同的地方显示图片的不同位置实现了类似单个图标的功能</p>
-<p><strong>最重要的一点是</strong><br>你要了解背景图片在控制项中显示的起始位置，控制项的高度，宽度。<br>以下是简要分析，你还要实践一下才能掌握真谛：<br>对一个宽度40，高度30的div设定一个背景，而背景图片是一张很多小图片的组合。<br>这里隐含了一个条件，就是小图片的宽度和高度和小图片的间隙要大于等于div的设置，原因：<br>当你设定背景图片的起始位置时，如果小图片相对div太小，则会显示多个小图片，相反如果小图片在一张整图过大或布局不够友好(比如间隙[上，下，左，右]),那么也是不算符合要求而导致显示不完整或不合你的格。<br>讲了上面这么多，有一个重要的地方，就是如何设置背景图片的起始位置：<br>答案就在background-position里面了，当然background也可以设置。<br>你找找别人的案例就会发现他们的position都设置为负数，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background-position:-5px -4px</span><br></pre></td></tr></table></figure></p>
-<p>这个就是背景图片显示的起始位置。那这个数字怎么设定呢？<br>哈哈，我是不是在卖关子？<br>呵呵，不卖关子，你咋能记得住。<br>还有这可是我经验的积累，过程，分享。<br>说正题，图片在背景的显示坐标(我们就当他是坐标)，为从图片的左上角算起为原点(0,0),<br>向右则为负(跟一般的横坐标相反),向下也为负(跟纵坐标一样),那么单位(px，当然也可以是其他的)则为刻度，好了，图片定位完成。<br>接下来就是你想要显示这个背景图片的哪个小图标，请按坐标标记下小图片的起始位置，那么<br>这就是你想要的background-position的结果了，至于怎么只显示这个小图片，就回到上面的讲的，需要对背景图片布局了，以及实际需求(比如div的高度宽度也觉得使用小图片的大小),<br>当然你会想，为什么不直接通过background来设置高度和宽度呢？我告诉你，是不行的。<br>所以你要对控制项div来设置高度和宽度，让小图片刚好显示出来，说了这么多，请看以下样式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div.myDiv &#123;width:40px;height:30px&#125;</span><br><span class="line">div.myDiv&#123;background-image:url(test.jpg);&#125;</span><br><span class="line">div.normal&#123;background-position:-5px -10px;&#125;</span><br><span class="line">div.over&#123;&#123;background-position:-20px -30px;&#125;</span><br></pre></td></tr></table></figure>
-<p>然后是html:<br>普通情况如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv normal&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-<p>当发生onmouseover事件的时候(当然是你自己添加的事件,不过标签是&lt;a&gt;的话就用样式A:over设置了),修改div的样式变成如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv over&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-<p>那么实际情况我只是对position的位置做了调整，也就是相当于修改了背景图片的显示区域。<br>而这个显示区域的变化就是2张小图片的位置罢了~<br>好了，讲是讲完了，该你实践了~<br>实践才是进步的唯一稳步~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/288.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/25/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/27/">Next &amp;raquo;</a>
@@ -1710,6 +1743,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ESB</a>
               </li>
             
             <div class="clearfix"></div>

@@ -148,6 +148,105 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/asp-net-mvc-ckeditor-mssql-e8-be-93-e5-85-a5-e9-9f-a9-e6-96-87-e4-b9-b1-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/906.html">ASP.NET MVC Ckeditor MSSQL输入韩文乱码</a>
+    </h1>
+  
+
+        
+        <a href="/906.html" class="archive-article-date">
+  	<time datetime="2015-10-22T11:58:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-10-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>具体表现为：</p>
+<p>1中文没问题，甚至日文也没问题，单单韩文输入有问题！</p>
+<p>2普通的input或者textare输入没问题，到Ckeditor里就有问题！</p>
+<p>3启用调试模式查看后台接受到的没问题，但一存到数据库就有问题！</p>
+<p>&nbsp;</p>
+<p>解决方法：</p>
+<p>一般因为使用ckeditor的原因，可能这个字段内容比较大，所以会将这个字段的数据库属性设置为text！只要将text类型设置成nvarchar(max)即可！</p>
+<p>而一般为了考虑存储大小，在input里面输入的内容大小会做限制，而在mssql里面对应的字段都会设置成nvarchar。也就解释了上面表现的第二点。</p>
+<p>网络中也建议了使用nvarchar(max)来取代text在mssql中的使用</p>
+<p><a href="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server" target="_blank" rel="noopener" title="http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server">http://stackoverflow.com/questions/834788/using-varcharmax-vs-text-on-sql-server</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/SQL/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/906.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-杂谈/万物生长》中秋水白露最终还是没走到一起" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1031,110 +1130,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-杂谈/吐槽MIUI6.6.3的视频推送功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/853.html">吐槽MIUI6.6.3的视频推送功能</a>
-    </h1>
-  
-
-        
-        <a href="/853.html" class="archive-article-date">
-  	<time datetime="2015-07-29T02:52:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>系统:MIUI6.6.3.0(KHCCNCF)</p>
-<p>手机:红米1s</p>
-<p>1,在作为用户的我完全不知情的情况下给我装了个小米视频的软件,另外包括小米生活,小米**等一系列大礼包..</p>
-<p>2,装了这些小米软件之后无法卸载,只能让它就这么一直待在手机里.</p>
-<p>3,它还每天强制给你推送几条他觉得有价值可是我觉得真是很蛋疼的信息.</p>
-<p>4,第一次点开这些推送信息它还假惺惺的给你个:声明与条款!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/Screenshot_2015-07-29-10-45-44.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/Screenshot_2015-07-29-10-45-44_thumb.png" alt="Screenshot_2015-07-29-10-45-44" title="Screenshot_2015-07-29-10-45-44"></a></p>
-<p>5,可是我点了取消而且也勾上了不再提示,可是特么的还是天天给你推送!这感觉就像是被强奸了,然后有人天天在你耳边絮叨:赶紧接受被强奸这个事实吧.</p>
-<p>&nbsp;</p>
-<p>于是小猪实在是受不了了,在设置页里直接让他不显示通知了:设置-&gt;通知栏和状态-&gt;通知管理-&gt;视频,直接关闭允许通知!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/Screenshot_2015-07-29-10-51-48.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/Screenshot_2015-07-29-10-51-48_thumb.png" alt="Screenshot_2015-07-29-10-51-48" title="Screenshot_2015-07-29-10-51-48"></a></p>
-<p>,可鬼知道它是不是还是在后台运行着,时不时的给我推送两条蛋疼的娱乐新闻,只是我屏蔽了而已罢了!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">MIUI</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">推送</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/853.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
@@ -1629,6 +1624,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ESB</a>
               </li>
             
             <div class="clearfix"></div>

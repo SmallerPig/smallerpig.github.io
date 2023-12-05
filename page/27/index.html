@@ -148,6 +148,102 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-web/css-e4-b8-80-e5-9b-be-e5-a4-9a-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/288.html">CSS一图多用</a>
+    </h1>
+  
+
+        
+        <a href="/288.html" class="archive-article-date">
+  	<time datetime="2013-08-20T08:32:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在很多时间做web开发都需要使用图标，网页中各种丰富的内容很多都是由图标完成的。</p>
+<p>这些图标有些都是一个图标对应一个图片文件，虽然这可以实现其功能，但是深究的话并不是好的解决方案，毫无意义的增加了访问服务器的次数。</p>
+<p>今天小猪就来分享如何“一图多用”。即把很多图标放在一张图片上面，而利用css来实现不同的地方显示图片的不同位置实现了类似单个图标的功能</p>
+<p><strong>最重要的一点是</strong><br>你要了解背景图片在控制项中显示的起始位置，控制项的高度，宽度。<br>以下是简要分析，你还要实践一下才能掌握真谛：<br>对一个宽度40，高度30的div设定一个背景，而背景图片是一张很多小图片的组合。<br>这里隐含了一个条件，就是小图片的宽度和高度和小图片的间隙要大于等于div的设置，原因：<br>当你设定背景图片的起始位置时，如果小图片相对div太小，则会显示多个小图片，相反如果小图片在一张整图过大或布局不够友好(比如间隙[上，下，左，右]),那么也是不算符合要求而导致显示不完整或不合你的格。<br>讲了上面这么多，有一个重要的地方，就是如何设置背景图片的起始位置：<br>答案就在background-position里面了，当然background也可以设置。<br>你找找别人的案例就会发现他们的position都设置为负数，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background-position:-5px -4px</span><br></pre></td></tr></table></figure></p>
+<p>这个就是背景图片显示的起始位置。那这个数字怎么设定呢？<br>哈哈，我是不是在卖关子？<br>呵呵，不卖关子，你咋能记得住。<br>还有这可是我经验的积累，过程，分享。<br>说正题，图片在背景的显示坐标(我们就当他是坐标)，为从图片的左上角算起为原点(0,0),<br>向右则为负(跟一般的横坐标相反),向下也为负(跟纵坐标一样),那么单位(px，当然也可以是其他的)则为刻度，好了，图片定位完成。<br>接下来就是你想要显示这个背景图片的哪个小图标，请按坐标标记下小图片的起始位置，那么<br>这就是你想要的background-position的结果了，至于怎么只显示这个小图片，就回到上面的讲的，需要对背景图片布局了，以及实际需求(比如div的高度宽度也觉得使用小图片的大小),<br>当然你会想，为什么不直接通过background来设置高度和宽度呢？我告诉你，是不行的。<br>所以你要对控制项div来设置高度和宽度，让小图片刚好显示出来，说了这么多，请看以下样式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div.myDiv &#123;width:40px;height:30px&#125;</span><br><span class="line">div.myDiv&#123;background-image:url(test.jpg);&#125;</span><br><span class="line">div.normal&#123;background-position:-5px -10px;&#125;</span><br><span class="line">div.over&#123;&#123;background-position:-20px -30px;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是html:<br>普通情况如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv normal&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>当发生onmouseover事件的时候(当然是你自己添加的事件,不过标签是&lt;a&gt;的话就用样式A:over设置了),修改div的样式变成如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;myDiv over&quot; &gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>那么实际情况我只是对position的位置做了调整，也就是相当于修改了背景图片的显示区域。<br>而这个显示区域的变化就是2张小图片的位置罢了~<br>好了，讲是讲完了，该你实践了~<br>实践才是进步的唯一稳步~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/288.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-csharp/c-e5-92-8cjs-e7-9a-84-e6-97-a5-e6-9c-9f-e6-a0-bc-e5-bc-8f-e8-bd-ac-e6-8d-a2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1056,89 +1152,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-csharp/c-e5-ad-97-e7-ac-a6-e4-b8-b2-e7-bc-96-e7-a0-81" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/241.html">C#字符串编码</a>
-    </h1>
-  
-
-        
-        <a href="/241.html" class="archive-article-date">
-  	<time datetime="2013-08-06T04:04:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在之前的使用习惯中，我们需要对URL Encode的时候通常只是调用系统的静态方法进行Encode下就可以了。今天大强问了个问题把我楞住了：你的Encode是使用什么编码？</p>
-<p>所以小猪有了下面的测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        string a &#x3D; &quot;Glory is fleeting, but obscurity is forever&quot;;</span><br><span class="line">        string b &#x3D; UrlEncode(a);</span><br><span class="line">        Console.WriteLine(b);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static string UrlEncode(string str)</span><br><span class="line">    &#123;</span><br><span class="line">        StringBuilder sb &#x3D; new StringBuilder\(\);</span><br><span class="line">        byte[] byStr &#x3D; System.Text.Encoding.Unicode.GetBytes(str); &#x2F;&#x2F;默认是System.Text.Encoding.Default.GetBytes(str)</span><br><span class="line">        for (int i &#x3D; 0; i &lt; byStr.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sb.Append(@&quot;%&quot; + Convert.ToString(byStr[i], 16));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return (sb.ToString\(\));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/241.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/26/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/28/">Next &amp;raquo;</a>
@@ -1633,6 +1646,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ESB</a>
               </li>
             
             <div class="clearfix"></div>
