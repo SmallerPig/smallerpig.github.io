@@ -148,6 +148,121 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-php/ci3-0-e5-8d-87-e7-ba-a7-e8-ae-b0-e5-bd-95" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/859.html">CI3.0升级记录.</a>
+    </h1>
+  
+
+        
+        <a href="/859.html" class="archive-article-date">
+  	<time datetime="2015-08-10T09:03:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-08-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文地址:<a href="http://www.codeigniter.com/userguide3/changelog.html" target="_blank" rel="noopener">http://www.codeigniter.com/userguide3/changelog.html</a><br>原文为英文,如果本文有不理解或者说的不到位的地方,各位读者请参照原文理解!</p>
+<p>另外,CI3.0的中文文档也已经有网友对其进行了翻译,具体可参考网址:<a href="http://www.aneasystone.com/archives/2015/08/ci-doc-chinese.html" target="_blank" rel="noopener" title="http://www.aneasystone.com/archives/2015/08/ci-doc-chinese.html">http://www.aneasystone.com/archives/2015/08/ci-doc-chinese.html</a><br>不再支持php5.1.6 ,CI3.0开始需要php版本为5.2.4,建议使用5.4+版本</p>
+<p>修改命名规范(类文件名首字母必须大写,其他文件首字母小写)</p>
+<p>修改默认的数据库驱动为’mysqli’(原来的’mysql’已过期)<br>$_SERVER[‘CI_ENV’] can now be set to control the ENVIRONMENT constant.<br>$_SERVER[‘CI_ENV’] 现在可以设置来控制环境<br>请理解ci2.X中定义ENVIRONMENT: define(‘ENVIRONMENT’, ‘development’);<br>与3.0中定义ENVIRONMENT的区别: define(‘ENVIRONMENT’, isset($_SERVER[‘CI_ENV’]) ? $_SERVER[‘CI_ENV’] : ‘development’);</p>
+<p>增加一个可选的php-error模板</p>
+<p>用户代理字符串中增加了安卓平台</p>
+<p>用户平台中增加Windows 7, Windows 8, Windows 8.1, Android, Blackberry, iOS 和 PlayStation 3</p>
+<p>用户代理字符串中增加了Fennec(Firefox for mobile)<br>Ability to log certain error types, not all under a threshold.<br>现在可以记录(log)指定的错误,而不是在指定的阈值下</p>
+<p>mimes.php中增加了一些新支持的类型</p>
+<p>application/config/foreign_characters.php.中添加了一些国家的特殊字符<br>Changed logger to only chmod when file is first created.<br>在第一次创建日志文件时logger只需要chmod权限</p>
+<p>删除已经过期的SHA1类库</p>
+<p>删除了已经过期的application/config/autoload.php中的$autoload[‘core’], 现在只有$autoload[‘libraries’]中的条目才会被自动加载</p>
+<p>删除已经过期的EXT常量<br>Updated all classes to be written in PHP 5 style, with visibility declarations and no var usage for properties.<br>使用Php5的风格重写了所有的类.</p>
+<p>增加了异常处理</p>
+<p>移动了错误模板到application/views/errors/ 且该值可以通过配置$config[‘error_views_path’]来改变该位置</p>
+<p>增加对CLI程序 non-HTML错误模板的支持</p>
+<p>Log类移动到application/core/文件夹下,(smallerpig注:应该是在system/core/文件夹下)</p>
+<p>全局配置文件首先加载,然后是运行环境的.而且环境配置可覆盖全局配置,这样我们可配置不同环境下的不同配置!<br>修改$view_folder变量的检测,如果该目录下没找到对应文件,会再次到application文件夹下寻找<br>路径常量: BASEPATH,APPPATH 和VIEWPATH现在定义成绝对地址!<br>邮箱验证的方法使用filter_var()替代PCRE<br>Changed environment defaults to report all errors in development and only fatal ones in testing, production but only display them in development.</p>
+<p>现在默认开发环境下会报告所有的错误信息,测试和生产环境中只显示致命的(fatal)错误信息,</p>
+<p>更新ip_address的数据库类型的长度(16-&gt;45),以用来适配IPv6,影响到验证码辅助函数和引用通告类库.</p>
+<p>删除了文档中的两处pdf文件(备忘录和快速引用)<br>Added availability checks where usage of dangerous functions like eval() and exec() is required.<br>在使用eval(),exec()等危险的函数时进行了可用性检查</p>
+<p>现在可以使用变量$config[‘log_file_extension’]来修改日志文件的后缀!</p>
+<p>添加变量$config[‘standardize_newlines’]用来表示是否转换标准化换行符(lunix\n,windows:</p>
+<p>).默认值为FALSE.</p>
+<p>添加$config[‘compooser_autoload’]用来配置是否自动加载Composer模块</p>
+<p>取消URI类库中的对”特殊字符串-&gt;HTML实体”的自动转换</p>
+<p>更改类或者文件的加载时的Log信息级别为info(原为debug),这样在$config[‘log_threshold’]设置为2的时候不至于把日志文件搞乱.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/859.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-杂谈/吐槽MIUI6.6.3的视频推送功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1028,112 +1143,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Django/windows-e4-b8-8b-e5-ae-89-e8-a3-85mysqlclient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/795.html">Windows下安装mysqlclient</a>
-    </h1>
-  
-
-        
-        <a href="/795.html" class="archive-article-date">
-  	<time datetime="2015-07-06T15:37:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由于使用Python3下的Django. 原来的MySQLdb驱动已经不支持.</p>
-<p>引用Django官网上一段话:At the time of writing, the latest release of MySQLdb (1.2.5) doesn’t support Python 3. In order to use MySQLdb under Python 3, you’ll have to install <tt>mysqlclient</tt> instead.</p>
-<p>所以得安装mysqlclient了!</p>
-<p>这里我们使用pip来安装!</p>
-<p>先在命令行里输入pip看看是否成功安装pip.如果Windows提示未找到命令，可以重新运行安装程序添加<code>pip</code>。</p>
-<p>正在安装过程中:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/image_thumb.png" alt="image" title="image"></a></p>
-<p>经过漫长的等待之后终于安装成功.,期间视网络情况可能会出现多次下载失败的情况!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/image1.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/image_thumb1.png" alt="image" title="image"></a></p>
-<p>如果多次下载失败后我们手动到官网上下载whl文件</p>
-<p>mysqlclient官网下载地址:<a href="http://dev.mysql.com/downloads/connector/python/" target="_blank" rel="noopener" title="http://dev.mysql.com/downloads/connector/python/">http://dev.mysql.com/downloads/connector/python/</a></p>
-<p>然后在命令行工具中先安装wheel工具:</p>
-<p>pip install wheel</p>
-<p>通常这里会很快安装好wheel,然后找到你要安装的whl文件，在命令行下执行 wheel install XXXXX-none-any.whl(这里的文件名可能不同)</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/795.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/16/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/18/">Next &amp;raquo;</a>
@@ -1148,7 +1157,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 smallerpig
+    		&copy; 2024 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

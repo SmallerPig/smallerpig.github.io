@@ -148,6 +148,116 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-杂谈/根据当前系统时钟或签名文件的时间戳记核对时，所需要的凭证不在有效期内" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/383.html">根据当前系统时钟或签名文件的时间戳记核对时，所需要的凭证不在有效期内。</a>
+    </h1>
+  
+
+        
+        <a href="/383.html" class="archive-article-date">
+  	<time datetime="2014-01-06T12:13:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><span style="line-height: 1.6em;">在使用wpsdk.iso独立安装文件时由于是从其他机器直接拷过来安装，会出现如下问题(错误)：</span></p>
+<pre><code>`&lt;span style=&quot;line-height: 1.6em;&quot;&gt;windows software development kit tools for windows store根据当前系统时钟或签名文件的时间戳记核对时，所需要的凭证不在有效期内。&lt;/span&gt;`
+
+网上找了下原因是因为凭证的过期
+
+![](http://files.dotblogs.com.tw/uvia820701/1311/2013111491136474.png)
+
+解决方法就是把自己电脑的系统时间往后调，调到凭证日期之前之后重新安装即可。
+
+&amp;nbsp;
+
+同样在安装Visual Studio2012时遇到类似问题可以同样解决。
+
+&amp;nbsp;
+
+最后在漫长的安装过程中，尤其是在下图的所谓：windows phone 工具终结器-chs 的情况下
+
+[![QQ截图20121201200713](http://www.smallerpig.com/wp-content/uploads/2014/01/QQ截图20121201200713-214x300.png)](http://www.smallerpig.com/wp-content/uploads/2014/01/QQ截图20121201200713.png)
+
+好好享受吧！
+
+[http://www.sum16.com/desinger/windows-phone-8-sdk-in-windows-8-1.html](http://www.sum16.com/desinger/windows-phone-8-sdk-in-windows-8-1.html)
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Windows Phone</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/383.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信/自定义生成二维码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1245,112 +1355,6 @@ Done！
 
 
   
-    <article id="post-web/htmlhelper-checkbox" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/355.html">Htmlhelper—CheckBox自动生成两个input</a>
-    </h1>
-  
-
-        
-        <a href="/355.html" class="archive-article-date">
-  	<time datetime="2013-12-02T03:41:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在之前的一篇文章中小猪分享了<a href="http://www.smallerpig.com/archives/353" target="_blank" rel="noopener">Htmlhelper</a>的用法。其中有意思的一个就是Checkbox，有必要单独拿出来讲一讲。</p>
-<h2 id="Htmlhelper—CheckBox"><a href="#Htmlhelper—CheckBox" class="headerlink" title="Htmlhelper—CheckBox"></a>Htmlhelper—CheckBox</h2><p>细心的读者一定发现了当使用类似 语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.CheckBox(&quot;recommend&quot;)</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
-<p>生成的html中除了一个 type=”checkbox”的表单元素之外另外还生成了一个 type=”hidden”的隐藏元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> &lt;input id&#x3D;&quot;recommend&quot; name&#x3D;&quot;recommend&quot; type&#x3D;&quot;checkbox&quot; value&#x3D;&quot;true&quot;&gt;</span><br><span class="line">&lt;input name&#x3D;&quot;recommend&quot; type&#x3D;&quot;hidden&quot; value&#x3D;&quot;false&quot;&gt;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
-<p>这两个表单元素都有一个 name为”recommend”的属性。type为checkbox的表单元素value为true，type为hidden的表单元素value值为false。</p>
-<p>当我们不选中该CheckBox值时通过监听网络请求可以发现请求值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend&#x3D;false</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
-<p>当选中 CheckBox值时发现请求值为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend&#x3D;true&amp;recommend&#x3D;false</span><br></pre></td></tr></table></figure></p>
-<h3 id="看看一个老外的解释："><a href="#看看一个老外的解释：" class="headerlink" title="看看一个老外的解释："></a>看看一个老外的解释：</h3><p>The HtmlHelper.CheckBox method puts in a hidden value with the same name at the checkbox. The reason this is done is because if the checkbox is not checked, the browswer doesn’t send a value for the checkbox with the form post. The way around this is via the hidden variable which results in a value of false if the checkbox is not checked or true,false if it is checked. </p>
-<p>It’s not confused, it’s just reporting the values it has.When you use the CHeckBox helper, the framework spits out two input controls, one for the checkbox itself, and a hidden one with the same name that’s value is false. it does this to help the default model binder always have a value for the name in question, because HTML forms don’t append cleared checkboxes to the data. So you have two choices. You can either use the method you’re currently using, but use string parsing to extract the “first” value (which equates to the boolean value you’re looking for) or else you can instead use a custom model object as the input param of the POST action, to let the model binder do it’s job. <a href="http://forums.asp.net/t/1440058.aspx" target="_blank" rel="noopener">http://forums.asp.net/t/1440058.aspx</a></p>
-<p>通过上面俩个老外的解释我们可以看出：在表单提交时，如果 Checkbox不选中的话那么是不会提交该Checkbox的值的，这个时候在后台也就没有办法得到该字段，而MVC默认的给该字段加上了一个隐藏的false值，当前台没选中的话就把false传过去，而选中了的话则把true(Checkbox的值)和false(隐藏域的值)都以相同的name穿过去让后台来处理，再通过ASP.NET MVC自带的模型绑定功能就会自动的将这个bool值转换成模型中的值，很大的方便了我们编程。</p>
-<p>&nbsp;</p>
-<p>如果我们自己手写html代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id&#x3D;&quot;recommend&quot; name&#x3D;&quot;recommend&quot; type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot;&gt;</span><br></pre></td></tr></table></figure><br>则不能够直接在Controller中使用类似<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> public ActionResult Create(bool Recommend)</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; do something</span><br><span class="line">    return RedirectToAction(&quot;List&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
-<p>这样的代码，因为本身的html input的Checkbox在选中时只传递一个on值(如果没有value属性时)，得像下面这样获取才能实现一个很简单的效果，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> public ActionResult Create(TB_Book tb_book ,string Recommend)</span><br><span class="line">&#123;</span><br><span class="line">    if (Recommend &#x3D;&#x3D; &quot;on&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">       &#x2F;&#x2F;do something</span><br><span class="line">    &#125;                </span><br><span class="line">   &#x2F;&#x2F;do something</span><br><span class="line">    return RedirectToAction(&quot;List&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>&nbsp;</p>
-<p>这样就得把是bool值的字段都单独拿出来写。好麻烦的说！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/355.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/22/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/24/">Next &amp;raquo;</a>
@@ -1365,7 +1369,7 @@ Done！
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 smallerpig
+    		&copy; 2024 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

@@ -148,6 +148,139 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-微信/跟着小猪来做小程序开发吧——本地数据存储" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1190.html">跟着小猪来做小程序开发吧——本地数据存储</a>
+    </h1>
+  
+
+        
+        <a href="/1190.html" class="archive-article-date">
+  	<time datetime="2017-04-12T09:23:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果您在看此文章之前有过其他程序的开发经验，那一定会知道一般例如安卓或者苹果的原生APP都提供了本地的存储功能，甚至可以使用sqlite数据库来做存储。可是微信的小程序框架基于微信本身，其实际运行环境只是在浏览器里面，所以不会提供那么丰富的数据存储实力。但html5开始已经可以在浏览器里面存储数据，好在微信的小程序给这个功能封装好了，这样我们可以使用数据存储。</p>
+<blockquote>
+<p>每个微信小程序都可以有自己的本地缓存，可以通过 wx.setStorage（wx.setStorageSync）、<br>wx.getStorage（wx.getStorageSync）、<br>wx.clearStorage（wx.clearStorageSync）<br>可以对本地缓存进行设置、获取和清理。本地缓存最大为10MB。</p>
+</blockquote>
+<p>上面的set和get都有对应的Sync方法，带Sync的方法为同步方法、不带Sync的方法为异步方法。</p>
+<p>设置缓存都需要设置一个key和对应的data值，我们在《微信web开发者工具》中的调试状态下可以点击调试窗口的Storage 栏来查看我们缓存在本地的数据。<br>缓存可以保存数组、数值、字符串、对象。</p>
+<h2 id="设置缓存"><a href="#设置缓存" class="headerlink" title="设置缓存"></a>设置缓存</h2><p>提供<code>setStorage</code>和<code>setStorageSync</code>两个接口,并且在使用设置存储方法时，如果小程序的存储值当中已经存在对应的key的值，那么会使用新的值替换原来的值。</p>
+<h3 id="setSotrage接口"><a href="#setSotrage接口" class="headerlink" title="setSotrage接口"></a>setSotrage接口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.setStorage(&#123;</span><br><span class="line">  key:&quot;key&quot;,</span><br><span class="line">  data:&quot;value&quot;,</span><br><span class="line">  success:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">  fail:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">  complete:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F;Object &#123;errMsg: &quot;setStorage:ok&quot;&#125;</span><br><span class="line">&#x2F;&#x2F;Object &#123;errMsg: &quot;setStorage:ok&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="setStorageSync接口"><a href="#setStorageSync接口" class="headerlink" title="setStorageSync接口"></a>setStorageSync接口</h3><p>因为该方法为同步接口，所以直接设置key和data：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wx.setStorageSync(&#39;key&#39;, &#39;value&#39;)</span><br></pre></td></tr></table></figure>
+<p>上面两个demo中我们都使用了字符串缓存，当然我们也可以缓存一个对象，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.setStorage(&#123;key:&quot;ob&quot;,data:&#123;name:&#39;smallerpig&#39;,sex:1,age:18&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="获取缓存"><a href="#获取缓存" class="headerlink" title="获取缓存"></a>获取缓存</h2><h3 id="getSotrage接口"><a href="#getSotrage接口" class="headerlink" title="getSotrage接口"></a>getSotrage接口</h3><p>异步接口，所以我们可以定义几个回调:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getStorage(</span><br><span class="line">&#123;</span><br><span class="line">    key:&#39;key&#39;,</span><br><span class="line">    success:function(res)&#123;</span><br><span class="line">        console.log(res)&#x2F;&#x2F;Object &#123;errMsg: &quot;getStorage:ok&quot;, data: &quot;value1&quot;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    fail:function(res)&#123;console.log(res)&#125;,</span><br><span class="line">    complete:function(res)&#123;console.log(res)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>其中，我们可以看出来，微信小程序的很多异步接口的回调都会给出三个回调:success、fail、complete，在执行成功的时候回执行success、complete回调；在执行失败之后会分别执行fail、complete回调。</p>
+<h3 id="getSotrageSync接口"><a href="#getSotrageSync接口" class="headerlink" title="getSotrageSync接口"></a>getSotrageSync接口</h3><p>该接口为同步接口，所以只需传递对应的key值就可以了。如下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getStorageSync(&#39;ob&#39;)</span><br><span class="line">&#x2F;&#x2F;Object &#123;name: &quot;smallerpig&quot;, sex: 1, age: 18&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取当前存储总结"><a href="#获取当前存储总结" class="headerlink" title="获取当前存储总结"></a>获取当前存储总结</h2><p>使用<code>wx.getStorageInfo</code>接口<br>例如下列代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getStorageInfo(&#123;</span><br><span class="line">  success: function(res) &#123;</span><br><span class="line">    console.log(res.keys)</span><br><span class="line">    console.log(res.currentSize)</span><br><span class="line">    console.log(res.limitSize)</span><br><span class="line">  &#125;</span><br><span class="line">&#x2F;&#x2F;[&quot;logs&quot;, &quot;r3session&quot;, &quot;key&quot;]0: &quot;logs&quot;1: &quot;r3session&quot;2: &quot;key&quot;]</span><br><span class="line">&#x2F;&#x2F;1</span><br><span class="line">&#x2F;&#x2F;10240</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>也可以使用同步接口<code>wx.getStorageInfoSync</code>。</p>
+<h2 id="缓存的使用"><a href="#缓存的使用" class="headerlink" title="缓存的使用"></a>缓存的使用</h2><p>在上一篇文章中，小猪介绍了如何解密通过<code>wx.getUserInfo</code>接口获取到的cryptedData数据。其中的session_key小猪是写在flask的缓存中，缓存的键是写死为:<code>xcx_session_key</code>。在真实环境中我们不能够这样写，因为这样不同的用户获取到的session_key是相同的，所以我们需要给不同的用户附上不同的缓存key。把flask的缓存key返回给微信小程序，小程序中可以固定一个key值，data值保持flask后台给到的值。</p>
+<p>说的比较绕，这里需要读者好好理解下。</p>
+<p>在flask的代码的使用code获取session_key中，使用下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;user&#x2F;getuserinfo&#39;, methods&#x3D;[&#39;GET&#39;, &#39;POST&#39;])</span><br><span class="line">  def getuserinfo\(\):</span><br><span class="line">      code &#x3D; request.data</span><br><span class="line">      url &#x3D; &#39;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;sns&#x2F;jscode2session?appid&#x3D;%s&amp;secret&#x3D;%s&amp;js_code&#x3D;%s&amp;grant_type&#x3D;authorization_code&#39; % (appid, secret, code)</span><br><span class="line">      r &#x3D; requests.get(url)</span><br><span class="line">      j &#x3D; json.loads(r.text)</span><br><span class="line">      r3session_key &#x3D; binascii.hexlify(os.urandom(64))</span><br><span class="line">      cache.set(r3session_key, j[&#39;session_key&#39;])</span><br><span class="line">      return r3session_key</span><br></pre></td></tr></table></figure>
+<p>接下来，在<code>wx.request</code>的回调中把flask中返回的r3session_key保存起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.request(&#123;</span><br><span class="line">  url: &#39;https:&#x2F;&#x2F;***.smallerpig.com&#x2F;user&#x2F;getuserinfo&#39;,</span><br><span class="line">  data: r.code,</span><br><span class="line">  method: &#39;POST&#39;,</span><br><span class="line">  success: function(res)&#123;</span><br><span class="line">    wx.setStorageSync(&#39;r3session&#39;, res.data)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>再接下来，在调用wx.getUserInfo时将返回的数据加上从微信小程序本地缓存中取到的<code>r3session</code>丢给flask来处理，flask根据来的<code>r3session</code>从本地服务器的flask缓存中取到微信的值解密cryptedData。这才是一个完整的过程。<br>小程序的getUserInfo代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wx.getUserInfo(&#123;</span><br><span class="line">  success: function (res) &#123;</span><br><span class="line">    that.globalData.userInfo &#x3D; res.userInfo</span><br><span class="line">    typeof cb &#x3D;&#x3D; &quot;function&quot; &amp;&amp; cb(that.globalData.userInfo)</span><br><span class="line">    &#x2F;&#x2F;将本地存储中的r3session值也同样传递到我的服务器，在服务器中找出微信给到我们的session_key</span><br><span class="line">    var r3session &#x3D; wx.getStorageSync(&#39;r3session&#39;)</span><br><span class="line">    res.r3session &#x3D; r3session</span><br><span class="line">    wx.request(&#123;</span><br><span class="line">      url: &#39;https:&#x2F;&#x2F;***.smallerpig.com&#x2F;user&#x2F;getuserunionid&#39;,</span><br><span class="line">      data: res,</span><br><span class="line">      success: function(res)&#123;</span><br><span class="line">        &#x2F;&#x2F; success</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>对应的flask代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;user&#x2F;getuserunionid&#39;, methods&#x3D;[&#39;GET&#39;, &#39;POST&#39;])</span><br><span class="line">  def getuserid\(\):</span><br><span class="line">    r &#x3D; json.loads(request.data)</span><br><span class="line">    encryptedData &#x3D; r[&#39;encryptedData&#39;]</span><br><span class="line">    iv &#x3D; r[&#39;iv&#39;]</span><br><span class="line">    xcx_session_key &#x3D; r[&#39;r3session&#39;]</span><br><span class="line">    session_key &#x3D; cache.get(xcx_session_key) # 从缓存中取出对应r3session对应的session_key</span><br><span class="line">    pc &#x3D; WXBizDataCrypt(appid, session_key)</span><br><span class="line">    return pc.decrypt(encryptedData, iv)</span><br></pre></td></tr></table></figure>
+<p>参考官方文档地址：<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/data.html" target="_blank" rel="noopener">https://mp.weixin.qq.com/debug/wxadoc/dev/api/data.html</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>经过几篇文章的介绍，如果您是按照小猪的代码一步一步做的话你应该已经了解小程序开发的大致过程，接下来的重点无非就是熟悉小程序提供给大家的接口，然后根据这些接口来完善我们的业务逻辑。</p>
+<p>接下来的几篇文章小猪将向大家介绍一个实际的功能：在小程序中添加备忘录，在适时的时候小程序将提醒用户。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">flask</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/未分类//" class="article-tag-list-link color4">未分类</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1190.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信/跟着小猪来做小程序开发吧——解密cryptedData" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1228,99 +1361,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-杂谈/最近很多危机啊" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1156.html">最近很多危机啊</a>
-    </h1>
-  
-
-        
-        <a href="/1156.html" class="archive-article-date">
-  	<time datetime="2017-02-23T06:01:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇文章起源于最近各种事情的集合。</p>
-<ul>
-<li>华为集中清理34岁以上的员工了</li>
-<li>小猪之前所在公司的大部分员工因为某些原因已经开始重新找工作了。</li>
-<li>这两天非常热的一篇文章：<a href="http://mp.weixin.qq.com/s/C5aDa0pzoUGk6_4q-qKCaQ" target="_blank" rel="noopener">就算老公一毛钱股份都没拿到，在我心里，他依然是最牛逼的创业者</a></li>
-<li>时长提醒自己已经31了。</li>
-<li>领导深夜分享文章：人无远虑，必有近忧！</li>
-</ul>
-<p>这些看了让人很是担忧的文章真是让人心神不宁，尤其是最近单位的咖啡豆没了的情况下感觉自己的工作状态一日不如一日、遇到事情总是一拖再拖、每天到下午的四五点的时候感觉头晕脑胀、想写点东西总是感觉没有干货、代码写的越来越少，找个练手的东西写写才发现自己的代码写的有多烂。</p>
-<p>这些总是让我在临睡前那一刻不得安宁。</p>
-<p>想着这些年身边的人和事，有优秀的、拼命的、富二代的、不知道干嘛的。对比自己发现自己什么特点都没有。硬要说自己技术有多牛？自己都觉得可笑。</p>
-<p>所以还是要历练自己，不能到了35岁了之后发现还是这样，毕竟用老婆的话来说：现在你是家里的顶梁柱。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1156.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/11/">Next &amp;raquo;</a>
@@ -1335,7 +1375,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 smallerpig
+    		&copy; 2024 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
