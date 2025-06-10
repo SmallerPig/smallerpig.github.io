@@ -148,6 +148,277 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/asp-net-mvc-e5-9c-a8return-view-e4-b9-8b-e5-89-8d-e5-90-91-e8-be-93-e5-87-ba-e6-b5-81-e5-86-99-e5-85-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/737.html">[ASP.NET MVC]在return View\(\)之前向输出流写入</a>
+    </h1>
+  
+
+        
+        <a href="/737.html" class="archive-article-date">
+  	<time datetime="2015-06-02T08:27:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>直接上代码:</p>
+<p>控制器部分代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Response.Write(&quot;hello world&quot;);</span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>视图部分代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xhtml&quot;&gt;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&lt;head&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;title&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">    </span><br><span class="line">&lt;body&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;h2&gt;index of pc&lt;&#x2F;h2&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>在调用上述代码之后看返回给浏览器的最终代码:</p>
+<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/06/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/06/image_thumb.png" alt="image" title="image"></a></p>
+<p>可见,hello world输出流在整个view之前呈现了.</p>
+<p>由此我们可以推断加证明,<code>return View\(\)</code>方式只是将cshtml文件以字符的形式输出出来.,当然<code>ViewResult\(\)</code>本身加载的视图引擎要复杂的多.!</p>
+<p>那么如果我们在return View()之前把Respon给End()之后会怎么样呢?再来试验一下!</p>
+<p>controller代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    Response.Write(&quot;hello world&quot;);</span><br><span class="line">    </span><br><span class="line">    Response.End\(\);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>View的代码不变,我们运行程序看看生成的代码:<br><code>hello world</code><br>可见,在Response.End()之后,再向输出流输出内容就输出不了了.</p>
+<p>参考<a href="http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/737.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-报错/踩坑-微信:不允许跨号支付" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/733.html">微信:不允许跨号支付</a>
+    </h1>
+  
+
+        
+        <a href="/733.html" class="archive-article-date">
+  	<time datetime="2015-05-30T14:39:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image10.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb10.png" alt="image" title="image"></a></p>
+<p>遇到这个问题通常都是这么个情况:我们在自己的公众号中测试通过了所有的逻辑,然后想通过另外的公众号来推广我们的链接例如在其他公众号的自定义菜单中,回复文本中带上我们的支付链接或者支付系统链接.本来以为会一切正常,但是微信会给你无情弹出上面的对话框.也就是不允许跨号支付.</p>
+<p>举个大家常见的例子.例如同一个公司有两公众号,一个服务号,一个订阅号.公司通过服务号开发了一个卖东西的H5站点,测试没有问题了,通过订阅号来告诉粉丝们:我们这物美价廉快递小哥还正点哦,详情请点击……!结果悲剧了…</p>
+<p>最终结论就是:使用B公众号开发的支付链接.不能通过A公众号来推广..</p>
+<p>也就是说,要不直接发链接给客户,要不直接让客户扫二维码进入链接.就是不能让用户从其他公众号窗口点链接进去.</p>
+<p>可见微信浏览器已经判断了用户的某次点击是从哪个地方进来的!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/733.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp.net/entityfunctions-diff-e7-b3-bb-e5-88-97-e7-9a-84-e5-9d-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/724.html">EntityFunctions.Diff系列的坑</a>
+    </h1>
+  
+
+        
+        <a href="/724.html" class="archive-article-date">
+  	<time datetime="2015-05-30T12:33:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用<code>EntityFramwork</code>时,当我们需要对数据库中的时间字段进行计算的时候我就需要用到<code>EntityFuncitons</code>而不能直接写成类似下面的代码了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(item&#x3D;&gt;(item.CreateTime-DateTime.Now).Minutes&gt;2)</span><br></pre></td></tr></table></figure><br>仔细翻阅<code>EntityFunctions.DiffMinutes</code>的文档发现其留下了这么一句话:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 摘要: </span><br><span class="line">&#x2F;&#x2F;     调用 DiffMinutes 规范函数。有关 DiffMinutes 规范函数的信息，请参见Date and Time Canonical Functions</span><br><span class="line">&#x2F;&#x2F;     (Entity SQL)。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 参数: </span><br><span class="line">&#x2F;&#x2F;   timeValue1:</span><br><span class="line">&#x2F;&#x2F;     有效日期。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;   timeValue2:</span><br><span class="line">&#x2F;&#x2F;     有效日期。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 返回结果: </span><br><span class="line">&#x2F;&#x2F;     timeValue1 和 timeValue2 之间的分钟数。</span><br><span class="line">[EdmFunction(&quot;Edm&quot;, &quot;DiffMinutes&quot;)]</span><br><span class="line">public static int? DiffMinutes(DateTime? timeValue1, DateTime? timeValue2);</span><br></pre></td></tr></table></figure><br>其上面明明写着返回结果是timeValue1和timeValue2之间的分钟数.类似的方法还有<code>DiffMonths\(\)</code>,<code>DiffSeconds\(\)</code>,<code>DiffYears\(\)</code>..</p>
+<p>当我们信誓旦旦的写上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item &#x3D;&gt; item.Status &#x3D;&#x3D; 0 &amp;&amp; EntityFunctions.DiffMinutes(DateTime.Now, item.CreateTime)&gt;&#x3D; 15)</span><br></pre></td></tr></table></figure><br>却怎么也得不到想要的结果..</p>
+<p>通过sql监视发现其生成的SQL语句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DATEDIFF (minute, SysDateTime\(\), SysDateTime\(\))&gt;&#x3D;15</span><br></pre></td></tr></table></figure><br>单独执行才发现,这两个参数的顺序反了.简直是我勒个擦了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item &#x3D;&gt;item.Status &#x3D;&#x3D; 0 &amp;&amp; EntityFunctions.DiffMinutes(item.CreateTime, DateTime.Now)&gt;&#x3D; 15)</span><br></pre></td></tr></table></figure><br>也就是说:EntityFunctions.Diff系列函数的调用,第一个参数得比第二个参数小,才能返回正数结果.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/C/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/724.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信/微信支付官方SDK v3 .NET版的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -800,354 +1071,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/663.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-php/ci-e4-b8-ad-e4-bd-bf-e7-94-a8layout-e6-96-87-e4-bb-b6-e7-b1-bb-e4-bc-bc-e6-a8-a1-e6-9d-bf-e6-95-88-e6-9e-9c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/653.html">CI中使用layout文件(类似模板效果)</a>
-    </h1>
-  
-
-        
-        <a href="/653.html" class="archive-article-date">
-  	<time datetime="2015-05-04T12:12:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CI框架本身不提供类似模板的功能,所以官方文档中并没有相关的介绍!</p>
-<p>虽然在视图的文档中给出了这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class Page extends CI_Controller &#123;</span><br><span class="line"></span><br><span class="line">   function index\(\)</span><br><span class="line">   &#123;</span><br><span class="line">      $data[&#39;title&#39;] &#x3D; &#39;Your title&#39;;</span><br><span class="line">      $data[&#39;message&#39;] &#x3D; &#39;Your message&#39;;</span><br><span class="line">      $this-&gt;load-&gt;view(&#39;header&#39;,$data);</span><br><span class="line">      $this-&gt;load-&gt;view(&#39;content&#39;);</span><br><span class="line">      $this-&gt;load-&gt;view(&#39;footer&#39;);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><br>该段代码是利用了同一个控制器可以加载多个视图的特性.将html文档的头部,内容部分以及页脚部分分别放三个不同的文件中,这样在一定程度上能够满足我们的需求.但还是不够友好,</p>
-<p>小猪今天分享的是一个类库,利用该类库可以实现类似模板的功能.在application项目文件夹的libraries文件夹中新建Layout.php文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class Layout</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    var $CI;</span><br><span class="line">    var $layout;</span><br><span class="line"></span><br><span class="line">    function Layout($layout &#x3D; &quot;_layout&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;CI &#x3D;&amp; get_instance\(\);</span><br><span class="line">        $this-&gt;layout &#x3D; &#39;share&#x2F;&#39; . $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function setLayout($layout)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;layout &#x3D; $layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function view($view, $data&#x3D;null, $return&#x3D;false)</span><br><span class="line">    &#123;</span><br><span class="line">        $data[&#39;content_for_layout&#39;] &#x3D; $this-&gt;CI-&gt;load-&gt;view($view,$data,true);</span><br><span class="line"></span><br><span class="line">        if($return)</span><br><span class="line">        &#123;</span><br><span class="line">            $output &#x3D; $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, true);</span><br><span class="line">            return $output;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;CI-&gt;load-&gt;view($this-&gt;layout,$data, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>在application项目文件夹的view文件夹下新建share文件夹,然后新建_layout.php文件!如果有需求可以新建多个视图文件:</p>
-<p>输入文件内容:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php echo $content_for_layout  ?&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>代码中使用了php变量content_for_layout.而这个变量的值是在我们新建的Layout类库的view方法里赋值的,其值为$this-&gt;CI-&gt;load-&gt;view($view,$data,true).</p>
-<p>意思就是将加载了数据的视图文件赋值给变量$content_for_layout,然后再一次的加载我们的模板页,也就是layout.php文件!</p>
-<p>所以,我们在控制器里写入这样的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function test\(\)&#123;</span><br><span class="line">    $data[&quot;content&quot;] &#x3D; &quot;hi smallerpig! this is the content from controller!&quot;;</span><br><span class="line">    $this-&gt;load-&gt;library(&#39;layout&#39;);</span><br><span class="line">    $this-&gt;layout-&gt;view(&quot;test&quot;,$data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>其中用到了一个视图文件test.php:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;-- &lt;?php echo $content ?&gt; -- &lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure><br>这样最终我们页面输出的html文档将会是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div&gt;-- hi smallerpig! this is the content from controller! -- &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>最终我们完成了将整个页面相同的html代码先提取到了layout(share/_layout.php)文件中,然后将会变的内容放到单独的视图(test.php)文件!而且类库还兼容了原来的类库写法,即view方法的第三个参数类型为bool类型,如果传入为true,则将返回视图结果字符串!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/653.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-php/体验基于CI的CMS管理系统DiliCMS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/650.html">体验基于CI的CMS管理系统DiliCMS</a>
-    </h1>
-  
-
-        
-        <a href="/650.html" class="archive-article-date">
-  	<time datetime="2015-04-29T14:15:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在开发网站过程中我们经常要为网站开发管理网站内容的后台.也就是CMS(内容管理系统)!我们通常都是单独的给每个站都单独开发一个后台,这样做的过程一般都是先根据需求手动建好数据库并建好表!然后根据数据结构开发对应的程序.</p>
-<p>这样在开发了很多的网站之后我们会发现基本上所有网站的数据模型都是相似的,例如wordpress就是以文章表为主线的!而一般的新闻发布类网站无非也就是内容表,类别表,作者之类~</p>
-<p>这样,我们就可以开发出固定的CMS来管理这些类容…</p>
-<p>之前小猪都是这么想的…每次网站或者app的后台都是手动开发.</p>
-<p>今天小猪来分享基于CI的DiliCMS,该CMS为纯后台,没有前台,自己可以根据自己需求定制页面部分,更重要的是该系统使用的MIT协议,也就是我们可以完全根据自己的需求来二次开发该CMS.这一点相比过年目前的phpcms来说好多了.后者一开打各种版权问题.!</p>
-<p>小猪使用wamp来体验下dilicms.</p>
-<p>将下载好的项目代码复制到wamp的www文件夹下.打开localhost后可看到默认首页:该项目的官方网站为:<a href="http://www.dilicms.com/" target="_blank" rel="noopener" title="http://www.dilicms.com/">http://www.dilicms.com/</a> 打开的默认首页为:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image13.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb12.png" alt="image" title="image"></a></p>
-<p>浏览器中输入<a href="http://localhost/install/public/" target="_blank" rel="noopener" title="http://localhost/install/public/">http://localhost/install/public/</a>可进入安装引导页:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image14.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb13.png" alt="image" title="image"></a></p>
-<p>点击同意协议并下一步之后进入平台选择!这里因为在本地环境,只能选择普通环境了.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image15.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb14.png" alt="image" title="image"></a></p>
-<p>再点击下一步进入环境检测,开始检测当前环境是否能够安装DiliCMS</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image16.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb15.png" alt="image" title="image"></a></p>
-<p>这里我们所有条件都满足,下一步进入数据库链接设置界面:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image17.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb16.png" alt="image" title="image"></a></p>
-<p>这里还是能够发现很多BootStrap样式的影子.我事先在mysql中创建好了dilicms,所以这边直接点击导入数据库了.点击之后会弹出控制台,稍等一两秒之后会提示导入成功</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image18.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb17.png" alt="image" title="image"></a></p>
-<p>再点击下一步之后设置超级管理员账户和密码.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image19.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb18.png" alt="image" title="image"></a><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image20.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb19.png" alt="image" title="image"></a></p>
-<p>创建成功之后我们的安装也就完成了.</p>
-<p>然后输入在浏览器里输入localhost/admin即可进入后台登陆页面.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image21.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb20.png" alt="image" title="image"></a></p>
-<p>来看看后台的默认首页:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image22.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb21.png" alt="image" title="image"></a></p>
-<p>还是挺熟悉的那种赶脚.接下来小猪也介绍的也就是整个CMS的重点了,那就是动态的添加数据模型:假如我们要做的是一个新闻发布系统.新闻有标题,简介,分类,内容这几个字段.其中分类字段引用了另外一张表 也就是分类模型.</p>
-<p>所以我们首先要新建一个分类模型,取名为:article_category:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image23.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb22.png" alt="image" title="image"></a><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image24.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb23.png" alt="image" title="image"></a></p>
-<p>到列表也给该分类模型添加字段:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image25.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb24.png" alt="image" title="image"></a></p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image26.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb25.png" alt="image" title="image"></a></p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image27.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb26.png" alt="image" title="image"></a></p>
-<p>添加完成后相同步骤我们进入”内容模型管理”板块添加模型数据,article.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image28.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb27.png" alt="image" title="image"></a></p>
-<p>其字段列表为:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image29.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb28.png" alt="image" title="image"></a></p>
-<p>其中我们单独介绍文章分类字段.</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image30.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb29.png" alt="image" title="image"></a></p>
-<p>可以看到小猪将数据源的值设置成了:article_category|category_name.这个值对应我们刚刚新建的分类模型的”模型名|字段名”!,具体的各字段类型和数据源参数的设置可以参考作者在社区发表的帖子:<a href="http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1" target="_blank" rel="noopener" title="http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1">http://codeigniter.org.cn/forums/forum.php?mod=viewthread&amp;tid=9699&amp;extra=page%3D1</a></p>
-<p>然后我们给模型字段添加几个值:分别为文章的几个类别:体育,娱乐,军事!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image31.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb30.png" alt="image" title="image"></a></p>
-<p>回到内容管理的文章页,然后点击添加就可以看到该页面为我们刚才设置的参数值:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/04/image32.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/04/image_thumb31.png" alt="image" title="image"></a></p>
-<p>基本功能我们已经体验了,</p>
-<p>这样,我们将系统发布了之后维护人员根本不需要懂太多的代码就能够管理整个系统,当然作为我们开发人员的工具也可以节省我们开发后台的很多时间.</p>
-<p>另外,系统还给我们提供了权限的管理,数据库的备份还原优化,缓存的功能以及常规站点的设置.可以说基本上能满足我们功能!</p>
-<p>小猪准备在其基础上进行二次开发包括数据字段为上传图片地址的功能.?默认的编辑器是使用的KindEditor将其换成ckeditor.等等.这都得益于其是基于CI框架!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">CI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP//" class="article-tag-list-link color4">PHP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/CodeIgniter/PHP/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/650.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-杂谈/关于购物欲" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/604.html">关于购物欲</a>
-    </h1>
-  
-
-        
-        <a href="/604.html" class="archive-article-date">
-  	<time datetime="2015-04-28T12:38:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发现小猪毕业之后的购物欲越来越强了!</p>
-<p>例如:去年的时候一直想要买个kindle,心里一直在想着如果有了他我一定会每天抽时间出来看书,平均达到多天一本书.还好年前作为公司福利,公司每个人都发了一部!</p>
-<p>去年开始,一直期望着自己能拥有一本mac book pro!在网上到处手机mbp的资料,到处给自己暗示:程序员都是用mac工作的!虽然到目前为止我还是一个.net程序员!</p>
-<p>今年开始我就想着能不能换个手机,也来体验一下ios的系统,到目前为止,市场上的三大主流手机操作系统也就剩下苹果我没有体验过了!</p>
-<p>春天到了,我又在想能不能买个好点的自行车,这样每天骑着自行车上班不仅拉风而且还锻炼身体!于是到处查看山地车的价格.</p>
-<p>这些天又在京东上关注机械键盘,又看到类似:程序员就应该拥有一把机械键盘!让你的手指享受应该有的待遇!因为它养活了你!之类的言论.</p>
-<p>今天又用上班时间看了下目前漫步者2.1音箱的价格…想着给自己的台式电脑配个低音炮在周末或者晚上的时候边瞧代码边摇晃着脑袋是不是会很带劲?</p>
-<p>越来越受不了自己了…</p>
-<p>好在我还算是个”磨叽”的人!没有说风就是雨,想到什么就买什么!</p>
-<p>所以上面说到的几个除了kindle是公司发的之外其他的到目前为止一个都没有买,有部分原因是小猪克制住了自己,当然大部分原因还是因为自己没钱,或者舍不得花这个钱!</p>
-<p>于是想到前段时间看到的一句很有道理的话:原文不记得了,但是意思大概是:</p>
-<quote>当我们开始关注某项物品时,他的作用会在我们心中无意的被放大!</quote>  
-
-<p>意思是我们一旦被某些文章或者广告提及到某样东西并被你得到认可之后,他的作用就会被我们自己人为的放大.!在没有这件物品时你就会想如果我拥有它之后我肯定会怎样怎样…而一旦拥有了且过了那阵子新鲜感之后你就会去寻找另外的替代品!当然这是我针对购物欲这件事上的见解.</p>
-<p>那怎样具体的区分我们想要买的东西到底是因为购物欲使坏还是真正的需要呢?同样有类似这样的言论:</p>
-<ol>
-<li>如果你犹豫要不要买一件东西只是因为它比较贵，那就买下来；如果你想买一件东西只是因为他非常便宜划算，那就不要买。<br>如果你买它，只是因为它价格便宜，那就不要买它，哪怕它是聚划算，狂打折！！因为如果只是因为便宜，而买的东西，通常都不是你最需要的。而且购买后，你通过这东西得到的满足感也很低，且多是因为买到划算的心理满足。</li>
-<li>在买任何东西之前牢记九字箴言：你喜欢，你需要，你适合。 PS：适用于很多事，包括感情也一样。<br>如果是你很喜欢，特别想要的东西，只要在你经济承受范围内，那就买吧！因为你得到的满足感是巨大的，且通常比较持久！有没有觉得有些喜欢的衣服，鞋子，或者用的东西，就会经常用，经常穿它？ </li>
-</ol>
-<p>按照这个理论,小猪想了想.</p>
-<p>为什么想要个mac book pro 呢?网上到处都充斥着对windows的鄙视和果粉对mac的支持,小猪受了影响!另外就是发现能在电视上看到的电脑基本上都是mac的.自己也想拥有一个来显示自己的逼格!真正需求呢?小猪自己也不知道!</p>
-<p>购买手机的欲望一开始是因为自己目前的红米1s电池越发不给力了,待机都待不到一天.所以想换,可是仔细想想用这个手机还不到一年!平时对手机的需求压根不高,上班时都是用电脑上网!难道手机真的到了不能使用的地步了吗?也还没有,能用的功能都有,只是偶尔收不到微信消息而已(内存太小,估计是进程被杀了)!</p>
-<p>想买自行车是在街上经常看到有人弯着腰很”酷”的蹬着山地车一个一个的超过电瓶车.小猪就被这样的镜头给打动了~</p>
-<p>机械键盘是偶尔看到知乎上的一个问答,题目大约是:为什么我的程序员男友特别想要一个机械键盘!后来除了因为价格的原因没有买之外也是因为看到了这么一个故事:一个挑夫有一天突然变的有钱了,他不知道用这钱来干什么,最后他用这个钱来做一个金扁担!</p>
-<p>音箱完全是自己意淫出来的一种假象让自己神往!!</p>
-<p>最后,的最后我觉得真正不能让小猪满足购物欲的还是自己没能赚到足够的钱啊!<!--StartFragment--> <img src="file:///C:/Users/zhuqi/AppData/Local/Temp/SGPicFaceTpBq/568/35E04048.gif" alt=""></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/604.html">展开全文 >></a>
         </p>
       
 

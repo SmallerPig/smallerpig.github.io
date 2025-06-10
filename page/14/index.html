@@ -148,6 +148,384 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Django/在Django中使用logging" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1022.html">在Django中使用logging</a>
+    </h1>
+  
+
+        
+        <a href="/1022.html" class="archive-article-date">
+  	<time datetime="2016-05-13T09:48:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们在编写程序过程中，很难免的会出现一些问题，程序并非按照我们预想的那样运行，这个时候我们通常会对程序进行调试，来看看到底是哪边出了问题。而程序日志是来帮助我们记录程序运行过程的帮手，善用日志的程序员也就能很快找出自己程序的问题所在从而快速解决问题。<br>在服务器级别的组件中都有对应的日志文件，例如nginx、uWSGI都会在运行过程中将一些信息写到日志文件中。<br>django同样提供了类似功能，在默认情况下并不会出现，今天小猪就带大家来看看django的日志功能。</p>
+<hr>
+<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a>logging</h2><p>django使用python的内置模块logging来管理自己的日志，所以如果之前了解过python的相关内容会对本文章的内容更容易接受。</p>
+<h3 id="四大组件"><a href="#四大组件" class="headerlink" title="四大组件"></a>四大组件</h3><p>logging中四个重要的概念分别是</p>
+<ol>
+<li>Loggers</li>
+<li>Handlers</li>
+<li>Filters</li>
+<li>Formatters</li>
+</ol>
+<h4 id="Loggers"><a href="#Loggers" class="headerlink" title="Loggers"></a>Loggers</h4><p>Loggers(日志记录器)，系统中的每一条日志都是由该组件进行记录的，每一个记录器都应该有其自己的名称并标记其最低记录的等级，在python中，定义了如下几个日志等级(其实小猪目前了解的所有程序语言中都是这几个等级)。</p>
+<ul>
+<li>DEBUG:所有等级中最低，其信息一般用来作为调试的辅助信息</li>
+<li>INFO:程序的一般信息</li>
+<li>WARNING:警告，通常用来对某些可能出现的错误且不会影响程序正常运行的信息进行警告。</li>
+<li>ERROR:错误，表示出现了某种错误。</li>
+<li>CRITICAL:奔溃，出现了严重级别的错误。</li>
+</ul>
+<p>日志文件中的每一条信息都是一条信息记录，都应该有其对应的级别，然后记录一些打印该条日志时的一些元数据，来告诉查阅者出现这条日志时程序的大致情况，例如调用堆栈或者状态码等等。<br>当一条日志给到logger时，logger会对该条信息的级别与自身的级别进行比较，如果该日志级别不低于本身级别，logger就会进行下一步操作。相反，如果日志的信息级别比logger的低，那么其会忽略这条日志，不进行任何操作。<br>当logger经过级别的比较之后决定要对某条日志进行处理时，就将该条日志交给了Handlers</p>
+<h4 id="Handlers"><a href="#Handlers" class="headerlink" title="Handlers"></a>Handlers</h4><p>Handlers(处理器):他来处理具体每条信息，例如是将日志打印到屏幕还是记录到文件或者发送至某个网络连接。<br>和记录器(logger)一样，Handlers也有自己的记录级别，如果日志级别低于handler的级别，handler同样会忽略掉该条日志。<br>更贱方便的是:一个logger可以拥有多个handler，而且不同的handler可以拥有不同的记录级别。这样，我们就可以根据不同的日志级别对同一个logger做不同的事情，例如我们可以将级别为WARNING和ERROR的日志打印到屏幕，而级别为CRITICAL级别的日志直接发送到管理者邮箱。</p>
+<h4 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h4><p>Filter(过滤器):提供了传递给handler之前的附加功能。在通常情况下，一条日志信息只要达到logger的级别之后就会传递给handler处理，但是我们可以通过使用filter来对日志进行额外的过滤。例如我们可以使用某个filter来控制只允许某个特定的源的ERROR级别的日志。<br>Filter还运行咱们在处理之前修改日志，例如降低或者提高日志的级别。<br>Filter可以在logger和handler中同时使用，而且多个filter会同时工作。</p>
+<h4 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters"></a>Formatters</h4><p>Formatter(格式化):定义了怎么显示内容，因为最终的日志都会是以文本的形式展现，formatter就是描述怎么来做这件事。formatter通常都是使用python格式化字符串的方法来对日志进行格式化，具体的属性列表可参考<a href="https://docs.python.org/3/library/logging.html#logrecord-attributes" target="_blank" rel="noopener">官方文档</a></p>
+<hr>
+<h2 id="使用logging"><a href="#使用logging" class="headerlink" title="使用logging"></a>使用logging</h2><p>一旦我们配置好对应的loggers, handlers, filters,和formatters之后，我们就可以在我们的代码中使用logging了，使用logging非常的简单，例如下面的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># import the logging library</span><br><span class="line">import logging</span><br><span class="line"></span><br><span class="line"># Get an instance of a logger</span><br><span class="line">logger &#x3D; logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line">def my_view(request, arg1, arg):</span><br><span class="line">...</span><br><span class="line">if condition:</span><br><span class="line"># Log an error message</span><br><span class="line">logger.error(&#39;Something went wrong!&#39;)</span><br></pre></td></tr></table></figure></p>
+<p>如上代码，只要condition条件成立，就会调用名为<strong>name</strong>的记录器并且记录一条错误日志。</p>
+<h3 id="给loggers命名"><a href="#给loggers命名" class="headerlink" title="给loggers命名"></a>给loggers命名</h3><p>我们可以使用代码<code>logging.getlogger\(\)</code>来生成一个具体名称的logger，所以我们有必要给每一个logger命名。合理的命名logger会给我们带来很大的方便。<br>为了方便起见，默认情况下python会使用当前模块的<strong>name</strong>命名当前logger，这样我们就可以利用filter根据不同的模块进行处理。我们也可以自己配置自己的logger名称，例如使用符号<code>.</code>来组织我们的logger</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#get an instance of a specific named logger</span><br><span class="line">logger &#x3D; logging.getlogger(&#39;project.smallerpig.app&#39;)</span><br></pre></td></tr></table></figure>
+<p>我们使用符号<code>.</code>来标示logger的层次结构，名称为project.smallerpig的logger通常表示为project.smallerpig.app的上级logger、名称为project的logger表示project.smallerpig和project.smallerpig.app的上级。利用这个特性，我们可以定义一个树结构的logger层，例如定义一个名称为project的根logger，然后在其节点下分别定义smallerpig或者bigerpig的logger，然后再拓展下去。这样我们就可以使用一个project的logger获取该节点下的所有日志信息，并且也可以使用具体的logger只获取部分我们想要的信息。<br>当然，如果我们不想使用这些设置，我们可以将其关闭。</p>
+<h3 id="调用logging"><a href="#调用logging" class="headerlink" title="调用logging"></a>调用logging</h3><p>每一个logger实例拥有与之对应级别的方法，调用这些方法就可以传递对应级别的日志信息。</p>
+<ul>
+<li>logger.debug()</li>
+<li>logger.info()</li>
+<li>logger.warning()</li>
+<li>logger.error()</li>
+<li>logger.critical()</li>
+</ul>
+<p>另外，还有两个特殊的方法可以调用:</p>
+<ul>
+<li>logger.log() 利用特定的级别产生一条日志信息。</li>
+<li>logger.excetion()，创建一条级别为ERROR的信息，并且包含当前的调用栈。</li>
+</ul>
+<hr>
+<h2 id="配置logging"><a href="#配置logging" class="headerlink" title="配置logging"></a>配置logging</h2><p>除了仅仅在代码中调用logger的几个产生日志条目的方法，我们还可以对loggers, handlers, filters和formatters进行配置以确保输出的数据是我们想要的。<br>python的默认logging模块提供了很多种方式来配置，django默认使用字典方式来配置logging。在配置文件中，我们使用变量LOGGING设置具体的loggers, handlers, filters和formatters。并且在缺省值时，默认提供了<a href="https://docs.djangoproject.com/en/1.9/topics/logging/#default-logging-configuration" target="_blank" rel="noopener">默认日志设置</a><br>logging设置是在Django的setup()方法中进行的，所以当我们在项目的setting.py文件中设置好之后可确认我们所设置的logger在django程序运行过程中是随时可用的。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p><a href="https://docs.python.org/3/library/logging.config.html#logging-config-dictschema" target="_blank" rel="noopener">dictConfig format的官方文档</a>中我们可以查阅到所有可设置的项，但在这里小猪使用django官网的例子来说明怎么配置logging。<br>代码1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;file&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;DEBUG&#39;,</span><br><span class="line">            &#39;class&#39;: &#39;logging.FileHandler&#39;,</span><br><span class="line">            &#39;filename&#39;: &#39;&#x2F;path&#x2F;to&#x2F;django&#x2F;debug.log&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;file&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;DEBUG&#39;,</span><br><span class="line">            &#39;propagate&#39;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将上述代码中的filename项的值设置成对应的值之后我们就可以使用了。</p>
+<p>代码2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;console&#39;: &#123;</span><br><span class="line">            &#39;class&#39;: &#39;logging.StreamHandler&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;],</span><br><span class="line">            &#39;level&#39;: os.getenv(&#39;DJANGO_LOG_LEVEL&#39;, &#39;DEBUG&#39;),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用上述配置之后并且在环境变量DEBUG=True时，我们可以在控制台中看到所有调试信息，包括django的ORM生存的SQL语句。这在我们调试程序时是非常有用的。<br>稍微复杂点的例子，代码3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">LOGGING &#x3D; &#123;</span><br><span class="line">    &#39;version&#39;: 1,</span><br><span class="line">    &#39;disable_existing_loggers&#39;: False,</span><br><span class="line">    &#39;formatters&#39;: &#123;</span><br><span class="line">        &#39;verbose&#39;: &#123;</span><br><span class="line">            &#39;format&#39;: &#39;%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;simple&#39;: &#123;</span><br><span class="line">            &#39;format&#39;: &#39;%(levelname)s %(message)s&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;filters&#39;: &#123;</span><br><span class="line">        &#39;special&#39;: &#123;</span><br><span class="line">            &#39;\(\)&#39;: &#39;project.logging.SpecialFilter&#39;,</span><br><span class="line">            &#39;foo&#39;: &#39;bar&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;require_debug_true&#39;: &#123;</span><br><span class="line">            &#39;\(\)&#39;: &#39;django.utils.log.RequireDebugTrue&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;handlers&#39;: &#123;</span><br><span class="line">        &#39;console&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;INFO&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;require_debug_true&#39;],</span><br><span class="line">            &#39;class&#39;: &#39;logging.StreamHandler&#39;,</span><br><span class="line">            &#39;formatter&#39;: &#39;simple&#39;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;mail_admins&#39;: &#123;</span><br><span class="line">            &#39;level&#39;: &#39;ERROR&#39;,</span><br><span class="line">            &#39;class&#39;: &#39;django.utils.log.AdminEmailHandler&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;special&#39;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#39;loggers&#39;: &#123;</span><br><span class="line">        &#39;django&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;],</span><br><span class="line">            &#39;propagate&#39;: True,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;django.request&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;mail_admins&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;ERROR&#39;,</span><br><span class="line">            &#39;propagate&#39;: False,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#39;myproject.custom&#39;: &#123;</span><br><span class="line">            &#39;handlers&#39;: [&#39;console&#39;, &#39;mail_admins&#39;],</span><br><span class="line">            &#39;level&#39;: &#39;INFO&#39;,</span><br><span class="line">            &#39;filters&#39;: [&#39;special&#39;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中分别对了logging做了一下的设置</p>
+<ul>
+<li>定义配置信息使用dictConfigversion 1格式。</li>
+<li>定义了两个格式化器(formatters):</li>
+</ul>
+<ol>
+<li>simple，只输出日志级别和日志信息</li>
+<li>verbose，输出稍微复杂点的信息，包括:等级、日志信息、附加时间、进程号等等</li>
+</ol>
+<ul>
+<li>定义两个过滤器(filters):</li>
+</ul>
+<ol>
+<li>project.logging.SpecialFilter，使用别名special，如果这个过滤器需要附加参数，它可以提供一个配置字典，在本例中，在实例化SqecialFilter时参数foo会被赋值为bar</li>
+<li>django.utils.log.RequireDebugTrue，定义只有在环境变量DEBUG等于True时才输出日志。</li>
+</ol>
+<ul>
+<li>定义两个处理器(handlers):</li>
+</ul>
+<ol>
+<li>console，直接输出级别为DEBUG(或更高)的信息到控制台，本handler使用名称为simple的format</li>
+<li>mail_admins，使用AdminEmailHandler发送级别为ERROR(或更高)的信息到网站管理员邮箱，这个handler使用名称为special的过滤器</li>
+</ol>
+<ul>
+<li>定义三个日志记录器(loggers):</li>
+</ul>
+<ol>
+<li>django，打印所有信息到名称为console的handler。</li>
+<li>django.request，传递ERROR级别的信息到名为mail_admins的handler，另外的，该条记录器标示了如果使用本记录器处理日志，那么将不使用django处理。</li>
+<li>myproject.custom，传递所有INFO级别(或更高)信息到名称为special的过滤器和两个handler。这样就实现了如果是INFO级别的信息则打印到控制台，如果是ERROR或者CRITICAL级别的则通过email发送给管理员。</li>
+</ol>
+<h3 id="自定义logging配置"><a href="#自定义logging配置" class="headerlink" title="自定义logging配置"></a>自定义logging配置</h3><h3 id="关闭logging配置"><a href="#关闭logging配置" class="headerlink" title="关闭logging配置"></a>关闭logging配置</h3><hr>
+<h2 id="Django的-logging拓展"><a href="#Django的-logging拓展" class="headerlink" title="Django的 logging拓展"></a>Django的 logging拓展</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">logging</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1022.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Django/django-e7-bb-99-e6-96-87-e7-ab-a0-e7-9a-84-e4-bd-9c-e8-80-85-e5-ad-97-e6-ae-b5-e8-b5-8b-e5-80-bc-e5-bd-93-e5-89-8d-e7-99-bb-e5-bd-95-e7-94-a8-e6-88-b7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1015.html">Django给文章的作者字段赋值当前登录用户</a>
+    </h1>
+  
+
+        
+        <a href="/1015.html" class="archive-article-date">
+  	<time datetime="2016-05-12T08:05:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>使用Django开发程序时，我们可以使用django自带的后台来管理注册的模型，非常的方便。<br>但方便的前提之下就是需要牺牲很多的灵活性，例如默认情况下模型的添加时是不做任何事情的，也就是除了不可编辑项之外，其他的项都是通过html表单来编辑的。这并不能满足我们某些情况下的复杂要求。<br>举个简单的例子，我们在编写博客程序时每篇文章都会有它的作者，这个字段我们是不希望让用户编辑的，而是直接让程序生成当前用户的值。<br>模型代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># models.py</span><br><span class="line">class Blog(models.Model):</span><br><span class="line">    name &#x3D; models.CharField(max_length&#x3D;100)</span><br><span class="line">    body_text &#x3D; models.TextField(null&#x3D;True)</span><br><span class="line">    pub_date &#x3D; models.DateField(auto_now_add&#x3D;True)</span><br><span class="line">    mod_date &#x3D; models.DateField(auto_now&#x3D;True)</span><br><span class="line">    author &#x3D; models.CharField(default&#x3D;&#39;anonymous&#39;,max_length&#x3D;128,editable&#x3D;False)</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中，author字段代表了这篇文章的作者，很显然这个字段的具体值不应该让编辑人员编辑。那我们怎么生成当前用户的数据赋值给该字段呢？</p>
+<h2 id="重写ModelAdmin"><a href="#重写ModelAdmin" class="headerlink" title="重写ModelAdmin"></a>重写ModelAdmin</h2><p>我们在注册admin时可以使用一个ModelAdmin的派生类来替换默认的原型数据<code>admin.site.register(Blog)</code>。<br>这样我们需要编写一个ModelAdmin，而ModelAdmin提供了<code>save_model</code>方法，查看源码发现默认的模型就是直接调用该方法来将数据保存到数据库:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def save_model(self, request, obj, form, change):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Given a model instance save it to the database.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    obj.save\(\)</span><br></pre></td></tr></table></figure>
+<p>由上述源码我们可以发现其不仅有obj参数，而且还拥有request和change参数。这样我们就可以重写该方法来达到我们的目的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class BlogAdmin(admin.ModelAdmin):</span><br><span class="line">    list_display &#x3D; [&#39;name&#39;,&#39;author&#39;,&#39;pub_date&#39;,&#39;mod_date&#39;]</span><br><span class="line"></span><br><span class="line">    def save_model(self, request, obj, form, change):</span><br><span class="line">        if not obj.id:</span><br><span class="line">            obj.author &#x3D; request.user.username</span><br><span class="line">        obj.save\(\)</span><br></pre></td></tr></table></figure>
+<p>上述代码中小猪重写了<code>save_model</code>方法，在调用模型的save方法之前先判断模型是否拥有id数据，依此来判断是创建过程还是编辑过程（或者直接使用change字段，该字段为boolean类型），如果是创建过程将当前登录用户的用户名赋值给模型的author字段。最后再调用save()方法，这样就算是完成我们的功能。<br>最后使用新的ModelAdmin替换默认模型!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin.site.register(Blog,BlogAdmin)</span><br></pre></td></tr></table></figure>
+<p>Done!</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>django这个框架的好处就在于他提供了很多基础的功能，而且这些功能都是可以通过一些方法来重写以达到不同项目不同的需求的。好比我们这个需求已经完成了，但是我们却可以想象到利用这个save_model()方法来完成我们很多个性化的功能，例如用户积分的判断等等等。。。。</p>
+<p>参考：</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/2991365/how-to-auto-insert-the-current-user-when-creating-an-object-in-django-admin" target="_blank" rel="noopener">how-to-auto-insert-the-current-user-when-creating-an-object-in-django-admin</a></li>
+<li><a href="https://docs.djangoproject.com/en/1.9/ref/contrib/admin/#django.contrib.admin.ModelAdmin.save_model" target="_blank" rel="noopener">官方文档</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1015.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-杂谈/当下的程序员" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1010.html">当下的程序员</a>
+    </h1>
+  
+
+        
+        <a href="/1010.html" class="archive-article-date">
+  	<time datetime="2016-05-11T15:08:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>发现一个现象：现在论坛上的程序员，包括我自己，都在玩一种积木游戏。就是将别人家已经做好的零部件然后经过各种组装后完成自己的产品。</p>
+<p>经常听到小伙伴们这样高度概括了我们技术开发所做的事情：现在的开发就是拼凑各种SDK，把人家做好的东西拿过来组装。</p>
+<p>细细想想还真是这样，现在各种产品功能细化，每一个你能想到的功能都能到网上找到对应的组件，我们所需要的就是了解这些组件的使用方法之后把人家的东西搬到我们的东西中。</p>
+<p>你是Android程序员？那你不是用的人家谷歌给你弄好的sdk么？你是IOS程序员？那你不是用苹果给你的SDK么？服务器开发那第三方的库就更多了。想想还真是！</p>
+<p>从某种意义上来讲这不就是我们小时候玩的七巧板么？或者是每个学期都不会正式上课却会发给我们一袋各种部件让我们自己组装成一个类似机器人的东西。</p>
+<p>我想这难道就是我们这一代的程序员应该做的事情吗？或者是国内程序员应该做的事情吗？<br>我有点不甘心，真的，我想改变，但却不知道如何改变！就像对着公司提过很多次咱们需要测试人员，专业的测试人员，却始终得不到落实。项目都是经过客户来测试，然后客户反馈各种本应该是我们自己团队发现的问题。这种硬不起来的感觉真是非常糟糕，却很无奈！</p>
+<p>回到主题上来，可能某种程度上来讲也不是我们这些“屁民”能改变的吧。我们这些屁民能做的事情就是把手上的事情做好，然后睁着布满血丝的眼睛，盯着那个虚无的目标，时不时用自己的拇指跟死命揉揉双眼让自己保持注意力，在机会出现时抓住它。</p>
+<p>它会出现吗？它是真实的吗？</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽//" class="article-tag-list-link color5">小猪吐槽</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/小猪吐槽/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1010.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-csharp/jetpack-e4-bd-bf-e7-94-a8markdown-e4-bb-a3-e7-a0-81-e9-ab-98-e4-ba-ae-e5-a4-9a-e4-b8-80-e8-a1-8c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -876,417 +1254,6 @@ if (nodes.length&amp;gt;1) {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/972.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/优化你的ASP.NET MVC代码--使用策略模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/965.html">优化你的ASP.NET MVC代码--使用策略模式</a>
-    </h1>
-  
-
-        
-        <a href="/965.html" class="archive-article-date">
-  	<time datetime="2016-01-22T03:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。</p>
-<p>具体代码表示策略模式:</p>
-<pre><code>/// &amp;lt;summary&amp;gt;
-/// 抽象策略
-/// &amp;lt;/summary&amp;gt;
-interface IStrategy
-{
-    /// &amp;lt;summary&amp;gt;
-    /// 策略方法
-    /// &amp;lt;/summary&amp;gt;
-    void DoSomething\(\);
-}
-
-/// &amp;lt;summary&amp;gt;
-/// 具体策略类A
-/// &amp;lt;/summary&amp;gt;
-class StrategyA : IStrategy
-{
-    public void DoSomething\(\)
-    {
-        Console.WriteLine(&quot;A do something&quot;);
-    }
-}
-
-/// &amp;lt;summary&amp;gt;
-/// 具体策略类B
-/// &amp;lt;/summary&amp;gt;
-class StrategyB : IStrategy
-{
-    public void DoSomething\(\)
-    {
-        Console.WriteLine(&quot;B do something&quot;);
-    }
-}
-
-/// &amp;lt;summary&amp;gt;
-/// 调用者
-/// &amp;lt;/summary&amp;gt;
-class Client
-{
-    private IStrategy strategy;
-    public Client(IStrategy s)
-    {
-        this.strategy = s;
-    }
-
-    public void SomeThing\(\)
-    {
-        strategy.DoSomething\(\);
-    }
-}
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口&#96;IStrategy&#96;,其中有一个方法是&#96;DoSomething\(\)&#96;.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的&#96;SomeThing\(\)&#96;方法,调用策略接口的&#96;DoSomeThing&#96;方法.</span><br></pre></td></tr></table></figure>
-<p> static void Main(string[] args)<br>    {<br>        Client c1 = new Client(new StrategyA());<br>        c1.SomeThing();//A do something<br>        Client c2 = new Client(new StrategyB());<br>        c2.SomeThing();//B do something<br>        Console.ReadLine();<br>    }</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行上述代码我们可得到运行结果.</span><br><span class="line">以上为策略模式的基本概念.</span><br><span class="line"></span><br><span class="line">### 在ASP.NET MVC中使用策略模式</span><br><span class="line"></span><br><span class="line">试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:</span><br></pre></td></tr></table></figure>
-<p> public class PostController : Controller<br>    {<br>        private PostServer server = new PostServer();<br>        // GET: Post<br>        public ActionResult Index()<br>        {<br>            var models = server.GetList();<br>            return View(models);<br>        }<br>    }</p>
-<pre><code>public class PostServer
-{
-    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
-    {
-        throw new NotImplementedException\(\);
-    }
-}
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟&#96;PostServer&#96;类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该&#96;PostServer&#96;无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对&#96;PostServer&#96;抽象出接口&#96;IPostServer&#96;,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用&#96;IPostServer&#96;的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量&#96;IPostServer&#96;进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原&#96;PostServer&#96;实例化&#96;IPostServer&#96;接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
-<p> public class PostController : Controller<br>    {<br>        private IPostServer server;</p>
-<pre><code>    public PostController\(\)
-    {
-        server = new PostServer\(\);
-    }
-
-    public PostController(IPostServer postServer)
-    {
-        this.server = postServer;
-    }
-
-    // GET: Post
-    public ActionResult Index\(\)
-    {
-        var models = server.GetList\(\);
-        return View(models);
-    }
-}
-
-public interface IPostServer
-{
-        IEnumerable&amp;lt;Article&amp;gt; GetList\(\);
-}
-
-public class PostServer : IPostServer
-{
-    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
-    {
-        throw new NotImplementedException\(\);
-    }
-}
-</code></pre><p>上述代码中我们获取数据的策略在控制器中是不管的.也不强依赖于具体的类,只依赖了一个<code>IPostServer</code>的接口,只要有实现了<code>IPostServer</code>接口的类就可以使用该控制器.</p>
-<p>这样我们在编写单元测试的时候就可以很方便的使用Mock工具来模拟实现<code>IPostServer</code>接口而不用具体真实的去访问数据库或者网络从而真正的做到单元测试只测试<strong>单元</strong>.</p>
-<h3 id="重新回顾认识策略模式"><a href="#重新回顾认识策略模式" class="headerlink" title="重新回顾认识策略模式"></a>重新回顾认识策略模式</h3><h4 id="策略模式的重心"><a href="#策略模式的重心" class="headerlink" title="策略模式的重心"></a>策略模式的重心</h4><p>　　策略模式的重心不是如何实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活，具有更好的维护性和扩展性。</p>
-<h4 id="算法的平等性"><a href="#算法的平等性" class="headerlink" title="算法的平等性"></a>算法的平等性</h4><p>　　策略模式一个很大的特点就是各个策略算法的平等性。对于一系列具体的策略算法，大家的地位是完全一样的，正因为这个平等性，才能实现算法之间可以相互替换。所有的策略算法在实现上也是相互独立的，相互之间是没有依赖的。</p>
-<p>　　所以可以这样描述这一系列策略算法：策略算法是相同行为的不同实现。</p>
-<h4 id="运行时策略的唯一性"><a href="#运行时策略的唯一性" class="headerlink" title="运行时策略的唯一性"></a>运行时策略的唯一性</h4><p>　　运行期间，策略模式在每一个时刻只能使用一个具体的策略实现对象，虽然可以动态地在不同的策略实现中切换，但是同时只能使用一个。</p>
-<h4 id="公有的行为"><a href="#公有的行为" class="headerlink" title="公有的行为"></a>公有的行为</h4><p>　　经常见到的是，所有的具体策略类都有一些公有的行为。这时候，就应当把这些公有的行为放到共同的抽象策略角色Strategy类里面。当然这时候抽象策略角色必须要用抽象类实现，而不能使用接口。</p>
-<p>　　这其实也是典型的将代码向继承等级结构的上方集中的标准做法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC/WEB开发/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/965.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/利用Entity Framework修改指定字段中的值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/962.html">利用Entity Framework修改指定字段中的值</a>
-    </h1>
-  
-
-        
-        <a href="/962.html" class="archive-article-date">
-  	<time datetime="2015-12-03T06:30:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>一般我们编辑某些模型的时候会用到类似这样的代码：</p>
-<pre><code>[HttpPost]
-public ActionResult Edit(Article model)
-{
-    if (model.Id == 0)
-    {
-        return HttpNotFound\(\);
-    }
-    using (db)
-    {
-        db.Entry(model).State = EntityState.Modified;
-        db.SaveChanges\(\);
-    }
-    return RedirectToAction(&quot;Index&quot;);
-}
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这样的代码完全能够符合我们的要求，能够顺利的修改我们想要修改的数据。</span><br><span class="line">    但是其中却有一个问题：例如说文章的创建时间字段&#96;Create_Time&#96;是由文章创建的时候生成的，其值不应该随着文章的编辑而变化，为了使这个值不变，我们就需要在前台的html代码里加上一个隐藏的name属性为Create_Time的input并且设置其值为文章的创建时间。这样做也能成功但是不保险，如果编辑人员有能力修改input里的值的话还是能够修改数据库中的数据的。所以我们应该从代码的层面上来解决这个问题。</span><br><span class="line">    再举个例子，用户在修改密码的时候我们只希望单单的修改密码字段，而不需要将原来的用户模型全都加载进来，然后再修改密码，再保存。这样做感觉上是已经多走了好多的路。</span><br><span class="line">    而如果我们直接手写sql语句的话我们可以直接执行SQL语句：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"> update userinfo set password &#x3D; &#39;123456&#39;</span><br></pre></td></tr></table></figure>
-<pre><code>很显然如果我们类似使用dbContext的执行sql语句就有点本末倒置了：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.Database.ExecuteSqlCommand(&quot;update userinfo set password &#x3D; &#39;123456&#39;&quot;);</span><br></pre></td></tr></table></figure>
-<pre><code>### 解决办法
-
-使用类似下列代码：也就是只设置模型的某些特定的字段来告诉EF我们希望修改哪些字段。
-</code></pre><p><code>`</code>  </p>
-<p> public ActionResult TestEdit(int id=0)<br>    {<br>        var model = new Article {Id = id, Title = $”after edit!current time: {DateTime.Now}”};<br>        db.Article.Attach(model);<br>        db.Entry(model).Property(x =&gt; x.Title).IsModified = true;<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
-<p>上述代码只修改了文章的标题，而其他字段并没有做任何的修改，整个修改过程也没涉及到任何的读取数据库操作。这样的修改显然要更加合理。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/962.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-csharp/解决使用VS2013创建的MVC项目在VS2015中打开的各种问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/959.html">解决使用VS2013创建的MVC项目在VS2015中打开的各种问题。</a>
-    </h1>
-  
-
-        
-        <a href="/959.html" class="archive-article-date">
-  	<time datetime="2015-12-02T12:17:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>其实很多问题一直都存在，但是因为其不影响编译结果和运行结果，所以我也就一直没理它。但是问题放在那一直存在，偶尔想起来还有某些问题没解决的时候心里总是感觉不得劲，所以今天就彻底的查查资料解决了。</p>
-<h3 id="问题一：右击添加无添加控制器选项。"><a href="#问题一：右击添加无添加控制器选项。" class="headerlink" title="问题一：右击添加无添加控制器选项。"></a>问题一：右击添加无添加控制器选项。</h3><p>伴随着这个问题的现象还包括：<br>1. 在控制器中的Action里右击无“返回到视图”选项<br>2. 在View(cshtml)文件里右击无“返回控制器”选项<br>解决方法为升级ASP.NET MVC库，如果你之前使用的是asp.net mvc4，请升级到asp.net mvc5 最新版本号为5.2.3.0<br>使用Nuget程序管理器可以很方便的升级，而且避免了很重依赖库手动安装的麻烦。<br>升级完毕后Nuget为自动修改项目的web.config文件来适配新的依赖包版本。<br>所以这里强烈不建议手动升级，而是使用Nuget。</p>
-<h3 id="问题二：在view-cshtml-文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”"><a href="#问题二：在view-cshtml-文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”" class="headerlink" title="问题二：在view(cshtml)文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”"></a>问题二：在view(cshtml)文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”</h3><p>伴随的现象还包括：凡是用到html辅助函数，url辅助函数的地方都会提示错误。<br>原因同样是因为配置文件的错误。因为我们升级了ASP.NET MVC后nuget只帮忙修改了项目文件夹下的web.config文件，而并没有修改View文件夹下的。<br>解决方法：使用VS2015新建一个空的ASP.NET MVC5程序，然后将View文件夹下的web.config文件内容拷贝到原来的项目对应的文件夹下。<br>重启项目。</p>
-<p>Done！！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">visual studio</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/IDE//" class="article-tag-list-link color4">IDE</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/IDE/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/959.html">展开全文 >></a>
         </p>
       
 

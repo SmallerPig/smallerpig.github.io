@@ -148,6 +148,417 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/优化你的ASP.NET MVC代码--使用策略模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/965.html">优化你的ASP.NET MVC代码--使用策略模式</a>
+    </h1>
+  
+
+        
+        <a href="/965.html" class="archive-article-date">
+  	<time datetime="2016-01-22T03:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>策略模式属于对象的行为模式。其用意是针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。</p>
+<p>具体代码表示策略模式:</p>
+<pre><code>/// &amp;lt;summary&amp;gt;
+/// 抽象策略
+/// &amp;lt;/summary&amp;gt;
+interface IStrategy
+{
+    /// &amp;lt;summary&amp;gt;
+    /// 策略方法
+    /// &amp;lt;/summary&amp;gt;
+    void DoSomething\(\);
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 具体策略类A
+/// &amp;lt;/summary&amp;gt;
+class StrategyA : IStrategy
+{
+    public void DoSomething\(\)
+    {
+        Console.WriteLine(&quot;A do something&quot;);
+    }
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 具体策略类B
+/// &amp;lt;/summary&amp;gt;
+class StrategyB : IStrategy
+{
+    public void DoSomething\(\)
+    {
+        Console.WriteLine(&quot;B do something&quot;);
+    }
+}
+
+/// &amp;lt;summary&amp;gt;
+/// 调用者
+/// &amp;lt;/summary&amp;gt;
+class Client
+{
+    private IStrategy strategy;
+    public Client(IStrategy s)
+    {
+        this.strategy = s;
+    }
+
+    public void SomeThing\(\)
+    {
+        strategy.DoSomething\(\);
+    }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码中我们定义了一个策略接口&#96;IStrategy&#96;,其中有一个方法是&#96;DoSomething\(\)&#96;.然后有两个具体的策略类实现了这个接口.然后我们定义了这么一个调用者,该调用者拥有一个**策略接口**的引用.该策略接口的实例化是通过调用者的构造函数来进行的,这样我们在调用者对象里面是不需要知道我所引用的策略接口到底是啥,也不需要知道.为了测试效果我们定义了调用者的&#96;SomeThing\(\)&#96;方法,调用策略接口的&#96;DoSomeThing&#96;方法.</span><br></pre></td></tr></table></figure>
+<p> static void Main(string[] args)<br>    {<br>        Client c1 = new Client(new StrategyA());<br>        c1.SomeThing();//A do something<br>        Client c2 = new Client(new StrategyB());<br>        c2.SomeThing();//B do something<br>        Console.ReadLine();<br>    }</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行上述代码我们可得到运行结果.</span><br><span class="line">以上为策略模式的基本概念.</span><br><span class="line"></span><br><span class="line">### 在ASP.NET MVC中使用策略模式</span><br><span class="line"></span><br><span class="line">试想下我们的ASP.NET MVC程序中是不是经常出现这么一种情况:在控制器中需要调用逻辑层的代码访问数据库返回数据.而一般情况下我们为了开发效率会直接使用逻辑类.类型这样:</span><br></pre></td></tr></table></figure>
+<p> public class PostController : Controller<br>    {<br>        private PostServer server = new PostServer();<br>        // GET: Post<br>        public ActionResult Index()<br>        {<br>            var models = server.GetList();<br>            return View(models);<br>        }<br>    }</p>
+<pre><code>public class PostServer
+{
+    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
+    {
+        throw new NotImplementedException\(\);
+    }
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">上述代码可以正常工作,也在一定程度上隔离了与数据库的直接操作.但是却忽略了另外的一个很重要的问题.就是该控制器是跟&#96;PostServer&#96;类是强耦合的.导致</span><br><span class="line">1\. 无法进行单元测试代码的编写,要测试该Action却要去连接数据库.</span><br><span class="line">2\. 没有使用依赖注入,导致该&#96;PostServer&#96;无法替代.也就无法使用类似unity这样的IOC工具.</span><br><span class="line"></span><br><span class="line">所以考虑使用策略模式对类似该代码进行重构.</span><br><span class="line">1\. 对&#96;PostServer&#96;抽象出接口&#96;IPostServer&#96;,并在控制器中用该接口作为成员变量.</span><br><span class="line">2\. 对控制器的构造函数进行重载,提供一个使用&#96;IPostServer&#96;的构造函数.</span><br><span class="line">3\. 在上述构造函数中对控制器的成员变量&#96;IPostServer&#96;进行赋值.</span><br><span class="line">4\. 提供控制器的空参数构造函数来使默认情况下使用原&#96;PostServer&#96;实例化&#96;IPostServer&#96;接口.</span><br><span class="line"></span><br><span class="line">具体代码可参考:</span><br></pre></td></tr></table></figure>
+<p> public class PostController : Controller<br>    {<br>        private IPostServer server;</p>
+<pre><code>    public PostController\(\)
+    {
+        server = new PostServer\(\);
+    }
+
+    public PostController(IPostServer postServer)
+    {
+        this.server = postServer;
+    }
+
+    // GET: Post
+    public ActionResult Index\(\)
+    {
+        var models = server.GetList\(\);
+        return View(models);
+    }
+}
+
+public interface IPostServer
+{
+        IEnumerable&amp;lt;Article&amp;gt; GetList\(\);
+}
+
+public class PostServer : IPostServer
+{
+    public IEnumerable&amp;lt;Article&amp;gt; GetList\(\)
+    {
+        throw new NotImplementedException\(\);
+    }
+}
+</code></pre><p>上述代码中我们获取数据的策略在控制器中是不管的.也不强依赖于具体的类,只依赖了一个<code>IPostServer</code>的接口,只要有实现了<code>IPostServer</code>接口的类就可以使用该控制器.</p>
+<p>这样我们在编写单元测试的时候就可以很方便的使用Mock工具来模拟实现<code>IPostServer</code>接口而不用具体真实的去访问数据库或者网络从而真正的做到单元测试只测试<strong>单元</strong>.</p>
+<h3 id="重新回顾认识策略模式"><a href="#重新回顾认识策略模式" class="headerlink" title="重新回顾认识策略模式"></a>重新回顾认识策略模式</h3><h4 id="策略模式的重心"><a href="#策略模式的重心" class="headerlink" title="策略模式的重心"></a>策略模式的重心</h4><p>　　策略模式的重心不是如何实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活，具有更好的维护性和扩展性。</p>
+<h4 id="算法的平等性"><a href="#算法的平等性" class="headerlink" title="算法的平等性"></a>算法的平等性</h4><p>　　策略模式一个很大的特点就是各个策略算法的平等性。对于一系列具体的策略算法，大家的地位是完全一样的，正因为这个平等性，才能实现算法之间可以相互替换。所有的策略算法在实现上也是相互独立的，相互之间是没有依赖的。</p>
+<p>　　所以可以这样描述这一系列策略算法：策略算法是相同行为的不同实现。</p>
+<h4 id="运行时策略的唯一性"><a href="#运行时策略的唯一性" class="headerlink" title="运行时策略的唯一性"></a>运行时策略的唯一性</h4><p>　　运行期间，策略模式在每一个时刻只能使用一个具体的策略实现对象，虽然可以动态地在不同的策略实现中切换，但是同时只能使用一个。</p>
+<h4 id="公有的行为"><a href="#公有的行为" class="headerlink" title="公有的行为"></a>公有的行为</h4><p>　　经常见到的是，所有的具体策略类都有一些公有的行为。这时候，就应当把这些公有的行为放到共同的抽象策略角色Strategy类里面。当然这时候抽象策略角色必须要用抽象类实现，而不能使用接口。</p>
+<p>　　这其实也是典型的将代码向继承等级结构的上方集中的标准做法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/MVC/WEB开发/设计模式//" class="article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/965.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-asp.net/利用Entity Framework修改指定字段中的值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/962.html">利用Entity Framework修改指定字段中的值</a>
+    </h1>
+  
+
+        
+        <a href="/962.html" class="archive-article-date">
+  	<time datetime="2015-12-03T06:30:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>一般我们编辑某些模型的时候会用到类似这样的代码：</p>
+<pre><code>[HttpPost]
+public ActionResult Edit(Article model)
+{
+    if (model.Id == 0)
+    {
+        return HttpNotFound\(\);
+    }
+    using (db)
+    {
+        db.Entry(model).State = EntityState.Modified;
+        db.SaveChanges\(\);
+    }
+    return RedirectToAction(&quot;Index&quot;);
+}
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这样的代码完全能够符合我们的要求，能够顺利的修改我们想要修改的数据。</span><br><span class="line">    但是其中却有一个问题：例如说文章的创建时间字段&#96;Create_Time&#96;是由文章创建的时候生成的，其值不应该随着文章的编辑而变化，为了使这个值不变，我们就需要在前台的html代码里加上一个隐藏的name属性为Create_Time的input并且设置其值为文章的创建时间。这样做也能成功但是不保险，如果编辑人员有能力修改input里的值的话还是能够修改数据库中的数据的。所以我们应该从代码的层面上来解决这个问题。</span><br><span class="line">    再举个例子，用户在修改密码的时候我们只希望单单的修改密码字段，而不需要将原来的用户模型全都加载进来，然后再修改密码，再保存。这样做感觉上是已经多走了好多的路。</span><br><span class="line">    而如果我们直接手写sql语句的话我们可以直接执行SQL语句：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line"></span><br><span class="line"> update userinfo set password &#x3D; &#39;123456&#39;</span><br></pre></td></tr></table></figure>
+<pre><code>很显然如果我们类似使用dbContext的执行sql语句就有点本末倒置了：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.Database.ExecuteSqlCommand(&quot;update userinfo set password &#x3D; &#39;123456&#39;&quot;);</span><br></pre></td></tr></table></figure>
+<pre><code>### 解决办法
+
+使用类似下列代码：也就是只设置模型的某些特定的字段来告诉EF我们希望修改哪些字段。
+</code></pre><p><code>`</code>  </p>
+<p> public ActionResult TestEdit(int id=0)<br>    {<br>        var model = new Article {Id = id, Title = $”after edit!current time: {DateTime.Now}”};<br>        db.Article.Attach(model);<br>        db.Entry(model).Property(x =&gt; x.Title).IsModified = true;<br>        db.SaveChanges();<br>        return RedirectToAction(“Index”);<br>    }</p>
+<p>上述代码只修改了文章的标题，而其他字段并没有做任何的修改，整个修改过程也没涉及到任何的读取数据库操作。这样的修改显然要更加合理。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SQL SERVER</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/962.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-csharp/解决使用VS2013创建的MVC项目在VS2015中打开的各种问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/959.html">解决使用VS2013创建的MVC项目在VS2015中打开的各种问题。</a>
+    </h1>
+  
+
+        
+        <a href="/959.html" class="archive-article-date">
+  	<time datetime="2015-12-02T12:17:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>其实很多问题一直都存在，但是因为其不影响编译结果和运行结果，所以我也就一直没理它。但是问题放在那一直存在，偶尔想起来还有某些问题没解决的时候心里总是感觉不得劲，所以今天就彻底的查查资料解决了。</p>
+<h3 id="问题一：右击添加无添加控制器选项。"><a href="#问题一：右击添加无添加控制器选项。" class="headerlink" title="问题一：右击添加无添加控制器选项。"></a>问题一：右击添加无添加控制器选项。</h3><p>伴随着这个问题的现象还包括：<br>1. 在控制器中的Action里右击无“返回到视图”选项<br>2. 在View(cshtml)文件里右击无“返回控制器”选项<br>解决方法为升级ASP.NET MVC库，如果你之前使用的是asp.net mvc4，请升级到asp.net mvc5 最新版本号为5.2.3.0<br>使用Nuget程序管理器可以很方便的升级，而且避免了很重依赖库手动安装的麻烦。<br>升级完毕后Nuget为自动修改项目的web.config文件来适配新的依赖包版本。<br>所以这里强烈不建议手动升级，而是使用Nuget。</p>
+<h3 id="问题二：在view-cshtml-文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”"><a href="#问题二：在view-cshtml-文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”" class="headerlink" title="问题二：在view(cshtml)文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”"></a>问题二：在view(cshtml)文件中提示“上下文中不存在model定义”，“上下文中不存在ViewBag”</h3><p>伴随的现象还包括：凡是用到html辅助函数，url辅助函数的地方都会提示错误。<br>原因同样是因为配置文件的错误。因为我们升级了ASP.NET MVC后nuget只帮忙修改了项目文件夹下的web.config文件，而并没有修改View文件夹下的。<br>解决方法：使用VS2015新建一个空的ASP.NET MVC5程序，然后将View文件夹下的web.config文件内容拷贝到原来的项目对应的文件夹下。<br>重启项目。</p>
+<p>Done！！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">visual studio</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/IDE//" class="article-tag-list-link color4">IDE</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/IDE/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/959.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-python/python-e7-9a-84if-e8-a1-a8-e8-be-be-e5-bc-8f" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1329,320 +1740,6 @@ class Picture(models.Model):
       
         <p class="article-more-link">
           <a class="article-more-a" href="/933.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python/this-query-requires-pytz-but-it-isnt-installed" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/931.html">This query requires pytz, but it isn&#39;t installed.</a>
-    </h1>
-  
-
-        
-        <a href="/931.html" class="archive-article-date">
-  	<time datetime="2015-11-10T09:34:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用的是Django 1.8，按照官方的教程上面敲代码。为了体验下Django并没有使用mysql数据库而是使用的sqlite3.在使用后台的时候报错标题的错误。<br>解决方案有两个<br>1. 使用pip安装Pytz <code>$ pip install pytz</code> 并重启服务<br>2. 在设置中将<code>USE_TZ= False</code></p>
-<p>具体关于该值的解释请参考<a href="https://docs.djangoproject.com/en/1.8/ref/settings/#time-zone" target="_blank" rel="noopener">Time_Zone</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/931.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/entity-framwork-e4-b8-addbset-add-e4-b8-8eentitystate-added-e5-8c-ba-e5-88-ab" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/928.html">Entity Framwork中dbset.Add\(\)与EntityState.Added区别</a>
-    </h1>
-  
-
-        
-        <a href="/928.html" class="archive-article-date">
-  	<time datetime="2015-11-03T12:53:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通常我们在写ASP.NET MVC 程序在新加数据模型对象时通常会配合EF提供的方法。<br>例如在添加文章时我们都使用类似下面两种方法来将文章添加到数据库：</p>
-<pre><code>//方法1
-DbContext.Entry(article).State = EntityState.Added;
-DbContext.SaveChanges\(\);
-
-//方法2
-DbContext.Article.Add(article);
-DbContext.SaveChanges\(\);
-</code></pre><pre><code>
-可是上面两种方法有什么区别呢？
-仅仅从上面的代码来看是没有区别的，要想了解其中的区别我们得看看`article`d的源码，为了简单起见我们将模型写的简单一点。
-
-</code></pre><p> public class Article<br>    {<br>        public int Id { get; set; }</p>
-<pre><code>    public User Author { get; set; }
-
-    public string Title { get; set; }
-
-    public string Content { get; set; }
-
-    public int Status { get; set; }
-
-}
-
-public class User
-{
-    public int Id { get; set; }
-
-    public string Name { get; set; }
-}
-</code></pre><p>上面模型中的文章包含作者字段，EF会自动在数据库中生成Author_Id字段，并且关联到User表中。<br>这个时候如果我们在新建文章的时候使用<code>DbContext.Article.Add(article);</code>而且article对象的Author属性不为空时，<strong>那么EF总会在User表中新建一个对应的数据</strong>。而使用<code>DbContext.Entry(article).State = EntityState.Added</code>方法时不会出现上述的问题。</p>
-<p>引用老外的一句描述就是</p>
-<blockquote>
-<p>When you use <code>dbContext.SomeEntitySet.Add(entityInstance);</code> the status for this and all its related entities/collections is set to added, while <code>dbContext.Entry(entityInstance).State = EntityState.Added;</code> adds also all the related entities/collections to the context but leaves them as unmodified. So if the entity that you are trying to create has a related entity (and it’s value its not null), when you use Add it will create a new object for that child entity, while with the other way it won’t.</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">entity framwork</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/928.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-csharp/解决windows下JetBrains系列IDE的终端命令行工具无法输入的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/926.html">解决windows下JetBrains系列IDE的终端命令行工具无法输入的问题</a>
-    </h1>
-  
-
-        
-        <a href="/926.html" class="archive-article-date">
-  	<time datetime="2015-10-31T03:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>JetBrains系的IDE是小猪除了VS使用最多的IDE了，包括phpstrom， pycharm，Idea等等。但是只从使用了windows10之后其中非方便的一个功能却用不了了，就是可以直接在编辑器内部的终端(terminal)直接输入命令来执行的窗口却无法输入了。<br>今天小猪来分享怎么解决这个问题。<br>1. 打开cmd。按win+R<br>2. 在打开的运行框中输入CMD。您将看到系统的命令行工具<br>3. 右击弹出的系统命令行工具左上角的c盘的小图标并在菜单中选择”属性”<br>4. 勾选上“使用旧版控制台(需要重新启动)”并确定</p>
-<p>完成后重启IDE就可以啦。<br>原文地址：<a href="http://www.smallerpig.com/926.html" target="_blank" rel="noopener">http://www.smallerpig.com/926.html</a><br>转载注明出处哦：</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">IDE</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">jetbrains</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">terminal</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/IDE//" class="article-tag-list-link color4">IDE</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/926.html">展开全文 >></a>
         </p>
       
 

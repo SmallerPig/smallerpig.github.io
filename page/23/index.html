@@ -148,6 +148,313 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-blog/使用了Windows Live Writer 写的博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/392.html">使用了Windows Live Writer 写的博客</a>
+    </h1>
+  
+
+        
+        <a href="/392.html" class="archive-article-date">
+  	<time datetime="2014-01-14T07:31:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&lt;为什么标签不能正确的显示&gt;</p>
+<p>重新设置了之后再看看</p>
+<p>停用了一些插件！</p>
+<p><img src="http://clamis.net/wp-content/uploads/2010/10/wlw_wrong_thumb.png" alt="">​</p>
+<p>偶然看到很多Blog都在说：&ldquo;尝试连接到您的日志时出错:服务器响应无效 &ndash; 从日志服务器接收的对 blogger.getUsersBlogs 方法的响应无效:Invalid response document returned from XmlRpc server必须先纠正此错误才能继续操作。&rdquo;这个错误，好像跟我的有几分相似。都是说wordpress返回的的XmlRpc无法被wlw识别。可具体是那个部分不对却没给提示。</p>
+<p>他们说这是因为wordpress本身的一个bug。在utf-8编码下，xml-rpc返回的格式不正确，缺了三个字节，所以wlw就会提示出错。解决的方法是找到博客目录的wp-includes下的class.ixr.php，然后用一个文本编辑工具打开它，查找：</p>
+<p>$length = strlen($xml);</p>
+<p>替换为：</p>
+<p>$length = strlen($xml)+3;</p>
+<p>我按照这个方法修改之后就真的没问题了&middot;&middot;看来这个Bug影响不小啊。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/392.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-web/html-e4-b8-ad-meta-e7-9a-84-e4-bd-9c-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/390.html">HTML 中 META的作用</a>
+    </h1>
+  
+
+        
+        <a href="/390.html" class="archive-article-date">
+  	<time datetime="2014-01-14T02:22:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">	meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签用于网页的&lt;head&gt;与&lt;&#x2F;head&gt;中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类（目前几乎所有的搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点在搜索引擎上的描述）和keywords（分类关键词），所以应该给每页加一个meta值。比较常用的有以下几个：</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>name 属性</p>
+<pre><code>1、&lt;meta name=&quot;Generator&quot; contect=&quot;&quot;&gt;用以说明生成工具（如Microsoft FrontPage 4.0）等；
+
+2、&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词；
+
+3、&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容；
+
+4、&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者；
+
+5、&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt;
+
+其中的属性说明如下：
+</code></pre><ul>
+<li>设定为all：文件将被检索，且页面上的链接可以被查询；</li>
+<li>设定为none：文件将不被检索，且页面上的链接不可以被查询；</li>
+<li>设定为index：文件将被检索；</li>
+<li>设定为follow：页面上的链接可以被查询；</li>
+<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询；</li>
+<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">http-equiv属性</span><br><span class="line"></span><br><span class="line">	1、&lt;meta http-equiv&#x3D;&quot;Content-Type&quot; contect&#x3D;&quot;text&#x2F;html&quot;;charset&#x3D;gb_2312-80&quot;&gt;</span><br><span class="line"></span><br><span class="line">	和 &lt;meta http-equiv&#x3D;&quot;Content-Language&quot; contect&#x3D;&quot;zh-CN&quot;&gt;用以说明主页制作所使用的文字以及语言；</span><br><span class="line"></span><br><span class="line">	又如英文是ISO-8859-1字符集，还有BIG5、utf-8、shift-Jis、Euc、Koi8-2等字符集；</span><br><span class="line"></span><br><span class="line">	2、&lt;meta http-equiv&#x3D;&quot;Refresh&quot; contect&#x3D;&quot;n;url&#x3D;http:&#x2F;&#x2F;yourlink&quot;&gt;定时让网页在指定的时间n内，跳转到页面http:&#x2F;&#x2F;yourlink；</span><br><span class="line"></span><br><span class="line">	3、&lt;meta http-equiv&#x3D;&quot;Expires&quot; contect&#x3D;&quot;Mon,12 May 2001 00:20:00 GMT&quot;&gt;可以用于设定网页的到期时间，一旦过期则必须到服务器上重新调用。需要注意的是必须使用GMT时间格式；</span><br><span class="line"></span><br><span class="line">	4、&lt;meta http-equiv&#x3D;&quot;Pragma&quot; contect&#x3D;&quot;no-cache&quot;&gt;是用于设定禁止浏览器从本地机的缓存中调阅页面内容，设定后一旦离开网页就无法从Cache中再调出；</span><br><span class="line"></span><br><span class="line">	5、&lt;meta http-equiv&#x3D;&quot;set-cookie&quot; contect&#x3D;&quot;Mon,12 May 2001 00:20:00 GMT&quot;&gt;cookie设定，如果网页过期，存盘的cookie将被删除。需要注意的也是必须使用GMT时间格式；</span><br><span class="line"></span><br><span class="line">	6、&lt;meta http-equiv&#x3D;&quot;Pics-label&quot; contect&#x3D;&quot;&quot;&gt;网页等级评定，在IE的internet选项中有一项内容设置，可以防止浏览一些受限制的网站，而网站的限制级别就是通过meta属性来设置的；</span><br><span class="line"></span><br><span class="line">	7、&lt;meta http-equiv&#x3D;&quot;windows-Target&quot; contect&#x3D;&quot;_top&quot;&gt;强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；</span><br><span class="line"></span><br><span class="line">	8、&lt;meta http-equiv&#x3D;&quot;Page-Enter&quot; contect&#x3D;&quot;revealTrans(duration&#x3D;10,transtion&#x3D; 50)&quot;&gt;和&lt;meta http-equiv&#x3D;&quot;Page-Exit&quot; contect&#x3D;&quot;revealTrans(duration&#x3D;20，transtion&#x3D;6)&quot;&gt;设定进入和离开页面时的特殊效果，这个功能即FrontPage中的&#39;格式&#x2F;网页过渡&#39;;，不过所加的页面不能够是一个frame页面。</span><br><span class="line"></span><br><span class="line">	以上是常用的几个meta属性，有个人主页的朋友不妨在你的主页中加上它，效果可是不一样的哦：）。</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>什么是Viewport</p>
+<pre><code>手机浏览器是把页面放在一个虚拟的&apos;窗口&apos;;（viewport）中，通常这个虚拟的&apos;窗口&apos;;（viewport）比屏幕宽，这样就不用把每个网页挤到很小的窗口中（这样会破坏没有针对手机浏览器优化的网页的布局），用户可以通过平移和缩放来看网页的不同部分。移动版的 Safari 浏览器最新引进了 viewport 这个 meta tag，让网页开发者来控制 viewport 的大小和缩放，其他手机浏览器也基本支持。
+</code></pre><p><code>`</code></p>
+<p>## </p>
+<p>Viewport 基础</p>
+<pre><code>一个常用的针对移动网页优化过的页面的 viewport meta 标签大致如下：
+
+&lt;meta name=&apos;;viewport&apos;; content=&apos;;width=device-width, initial-scale=1, maximum-scale=1&amp;Prime;&gt;
+</code></pre><ul>
+<li><span style="font-size: 13px; line-height: 1.6em;">width：控制 viewport 的大小，可以指定的一个值，如果 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。</span></li>
+<li><span style="font-size: 13px; line-height: 1.6em;">height：和 width 相对应，指定高度。</span></li>
+<li>initial-scale：初始缩放比例，也即是当页面第一次 load 的时候缩放比例。</li>
+<li>maximum-scale：允许用户缩放到的最大比例。</li>
+<li>minimum-scale：允许用户缩放到的最小比例。</li>
+<li>user-scalable：用户是否可以手动缩放</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/390.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-微信/和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/388.html">和小猪一起搞微信开发——自定义分享到朋友圈的缩略图，链接，标题和摘要</a>
+    </h1>
+  
+
+        
+        <a href="/388.html" class="archive-article-date">
+  	<time datetime="2014-01-10T09:03:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-01-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 前言：</span><br><span class="line"></span><br><span class="line">	我们在微信中看到好的文章通常会分享到朋友圈，如果网页是通过微信后台编辑自动生成的，</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>微信后台生成的网页</p>
+<pre><code>那么分享出去的链接微信会自动帮我们生成缩略图、标题以及简述。
+
+生成的朋友圈中的链接信息对应下图：
+
+[![201301101638](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.jpg)](http://www.smallerpig.com/wp-content/uploads/2014/01/201301101638.jpg)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">自己的服务器网页</span><br><span class="line"></span><br><span class="line">	如果用户在微信浏览器中分享出去的是个普通的服务器网页，经过小猪的测试会有如下的规则</span><br><span class="line"></span><br><span class="line">&lt;table border&#x3D;&quot;1&quot; cellpadding&#x3D;&quot;1&quot; cellspacing&#x3D;&quot;1&quot; style&#x3D;&quot;width: 500px;&quot;&gt;</span><br><span class="line">	&lt;caption&gt;</span><br><span class="line"></span><br><span class="line">			微信浏览器对应的链接类型</span><br><span class="line"></span><br><span class="line">	&lt;&#x2F;caption&gt;</span><br><span class="line">	&lt;tbody&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&amp;nbsp;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Android</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				IOS</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Windows Phone 8</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				分享标题</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				Html&#x3D;&gt;Head&#x3D;&gt;Titile</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;Html&#x3D;&gt;Head&#x3D;&gt;Titile&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;Html&#x3D;&gt;Head&#x3D;&gt;Titile&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				缩略图</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				body中的第一个img标签</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				&lt;span style&#x3D;&quot;text-align: center;&quot;&gt;body中的第一个img标签&lt;&#x2F;span&gt;</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">		&lt;tr&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				display:none是否影响</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td style&#x3D;&quot;text-align: center;&quot;&gt;</span><br><span class="line">				true</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">			&lt;td&gt;</span><br><span class="line">				false</span><br><span class="line">			&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;&#x2F;tr&gt;</span><br><span class="line">	&lt;&#x2F;tbody&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br><span class="line"></span><br><span class="line">	最后一行显示的是第一个Img标签的Css属性display对分享的出去缩略图是否影响</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>自定义</p>
+<pre><code>那如果需求是需要自定义这些参数怎么办呢？答案就是在页面中加入下列代码，代码不复杂。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(function \(\) &#123;</span><br><span class="line">    var onBridgeReady &#x3D; function \(\) &#123;</span><br><span class="line">        &#x2F;&#x2F; 分享到朋友圈;</span><br><span class="line">        WeixinJSBridge.on(&#39;menu:share:timeline&#39;, function (argv) &#123;</span><br><span class="line">            WeixinJSBridge.invoke(&#39;shareTimeline&#39;, &#123;</span><br><span class="line">                &quot;img_url&quot;: &quot;http:&#x2F;&#x2F;www.smallerpig.com&#x2F;wp-content&#x2F;uploads&#x2F;2013&#x2F;12&#x2F;header.jpg&quot;,</span><br><span class="line">                &quot;img_width&quot;: &quot;120&quot;,</span><br><span class="line">                &quot;img_height&quot;: &quot;120&quot;,</span><br><span class="line">                &quot;link&quot;: &quot;www.smallerpig.com&quot;,</span><br><span class="line">                &quot;desc&quot;: &quot;你大爷的描述&quot;,&#x2F;&#x2F;经过测试，该值没用 By smallerpig</span><br><span class="line">                &quot;title&quot;: &quot;你大爷的标题&quot;</span><br><span class="line">            &#125;, function \(\) &#123; &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (document.addEventListener) &#123;</span><br><span class="line">        document.addEventListener(&#39;WeixinJSBridgeReady&#39;, onBridgeReady, false);</span><br><span class="line">    &#125; else if (document.attachEvent) &#123;</span><br><span class="line">        document.attachEvent(&#39;WeixinJSBridgeReady&#39;, onBridgeReady);</span><br><span class="line">        document.attachEvent(&#39;onWeixinJSBridgeReady&#39;, onBridgeReady);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)\(\);</span><br></pre></td></tr></table></figure>
+<pre><code>代码中可以看出，微信内置浏览器包含了一个&amp;nbsp;`WeixinJSBridge`&amp;nbsp;对象，对该对象的一系列调用可以实现部分自定义功能。但是由于系统的限制(或者为了朋友圈的宁静)，本来很多的功能都被TX给和谐了。
+
+经过小猪的测试，截至目前为止(2014-01-10)wp8版本的微信（5.0.1）上述代码无效，可能是wp版本的微信浏览器未内置&amp;nbsp;`WeixinJSBridge`&amp;nbsp;对象！
+
+Android版本、Ios版本微信5.0版本通过测试。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">后记：</span><br><span class="line"></span><br><span class="line">	试想一下如果上述的js代码可以自由的由开发者调用的话会发生些什么呢？会不会用只要一点进去网页就被强制的关注某些公众账号？强制的进入到分享到朋友圈界面？看到很多资料微信之前的很多版本确实是这样的。但是目前只能够通过微信内部的按钮来调用 &#96;WeiXinJsBridge &#96;对象了！</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	&amp;nbsp;</span><br><span class="line"></span><br><span class="line">	参考：</span><br><span class="line"></span><br><span class="line">	[http:&#x2F;&#x2F;blog.wpjam.com&#x2F;m&#x2F;custom-weixinjsbridge&#x2F;](http:&#x2F;&#x2F;blog.wpjam.com&#x2F;m&#x2F;custom-weixinjsbridge&#x2F;)</span><br><span class="line"></span><br><span class="line">	[http:&#x2F;&#x2F;www.oschina.net&#x2F;question&#x2F;913845_122337](http:&#x2F;&#x2F;www.oschina.net&#x2F;question&#x2F;913845_122337)</span><br><span class="line"></span><br><span class="line">	同样方法可自定义分享到微博、好友内容</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/388.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-微信/微信浏览器——User Agent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -941,341 +1248,6 @@ Done！
       
         <p class="article-more-link">
           <a class="article-more-a" href="/374.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-杂谈/生活中的晕轮效应" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/372.html">生活中的晕轮效应</a>
-    </h1>
-  
-
-        
-        <a href="/372.html" class="archive-article-date">
-  	<time datetime="2013-12-16T01:32:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">效应解释</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>概述</p>
-<pre><code>俄国著名的大文豪普希金狂热地爱上了被称为&amp;ldquo;莫斯科第一美人&amp;rdquo;的娜坦丽，并且和她结了婚。娜坦丽容貌惊人，但与普希金志不同道不合。当普希金每次把写好的诗读给她听时。她总是捂着耳朵说：&amp;ldquo;不要听！不要听！&amp;rdquo;相反，她总是要普希金陪她游乐，出席一些豪华的晚会、舞会，普希金为此丢下创作，弄得债台高筑，最后还为她决斗而死，使一颗文学巨星过早地陨落。在普希金看来，一个漂亮的女人也必然有非凡的智慧和高贵的品格，然而事实并非如此，这种现象被称为晕轮效应。
-</code></pre><p>#<code>`</code></p>
-<p>## </p>
-<p>简介</p>
-<pre><code>晕轮效应指人们对他人的认知判断首先主要是根据个人的好恶得出的，然后再从这个判断推论出认知对象的其他品质的现象。如果认知对象被标明是&amp;ldquo;好&amp;rdquo;的，他就会被&amp;ldquo;好&amp;rdquo;的光圈笼罩着，并被赋予一切好的品质；如果认知对象被标明是&amp;ldquo;坏&amp;rdquo;的，他就会被&amp;ldquo;坏&amp;rdquo;的光环笼罩着，他所有的品质都会被认为是坏的。晕轮效应是在人际相互作用过程中形成的一种夸大的社会现象，正如日、月的光辉，在云雾的作用下扩大到四周，形成一种光环作用。常表现在一个人对另一个人的最初印象决定了他的总体看法，而看不准对方的真实品质。有时候晕轮效应会对人际关系产生积极作用，比如你对人诚恳，那么即便你能力较差，别人对你也会非常信任，因为对方只看见你的诚恳。而晕轮效应的最大弊端就在于以偏概全。
-</code></pre><p>#<code>`</code></p>
-<p>## </p>
-<p>定义</p>
-<pre><code>这种强烈知觉的品质或特点，就象月亮形式的光环一样，向周围弥漫、扩散，从而掩盖
-
-了其它品质或特点，所以就形象地称之为光环效应。
-
-光环效应(Halo Effect)又称&amp;ldquo;晕轮效应&amp;rdquo;、&amp;ldquo;成见效应&amp;rdquo;、&amp;ldquo;光圈效应&amp;rdquo;、&amp;ldquo;日晕效应&amp;rdquo;、&amp;ldquo;以点概面效应&amp;rdquo;，它是一种影响人际知觉的因素，指在人际知觉中所形成的以点概面或以偏概全的主观印象。
-</code></pre><p>#<code>`</code></p>
-<p>## </p>
-<p>提出者：美国心理学家凯利(H. Kelly)</p>
-<pre><code>一个人的某种品质，或一个物品的某种特性给人以非常好的印象。在这种印象的影响下，人们对这个人的其他品质，或这个物品的其他特性也会给予较好的评价。
-
-光环效应又称晕轮效应，它是一种影响人际知觉的因素。这种爱屋及乌的强烈知觉的品质或特点，就像月晕的光环一样，向周围弥漫、扩散，所以人们就形象地称这一心理效应为光环效应。和光环效应相反的是恶魔效应，即对人的某一品质，或对物品的某一特性有坏的印象，会使人对这个人的其他品质，或这一物品的其他特性的评价偏低。
-
-名人效应是一种典型的光环效应。
-
-不难发现，拍广告片的多数是那些有名的歌星、影星，而很少见到那些名不见经传的小人物。因为明星推出的商品更容易得到大家的认同。一个作家一旦出名，以前压在箱子底的稿件全然不愁发表，所有著作都不愁销售，这都是光环效应的作用。
-
-男女朋友之间也经常会出现光环效应。两个恩爱的人在一起，便会觉得双方身上都是优点，没有一点点缺点。这就是在刚开始喜欢上一个人的时候，其实只是喜欢上了对方表现出来的某一方面的优点，然后经过晕轮效应的扩大，才使自己觉得对方身上全是优点。
-
-企业怎样才能让自己的产品为大众了解并接受？一条捷径就是让企业的形象或产品与名人相粘连，让名人为公司做宣传。这样，就能借助名人的&amp;ldquo;名气&amp;rdquo;帮助企业聚集更旺的人气。要做到人们一想起公司的产品就想到与之相连的名人。
-</code></pre><p><code>`</code></p>
-<p>## </p>
-<p>点评</p>
-<pre><code>如一个人最初被认定是好的，则他身上的其它品质也都被认为是好的，有似&amp;ldquo;爱屋及乌&amp;rdquo;的原理。它指个人在敬仰、爱慕他人过程中所形成的夸大了的社会认知。光环效应在爱情和偶像崇拜中最明显。
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/372.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微信/和小猪一起搞微信公众号开发—创建自定义菜单" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/367.html">和小猪一起搞微信公众号开发—创建自定义菜单</a>
-    </h1>
-  
-
-        
-        <a href="/367.html" class="archive-article-date">
-  	<time datetime="2013-12-07T05:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><pre><code>前段时间，微信开放了一个非常牛逼的接口，那就是服务号可以创建自定义菜单了。有了这个接口之后，使用微信与公众号交流倒更像是一个与微信内部的一个app交流，大大的强化了公众号的灵活性。
-
-在编辑模式下，公众号管理者可以直接编辑自定义菜单并设定用户点击菜单之后的回复内容或者跳转的指定链接。本文主要介绍使用开发者模式来自定义菜单完成每个用户的个性化内容回复。
-</code></pre><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><pre><code>自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能。开启自定义菜单后，公众号界面如图所示：
-
-![](http://mp.weixin.qq.com/wiki/images/thumb/0/0a/%E8%8F%9C%E5%8D%95.jpg/600px-%E8%8F%9C%E5%8D%95.jpg)
-
-目前自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以&amp;ldquo;...&amp;rdquo;代替。请注意，创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。建议测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。
-
-目前自定义菜单接口可实现两种类型按钮，如下：
-</code></pre><ol>
-<li>click： 用户点击click类型按钮后，微信服务器会通过消息接口推送消息类型为event 的结构给开发者，并且带上按钮中开发者填写的key值，开发者可以通过自定义的key值与用户进行交互；</li>
-<li><p>view： 用户点击view类型按钮后，微信客户端将会打开开发者在按钮中填写的url值 （即网页链接），达到打开网页的目的，建议与网页授权获取用户基本信息接口结合，获得用户的登入个人信息。</p>
-<p>由第一点的click类型按钮可以延伸出很多的拓展功能，例如目前比较火的微信公众号：招商银行信用卡中心！利用用户点击的这个事件自定义生成一个链接，该链接加上用户的微信信息参数(例如openid)。用户点击链接进去之后可以进行相关的绑定信用卡的操作。这个操作过程如果不使用用户先进行操作而直接绑定是无法实现的。</p>
-<p>而第二个view按钮则跟编辑模式类似，点击过后微信会使用其自带的浏览器打开一个链接。</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## </span><br><span class="line"></span><br><span class="line">实现</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
-<p>## </p>
-<p>第一步：获取access_token</p>
-<pre><code>具体请参照&amp;nbsp;[&lt;span style=&quot;color:#000000;&quot;&gt;和小猪一起搞微信公众号开发&amp;mdash;获取Access_token&lt;/span&gt;](http://www.smallerpig.com/archives/366 &quot;链向和小猪一起搞微信公众号开发—获取Access_token的固定链接&quot;)
-</code></pre><p>#<code>`</code></p>
-<p>## </p>
-<p>第二步：设计好您的菜单列表并写出对应的json数据</p>
-<pre><code>小猪弄了个示例json数据
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">Postdata &#x3D; &quot;&#123;&#39;button&#39;:[&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;只有一级C&#39;,&#39;key&#39;:&#39;V1001_TODAY_MUSIC&#39;&#125;,&quot;</span><br><span class="line">                 + &quot;&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;只有一级V&#39;,&#39;key&#39;:&#39;www.ruiyuedigi.com&#39;&#125;,&quot;</span><br><span class="line">                 + &quot;&#123; &#39;name&#39;:&#39;二菜单&#39;,&#39;sub_button&#39;:[&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;www.soso.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">                 + &quot; &#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;v.qq.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">                 + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;二级Click&#39;,&#39;key&#39;:&#39;V1001_111111&#39;&#125;,&quot;</span><br><span class="line">                 + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;菜单最多7个字&#39;,&#39;key&#39;:&#39;V1001_22222&#39;&#125;,&quot;</span><br><span class="line">                 + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;最多5个菜单&#39;,&#39;key&#39;:&#39;V1001_444444&#39;&#125;]&#125;]&quot;</span><br><span class="line">                 + &quot;&#125;&quot;,</span><br></pre></td></tr></table></figure>
-<pre><code>**参数说明**
-
-​
-</code></pre><table align="center" border="1" cellpadding="4" cellspacing="0" style="font-family: 'Microsoft Yahei', 宋体, Tahoma, Arial; font-size: 14px; line-height: 24px;" width="640px"><br>    <tbody><br>        <tr><br>            <th style="width: 120px;"><br>                参数<br>            </th><br>            <th style="width: 120px;"><br>                是否必须<br>            </th><br>            <th><br>                说明<br>            </th><br>        </tr><br>        <tr><br>            <td><br>                button<br>            </td><br>            <td><br>                是<br>            </td><br>            <td><br>                一级菜单数组，个数应为1~3个<br>            </td><br>        </tr><br>        <tr><br>            <td><br>                sub_button<br>            </td><br>            <td><br>                否<br>            </td><br>            <td><br>                二级菜单数组，个数应为1~5个<br>            </td><br>        </tr><br>        <tr><br>            <td><br>                type<br>            </td><br>            <td><br>                是<br>            </td><br>            <td><br>                菜单的响应动作类型，目前有click、view两种类型<br>            </td><br>        </tr><br>        <tr><br>            <td><br>                name<br>            </td><br>            <td><br>                是<br>            </td><br>            <td><br>                菜单标题，不超过16个字节，子菜单不超过40个字节<br>            </td><br>        </tr><br>        <tr><br>            <td><br>                key<br>            </td><br>            <td><br>                click类型必须<br>            </td><br>            <td><br>                菜单KEY值，用于消息接口推送，不超过128字节<br>            </td><br>        </tr><br>        <tr><br>            <td><br>                url<br>            </td><br>            <td><br>                view类型必须<br>            </td><br>            <td><br>                网页链接，用户点击菜单可打开链接，不超过256字节<br><br>                &nbsp;<br>            </td><br>        </tr><br>    </tbody><br></table>
-
-<p>#<code>`</code></p>
-<p>## </p>
-<p>第三步：创建http请求微信接口</p>
-<pre><code>同样，小猪把示例代码帖出来
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#region https 请求</span><br><span class="line">HttpHelper http &#x3D; new HttpHelper\(\);</span><br><span class="line">HttpItem item &#x3D; new HttpItem\(\)</span><br><span class="line">&#123;</span><br><span class="line">    URL &#x3D; &quot;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;cgi-bin&#x2F;menu&#x2F;create?access_token&#x3D;ruiyue.zhuqi.test&quot;,&#x2F;&#x2F;URL     必需项    </span><br><span class="line">    Method &#x3D; &quot;post&quot;,&#x2F;&#x2F;URL     可选项 默认为Get   </span><br><span class="line">    Postdata &#x3D; &quot;&#123;&#39;button&#39;:[&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;只有一级C&#39;,&#39;key&#39;:&#39;V1001_TODAY_MUSIC&#39;&#125;,&quot;</span><br><span class="line">     + &quot;&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;只有一级V&#39;,&#39;key&#39;:&#39;www.ruiyuedigi.com&#39;&#125;,&quot;</span><br><span class="line">     + &quot;&#123; &#39;name&#39;:&#39;二菜单&#39;,&#39;sub_button&#39;:[&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;www.soso.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">     + &quot; &#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;v.qq.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">     + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;二级Click&#39;,&#39;key&#39;:&#39;V1001_111111&#39;&#125;,&quot;</span><br><span class="line">     + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;菜单最多7个字&#39;,&#39;key&#39;:&#39;V1001_22222&#39;&#125;,&quot;</span><br><span class="line">     + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;最多5个菜单&#39;,&#39;key&#39;:&#39;V1001_444444&#39;&#125;]&#125;]&quot;</span><br><span class="line">     + &quot;&#125;&quot;,&#x2F;&#x2F;Post数据     可选项GET时不需要写   </span><br><span class="line">    Timeout &#x3D; 100000,&#x2F;&#x2F;连接超时时间     可选项默认为100000    </span><br><span class="line">    ReadWriteTimeout &#x3D; 30000,&#x2F;&#x2F;写入Post数据超时时间     可选项默认为30000</span><br><span class="line">    ContentType &#x3D; &quot;*&quot;,&#x2F;&#x2F;返回类型    可选项有默认值   </span><br><span class="line">    Allowautoredirect &#x3D; false,&#x2F;&#x2F;是否根据301跳转</span><br><span class="line">&#125;;</span><br><span class="line">HttpResult result &#x3D; http.GetHtml(item);</span><br><span class="line">string html &#x3D; result.Html;</span><br></pre></td></tr></table></figure>
-<pre><code>这时候如果您接收到的html字符串为
-</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;&quot;errcode&quot;:0,&quot;errmsg&quot;:&quot;ok&quot;&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>那么恭喜你，你的自定义菜单创建成功了，
-</code></pre><p>#<code>`</code></p>
-<p>## </p>
-<p>第四步：关注微信账号查看效果</p>
-<pre><code>[![wp_ss_20131207_0002](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131207_0002-180x300.png)](http://www.smallerpig.com/wp-content/uploads/2013/12/wp_ss_20131207_0002.png)
-</code></pre><p>#<br>    附上完整的Controller=》Action代码</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public ActionResult CreateMenu\(\)</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    #region https 请求</span><br><span class="line">    HttpHelper http &#x3D; new HttpHelper\(\);</span><br><span class="line">    HttpItem item &#x3D; new HttpItem\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        URL &#x3D; &quot;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;cgi-bin&#x2F;menu&#x2F;create?access_token&#x3D;ruiyue.zhuqi.test&quot;,&#x2F;&#x2F;URL     必需项    </span><br><span class="line">        Method &#x3D; &quot;post&quot;,&#x2F;&#x2F;URL     可选项 默认为Get   </span><br><span class="line">        IsToLower &#x3D; false,&#x2F;&#x2F;得到的HTML代码是否转成小写     可选项默认转小写   </span><br><span class="line">        Cookie &#x3D; &quot;&quot;,&#x2F;&#x2F;字符串Cookie     可选项   </span><br><span class="line">        Referer &#x3D; &quot;&quot;,&#x2F;&#x2F;来源URL     可选项   </span><br><span class="line">        Postdata &#x3D; &quot;&#123;&#39;button&#39;:[&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;只有一级C&#39;,&#39;key&#39;:&#39;V1001_TODAY_MUSIC&#39;&#125;,&quot;</span><br><span class="line">         + &quot;&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;只有一级V&#39;,&#39;key&#39;:&#39;www.ruiyuedigi.com&#39;&#125;,&quot;</span><br><span class="line">         + &quot;&#123; &#39;name&#39;:&#39;二菜单&#39;,&#39;sub_button&#39;:[&#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;www.soso.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">         + &quot; &#123;&#39;type&#39;:&#39;view&#39;,&#39;name&#39;:&#39;二级view&#39;,&#39;url&#39;:&#39;http:&#x2F;&#x2F;v.qq.com&#x2F;&#39;&#125;,&quot;</span><br><span class="line">         + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;二级Click&#39;,&#39;key&#39;:&#39;V1001_111111&#39;&#125;,&quot;</span><br><span class="line">         + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;菜单最多7个字&#39;,&#39;key&#39;:&#39;V1001_22222&#39;&#125;,&quot;</span><br><span class="line">         + &quot;&#123;&#39;type&#39;:&#39;click&#39;,&#39;name&#39;:&#39;最多5个菜单&#39;,&#39;key&#39;:&#39;V1001_444444&#39;&#125;]&#125;]&quot;</span><br><span class="line">         + &quot;&#125;&quot;,&#x2F;&#x2F;Post数据     可选项GET时不需要写   </span><br><span class="line">        Timeout &#x3D; 100000,&#x2F;&#x2F;连接超时时间     可选项默认为100000    </span><br><span class="line">        ReadWriteTimeout &#x3D; 30000,&#x2F;&#x2F;写入Post数据超时时间     可选项默认为30000  </span><br><span class="line">        ContentType &#x3D; &quot;*&quot;,&#x2F;&#x2F;返回类型    可选项有默认值   </span><br><span class="line">        Allowautoredirect &#x3D; false,&#x2F;&#x2F;是否根据301跳转</span><br><span class="line">    &#125;;</span><br><span class="line">    HttpResult result &#x3D; http.GetHtml(item);</span><br><span class="line">    string html &#x3D; result.Html;</span><br><span class="line">    string cookie &#x3D; result.Cookie;</span><br><span class="line">    </span><br><span class="line">    #endregion</span><br><span class="line">    </span><br><span class="line">    return Content(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>&amp;nbsp;
-</code></pre><p> <code>`</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/367.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-微信/和小猪一起搞微信公众号开发—获取Access_token" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/366.html">和小猪一起搞微信公众号开发—获取Access_token</a>
-    </h1>
-  
-
-        
-        <a href="/366.html" class="archive-article-date">
-  	<time datetime="2013-12-05T05:51:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-12-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前一篇小猪和大家分享了如何回复用户的简单文本，这一篇我们来看看如何获取Access_token</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>在前一篇中，我们实现了这么一个简单的过程：用户发送一个文本到公众号后，公众号在该文本后面加上点内容返回给用户，这样一个过程的整个开始是由用户来发起的。<strong>用户=》微信服务器=》公众号服务器=》微信服务器=》用户</strong></p>
-<p>但如果我只是由公众号服务器发起一个请求来请求设置，<span style="color: rgb(255, 0, 0); font-family: 'Microsoft Yahei'; font-size: 14px; line-height: 24px; text-indent: 28px;">公众号服务器=》微信服务器=》公众号服务器&nbsp;。</span></p>
-<p>那么这个时候微信服务器怎么来做验证该请求是合法的呢？答案就是在请求参数里面加上Access_token。</p>
-<p>例如：在开发者模式下定义自定义菜单：该接口就是由公众号服务器发起(其实可以任何地方发出)给微信服务器，这个过程并没有微信用户参与。</p>
-<p>又例如：获取公众号有哪些人关注，这个接口也不是由用户发出。</p>
-<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p><span style="line-height: 1.6em;">access_token是公众号的全局唯一票据，公众号调用各接口时都需使用access_token。正常情况下access_token有效期为7200秒，重复获取将导致上次获取的access_token失效。</span></p>
-<p>公众号可以使用AppID和AppSecret调用本接口来获取access_token。AppID和AppSecret可在开发模式中获得（需要已经成为开发者，且帐号没有异常状态）。注意调用所有微信接口时均需使用https协议。</p>
-<h3 id="接口调用请求说明"><a href="#接口调用请求说明" class="headerlink" title="接口调用请求说明"></a>接口调用请求说明</h3><p>http请求方式: GET</p>
-<p><a href="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=APPID&amp;secret=APPSECRET" target="_blank" rel="noopener">https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=APPID&amp;secret=APPSECRET</a></p>
-<h3 id="返回说明"><a href="#返回说明" class="headerlink" title="返回说明"></a>返回说明</h3><p>正常情况下，微信会返回下述JSON数据包给公众号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;access_token&quot;:&quot;ACCESS_TOKEN&quot;,&quot;expires_in&quot;:7200&#125;</span><br></pre></td></tr></table></figure>
-<p>错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;errcode&quot;:40013,&quot;errmsg&quot;:&quot;invalid appid&quot;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="全局返回码说明"><a href="#全局返回码说明" class="headerlink" title="全局返回码说明"></a>全局返回码说明</h3><p><a href="http://mp.weixin.qq.com/wiki/index.php?title=%E5%85%A8%E5%B1%80%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E&quot;%E5%85%A8%E5%B1%80%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E&quot;" target="_blank" rel="noopener">全局返回码说明</a></p>
-<p>公众号每次调用接口时，可能获得正确或错误的返回码，开发者可以根据返回码信息调试接口，排查错误。</p>
-<h2 id="另外：调用接口限制"><a href="#另外：调用接口限制" class="headerlink" title="另外：调用接口限制"></a>另外：调用接口限制</h2><p>公众号调用接口并不是无限制的。为了防止公众号的程序错误而引发微信服务器负载异常，默认情况下，每个公众号调用接口都不能超过一定限制，当超过一定限制时，调用对应接口会收到如下错误返回码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;errcode&quot;:45009,&quot;errmsg&quot;:&quot;api freq out of limit&quot;&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="http://mp.weixin.qq.com/wiki/index.php?title=%E6%8E%A5%E5%8F%A3%E9%A2%91%E7%8E%87%E9%99%90%E5%88%B6%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener" title="%E6%8E%A5%E5%8F%A3%E9%A2%91%E7%8E%87%E9%99%90%E5%88%B6%E8%AF%B4%E6%98%8E">限制列表请点击</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/366.html">展开全文 >></a>
         </p>
       
 

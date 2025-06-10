@@ -148,6 +148,327 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-asp.net/asp-net-mvc-e4-b8-8a-e4-bc-a0-e5-a4-a7-e6-96-87-e4-bb-b6-e6-97-b6404" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/343.html">ASP.NET MVC 上传大文件时404</a>
+    </h1>
+  
+
+        
+        <a href="/343.html" class="archive-article-date">
+  	<time datetime="2013-11-12T00:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一段时间会员的上传组件改用FLASH的swfupload来上传，既能很友好的显示上传进度，又能完全满足大文件的上传。</p>
+<p>后来服务器升级到windows 2008,改为IIS7后，上传文件一旦超过30M时，就出现404错误，而且是是上传进度达到100%之后，真是让人难思其解。</p>
+<p>反复测试，发现FLASH上传文件到并没有正确的执行.NET程序，也就是.NET程序本身有问题;</p>
+<p>但小于30M又是一切OK，难道是上传的文件大小有所限制？</p>
+<p>检查web.config的httpRuntime ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;httpRuntime maxRequestLength&#x3D;&quot;2097151&quot; executionTimeout&#x3D;&quot;50000&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>已经是很大值了。</p>
+<p>因为无法正确得到详细的错误信息，就用一个普通的FORM提交一个FileUpload测试，原来真是web.config的设置问题：</p>
+<h1 id="报错信息："><a href="#报错信息：" class="headerlink" title="报错信息："></a>报错信息：</h1><p>最可能的原因: Web 服务器上的请求筛选被配置为拒绝该请求，因为内容长度超过配置的值。 可尝试的操作: 确认 applicationhost.config 或 web.config 文件中的 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。 </p>
+<p>链接和更多信息<br>这是一项安全功能。请不要更改此功能，除非您完全清楚更改的影响范围。您可以配置 IIS 7.0 服务器以拒绝内容长度大于指定值的请求。如果请求的内容长度大于所配置的长度，便会返回此错误。如果需要增加内容长度，请修改 configuration/system.webServer/security/requestFiltering/requestLimits@maxAllowedContentLength 设置。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>原来IIS7的上传文件大小，即便是在经典模式下，也一定要在system.webServer里设置，加上去就OK了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;security&gt;</span><br><span class="line"></span><br><span class="line">    &lt;requestFiltering &gt;</span><br><span class="line"></span><br><span class="line">      &lt;requestLimits maxAllowedContentLength&#x3D;&quot;1073741824&quot; &gt;&lt;&#x2F;requestLimits&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;requestFiltering&gt;</span><br><span class="line"></span><br><span class="line">  &lt;&#x2F;security&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;system.webServer&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC//" class="article-tag-list-link color4">MVC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ASP-NET/C/HTML/MVC/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/343.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-web/css-e5-8e-bb-e9-99-a4-e5-88-97-e8-a1-a8-e9-a1-b9li-e5-89-8d-e9-9d-a2-e7-9a-84-e5-b0-8f-e5-9c-86-e7-82-b9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/337.html">CSS 去除列表项li前面的小圆点</a>
+    </h1>
+  
+
+        
+        <a href="/337.html" class="archive-article-date">
+  	<time datetime="2013-10-24T06:47:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<pre><code>在默认的情况下，浏览器会在&amp;lt;li&amp;gt;标签前面加上小圆点形成列表项，如下所示使用&amp;lt;ul&amp;gt;
+</code></pre><ul>
+<li>项1</li>
+<li>项2</li>
+<li><p>项3</p>
+<p>&nbsp;或者使用&lt;ol&gt;</p>
+</li>
+</ul>
+<ol>
+<li>项1</li>
+<li>项2</li>
+<li><p>项3</p>
+<p>&nbsp;</p>
+<p>这在有时候确实给我们带来了方便。但有时候我们却并不需要这个自动的功能、</p>
+<p><strong>解决方法</strong></p>
+<p>在对应的li标签上面加上样式</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list-style-type:none;</span><br></pre></td></tr></table></figure>
+<pre><code>即可去除默认的小圆点。
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS//" class="article-tag-list-link color4">CSS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML//" class="article-tag-list-link color5">HTML</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CSS/HTML/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/337.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-web/javascript-e5-9f-ba-e6-9c-ac-e7-b1-bb-e5-9e-8b-e5-80-bc-e4-b8-8e-e5-bc-95-e7-94-a8-e7-b1-bb-e5-9e-8b-e5-80-bc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/328.html">JavaScript基本类型值与引用类型值</a>
+    </h1>
+  
+
+        
+        <a href="/328.html" class="archive-article-date">
+  	<time datetime="2013-10-15T03:07:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-10-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>JS变量可以用来保存两种类型的值：基本类型值和引用类型值。基本类型的值源自一下5种基本数据类型：Underfined、Null、Boolean、Number和String。</p>
+<p><strong>基本类型值和引用类型值具有以下特点：</strong></p>
+<ul>
+<li><p>基本类型值在内存中占据固定大小的空间，因此被保存在栈内存中；</p>
+</li>
+<li><p>从一个变量向另一个变量复制基本类型的值，会创建这个值的一个副本；</p>
+</li>
+<li><p>引用类型的值是对象，保存在堆内存中；</p>
+</li>
+<li><p>包含引用类型值的变量实际上包含的并不是对象本身，而是一个指向该对象的指针；</p>
+</li>
+<li><p>从一个变量向另一个变量复制引用类型的值，复制的其实是指针，因此两个变量最终都指向同一个对象；</p>
+</li>
+<li><p>确定一个值是哪种基本类型可以使用Typeof操作符，而确定一个值是哪种引用类型可以使用instanceof操作符。</p>
+</li>
+</ul>
+<p>所有变量（包括基本类型和引用类型）都存在于一个执行环境(也称为作用域)当中，这个执行环境决定了变量的生命周期，以及那一部分代码可以访问其中的变量。</p>
+<p><strong>一下是关于执行环境的几点总结：</strong></p>
+<ul>
+<li><p>执行环境有全局执行环境（也称为全局环境）和函数执行环境之分；</p>
+</li>
+<li><p>每次进入一个新执行环境，都会创建一个用于搜索变量和函数的作用域链；</p>
+</li>
+<li><p>函数的局部黄金不仅有权访问函数作用域中的变量，而且有权访问其包含（父）环境，乃至全局环境；</p>
+</li>
+<li><p>全局环境只能访问在全局环境中定义的变量和函数，而不能直接访问局部环境中的任何数据；</p>
+</li>
+<li><p>变量的执行环境有助于确定应该合适释放内存。</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS//" class="article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/JS/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/328.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-web/在Html中使用JavaScript的几点小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -826,300 +1147,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/316.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-杂谈/关于借钱" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/314.html">关于借钱</a>
-    </h1>
-  
-
-        
-        <a href="/314.html" class="archive-article-date">
-  	<time datetime="2013-09-17T09:40:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>小猪在去年过年前向一好哥们借了三千块钱，当时想着放身上以备不测。后来这个钱到现在都没有还上，还好这哥们是小猪从小玩到大的基友，不会跟小猪为了这三千块钱急~我跟他说这事也是很厚脸皮的说：哥现在没钱……，实则小猪非常想把这钱给垫上，这钱确实让小猪有点喘不过气。</p>
-<p><strong>故事</strong></p>
-<p>现在一大学同学打电话来跟小猪说今天出了点急事，急需用钱，而他的钱都被别人借去要过段时间才能还，问我能否借其点钱，我问多少，他说一万。本来和他还算要好，如果说几百几十的小猪也就顺利支持了，虽然现在每个月都等着那点工资来救济自己，合着人家难得开一次口。但是一开口要一万、确实是让小猪为难，昨天刚发的点工资，还要准备中秋、国庆、月底房租等等等等。没办法，我只能和其说：我帮你看看我身边朋友同学有没有。</p>
-<p>这时故事中的同学j和同学c就出现了。</p>
-<p>j、c都是舍友关系，小猪与j之间关系比较要好，大学毕业之后经常打电话互相调情，久而久之感情还算说的过去，毕竟在一个房间一个床上睡过的。而且j与这位同学关系也甚好，上段时间还以某借口出去腐败了一下。当我电话过去的时候其分析了这位同学的近况然后建议小猪少拿点出来并且最好不要指望着能把钱收回来，而他能出多少得先挂电话等中午休息的时候再说。与c的交流是通过qq进行的，他的说法很简单，钱不多，只有小几千，借也可以，但是得有他自己来借，并且得知道他到底发生了什么事。</p>
-<p><strong>讨论</strong></p>
-<p>小猪一开始就没搞明白为什么就给了我一个人打电话，而与其关系甚密的J和C他为何不向他们开口？带着这样的疑问把事实跟J、C说了之后，小猪原本是想以他的名义向J、C借，一来可以动之以情晓之以理，二来以后即使还不上罪也不完全在于我身上，可事实却不是如此了。其实这时候小猪就在想，如果没有了今天这同学打电话给我，而是我直接向J、C借的话反而可能让J和C掏钱出来，或者他不通过我而向J、C借也有可能。但多了这一层的关系反而使这件事难办了。整个过程谁都没有做错。</p>
-<p><strong>结果</strong></p>
-<p>结果就是小猪从生活费里拿出2000借给了他。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想//" class="article-tag-list-link color1">小猪的思想</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/小猪的思想/小猪的感悟//" class="article-tag-list-link color1">小猪的感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/314.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-设计模式/面向对象编程(OOP)基础之UML基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/312.html">面向对象编程(OOP)基础之UML基础</a>
-    </h1>
-  
-
-        
-        <a href="/312.html" class="archive-article-date">
-  	<time datetime="2013-09-15T08:28:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在我们学习OOP过程中，难免会见到一些结构图~各种小框框、各种箭头。今天小猪就来简单介绍一下这些框框箭头的意思——UML。</p>
-<p>UML定义的关系主要有：泛化(继承)、实现、依赖、关联、聚合、组合，这六种关系紧密程度依次加强，下面分别来看一下</p>
-<p><strong>泛化(继承)</strong><br>概念：泛化是一种一般与特殊、一般与具体之间关系的描述，具体描述建立在一般描述的基础之上，并对其进行了扩展。在程序中是通过继承类实现的。比如狗是对动物的具体描述，在面向对象设计的时候一般把狗设计为动物的子类。</p>
-<p>表示方法：空心三角形箭头的实线，子类指向父类</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/51561379233569.png" alt="" title="继承.png"></p>
-<p><strong>实现</strong><br>概念：实现是一种类与接口的关系，表示类是接口所有特征和行为的实现，在程序中一般通过类实现接口来描述</p>
-<p>表示方法：空心三角形箭头的虚线，实现类指向接口</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/14011379233569.png" alt="" title="实现.png"></p>
-<p><strong>依赖</strong><br>概念：是一种使用的关系，即一个类的实现需要另一个类的协助，所以要尽量不使用双向的互相依赖，在程序中一般表现为类A中的方法需要类B的实例作为其参数或者变量，而类A本身并不需要引用类B的实例作为其成员变量。</p>
-<p>表示方法：实线箭头，类A指向类B。</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/10041379233569.png" alt="" title="依赖.png"></p>
-<p>关联<br>概念：表示类与类之间的联接,它使一个类知道另一个类的属性和方法，这种关系比依赖更强、不存在依赖关系的偶然性、关系也不是临时性的，一般是长期性的，在程序中被关联类B以类属性的形式出现在关联类A中，也可能是关联类A引用了一个类型为被关联类B的全局变量</p>
-<p>表示方法：虚线箭头，类A指向类B</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/4681379233569.png" alt="" title="关联.png"></p>
-<p>聚合<br>概念：聚合关联关系的一种特例，是强的关联关系。聚合是整体和个体之间的关系，即has-a的关系，整体与个体可以具有各自的生命周期，部分可以属于多个整体对象，也可以为多个整体对象共享。程序中聚合和关联关系是一致的，只能从语义级别来区分；</p>
-<p>表示方法：尾部为空心菱形的实线箭头（也可以没箭头），类A指向类B</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/96581379233569.png" alt="" title="聚合a.png"></p>
-<p>组合<br>概念：组合也是关联关系的一种特例。组合是一种整体与部分的关系，即contains-a的关系，比聚合更强。部分与整体的生命周期一致，整体的生命周期结束也就意味着部分的生命周期结束，组合关系不能共享。程序中组合和关联关系是一致的，只能从语义级别来区分。</p>
-<p>表示方法：尾部为实心菱形的实现箭头（也可以没箭头），类A指向类B</p>
-<p><img src="http://www.smallerpig.com/wp-content/plugins/wp-ueditor/ueditor/php/upload/18381379233569.png" alt="" title="组合.png"></p>
-<p><strong>总结</strong></p>
-<p>上面介绍的是UML图中：类图之间的简单关系，如果但是类图里面还会有一些东西，例如方法的表示、变量的表示等等。</p>
-<p>除了类图，UML关系图还包括用例图。用来模拟程序中的角色。有时间再分享。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">UML</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/设计模式//" class="article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/312.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-csharp/c-e6-8a-bd-e8-b1-a1-e7-b1-bb-e3-80-81-e6-8a-bd-e8-b1-a1-e6-96-b9-e6-b3-95-e3-80-81-e6-8a-bd-e8-b1-a1-e5-b1-9e-e6-80-a7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/311.html">C#抽象类、抽象方法、抽象属性</a>
-    </h1>
-  
-
-        
-        <a href="/311.html" class="archive-article-date">
-  	<time datetime="2013-09-13T08:41:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>定义</strong></p>
-<p>在C#中使用关键字 abstract 来定义抽象类和抽象方法。</p>
-<p>不能初始化的类被叫做抽象类，它们只提供部分实现，但是另一个类可以继承它并且能创建它们<br>的实例。<br>&quot;一个包含一个或多个纯虚函数的类叫抽象类，抽象类不能被实例化，进一步<br>一个抽象类只能通过接口和作为其它类的基类使用.&quot;- C++ Programming Language by Stroustrup Chapter13.2</p>
-<p>抽象类能够被用于类，方法，属性，索引器和事件，使用abstract 在一个类声明中表示该类倾向要作为其它类的基类<br>成员被标示成abstract，或被包含进一个抽象类，必须被其派生类实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">abstract class ShapesClass</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        abstract public int Area\(\);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class Square : ShapesClass</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        int x, y;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Not providing an Area method results</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; in a compile-time error.</span><br><span class="line"></span><br><span class="line">        public override int Area\(\)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            return x * y;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>备注</strong><br><strong>抽象类具有以下特性：</strong><br>1、抽象类不能实例化。<br>2、抽象类可以包含抽象方法和抽象访问器。<br>3、不能用 sealed（C# 参考）修饰符修改抽象类，这意味着抽象类不能被继承。<br>4、从抽象类派生的非抽象类必须包括继承的所有抽象方法和抽象访问器的实实现。<br>5、抽象类可以是抽象方法和实例方法。<br>在方法或属性声明中使用 abstract 修饰符以指示方法或属性不包含实现。<br><strong>抽象方法具有以下特性：</strong><br>1、抽象方法是隐式的虚方法。<br>2、只允许在抽象类中使用抽象方法声明。<br>3、因为抽象方法声明不提供实际的实现，所以没有方法体；方法声明只是以一个分号结束，并且在签名后没有大括号 ({ })。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">public abstract void MyMethod\(\);</span><br></pre></td></tr></table></figure>
-<p>4、实现由一个重写方法提供，此重写方法是非抽象类的成员。<br>5、在抽象方法声明中使用 static 或 virtual 修饰符是错误的。</p>
-<p><strong>除了在声明和调用语法上不同外，抽象属性的行为与抽象方法一样。</strong><br>1、在静态属性上使用 abstract 修饰符是错误的。<br>2、在派生类中，通过包括使用 override 修饰符的属性声明，可以重写抽象的继承属性。<br>抽象类必须为所有接口成员提供实现。<br>实现接口的抽象类可以将接口方法映射到抽象方法上。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">interface I</span><br><span class="line">&#123;</span><br><span class="line">    void M\(\);</span><br><span class="line">&#125;</span><br><span class="line">abstract class C: I</span><br><span class="line">&#123;</span><br><span class="line">    public abstract void M\(\);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>示例</strong><br>在本例中，DerivedClass 类是从抽象类 BaseClass 派生的。抽象类包含一个抽象方法 AbstractMethod 和两个抽象属性 X 和 Y。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; abstract_keyword.cs</span><br><span class="line">&#x2F;&#x2F; Abstract Classes</span><br><span class="line">using System;</span><br><span class="line">abstract class BaseClass   &#x2F;&#x2F; Abstract class</span><br><span class="line">&#123;</span><br><span class="line">    protected int _x &#x3D; 100;</span><br><span class="line">    protected int _y &#x3D; 150;</span><br><span class="line">    public abstract void AbstractMethod\(\);   &#x2F;&#x2F; Abstract method</span><br><span class="line">    public abstract int X    &#123; get; &#125;</span><br><span class="line">    public abstract int Y    &#123; get; &#125;</span><br><span class="line">&#125;</span><br><span class="line">class DerivedClass : BaseClass</span><br><span class="line">&#123;</span><br><span class="line">    public override void AbstractMethod\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        _x++;</span><br><span class="line">        _y++;</span><br><span class="line">    &#125;</span><br><span class="line">    public override int X   &#x2F;&#x2F; overriding property</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _x + 10;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public override int Y   &#x2F;&#x2F; overriding property</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            return _y + 10;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    static void Main\(\)</span><br><span class="line">    &#123;</span><br><span class="line">        DerivedClass o &#x3D; new DerivedClass\(\);</span><br><span class="line">        o.AbstractMethod\(\);</span><br><span class="line">        Console.WriteLine(&quot;x &#x3D; &#123;0&#125;, y &#x3D; &#123;1&#125;&quot;, o.X, o.Y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出<br>x = 111, y = 161<br>注释<br>在上面的示例中，如果试图通过使用下面的语句将抽象类实例化：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">BaseClass bc &#x3D; new BaseClass\(\); &#x2F;&#x2F; Error</span><br></pre></td></tr></table></figure>
-<p>将出现错误，指出编译器无法创建抽象类“BaseClass”的实例。</p>
-<p>在定义类的前面加上关键字abstract，那么这个类就是抽象类了，抽象类本身无法产生实例对象，而且抽象类包含了一个以上的抽象方法，这些方法只是提供函数名称，并没有定义如何具体实现，由继承的派生类实现，派生类同时必须实现所有抽象类的方法，否则其本身将成为另外一个抽象类。需要我们注意的一点是，当派生类重写抽象类的方法时，要使用override关键字来重写抽象类所定义的方法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/311.html">展开全文 >></a>
         </p>
       
 

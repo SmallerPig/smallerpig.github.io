@@ -148,6 +148,271 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-php/phpstrom-code-snippet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/809.html">phpstrom 中添加 code snippet</a>
+    </h1>
+  
+
+        
+        <a href="/809.html" class="archive-article-date">
+  	<time datetime="2015-07-10T08:16:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在编写代码的时候经常会遇到一些代码片段(code snippet),这些代码片段在我们写程序的过程中总是大量的出现,这个时候我们可以将这些代码片段保存起来,然后给这些代码片段定义一个简短的名字,当我们在编辑器中输入这个名字的时候就能直接输出我们定义好的代码片段!</p>
+<p>今天来分享在phpstrom中怎样增加我们自定义的代码片段,一般IDE或者编辑器都提供了类似的功能.</p>
+<p>我们在写ci程序时经常在View文件里循环输出数组内容,例如官方的文档中循环输出文章标题的例子:</p>
+<p>写的多了之后我们发现经常需要用到循环的这段代码,也就是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php foreach ($news as $news_item): ?&gt;</span><br><span class="line">    &lt;!--循环内容 --&gt;</span><br><span class="line">&lt;?php endforeach ?&gt;</span><br></pre></td></tr></table></figure><br>这个时候我们就可以将上面的代码写成一个代码片段以后方便调用.</p>
+<p>在File-&gt;Settings-&gt;Editor-&gt;Live Templates-&gt;Zend Html中新建一项,具体参数值可参考图<br><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/QQ截图20150710161111.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/QQ截图20150710161111.png" alt="QQ截图20150710161111"></a><br><a href="http://www.smallerpig.com/wp-content/uploads/2015/07/QQ截图20150710161212.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/07/QQ截图20150710161212.png" alt="QQ截图20150710161212"></a></p>
+<p>然后设置最下面一行,Applicable in HTML Text;HTML,PHP.这样我们在这些文件中直接输入代码:hfor,然后按Tab键就可以整个的输出我们需要的代码块,大大的提高了我们的效率!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter//" class="article-tag-list-link color2">CodeIgniter</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/CodeIgniter/IDE//" class="article-tag-list-link color4">IDE</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/809.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Django/django-e6-a8-a1-e5-9e-8b-e8-bf-81-e7-a7-bb-e4-b8-89-e9-83-a8-e6-9b-b2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/806.html">Django模型迁移三步曲</a>
+    </h1>
+  
+
+        
+        <a href="/806.html" class="archive-article-date">
+  	<time datetime="2015-07-08T08:09:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考自<a href="https://docs.djangoproject.com/en/1.8/intro/tutorial01/#activating-models" target="_blank" rel="noopener">官方教学文档</a></p>
+<p>three-step guide to making model changes:</p>
+<ol>
+<li>Change your models (in models.py).</li>
+<li>Run python manage.py makemigrations to create migrations for those changes</li>
+<li>Run python manage.py migrate to apply those changes to the database. </li>
+</ol>
+<p>印象中asp.net mvc中也提供了类似的方法,可是我并没有使用过!</p>
+<p>应该是直接编写模型类,然后数据库表等信息是通过框架给生成的.而一旦数据结构发现变化则需要通过迁移类来完成数据库表结构的变动.而我之前一直都是模型类根据数据库表结构来作调整!</p>
+<p>看来code first模式越来越受到大众的认可了!</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/806.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Django/django-e4-bb-a5-e4-b8-80-e7-a7-8d-e8-ae-bf-e9-97-ae-e6-9d-83-e9-99-90-e4-b8-8d-e5-85-81-e8-ae-b8-e7-9a-84-e6-96-b9-e5-bc-8f-e5-81-9a-e4-ba-86-e4-b8-80-e4-b8-aa-e8-ae-bf-e9-97-ae-e5-a5-97-e6-8e-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/802.html">Django 以一种访问权限不允许的方式做了一个访问套接字的尝试。</a>
+    </h1>
+  
+
+        
+        <a href="/802.html" class="archive-article-date">
+  	<time datetime="2015-07-07T14:37:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用默认的命令启动Django 自带的测试服务器时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure><br>在启动的时候如果出现标题中的错误一般都是默认的端口号(8000)已经被其他程序给占用.</p>
+<p>所以换个端口重新启动:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver 8080</span><br></pre></td></tr></table></figure><br>直到能够成功启动!</p>
+<p>关于启动监听的端口号以及ip的具体文档请参考官方文档:<a href="https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-runserver" target="_blank" rel="noopener" title="https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-runserver">传送门</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/802.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Django/django-no-module-named-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -809,277 +1074,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/745.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/asp-net-mvc-e5-9c-a8return-view-e4-b9-8b-e5-89-8d-e5-90-91-e8-be-93-e5-87-ba-e6-b5-81-e5-86-99-e5-85-a5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/737.html">[ASP.NET MVC]在return View\(\)之前向输出流写入</a>
-    </h1>
-  
-
-        
-        <a href="/737.html" class="archive-article-date">
-  	<time datetime="2015-06-02T08:27:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-06-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>直接上代码:</p>
-<p>控制器部分代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Response.Write(&quot;hello world&quot;);</span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>视图部分代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xhtml&quot;&gt;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&lt;head&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;title&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">    </span><br><span class="line">&lt;body&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;h2&gt;index of pc&lt;&#x2F;h2&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><br>在调用上述代码之后看返回给浏览器的最终代码:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/06/image.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/06/image_thumb.png" alt="image" title="image"></a></p>
-<p>可见,hello world输出流在整个view之前呈现了.</p>
-<p>由此我们可以推断加证明,<code>return View\(\)</code>方式只是将cshtml文件以字符的形式输出出来.,当然<code>ViewResult\(\)</code>本身加载的视图引擎要复杂的多.!</p>
-<p>那么如果我们在return View()之前把Respon给End()之后会怎么样呢?再来试验一下!</p>
-<p>controller代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Test\(\)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    Response.Write(&quot;hello world&quot;);</span><br><span class="line">    </span><br><span class="line">    Response.End\(\);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return View(&quot;Index&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>View的代码不变,我们运行程序看看生成的代码:<br><code>hello world</code><br>可见,在Response.End()之后,再向输出流输出内容就输出不了了.</p>
-<p>参考<a href="http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html" target="_blank" rel="noopener">http://www.cnblogs.com/artech/archive/2012/08/15/action-result-03.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET//" class="article-tag-list-link color3">ASP.NET</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ASP-NET/C/MVC//" class="article-tag-list-link color4">MVC</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/737.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-报错/踩坑-微信:不允许跨号支付" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/733.html">微信:不允许跨号支付</a>
-    </h1>
-  
-
-        
-        <a href="/733.html" class="archive-article-date">
-  	<time datetime="2015-05-30T14:39:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image10.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb10.png" alt="image" title="image"></a></p>
-<p>遇到这个问题通常都是这么个情况:我们在自己的公众号中测试通过了所有的逻辑,然后想通过另外的公众号来推广我们的链接例如在其他公众号的自定义菜单中,回复文本中带上我们的支付链接或者支付系统链接.本来以为会一切正常,但是微信会给你无情弹出上面的对话框.也就是不允许跨号支付.</p>
-<p>举个大家常见的例子.例如同一个公司有两公众号,一个服务号,一个订阅号.公司通过服务号开发了一个卖东西的H5站点,测试没有问题了,通过订阅号来告诉粉丝们:我们这物美价廉快递小哥还正点哦,详情请点击……!结果悲剧了…</p>
-<p>最终结论就是:使用B公众号开发的支付链接.不能通过A公众号来推广..</p>
-<p>也就是说,要不直接发链接给客户,要不直接让客户扫二维码进入链接.就是不能让用户从其他公众号窗口点链接进去.</p>
-<p>可见微信浏览器已经判断了用户的某次点击是从哪个地方进来的!</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">微信</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/733.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-asp.net/entityfunctions-diff-e7-b3-bb-e5-88-97-e7-9a-84-e5-9d-91" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/724.html">EntityFunctions.Diff系列的坑</a>
-    </h1>
-  
-
-        
-        <a href="/724.html" class="archive-article-date">
-  	<time datetime="2015-05-30T12:33:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用<code>EntityFramwork</code>时,当我们需要对数据库中的时间字段进行计算的时候我就需要用到<code>EntityFuncitons</code>而不能直接写成类似下面的代码了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(item&#x3D;&gt;(item.CreateTime-DateTime.Now).Minutes&gt;2)</span><br></pre></td></tr></table></figure><br>仔细翻阅<code>EntityFunctions.DiffMinutes</code>的文档发现其留下了这么一句话:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 摘要: </span><br><span class="line">&#x2F;&#x2F;     调用 DiffMinutes 规范函数。有关 DiffMinutes 规范函数的信息，请参见Date and Time Canonical Functions</span><br><span class="line">&#x2F;&#x2F;     (Entity SQL)。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 参数: </span><br><span class="line">&#x2F;&#x2F;   timeValue1:</span><br><span class="line">&#x2F;&#x2F;     有效日期。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;   timeValue2:</span><br><span class="line">&#x2F;&#x2F;     有效日期。</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; 返回结果: </span><br><span class="line">&#x2F;&#x2F;     timeValue1 和 timeValue2 之间的分钟数。</span><br><span class="line">[EdmFunction(&quot;Edm&quot;, &quot;DiffMinutes&quot;)]</span><br><span class="line">public static int? DiffMinutes(DateTime? timeValue1, DateTime? timeValue2);</span><br></pre></td></tr></table></figure><br>其上面明明写着返回结果是timeValue1和timeValue2之间的分钟数.类似的方法还有<code>DiffMonths\(\)</code>,<code>DiffSeconds\(\)</code>,<code>DiffYears\(\)</code>..</p>
-<p>当我们信誓旦旦的写上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item &#x3D;&gt; item.Status &#x3D;&#x3D; 0 &amp;&amp; EntityFunctions.DiffMinutes(DateTime.Now, item.CreateTime)&gt;&#x3D; 15)</span><br></pre></td></tr></table></figure><br>却怎么也得不到想要的结果..</p>
-<p>通过sql监视发现其生成的SQL语句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DATEDIFF (minute, SysDateTime\(\), SysDateTime\(\))&gt;&#x3D;15</span><br></pre></td></tr></table></figure><br>单独执行才发现,这两个参数的顺序反了.简直是我勒个擦了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Where(item &#x3D;&gt;item.Status &#x3D;&#x3D; 0 &amp;&amp; EntityFunctions.DiffMinutes(item.CreateTime, DateTime.Now)&gt;&#x3D; 15)</span><br></pre></td></tr></table></figure><br>也就是说:EntityFunctions.Diff系列函数的调用,第一个参数得比第二个参数小,才能返回正数结果.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color3">C#</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/C/SQL//" class="article-tag-list-link color4">SQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/724.html">展开全文 >></a>
         </p>
       
 
