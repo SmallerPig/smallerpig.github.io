@@ -15,11 +15,13 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="可信数据空间系统主要由可信数据空间服务平台和可信数据空间连接器组成。 其中可信数据空间服务平台是可信数据空间运营方运营可信数据空间的支撑平台， 为可信数据空间参与方进行数据流通和使用的基础服务。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.smallerpig.com/images/202506101538715.png">
 <meta property="article:published_time" content="2025-06-05T02:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-10T07:22:51.918Z">
+<meta property="article:modified_time" content="2025-06-10T07:45:00.697Z">
 <meta property="article:author" content="smallerpig">
 <meta property="article:tag" content="可信数据空间">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.smallerpig.com/images/202506101538715.png">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -172,6 +174,19 @@ var _hmt = _hmt || [];
         <p>可信数据空间系统主要由可信数据空间服务平台和可信数据空间连接器组成。</p>
 <p>其中可信数据空间服务平台是可信数据空间运营方运营可信数据空间的支撑平台， 为可信数据空间参与方进行数据流通和使用的基础服务。</p>
 <a id="more"></a>
+<p>可信数据空间服务平台包括身份管理、连接器管理、目录管理、数字合约管理、数据空间管理、审计清算、数据交易、数据开发、数据托管等功能，其中数据交易、数据开发、数据托管三部分功能（图中虚框）为可选功能，其他部分为可信数据空间应具备的功能。</p>
+<p><img src="http://qiniu.smallerpig.com/images/202506101538715.png" alt=""></p>
+<h3 id="身份管理"><a href="#身份管理" class="headerlink" title="身份管理"></a>身份管理</h3><p>区域/行业功能节点为参与数据流通利用的企业/个人、数据流通利用平台等主体提供统一的身份注册、核验以及跨区域/行业身份互认和失效身份信息核验等服务。可信数据空间服务平台可以嵌套或调取接口等方式代理区域/行业功能节点面向空间中的各种用户提供身份注册、核验等服务。可信数据空间服务平台可以基于可信数据空间业务需求， 在数据基础设施身份管理基础上拓展身份相关信息和管理要求。</p>
+<h3 id="连接器管理"><a href="#连接器管理" class="headerlink" title="连接器管理"></a>连接器管理</h3><p>区域/行业功能节点为数据基础设施中的接入连接器提供注册、验证以及跨区域/行业接入连接器互认等服务。可信数据空间服务平台可以嵌套或调取接口等方式代理区域/行业功能节点面向空间中的连接器提供注册、 核验等服务。 可信数据空间服务平台可以基于可信数据空间业务需求， 在数据基础设施接入连接器管理的基础上拓展连接器相关信息和管理要求。</p>
+<h3 id="可信数据空间管理"><a href="#可信数据空间管理" class="headerlink" title="可信数据空间管理"></a>可信数据空间管理</h3><p>可信数据空间服务平台提供数据空间管理功能， 支持面向数据流通利用场景， 创建包含特定参与主体， 数据资源及使用控制策略的逻辑可信数据空间， 相关参与方可设置数据产品、 服务仅该空间的参与方可见、可用。</p>
+<h3 id="目录管理"><a href="#目录管理" class="headerlink" title="目录管理"></a>目录管理</h3><p>区域/行业功能节点为数据基础设施中的数据资源和产品提供登记服务，编制数据目录，并提供数据查询。可信数据空间服务平台可以嵌套或调取接口等方式代理区域/行业功能节点向空间中的数据资源、 产品提供登记等服务。 可信数据空间服务平台可以基于可信数据空间业务需求， 在数据基础设施目录管理的基础上拓展目录相关信息和管理要求。</p>
+<h3 id="数字合约管理"><a href="#数字合约管理" class="headerlink" title="数字合约管理"></a>数字合约管理</h3><p>提供数字合约管理的基本功能， 协助数据提供方、 使用方完成供需撮合及合约签署。</p>
+<h3 id="存证审计"><a href="#存证审计" class="headerlink" title="存证审计"></a>存证审计</h3><p>允许可信数据空间运营方记录存证可信数据空间的业务执行、系统运行的日志，并提供审计服务。可信数据空间服务平台存证审计功能可采用传统的权威第三方存证， 也可结合区块链、 时间戳、 数字签名和证书、哈希校验等技术，强化数据存证的可信。</p>
+<h3 id="数据交易-可选"><a href="#数据交易-可选" class="headerlink" title="数据交易(可选)"></a>数据交易(可选)</h3><p>可信数据空间服务平台可提供数据交易相关功能系统， 提高可信数据空间中数据提供方、 数据使用方的数据交换意愿及供需匹配效率。</p>
+<h3 id="数据开发-可选"><a href="#数据开发-可选" class="headerlink" title="数据开发(可选)"></a>数据开发(可选)</h3><p>可信数据空间服务平台可提供数据开发模块， 支持数据供需双方可根据数字合约约定在数据开发环境完成数据开发利用及交付， 亦支持数据开发方基于可信数据空间中已有的数据产品， 面向场景需求再次开发新的数据产品。 数据开发模块可包括隐私保护计算、 数据沙箱、 可信执行环境等安全可信数据开发工具或环境。</p>
+<h3 id="数据托管-可选"><a href="#数据托管-可选" class="headerlink" title="数据托管(可选)"></a>数据托管(可选)</h3><p>可信数据空间服务平台可提供数据托管服务，允许数据提供方将数据产品交由服务平台托管运营，代替数据提供方完成其相关活动。</p>
+<h3 id="国际空间互通网关-可选"><a href="#国际空间互通网关-可选" class="headerlink" title="国际空间互通网关(可选)"></a>国际空间互通网关(可选)</h3><p>若可信数据空间，如：跨境数据空间，有与国际上其他数据空间，如：IDS、GAIA-X、Catena-X等， 进行数据流通利用的需求。 可信数据空间服务平台应提供国际空间互通网关功能， 支持数据在不同国际数据空间之间的流通利用。</p>
+<h3 id="其他服务"><a href="#其他服务" class="headerlink" title="其他服务"></a>其他服务</h3><p>可信数据空间服务平台可直接提供或通过连接器接入第三方服务的方式提供其他服务，包括算力、质量评估、数据合规、数据存储等。</p>
 
       
 
@@ -335,7 +350,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    该文章无目录结构
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#身份管理"><span class="toc-number">1.</span> <span class="toc-text">身份管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接器管理"><span class="toc-number">2.</span> <span class="toc-text">连接器管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可信数据空间管理"><span class="toc-number">3.</span> <span class="toc-text">可信数据空间管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目录管理"><span class="toc-number">4.</span> <span class="toc-text">目录管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字合约管理"><span class="toc-number">5.</span> <span class="toc-text">数字合约管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存证审计"><span class="toc-number">6.</span> <span class="toc-text">存证审计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据交易-可选"><span class="toc-number">7.</span> <span class="toc-text">数据交易(可选)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据开发-可选"><span class="toc-number">8.</span> <span class="toc-text">数据开发(可选)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据托管-可选"><span class="toc-number">9.</span> <span class="toc-text">数据托管(可选)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#国际空间互通网关-可选"><span class="toc-number">10.</span> <span class="toc-text">国际空间互通网关(可选)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他服务"><span class="toc-number">11.</span> <span class="toc-text">其他服务</span></a></li></ol>
                     </div>
                 </span>
             </div>
