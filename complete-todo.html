@@ -15,22 +15,22 @@
 <meta property="og:site_name" content="朱启的个人博客">
 <meta property="og:description" content="事情事情是这样的，上周人事公布了公司的待办事项排名，我竟然榜上有名，紧接着人事竟然发布新政要求以后必须要及时清理oa的待办事项，如果在整个公司的排名是后100位不能参加绩效评a&#x2F;s. 虽然我觉得这事本身没必要，我也是不愿意平时工作的时候被各种通知分心的，而如果不得不为这种事情分神的话也太不值得了。 所以我做了如下工作：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fvcjoa26cjj31kw13k7pt.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvcjoa26cjj31kw13k7pt.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fvcjprufxej31kw14mkgw.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fvcjw9erl9j31kw12uamy.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fvckc6hb2qj31ig0laqeb.jpg">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fvdncbooiyj31kw0xiqiq.jpg">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwgy1fvdns4ytdzj31kw0xi13f.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdnv76yzxj31kw0xigve.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdrhmiyuqj31kw0ky108.jpg">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdsy3ui24j31kw0lrn5u.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdnv76yzxj31kw0xigve.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdrhmiyuqj31kw0ky108.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdsy3ui24j31kw0lrn5u.jpg">
 <meta property="article:published_time" content="2018-09-18T09:10:00.000Z">
-<meta property="article:modified_time" content="2020-02-18T14:31:52.000Z">
+<meta property="article:modified_time" content="2025-04-29T11:47:56.002Z">
 <meta property="article:author" content="smallerpig">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg">
+<meta name="twitter:image" content="https://wx2.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg">
   
     <link rel="alternative" href="/atom.xml" title="朱启的个人博客" type="application/atom+xml">
   
@@ -191,7 +191,7 @@ var _hmt = _hmt || [];
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>待办可以通过APP来阅读，阅读完了可以点击已阅结束来完成这个事项。<br>而OA的APP也很简单，通过待办的列表进入到具体的待办项，待办项里有已阅按钮。</p>
 <p>既然有APP的话那一定是有服务端的api接口的，开发人员不会把接口给到我的。所以只能“偷偷的”看看他们的APP在我手机里做了什么了，毕竟我看我自己手机的内容他们不知道吧？</p>
 <p>而我需要做的事情就是用程序自动来帮我们“点”已阅按钮而已。</p>
-<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>首先我们要知道获取待办事项的url，这时候该拿出“小花瓶(Charles)”了，windows下可以用fiddler。设置好代理并设置手机的网络都走小花瓶的代理之后就可以抓包了。<br><img src="https://ws1.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg" alt=""><br>手机上打开OA的APP试试，<br>好多请求呢。<br><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fvcjoa26cjj31kw13k7pt.jpg" alt=""></p>
+<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><p>首先我们要知道获取待办事项的url，这时候该拿出“小花瓶(Charles)”了，windows下可以用fiddler。设置好代理并设置手机的网络都走小花瓶的代理之后就可以抓包了。<br><img src="https://wx2.sinaimg.cn/large/006tNbRwgy1fvcjop5n5dj30x60ts0y2.jpg" alt=""><br>手机上打开OA的APP试试，<br>好多请求呢。<br><img src="https://wx2.sinaimg.cn/large/006tNbRwgy1fvcjoa26cjj31kw13k7pt.jpg" alt=""></p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>app打开的时候要请求这么多url，合理性我们先不管了，看看待办的请求吧。<br>手机上打开待办列表，发现请求待办数据的url<br><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fvcjprufxej31kw14mkgw.jpg" alt=""></p>
 <p>发现url上面没有版本信息呢，那说明以后即使APP更新了，只要url地址没办那就好办。<br>同时发现url上面也没有用户的信息，且请求为POST类型，那要想知道是哪个用户的请求那可能为body里，也可能在header里。我们来看看请求头，再看看请求body:</p>
 <p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fvcjw9erl9j31kw12uamy.jpg" alt=""></p>
@@ -221,7 +221,7 @@ var _hmt = _hmt || [];
 <p>然后进入最重要的环节，就是模拟请求了。拿一个真实的请求看看是什么样子。</p>
 <p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fvdns4ytdzj31kw0xi13f.jpg" alt=""></p>
 <p>url可以看到为saveAndSubmit，请求的参数里面重点为BoInsId和taskId,（这里吐槽下开发人员，啥请求，命名不规则啊，第一个字母一会大写一会小写的）</p>
-<p>我去，点击了之后又生成了一个activityId是什么鬼，可以发现请求列表里面也生成了一个请求的url为finalSubmit。看一下：<br><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdnv76yzxj31kw0xigve.jpg" alt=""></p>
+<p>我去，点击了之后又生成了一个activityId是什么鬼，可以发现请求列表里面也生成了一个请求的url为finalSubmit。看一下：<br><img src="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdnv76yzxj31kw0xigve.jpg" alt=""></p>
 <p>这里应该就是整个流程都结束了。</p>
 <p>整理下整个过程：</p>
 <ol>
@@ -238,12 +238,12 @@ var _hmt = _hmt || [];
 <p>最终提交结束流程<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最终提交结束流程</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">final_submit</span><span class="params">(activityId, boInsId, taskId)</span>:</span></span><br><span class="line">    body = &#123;</span><br><span class="line">        <span class="string">"userName"</span>: userName,</span><br><span class="line">        <span class="string">"mobileNum"</span>: mobileNum,</span><br><span class="line">        <span class="string">"activityId"</span>: activityId,</span><br><span class="line">        <span class="string">"BoInsId"</span>: boInsId,</span><br><span class="line">        <span class="string">"selectUserId"</span>: <span class="number">-1</span>,</span><br><span class="line">        <span class="string">"taskId"</span>: taskId,</span><br><span class="line">        <span class="string">"appSessionId"</span>: appSessionId</span><br><span class="line">    &#125;</span><br><span class="line">    r = requests.post(finalSubmitURL, data=json.dumps(body), headers=headers)</span><br><span class="line">    <span class="keyword">return</span> r.json()</span><br></pre></td></tr></table></figure></p>
 <p>写个main函数跑起来：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    todoList = get_todo()</span><br><span class="line">    <span class="keyword">if</span> len(todoList) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># 遍历待办列表数据</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> todoList:</span><br><span class="line">            print(item[<span class="string">"boInsId"</span>], item[<span class="string">"taskId"</span>])</span><br><span class="line">            activityId = save_and_submit(item[<span class="string">"boInsId"</span>], item[<span class="string">"taskId"</span>])</span><br><span class="line">            print(<span class="string">"get taskId : %s"</span> % (activityId, ))</span><br><span class="line">            result = final_submit(activityId, item[<span class="string">"boInsId"</span>], item[<span class="string">"taskId"</span>])</span><br><span class="line">            <span class="keyword">if</span> result[<span class="string">"success"</span>]:</span><br><span class="line">                print(<span class="string">"the todo item complete success .data: boInsId: %s, taskId : %s , title: %s , lastUser: %s "</span> %</span><br><span class="line">                      (item[<span class="string">"boInsId"</span>], item[<span class="string">"taskId"</span>], item[<span class="string">"title"</span>], item[<span class="string">"lastUser"</span>]))</span><br><span class="line">            <span class="comment"># 失败了</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">"something wrong!! : %s"</span> % (result, ))</span><br><span class="line">            <span class="comment"># 低调点，完成一个待办项之后10秒之后再进入下一个待办清空。</span></span><br><span class="line">            sleep(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">print</span> todoList</span><br></pre></td></tr></table></figure></p>
 <p>试着跑一下代码：</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdrhmiyuqj31kw0ky108.jpg" alt=""></p>
+<p><img src="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdrhmiyuqj31kw0ky108.jpg" alt=""></p>
 <p>可以从控制台上面看到请求完成了，打开手机APP的待办列表，果然被清空了。<br>只是想再调试调试的时候已经没有数据提供给调试了，哈哈。</p>
 <p>所以代码就到这一步吧。</p>
 <p>剩下最后一步了，那就是启动个线程持续跑，想了想规则还是设置一下，每分钟跑一次吧，为了让自己的脚本发起的请求不像一个脚本发起的，我们生成一个随机的时间间隔吧。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        …………</span><br><span class="line">        <span class="comment"># 随机一分钟到两分钟之间跑一次</span></span><br><span class="line">        sleep(random.randint(<span class="number">60</span>,<span class="number">120</span>))</span><br></pre></td></tr></table></figure>
-<p>再跑一次，简直完美：<br><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fvdsy3ui24j31kw0lrn5u.jpg" alt=""></p>
+<p>再跑一次，简直完美：<br><img src="https://wx2.sinaimg.cn/large/006tNbRwgy1fvdsy3ui24j31kw0lrn5u.jpg" alt=""></p>
 <h2 id="总结说明"><a href="#总结说明" class="headerlink" title="总结说明"></a>总结说明</h2><p>可以从代码中看出来很多地方都是hard code的，但这个小脚本只是自己使用，能跑起来完成目的就可以了，等哪天服务端的API调整了之后代码也就用不了了，不过思路总归是这个思路，可能稍微修改下就又可以使用了。</p>
 <p>另外代码也不能够提供给其他使用者使用，毕竟要使用的话需要知道自己的appsessionId和token，这些数据在不抓包APP的情况下是无法获得的，因为app使用了“本机号码一键登录”功能，没有登录接口。</p>
 <p>纯为学习使用，不为代码的任何细节负责。<br></p>
@@ -450,7 +450,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2024 smallerpig
+    		&copy; 2025 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -934,6 +934,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ESB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">可信数据空间</a>
               </li>
             
             <div class="clearfix"></div>

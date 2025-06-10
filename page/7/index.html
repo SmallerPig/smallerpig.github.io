@@ -148,6 +148,101 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java/springboot源码学习-程序启动流程-part2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/20181206.html">springboot源码学习-程序启动流程-part2</a>
+    </h1>
+  
+
+        
+        <a href="/20181206.html" class="archive-article-date">
+  	<time datetime="2018-12-05T14:53:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>还记得上一篇的开始嘛，向大家介绍了springboot程序启动的整个过程：</p>
+<blockquote>
+<p>在<code>context</code>的<code>refresh</code>方法中，需要注册<code>bean definition</code>，实例化<code>bean</code>.在加载<code>bean defintion</code>的时候使用<code>ConfigurationClassParser</code>类来解析我们的主类。然后在解析主类的时候发现了<code>@EnableAutoConfiguratio</code>注解中的<code>@Import</code>注解，就去处理<code>@Import</code>注解中的<code>value</code>值，然后就使用<code>ImportSelector</code>来获取被配置在<code>spring.factories</code>中的类。这些类通常是<code>AutoConfiguration</code>。这些<code>configuration</code>中包含了各种各样的<code>bean</code></p>
+</blockquote>
+<p>可是上一篇整个过程都还没进入到上述的内容呢，都是在为下面的流程做准备，直到目前为止，都是在做准备工作，屏幕上能看到的是啥也没有，一起来进入这一篇的学习吧。<br>
+        
+          <a class="article-more-a" href="/20181206.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/20181206.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/springboot源码学习-程序启动流程-part1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1001,112 +1096,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-java/think-in-shiro-part-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/thinking-in-shiro-part1.html">在SpringCloud中使用shiro - par1 思考</a>
-    </h1>
-  
-
-        
-        <a href="/thinking-in-shiro-part1.html" class="archive-article-date">
-  	<time datetime="2018-09-04T03:40:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在传统的架构中直接使用shiro还是比较方便的，虽然shiro是使用各种接口来调用，但是都默认提供了实现：<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultWebSecurityManager&#x3D;&gt;DefaultSecurityManager&#x3D;&gt;SecurityManager&#x3D;&gt;SessionManager</span><br></pre></td></tr></table></figure><br>所以我们甚至都不需要太了解shiro的内部结构，直接简单复制网上的几个配置就可以拿来使用了。正所谓开箱即用。</p>
-<p>但是在遇到复杂的应用场景的时候就黔驴技穷了，需要自己深入的研究下shiro的实现方式。</p>
-<p>能够百度到的文章千篇一律，最有价值的还是要数 老前辈2014的《跟我学shiro系列》文章了：<a href="http://jinnianshilongnian.iteye.com/blog/2018398。" target="_blank" rel="noopener">http://jinnianshilongnian.iteye.com/blog/2018398。</a></p>
-<p>建议如果需要深入学习shiro的话可以学习下作者的文章。</p>
-<p>但毕竟是2014年的博客了，对于最近几年的更新换代，尤其是SpringCloud等微服务系列的出现，文章中并没有给出实践，这里就来写写我在SpringCloud中使用shiro的思考。</p>
-        
-          <a class="article-more-a" href="/thinking-in-shiro-part1.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shiro</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java//" class="article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java/springboot//" class="article-tag-list-link color1">springboot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java/springboot/springcloud//" class="article-tag-list-link color2">springcloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/thinking-in-shiro-part1.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1118,7 +1110,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2024 smallerpig
+    		&copy; 2025 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1602,6 +1594,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ESB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">可信数据空间</a>
               </li>
             
             <div class="clearfix"></div>

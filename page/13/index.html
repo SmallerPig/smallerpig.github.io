@@ -148,6 +148,134 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-数据库/mysql-e8-a1-a8-e5-88-86-e5-8c-ba" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/1062.html">MySQL 分表存储</a>
+    </h1>
+  
+
+        
+        <a href="/1062.html" class="archive-article-date">
+  	<time datetime="2016-08-16T08:35:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般我们项目中如果数据量特别大的话通常会考虑将某一表数据进行分表处理，例如：我们的用户访问日志。如果将该数据始终保存在一张表的话那么久而久之这张表的数据量会特别大，导致查询效率降低。这个时候就需要考虑将该数据分别存储到多张表中。<br>而日志数据具有典型的如下特点：<br>1. 数据量大。<br>2. 每天每月都稳定输出。<br>3. 对数据的操作在插入之后大部分只有查询，很少有编辑或者删除操作。</p>
+<p>MySQL数据库提供了数据分表的方式。</p>
+<hr>
+<h2 id="MERGE存储引擎"><a href="#MERGE存储引擎" class="headerlink" title="MERGE存储引擎"></a>MERGE存储引擎</h2><p>我们在使用SQL语句<code>Create table</code>创建表时可以指定数据表的存储引擎。当我们使用语句<code>ENGINE=MEGRE</code>或者<code>ENGINE=MRG_MyISAM</code>申明存储引擎时，即代表该数据表使用MERGE存储引擎存储数据。该数据表可以是其他特定<code>ENGINE=MEGRE</code>类型数据表的集合。不过这些所谓特定的数据表的表结构和索引必须完全一致（不过定义的顺序可以不同）。特别的表的<code>AVG_ROW_LENGTH, MAX_ROWS,PACK_KEYS</code>属性可以不同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t1 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE&#x3D;MyISAM;</span><br><span class="line">mysql&gt; CREATE TABLE t2 (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT PRIMARY KEY,</span><br><span class="line">    -&gt;    message CHAR(20)) ENGINE&#x3D;MyISAM;</span><br><span class="line">mysql&gt; INSERT INTO t1 (message) VALUES (&#39;Testing&#39;),(&#39;table&#39;),(&#39;t1&#39;);</span><br><span class="line">mysql&gt; INSERT INTO t2 (message) VALUES (&#39;Testing&#39;),(&#39;table&#39;),(&#39;t2&#39;);</span><br><span class="line">mysql&gt; CREATE TABLE total (</span><br><span class="line">    -&gt;    a INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">    -&gt;    message CHAR(20), INDEX(a))</span><br><span class="line">    -&gt;    ENGINE&#x3D;MERGE UNION&#x3D;(t1,t2) INSERT_METHOD&#x3D;LAST;</span><br></pre></td></tr></table></figure><br>上述代码是官方文档中给出的示例代码。其创建了两个分表：t1和t2，一个总表total。分别给t1和t2中插入数据，然后在total表中查询，可以发现在total表中可以查询到分别插入t1和t2的数据。</p>
+<p>我们可以在total表中使用哦SELECT,DELETE,UPDATE和INSERT操作，不过必须要拥有各分表的SELECT,DELETE 和UPDATE权限。</p>
+<p>在创建MERGE表时，使用参数<code>UNION</code>对表进行整合，例如上面代码的<code>UNION=(t1, t2)</code>。也可以使用<code>INSERT_METHOD</code>参数来申明如果在MERGE表中插入数据，是将数据插入到第一张表还是最后一张表中，如果<code>INSERT_METHOD=NO</code>，那么MEGRE表中将不允许插入数据，只允许插入在各分表当中。</p>
+<p>不过另外一个值得注意的地方是上述代码中我们在分区表中并没有定义索引，但是在total表中我们定义了<code>INDEX(a)</code>并且没有定义<code>PRIMARY KEY</code>。这是因为在总表中的数据并不能保证也不检查数据的唯一性，也就是在各分表中是允许存在完全相同的数据的。</p>
+<hr>
+<h2 id="编辑映射"><a href="#编辑映射" class="headerlink" title="编辑映射"></a>编辑映射</h2><p>如果我们在使用过程中新建了需要加入总表的分表，这时候通常有两种方式：</p>
+<ol>
+<li>删掉总表重新创建</li>
+<li>使用<code>ALTER TABLE tbl_name UNION=(……)</code>来重新标记需要映射的分表。</li>
+</ol>
+<blockquote>
+<p>如果我们不小心写成<code>UNION=\(\)</code>（括号中为空），会发现这张表将为空，并且插入不进去数据，因为实际上本身总表不存储数据，这样插入数据时MYSQL也就不知道讲数据插入到哪了。</p>
+</blockquote>
+<hr>
+<h2 id="一些规则"><a href="#一些规则" class="headerlink" title="一些规则"></a>一些规则</h2><p>总表和分表的定义以及索引需要保证大部分的一致。MySQL不会在创建总表的时候去检查分表的设置有没有错误，只有在打开查询的时候才会进行判断有没有存在错误。这也导致我们有可能在创建分表的时候不存在错误，然后某天编辑了分表，从而导致主表无法使用的情况。所以我们的总表和分表必须满足下列规则</p>
+<ul>
+<li>总表和分表的列数必须相同。</li>
+<li>总表和分表的列顺序需要一致。</li>
+<li><p>另外，总表和分表的列规则必须满足以下规则</p>
+</li>
+<li><p>列类型必须相同</p>
+</li>
+<li>列的长度必须相同</li>
+<li>列的内容可以为NULL</li>
+<li>分表的索引数量必须大于等于总表的索引数量。分表的索引数量可以大于总表，但不可以少于总表。</li>
+</ul>
+<p>表索引的相关规则:</p>
+<ul>
+<li>总表和分表的索引类型必须一致</li>
+<li>总表和分表的符合索引部分必须一致</li>
+<li>针对索引部分(index part)的额外检查</li>
+<li>索引部分长度必须一致</li>
+<li>索引部分类型必须一致</li>
+<li>索引部分的语言设置必须一致</li>
+<li>可以为空</li>
+</ul>
+<p>如果我们的总表在使用过程中无法打开了或者无法使用，我们亦可以使用命令：<code>CHECK TABLE</code>来显示到底是哪一个分表出现了问题。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/1062.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-blog/删除了文章列表的评论数项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1141,119 +1269,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-csharp/jetpack-e4-bd-bf-e7-94-a8markdown-e4-bb-a3-e7-a0-81-e9-ab-98-e4-ba-ae-e5-a4-9a-e4-b8-80-e8-a1-8c" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/1005.html">Jetpack使用markdown代码高亮多一行</a>
-    </h1>
-  
-
-        
-        <a href="/1005.html" class="archive-article-date">
-  	<time datetime="2016-05-05T14:16:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小猪的博客站点是使用wordpress搭建的。<br>为了使用markdown语法发布文章，小猪安装了Jetpack 插件，结合Crayon Syntax Highlighter代码高亮插件，可以让我很方便的使用markdown来编写文章。这两个插件的使用方法这里就不介绍了，今天分享解决使用这两个插件导致生成代码段多出最后一行的解决方法。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>结合上面所说的插件之后，我们发现会出现如下的问题，<br><img src="http://ww2.sinaimg.cn/mw690/88e12591gw1f3kmztfzc4j20ht0lhn1q.jpg" alt="使用脚本前"><br>由上图可以看到每次使用类似markdown语法<code>`</code>生成代码块时，jetpack插件在md语法转换成html过程中会自动多转义一行。<br>小猪在Google上面也没找到对应的解决办法，只好自己动手写个脚本来在页面每次加载的时候手动删除了。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>思路非常简单，就是利用js找到每个代码块的最后一行将其删除，我们分析Crayon Syntax Highlighter生成的html代码发现其固定的规律是每一个代码块都会有固定的样式，找到对应的node之后判断最后一行是不是只有一个子元素，如果是的话就将其删除。如果我们设置了Crayon Syntax Highlighter自动显示行好的话再找到对应行好将其删除就OK了，完整的js代码如下:</p>
-<pre><code>var nodes = document.querySelectorAll(&apos;.crayon-pre&apos;);
-
-if (nodes.length&amp;gt;1) {
-    for (var i = nodes.length - 1; i &amp;gt;= 0; i--) {
-        var lastnode = nodes[i].lastChild;
-        if (lastnode.childNodes.length==1) {
-            nodes[i].removeChild(lastnode)
-
-            var parent = nodes[i].parentNode.parentNode.parentNode.firstChild.childNodes[1].childNodes[1];
-            var parentLastNode = parent.lastChild;
-            parent.removeChild(parentLastNode);
-        };
-    };    
-};
-</code></pre><p>然后将这段js代码放到我们的页面中，通常我们使用的主题都会提供footer文件，例如小猪使用的自带的advent主题就提供了类似的文件:</p>
-<p><img src="http://ww4.sinaimg.cn/large/88e12591gw1f3kmzscc7xj20vg0eitdt.jpg" alt="插入脚本"></p>
-<p>插入之后清除下缓存看下效果吧!</p>
-<p><img src="http://ww3.sinaimg.cn/large/88e12591gw1f3kmzt43msj20op0hh0wn.jpg" alt="插入脚本后"><br>同样的文章，效果感觉好多了有么有。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这只是小猪临时的解决办法，如果Crayon Syntax Highlighter插件更新之后的解析html代码发生了变化的话那么这段脚本就会失效，或者如果你没有开启Crayon Syntax Highlighter插件的现实代码行数功能，小猪也不保证代码的可运行。所以如果你有更好的方法欢迎您在下面的评论区给出来哦。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/WEB开发//" class="article-tag-list-link color1">WEB开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/1005.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1265,7 +1283,7 @@ if (nodes.length&amp;gt;1) {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2024 smallerpig
+    		&copy; 2025 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1749,6 +1767,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ESB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">可信数据空间</a>
               </li>
             
             <div class="clearfix"></div>

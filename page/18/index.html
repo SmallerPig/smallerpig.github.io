@@ -148,6 +148,107 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Django/django-no-module-named-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/797.html">Django no module named mysql</a>
+    </h1>
+  
+
+        
+        <a href="/797.html" class="archive-article-date">
+  	<time datetime="2015-07-06T16:05:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用最新版本的Django(1.8)编写好数据库信息后报上述错误!</p>
+<p>修改setting:</p>
+<p>‘ENGINE’: ‘mysql’</p>
+<p>改为</p>
+<p>‘ENGINE’: ‘django.db.backends.mysql’</p>
+<p>后正常!</p>
+<p>继续执行代码后报错</p>
+<p>django.db.utils.OperationalError: (1044, “Access denied for user ‘‘@’localhost’ to database ‘book’”)</p>
+<p>可是我明明在setting中使用的是root账户呀!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> DATABASES &#x3D; &#123;</span><br><span class="line">    &#39;default&#39;: &#123;</span><br><span class="line">        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,</span><br><span class="line">        &#39;NAME&#39;: &#39;book&#39;,</span><br><span class="line">        &#39;DATABASE_USER&#39;: &#39;root&#39;,</span><br><span class="line">        &#39;DATABASE_PASSWORD&#39;: &#39;&#39;,</span><br><span class="line">        &#39;DATABASE_HOST&#39;: &#39;localhost&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>查看官方文档之后发现上述代码不再适用于Django1.8.使用下面代码后一切正常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> DATABASES &#x3D; &#123;</span><br><span class="line">    &#39;default&#39;: &#123;</span><br><span class="line">        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,</span><br><span class="line">        &#39;NAME&#39;: &#39;book&#39;,</span><br><span class="line">        &#39;USER&#39;: &#39;root&#39;,</span><br><span class="line">        &#39;PASSWORD&#39;: &#39;&#39;,</span><br><span class="line">        &#39;HOST&#39;: &#39;localhost&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django//" class="article-tag-list-link color2">Django</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Django/python//" class="article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/797.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+      <!-- giscus 配置开始 -->
+      
+      <!-- giscus 配置结束 -->
+    </div>
+ 
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Django/windows-e4-b8-8b-e5-ae-89-e8-a3-85mysqlclient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1012,123 +1113,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-微信/微信支付官方SDK v3 .NET版的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/720.html">微信支付官方SDK v3 .NET版的坑</a>
-    </h1>
-  
-
-        
-        <a href="/720.html" class="archive-article-date">
-  	<time datetime="2015-05-28T03:05:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我觉得玩微信支付最大的难点和瓶颈并不是微信支付本身,而是能够拿到微信支付的权限.首先微信支付所面向的开发对象不是个人,所以个人开发者不会有这样的权限,另外一方面公司的微信号又不会随便给个人进行开发,这样就陷入了一个比较尴尬的循环!</p>
-<p>在好不容易搞到权限后,发现官方的sdk里面竟然有.NET版本,这让小猪欣喜如狂,赶紧下下来研究一番.这也就有了本文.</p>
-<p>在设置好开发环境,测试白名单,,回调…确定微信后台设置已经没有问题之后.</p>
-<p>接下来看.NET版本中的坑</p>
-<p>默认Default.aspx中的链接竟然都是链接到<a href="http://paysdk.weixin.qq.com/example/ProductPage.aspx" target="_blank" rel="noopener" title="http://paysdk.weixin.qq.com/example/ProductPage.aspx">http://paysdk.weixin.qq.com/example/ProductPage.aspx</a>…这个不注意的真的会郁闷好久.将其改成我们自己的服务器测试地址.</p>
-<p>默认他给你开启了代理服务器,你不知道的话也会坑你好久<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;【代理服务器设置】&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&#x2F;* 默认IP和端口号分别为0.0.0.0和0，此时不开启代理（如有需要才设置）</span><br><span class="line">*&#x2F;</span><br><span class="line">public const string PROXY_URL &#x3D; &quot;http:&#x2F;&#x2F;10.152.18.220:8080&quot;;</span><br></pre></td></tr></table></figure><br>如果这边不填的话,又报错,无效的 URI: 此 URI 为空。</p>
-<p>如果填成0.0.0.0:0,报错,无效的 URI: URI 方案无效。</p>
-<p>心都碎了.只好找到他使用代理的地方手动注释掉:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image5.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb5.png" alt="image" title="image"></a></p>
-<p>终于可以看到支付页面了</p>
-<p>我们不需要使用公用地址的功能,所以在后台注释掉相关代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;获取收货地址js函数入口参数</span><br><span class="line">&#x2F;&#x2F;wxEditAddrParam &#x3D; jsApiPay.GetEditAddressParameters\(\);</span><br></pre></td></tr></table></figure><br>把前台aspx页面的使用地址的代码也删掉.</p>
-<p>,可是点一下支付按钮..</p>
-<p><a href="http://www.smallerpig.om/wp-content/uploads/2015/05/Screenshot_2015-05-28-10-03-53.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/Screenshot_2015-05-28-10-03-53_thumb.png" alt="Screenshot_2015-05-28-10-03-53" title="Screenshot_2015-05-28-10-03-53"></a></p>
-<p>仔细一看,这里又特么跳转到他们自己的测试服务器上面去啦.!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">protected void Button1_Click(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">    string total_fee &#x3D; &quot;1&quot;;</span><br><span class="line">    if(ViewState[&quot;openid&quot;] !&#x3D; null)</span><br><span class="line">    &#123;</span><br><span class="line">        string openid &#x3D; ViewState[&quot;openid&quot;].ToString\(\);</span><br><span class="line">        string url &#x3D; &quot;http:&#x2F;&#x2F;paysdk.weixin.qq.com&#x2F;example&#x2F;JsApiPayPage.aspx?openid&#x3D;&quot; + openid + &quot;&amp;total_fee&#x3D;&quot; + total_fee;</span><br><span class="line">        Response.Redirect(url);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        Response.Write(&quot;页面缺少参数，请返回重试&quot; + &quot;&quot;);</span><br><span class="line">        Button1.Visible &#x3D; false;</span><br><span class="line">        Button2.Visible &#x3D; false;</span><br><span class="line">        Label1.Visible &#x3D; false;</span><br><span class="line">        Label2.Visible &#x3D; false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>改成我们自己的服务器地址后又是下单失败,只好找到代码出错的地方把try catch注释掉看看哪出错了!</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image6.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb6.png" alt="image" title="image"></a></p>
-<p>发现还是无效的 URI: 尼玛还有地方请求设置了代理,找到注释掉:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image7.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb7.png" alt="image" title="image"></a></p>
-<p>这时候再打开终于见到可以看到预支付的界面了:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image8.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb8.png" alt="image" title="image"></a></p>
-<p>点击支付按钮也可以成功支付:</p>
-<p><a href="http://www.smallerpig.com/wp-content/uploads/2015/05/image9.png" target="_blank" rel="noopener"><img src="http://www.smallerpig.com/wp-content/uploads/2015/05/image_thumb9.png" alt="image" title="image"></a></p>
-<p>但是支付成功后却不能正确的执行支付结果js回调函数.看看其页面的点击事件是放在asp:Button上面的.我们知道在asp.net webform中,按钮的点击是有页面回调后台的.也就是其实点击了之后页面是有刷新的,所以这边要是想用官方的js回调的话就不能使用asp.net的服务器控件了!将点击支付的按钮改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button style&#x3D;&quot;width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;&quot; type&#x3D;&quot;button&quot; onclick&#x3D;&quot;callpay\(\)&quot; &gt;立即支付&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;</p>
-<p>这样,我们不管在支付成功和失败后都会执行我们在界面里定义好的回调函数!</p>
-<p>总结:不知道大TX的ASP.NET工程师是怎么想的,能够打包成sdk供用户参考必然是好的,但是却挖了这么多坑在这,想必如果没有一点基础的话对付这玩意还真挺吃力的.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wechat</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/微信开发//" class="article-tag-list-link color5">微信开发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/720.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-      <!-- giscus 配置开始 -->
-      
-      <!-- giscus 配置结束 -->
-    </div>
- 
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/17/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/19/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/17/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/19/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1140,7 +1127,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2024 smallerpig
+    		&copy; 2025 smallerpig
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1624,6 +1611,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ESB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">可信数据空间</a>
               </li>
             
             <div class="clearfix"></div>
